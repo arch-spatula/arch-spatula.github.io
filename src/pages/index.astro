@@ -1,15 +1,9 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const pageTitle = "arch-spatula의 레시피";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>arch-spatula의 레시피</title>
-  </head>
-  <body>
-    <h1>Astro</h1>
-  </body>
-</html>
+<BaseLayout pageTitle={pageTitle}>
+  <h1>홈페이지</h1>
+  <p>여기 뭐라 써야 할지 몰라서 일단 이렇게 씁니다.</p>
+</BaseLayout>
