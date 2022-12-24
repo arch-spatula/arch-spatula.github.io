@@ -1,0 +1,30 @@
+---
+const { title } = Astro.props;
+---
+
+<div class="profile-container">
+  <img
+    src="https://user-images.githubusercontent.com/84452145/209440202-fb0849e4-863d-4708-b78e-ab047a83e6ca.jpg"
+    alt="neptune's Golden Spatula"
+  />
+  <h1>{title}</h1>
+</div>
+<p>
+  여기 뭐라 써야 할지 몰라서 일단 이렇게 씁니다. 뭐 프로필 사진 보여주고 뭐 본인
+  소개하고 이런 거는 나중에 하겠습니다.
+</p>
+<style>
+  .profile-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  img {
+    width: 8rem;
+    height: 8rem;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+</style>
