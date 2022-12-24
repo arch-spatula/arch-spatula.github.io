@@ -14,3 +14,7 @@ https://jaeseokim.dev/React/gatsby-blog-%EA%B0%9C%EB%B0%9C-%ED%9B%84%EA%B8%B0/
 https://astro.build/themes/details/astro-paper/
 
 https://flatuicolors.com/
+
+https://tabler-icons.io/
+
+회색 위주로 디자인하기
