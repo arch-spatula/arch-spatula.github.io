@@ -1,18 +1,33 @@
 ---
-const { title, url } = Astro.props;
+const { title, url, description } = Astro.props;
 ---
 
-<li class="blog-post"><a class="blog-post-title" href={url}>{title}</a></li>
+<li class="blog-post">
+  <a href={url}>
+    <h2 class="blog-post-title">
+      {title}
+    </h2>
+    <p class="description">{description}</p>
+  </a>
+</li>
 
 <style>
   .blog-post {
     border-width: 1px 0px 0;
     border-style: solid;
     border-color: #d1d5db;
+    padding: 0.25rem 0 0.25rem;
   }
+
   .blog-post-title {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
+    line-height: 2.25rem;
     font-weight: 700;
+    color: #111827;
+  }
+
+  .description {
+    font-size: 1rem;
     color: #111827;
   }
 </style>

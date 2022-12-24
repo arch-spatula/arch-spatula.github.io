@@ -15,9 +15,15 @@ import BlogPost from "../components/BlogPost.astro";
   <ul class="blog-posts">
     <!-- 블로그 목록을 순회합니다. -->
     {
-      allPosts.map((post) => (
-        <BlogPost url={post.url} title={post.frontmatter.title} />
-      ))
+      allPosts.map((post) => {
+        return (
+          <BlogPost
+            url={post.url}
+            title={post.frontmatter.title}
+            description={post.frontmatter.description}
+          />
+        );
+      })
     }
   </ul>
 </BaseLayout>

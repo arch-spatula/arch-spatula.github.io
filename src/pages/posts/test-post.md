@@ -2,7 +2,7 @@
 layout: ../../layouts/MarkdownPostLayout.astro
 title: "Html cook book"
 pubDate: 2022-12-01
-description: "This is the first post of my new Astro blog."
+description: "123456789."
 author: "Astro Learner"
 image:
   url: "https://astro.build/assets/blog/astro-1-release-update/cover.jpeg"
