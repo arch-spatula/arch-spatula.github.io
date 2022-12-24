@@ -14,7 +14,7 @@ const { pageTitle } = Astro.props;
     <title>{pageTitle}</title>
   </head>
   <body>
-    <Header />
+    <Header class="header" />
     <div class="main-container">
       <slot />
     </div>
@@ -23,6 +23,9 @@ const { pageTitle } = Astro.props;
 </html>
 
 <style>
+  .header {
+    display: sticky;
+  }
   .main-container {
     width: 48rem;
     margin: 0 auto;

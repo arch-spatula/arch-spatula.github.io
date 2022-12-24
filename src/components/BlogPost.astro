@@ -2,6 +2,17 @@
 const { title, url } = Astro.props;
 ---
 
-<li><a href={url}>{title}</a></li>
+<li class="blog-post"><a class="blog-post-title" href={url}>{title}</a></li>
 
-<!-- <style lang="scss"></style> -->
+<style>
+  .blog-post {
+    border-width: 1px 0px 0;
+    border-style: solid;
+    border-color: #d1d5db;
+  }
+  .blog-post-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #111827;
+  }
+</style>

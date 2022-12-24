@@ -1,5 +1,5 @@
 ---
-# layout: ../../layouts/MarkdownPostLayout.astro
+layout: ../../layouts/MarkdownPostLayout.astro
 title: "todo"
 pubDate: 2022-12-01
 description: "This is the first post of my new Astro blog."

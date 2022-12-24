@@ -12,7 +12,7 @@ import BlogPost from "../components/BlogPost.astro";
     여기 뭐라 써야 할지 몰라서 일단 이렇게 씁니다. 뭐 프로필 사진 보여주고 뭐
     본인 소개하고 이런 거는 나중에 하겠습니다.
   </p>
-  <ul>
+  <ul class="blog-posts">
     <!-- 블로그 목록을 순회합니다. -->
     {
       allPosts.map((post) => (
@@ -21,3 +21,11 @@ import BlogPost from "../components/BlogPost.astro";
     }
   </ul>
 </BaseLayout>
+
+<style>
+  .blog-posts {
+    border-width: 0 0 1px;
+    border-style: solid;
+    border-color: #d1d5db;
+  }
+</style>
