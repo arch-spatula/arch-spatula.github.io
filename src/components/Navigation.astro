@@ -1,15 +1,25 @@
 ---
+import "../styles/global.css";
 ---
 
+<!-- TODO Home은 list 페이지 역할을 합니다. 검색은 반대편으로 flex space between 입니다. -->
 <nav class="header-nav">
-  <a href="/">Home</a>
-  <a href="/about/">About</a>
-  <a href="/blog/">Blog</a>
+  <a class="header-nav-item" href="/">Home</a>
+  <a class="header-nav-item" href="/blog/">Blog</a>
 </nav>
 
 <style>
   .header-nav {
     display: flex;
-    gap: 1rem;
+    justify-content: space-between;
+    padding: 0 1rem;
+    width: 48rem;
+  }
+  .header-nav-item {
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+  a {
+    color: black;
   }
 </style>
