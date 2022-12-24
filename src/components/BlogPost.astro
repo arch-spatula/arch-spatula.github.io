@@ -1,5 +1,5 @@
 ---
-const { title, url, description } = Astro.props;
+const { title, url, description, tags } = Astro.props;
 ---
 
 <li class="blog-post">
@@ -9,6 +9,9 @@ const { title, url, description } = Astro.props;
     </h2>
     <p class="description">{description}</p>
   </a>
+  <ul class="tag-container">
+    {tags.map((tag) => <li class="tag-item">{tag}</li>)}
+  </ul>
 </li>
 
 <style>
@@ -24,10 +27,26 @@ const { title, url, description } = Astro.props;
     line-height: 2.25rem;
     font-weight: 700;
     color: #111827;
+    margin: 0.5rem 0 0;
   }
 
   .description {
     font-size: 1rem;
     color: #111827;
+    margin: 0.25rem 0 0;
+  }
+
+  .tag-container {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin: 0.5rem 0 0.25rem;
+  }
+
+  .tag-item {
+    background-color: #9ca3af;
+    color: #f9fafb;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
   }
 </style>
