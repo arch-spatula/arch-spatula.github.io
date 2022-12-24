@@ -1,3 +1,15 @@
+---
+# layout: ../../layouts/MarkdownPostLayout.astro
+title: "todo"
+pubDate: 2022-12-01
+description: "This is the first post of my new Astro blog."
+author: "Astro Learner"
+image:
+  url: "https://astro.build/assets/blog/astro-1-release-update/cover.jpeg"
+  alt: "The Astro logo with the word One."
+tags: ["astro", "blogging", "learning in public"]
+---
+
 https://github.com/arch-spatula/arch-spatula.github.io
 
 개발자 블로그

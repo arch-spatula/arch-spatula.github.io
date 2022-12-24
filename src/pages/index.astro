@@ -2,9 +2,22 @@
 import "../styles/global.css";
 import BaseLayout from "../layouts/BaseLayout.astro";
 const pageTitle = "arch-spatula의 레시피";
+const allPosts = await Astro.glob("./posts/*.md");
+import BlogPost from "../components/BlogPost.astro";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <h1>홈페이지</h1>
-  <p>여기 뭐라 써야 할지 몰라서 일단 이렇게 씁니다.</p>
+  <h1>{pageTitle}</h1>
+  <p>
+    여기 뭐라 써야 할지 몰라서 일단 이렇게 씁니다. 뭐 프로필 사진 보여주고 뭐
+    본인 소개하고 이런 거는 나중에 하겠습니다.
+  </p>
+  <ul>
+    <!-- 블로그 목록을 순회합니다. -->
+    {
+      allPosts.map((post) => (
+        <BlogPost url={post.url} title={post.frontmatter.title} />
+      ))
+    }
+  </ul>
 </BaseLayout>
