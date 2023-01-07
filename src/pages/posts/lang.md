@@ -8,6 +8,7 @@ image:
   url: "https://astro.build/assets/blog/astro-1-release-update/cover.jpeg"
   alt: "The Astro logo with the word One."
 tags: ["언어", "blogging", "learning in public"]
+draft: true
 ---
 
 언어가 좋고 생태계도 좋은 경우입니다.

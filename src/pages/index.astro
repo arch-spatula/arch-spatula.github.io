@@ -6,10 +6,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 // components
 import BlogPost from "../components/BlogPost.astro";
 import Profile from "../components/Profile.astro";
+import Divider from "../components/Divider.astro";
 
 // data
-const pageTitle = "arch-spatula의 레시피";
+const pageTitle = "Arch-Spatula의 레시피";
 const allPosts = await Astro.glob("./posts/*.md");
+const nonDraftPosts = allPosts.filter((post) => !post.frontmatter.draft);
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -17,7 +19,7 @@ const allPosts = await Astro.glob("./posts/*.md");
   <ul class="blog-posts">
     <!-- 블로그 목록을 순회합니다. -->
     {
-      allPosts.map((post) => {
+      nonDraftPosts.map((post) => {
         return (
           <BlogPost
             url={post.url}
@@ -30,12 +32,6 @@ const allPosts = await Astro.glob("./posts/*.md");
       })
     }
   </ul>
+  <Divider />
 </BaseLayout>
 
-<style>
-  .blog-posts {
-    border-width: 0 0 1px;
-    border-style: solid;
-    border-color: #d1d5db;
-  }
-</style>

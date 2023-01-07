@@ -1,24 +1,14 @@
 ---
 layout: ../../layouts/MarkdownPostLayout.astro
-title: "Html cook book"
-pubDate: 2022-12-01
-description: "123456789."
+title: "언어가 좋은 것과 생태계가 좋은 것"
+pubDate: 2023-01-01
+description: "987654321"
 author: "Astro Learner"
 image:
   url: "https://astro.build/assets/blog/astro-1-release-update/cover.jpeg"
   alt: "The Astro logo with the word One."
-tags: ["astro", "blogging", "learning in public"]
+tags: ["언어", "blogging", "learning in public"]
+draft: true
 ---
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Example HTML5 Document</title>
-  </head>
-  <body>
-    <p>Test</p>
-  </body>
-</html>
-```
+# 실험용으로 작성 중입니다.
