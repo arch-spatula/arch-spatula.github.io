@@ -4,31 +4,20 @@ const { frontmatter } = Astro.props;
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
-  <!-- <p><em>{frontmatter.description}</em></p>
-  <p>{frontmatter.pubDate.slice(0, 10)}</p>
-
-  <p>Written by: {frontmatter.author}</p>
-
-  <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
-
-  <div class="tags">
-    {
-      frontmatter.tags.map((tag) => (
-        <p class="tag">
-          <a href={`/tags/${tag}`}>{tag}</a>
-        </p>
-      ))
-    }
-  </div> -->
-
   <slot />
 </BaseLayout>
 
-<style>
+<style is:global>
   a {
     color: #00539f;
   }
 
+  body {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    /* text-align: left; */
+    word-break: keep-all;
+  }
   .tags {
     display: flex;
     flex-wrap: wrap;
@@ -42,5 +31,31 @@ const { frontmatter } = Astro.props;
     padding: 0.5em 1em;
     font-size: 1.15em;
     background-color: #f8fcfd;
+  }
+
+  /* 기본 tag를 스타일링합니다. */
+  blockquote {
+    margin: 1rem 0;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    background-color: #f9fafb;
+    padding: 1rem;
+    border-radius: 0.75rem;
+  }
+
+  h1 {
+    margin: 2rem 0 1rem;
+  }
+
+  h2 {
+    margin: 2rem 0 1rem;
+  }
+  p {
+    margin: 0.5rem 0;
+  }
+
+  li {
+    margin: 0.5rem 0;
   }
 </style>

@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/MarkdownPostLayout.astro
+layout: "../../layouts/MarkdownPostLayout.astro"
 title: "WIL.23.01.15. - 기본까지 아직도 먼 길입니다."
 pubDate: 2023-01-01
 description: "987654321"
