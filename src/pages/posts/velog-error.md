@@ -1,13 +1,13 @@
 ---
 layout: "../../layouts/MarkdownPostLayout.astro"
 title: "WIL.23.01.15. - 기본까지 아직도 먼 길입니다."
-pubDate: 2023-01-01
-description: "987654321"
+pubDate: 2023-01-15
+description: "23년 2주차 주간회고입니다. velog 오류 때문에 임시로 여기 올립니다."
 author: "Astro Learner"
 image:
   url: "https://astro.build/assets/blog/astro-1-release-update/cover.jpeg"
-  alt: "The Astro logo with the word One."
-tags: ["언어", "blogging", "learning in public"]
+  alt: "23년 2주차 회고입니다. 지금도 기본과 멀리 있습니다."
+tags: ["주간회고", "Retrospective"]
 draft: false
 ---
 
@@ -35,7 +35,7 @@ draft: false
 ## Learned
 
 - github에 코드 리뷰를 남기는 법을 배웠습니다.
-- useEffect 속에 setTimeout을 활용할 때는 클린업 함수로 메모리 관리를 해줘야 한다는 피드백을 받았습니다.
+- `useEffect` 속에 `setTimeout`을 활용할 때는 클린업 함수로 메모리 관리를 해줘야 한다는 피드백을 받았습니다.
 - 리액트 쿼리를 custom hook으로 활용하는 패턴을 익히게 되었습니다.
 
 ## Lacked
@@ -63,12 +63,12 @@ draft: false
 
 ## Action Item
 
-- [ ] Supabase 시리즈 수강 (Supabase Crash Course)[https://www.youtube.com/playlist?list=PL4cUxeGkcC9hUb6sHthUEwG7r9VDPBMKO]
-- [ ] (Advanced TypeScript)[https://www.youtube.com/playlist?list=PLIvujZeVDLMx040-j1W4WFs1BxuTGdI_b] 타입스크립트 활용 패턴 모두 정리하기
+- [ ] Supabase 시리즈 수강 [Supabase Crash Course](https://www.youtube.com/playlist?list=PL4cUxeGkcC9hUb6sHthUEwG7r9VDPBMKO)
+- [ ] [Advanced TypeScript](https://www.youtube.com/playlist?list=PLIvujZeVDLMx040-j1W4WFs1BxuTGdI_b) 타입스크립트 활용 패턴 모두 정리하기
 - [ ] Zod 라이브러리 문제 풀이
   - [ ] [Zod](https://www.totaltypescript.com/tutorials/zod)
-- [ ] (Drag and Drop in React with React Query and react-beautiful-dnd)[https://www.youtube.com/watch?v=HeNVPF_fRXI]
-- [ ] (tkdodo의 현실적인 리액트 쿼리 시리즈 번역본 읽기)[https://parang.gatsbyjs.io/react/2022-react-01/]
+- [ ] [Drag and Drop in React with React Query and react-beautiful-dnd](https://www.youtube.com/watch?v=HeNVPF_fRXI)
+- [ ] [tkdodo의 현실적인 리액트 쿼리 시리즈 번역본 읽기](https://parang.gatsbyjs.io/react/2022-react-01/)
 - [ ] Zustand TodoApp을 로컬 스토리지 활용해서 만들기
 - [ ] SQL 입문하기
   - [ ] 기초 이론

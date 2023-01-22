@@ -7,7 +7,7 @@ const { frontmatter } = Astro.props;
   <slot />
 </BaseLayout>
 
-<style is:global>
+<style is:inline>
   a {
     color: #00539f;
   }
@@ -35,27 +35,78 @@ const { frontmatter } = Astro.props;
 
   /* 기본 tag를 스타일링합니다. */
   blockquote {
-    margin: 1rem 0;
-    height: 3rem;
+    margin: 2rem 0;
     display: flex;
     align-items: center;
-    background-color: #f9fafb;
-    padding: 1rem;
+    background-color: #dbeafe;
+    padding: 0.5rem 1rem;
     border-radius: 0.75rem;
   }
 
+  p + p {
+    text-indent: 1rem;
+  }
+
   h1 {
-    margin: 2rem 0 1rem;
+    margin: 3rem 0 2rem;
+    font-size: 3rem;
+    line-height: 1;
   }
 
   h2 {
     margin: 2rem 0 1rem;
-  }
-  p {
-    margin: 0.5rem 0;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
   }
 
-  li {
+  h3 {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+
+  h4 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  h5 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  h6 {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  p {
     margin: 0.5rem 0;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  ul > li {
+    margin: 0.5rem 0 0 1.5rem;
+    list-style-position: outside;
+    list-style-type: disc;
+    font-size: 1rem;
+    line-height: 1.75rem;
+    padding: 0 -2rem;
+  }
+
+  ::marker {
+    color: #93c5fd;
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  code {
+    color: #60a5fa;
+    background-color: #dbeafe;
+    /* border-coloborder-coloborder-color: #;r: #;border-color: #;border-color:border-color: #; #;border-color: #;border-coloborder-color: #;r: #;r: bordeborder-color: #;r-color: #;#; */
+    /* border-color:border-color: #; #; */
+
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
   }
 </style>
