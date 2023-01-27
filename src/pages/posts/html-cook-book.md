@@ -3,10 +3,7 @@ layout: ../../layouts/MarkdownPostLayout.astro
 title: "Html cook book"
 pubDate: 2022-12-01
 description: "만만하게 봤다가 골로가는 영역 중 하나입니다. html이라는 마크업 언어는 쉽습니다. css도 간단한 스타일링은 쉽습니다. 어렵기 시작한 것은 특수한 유스케이스 부터입니다. 예를 들어 input의 border를 그레이디언트로 꾸며보기 바랍니다."
-author: "Astro Learner"
-image:
-  url: "https://astro.build/assets/blog/astro-1-release-update/cover.jpeg"
-  alt: "The Astro logo with the word One."
+author: "Arch Spatula"
 tags: ["astro", "blogging", "learning in public"]
 ---
 

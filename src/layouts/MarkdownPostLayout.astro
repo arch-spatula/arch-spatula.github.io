@@ -1,13 +1,35 @@
 ---
+import Description from "../components/Description.astro";
+import Divider from "../components/Divider.astro";
+import PostTitle from "../components/PostTitle.astro";
+import TagList from "../components/TagList.astro";
 import BaseLayout from "./BaseLayout.astro";
-const { frontmatter } = Astro.props;
+const {
+  frontmatter: { title, description, tags },
+} = Astro.props;
 ---
 
-<BaseLayout pageTitle={frontmatter.title}>
+<BaseLayout pageTitle={title}>
+  <PostTitle title={title} />
+  <div class="description-wrap">
+    <Description description={description} />
+  </div>
+  <TagList tags={tags} />
+  <div class="divider-wrap">
+    <Divider />
+  </div>
   <slot />
 </BaseLayout>
 
 <style is:inline>
+  .description-wrap {
+    margin: 0 0 1.25rem;
+  }
+
+  .divider-wrap {
+    margin: 1.5rem 0 0;
+  }
+
   a {
     color: #00539f;
   }
@@ -37,7 +59,7 @@ const { frontmatter } = Astro.props;
   blockquote {
     margin: 2rem 0;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     background-color: #dbeafe;
     padding: 0.5rem 1rem;
     border-radius: 0.75rem;
@@ -49,34 +71,34 @@ const { frontmatter } = Astro.props;
 
   h1 {
     margin: 3rem 0 2rem;
-    font-size: 3rem;
-    line-height: 1;
-  }
-
-  h2 {
-    margin: 2rem 0 1rem;
     font-size: 2.25rem;
     line-height: 2.5rem;
   }
 
-  h3 {
+  h2 {
+    margin: 2rem 0 1rem;
     font-size: 1.875rem;
     line-height: 2.25rem;
   }
 
-  h4 {
+  h3 {
     font-size: 1.5rem;
     line-height: 2rem;
   }
 
-  h5 {
+  h4 {
     font-size: 1.25rem;
     line-height: 1.75rem;
   }
 
-  h6 {
+  h5 {
     font-size: 1.125rem;
     line-height: 1.75rem;
+  }
+
+  h6 {
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 
   p {
