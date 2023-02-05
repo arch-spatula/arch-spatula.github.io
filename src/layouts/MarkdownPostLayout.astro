@@ -115,6 +115,16 @@ const {
     line-height: 1.75rem;
     padding: 0 -2rem;
   }
+  
+  ol > li {
+    margin: 0.5rem 0 0 1.5rem;
+    list-style-position: outside;
+    list-style-type: decimal;
+    font-size: 1rem;
+    line-height: 1.75rem;
+    padding: 0 -2rem;
+
+  }
 
   ::marker {
     color: #93c5fd;
@@ -122,13 +132,18 @@ const {
     font-size: 1.25rem;
   }
 
-  code {
+
+  :where(li, p) > code {
     color: #60a5fa;
     background-color: #dbeafe;
-    /* border-coloborder-coloborder-color: #;r: #;border-color: #;border-color:border-color: #; #;border-color: #;border-coloborder-color: #;r: #;r: bordeborder-color: #;r-color: #;#; */
-    /* border-color:border-color: #; #; */
-
     padding: 0.125rem 0.25rem;
     border-radius: 0.25rem;
+  }
+
+  pre {
+    font-family: Menlo, Monaco, 'Courier New', monospace;
+    padding: 1rem;
+    border-radius: 1rem;
+    margin: 2rem 0 1rem;
   }
 </style>
