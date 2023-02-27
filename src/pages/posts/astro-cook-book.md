@@ -41,6 +41,8 @@ Astor는 랜더링을 제어하는 프레임워크 즉 메타프레임워크입�
 - 개발자 블로그를 만들기 시작하는 프론트엔드 엔지니어
 - 테크니컬 라이터
 
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">html</p>&mdash; Astro (@astrodotbuild) <a href="https://twitter.com/astrodotbuild/status/1558238973499039744?ref_src=twsrc%5Etfw">August 12, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 # Astro 개념
 
 Astro를 사용하기 위해 알아야 하는 개념들이 있습니다.
