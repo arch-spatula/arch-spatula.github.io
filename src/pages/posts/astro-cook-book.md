@@ -15,6 +15,10 @@ tags: ["astro", "blogging", "learning in public"]
 >
 > 3. 개발자의 UI라이브러리와 프레임워크 취향을 반영할 수 있게 유연합니다.
 
+# draft를 바로 공개하는 이유가 있나요?
+
+블로그 관리 안 하는 것처럼 보이기 싫었습니다.
+
 # Astro는 무엇인가?
 
 Astor는 랜더링을 제어하는 프레임워크 즉 메타프레임워크입니다. Astro는 정적으로 웹을 생성(Static Site Generator)하는 라이브러리입니다.

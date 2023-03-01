@@ -5,9 +5,4 @@ export default defineConfig({
   markdown: {
     drafts: true,
   },
-  integrations: [
-    mdx({
-      drafts: true,
-    }),
-  ],
 });
