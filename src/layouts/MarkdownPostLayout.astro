@@ -105,6 +105,7 @@ const {
     margin: 0.5rem 0;
     font-size: 1rem;
     line-height: 1.5rem;
+    text-align: justify;
   }
 
   ul > li {
@@ -115,7 +116,7 @@ const {
     line-height: 1.75rem;
     padding: 0 -2rem;
   }
-  
+
   ol > li {
     margin: 0.5rem 0 0 1.5rem;
     list-style-position: outside;
@@ -123,7 +124,6 @@ const {
     font-size: 1rem;
     line-height: 1.75rem;
     padding: 0 -2rem;
-
   }
 
   ::marker {
@@ -132,18 +132,40 @@ const {
     font-size: 1.25rem;
   }
 
-
   :where(li, p) > code {
     color: #60a5fa;
     background-color: #dbeafe;
     padding: 0.125rem 0.25rem;
     border-radius: 0.25rem;
+    font-family: "Fragment Mono", monospace;
   }
 
   pre {
-    font-family: Menlo, Monaco, 'Courier New', monospace;
     padding: 1rem;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     margin: 2rem 0 1rem;
+    overflow: auto;
+    position: relative;
+  }
+
+  /* hover 안 하면 버튼 안 보임 */
+  pre copy-code-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: none;
+  }
+
+  /* hover시 버튼 보임 */
+  pre:hover > copy-code-button {
+    display: inline-flex;
+  }
+
+  pre > code > .line > span {
+    font-family: "Fragment Mono", monospace;
+  }
+
+  iframe {
+    margin: 1.25rem 0;
   }
 </style>
