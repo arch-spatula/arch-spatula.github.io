@@ -7,6 +7,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import BlogPost from "../components/BlogPost.astro";
 import Profile from "../components/Profile.astro";
 import Divider from "../components/Divider.astro";
+import IndexCard from "../components/IndexCard.astro";
 
 // data
 const pageTitle = "Arch-Spatula의 레시피";
@@ -16,6 +17,13 @@ const nonDraftPosts = allPosts.filter((post) => !post.frontmatter.draft);
 
 <BaseLayout pageTitle={pageTitle}>
   <Profile title={pageTitle} />
+  <IndexCard
+    tags={["Astro", "Cook Book", "Working Process"]}
+    url="astro-cook-book"
+    title="Astro Cook Book"
+    description="Astro로 블로그라도 만드는 법을 배웁니다. 아마 이 Cook-Book은 제가 업데이트하고 또 프레임워크의 업데이트도 맞춰 업데이트할 것 같습니다. 제가 저만의 개발자 블로그를 만들고 또 나중에 보수하기 위해서 만든 Cook-Book입니다."
+    src="https://user-images.githubusercontent.com/84452145/222958776-d3c44205-2f9a-478f-9f4d-953f3370fc83.png"
+  />
   <ul class="blog-posts">
     <!-- 블로그 목록을 순회합니다. -->
     {
@@ -34,4 +42,3 @@ const nonDraftPosts = allPosts.filter((post) => !post.frontmatter.draft);
   </ul>
   <Divider />
 </BaseLayout>
-

@@ -1,0 +1,70 @@
+---
+import "../styles/global.css";
+import TagList from "./TagList.astro";
+const { title, url, description, tags, src } = Astro.props;
+---
+
+<div class="index-card-container">
+  <div class="header-container">
+    <a href={url}>
+      <img src={src} alt="astro logo" class="card-img" />
+    </a>
+    <div class="text-content">
+      <a href={url}>
+        <h2 class="card-title">{title}</h2>
+      </a>
+      <p class="description">{description}</p>
+      <TagList tags={tags} size="tiny" />
+    </div>
+  </div>
+</div>
+
+<style>
+  .index-card-container {
+    all: unset;
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+    padding: 0.5rem 1rem 0.75rem 0.75rem;
+    background: linear-gradient(#eef2ff 0 0) padding-box,
+      linear-gradient(45deg, #60a5fa, #a5b4fc) border-box;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    transition: 0.3s;
+  }
+
+  .index-card-container:hover {
+    background-color: #fff;
+  }
+
+  .header-container {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  img {
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    margin: 0.5rem;
+  }
+
+  .text-content {
+    margin: 1rem 0 0;
+  }
+
+  .card-title {
+    margin: 0.25rem 0;
+    color: #000000;
+  }
+
+  .description {
+    margin: 0.25rem 0 0;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    text-align: justify;
+    color: #374151;
+    word-break: keep-all;
+  }
+</style>

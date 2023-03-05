@@ -1,6 +1,6 @@
 ---
-layout: ../../layouts/MarkdownPostLayout.astro
-title: "Astro Cook Book"
+layout: ../../../layouts/MarkdownPostLayout.astro
+title: "Ch 1 Why Astro"
 pubDate: 2022-12-01
 description: "Astro를 다루는 방법을 소개합니다."
 author: "Arch Spatula"
