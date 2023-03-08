@@ -23,5 +23,3 @@ tags: ["astro", "blogging", "learning in public"]
 이런 HTML이 있습니다. 일단 잡다하게 알게 되는 것들을 여기 추가할 것입니다.
 
 !을 입력하면 보통 html 틀이 자동완성 되는 것을 볼 수 있을 것입니다. 하지만 일부 삭제가 필요합니다. VScode는 마이크로소프트 회사답게 기본 브라우저를 윈도우 엣지로 가정합니다. 바로 삭제하는 것으로 MS를 혼내줍시다. 그리고 나중에 타입스크립트 배울 때는 고백으로 혼내줍시다.
-
-<iframe width="768" height="432" src="https://www.youtube.com/embed/Uo3cL4nrGOk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
