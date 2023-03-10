@@ -7,6 +7,26 @@ const pageTitle = "Cook Book Blog";
   <h1>블로그 페이지</h1>
   <p>이런 저런 쿡북들이 많습니다.</p>
   <p>제가 보려고 쓴 것입니다.</p>
-  <p>나중에 여기서 검색을 지원하겠습니다.</p>
   <p>여기서는 전체 글 목록이 다 보일 것입니다.</p>
+  <input type="text" placeholder="필터 검색을 지원할 예정입니다." />
+  <p>검색을 실행하는 버튼</p>
 </BaseLayout>
+
+<style>
+  input {
+    all: unset;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(45deg, #60a5fa, #a5b4fc) border-box;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    padding: 0.5rem 0.75rem;
+    width: 48rem;
+    margin: 1rem 0;
+  }
+</style>

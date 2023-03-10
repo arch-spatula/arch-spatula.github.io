@@ -14,7 +14,7 @@ class CopyCodeButton extends LitElement {
         width: fit-content;
         margin: 0;
         padding: 0.5rem;
-        background: #e2e8f022;
+        background-color: #e2e8f022;
         border: none;
         border-radius: 0.25rem;
         color: #5de4c7;
@@ -22,6 +22,9 @@ class CopyCodeButton extends LitElement {
       }
       button:hover > copy-code-button > path {
         fill: #5de4c7;
+      }
+      button:active {
+        background: #1b1e28;
       }
     `,
   ];

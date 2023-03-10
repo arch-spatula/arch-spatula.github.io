@@ -9,9 +9,9 @@ tags: ["astro", "Cook-book", "learning in public"]
 
 > TL;DR
 >
-> 1. 동적인 인터랙션을 통한 서버통신이 많이 필요하면 비효율적입니다.
+> 1. astro는 취미 이외 유스케이스가 없습니다.
 >
-> 2. 블로그, 개발문서처럼 정적인 프로젝트에는 상당히 효율적입니다. 더 동적으로 다루기 편한 HTML입니다.
+> 2. 모든 것이 가능해보이지만 모든 것이 비효율적입니다.
 >
 > 3. 개발자의 UI라이브러리와 프레임워크 취향을 반영할 수 있게 유연합니다.
 
@@ -84,6 +84,8 @@ https://docusaurus.io/
 
 Next.js가 적절합니다. 커머스가 동적일 이유가 없습니다. 동적인 상호작용을 포기하고 검증된 최적화를 선택하도록 합니다.
 
+가끔 컨셉샵 비슷하게 크리에티브한 커머스들도 존재합니다. sveltekit으로 프로토타이핑하고 css만으로 대부분 커버 가능하고 또 커버 가능해야 합니다.
+
 6. 프로토타입
 
 초기 사이드 프로젝트 deno fresh도 상당히 괜찮습니다. 프론트엔드 코드와 백엔드 코드를 응집도있게 작성이 가능합니다.
@@ -106,19 +108,41 @@ figma 수준이면 Rust의 Yew를 사용하도록 합니다.
 
 ## 해결하는 문제
 
-해결하는 문제를 보면 주목받을만한 것들이 많이 있습니다.
+해결하는 문제를 보면 주목받을만한 것들이 많이 있습니다. 하나는 다양한 라이브러리 및 프레임워크 수용과 다른 하나는 아일랜드 아키텍쳐입니다. 경력이 많지 않아도 회의적어야 합니다.
 
-### 마이크로 프론트엔드
+### 유사 마이크로 프론트엔드
 
-가장 큰 특징은 다양한 프론트엔드 프레임워크 혹은 라이브러리를 수용할 수 있습니다. 예를 들어 규모가 큰 기업에서 서비스도 독립적이고 다양한 상황이 있을 수 있습니다. 예를 들어 카카오에서 어느 팀이 vue를 사용하고 있었습니다. 하지만 같이 업무를 진행할 팀원이 다른 팀에서 재배치 받았는데 원래 리액트 네이티브 개발자입니다. 또 최근에 alpine으로 외주를 많이 뛰던 개발자를 채용했습니다. 각각 독립적인 로직을 갖고 있으면 각각 독립적인 기술스택으로 프론트엔드를 만들 수 있습니다. 백엔드에서 하는 마이크로서비스 아키텍처를 프론트엔드에서 비슷하게 흉내낸 것입니다. 권장하지는 않습니다.
+가장 큰 특징은 다양한 프론트엔드 프레임워크 혹은 라이브러리를 수용할 수 있습니다. react, vue, svelte 등 모두 수용할 수 있습니다. 물론 webpack의 federation을 사용하면 해결할 수 있는 문제입니다. 물론 대부분의 프론트 엔지니어는 이미 webpack을 다 알고 있습니다. 그래서 webpack의 federation을 설정하는 것은 쉽습니다. ~~물론 저는 해본적 없습니다.~~
 
-진정한 마이크로 무언가 아키텍처를 만들고 싶다면 astro로 해결할 수 없습니다. 먼저 필요한 것은 RxJS, Nx부터 사용하는 법부터 배우도록 합니다. astro는 마이크로 프론트엔드 아키텍쳐를 어디까지나 흉내만 내는 것입니다.
+마이크로 프론트엔드 느낌만 난다고 했지 진정한 마이크로 프론트엔드가 아닙니다. 진정한 마이크로 무언가 아키텍처를 만들고 싶다면 astro로 해결할 수 없습니다. 먼저 필요한 것은 RxJS, Nx, Webpack부터 사용하는 법부터 배우도록 합니다. astro는 마이크로 프론트엔드 아키텍쳐를 어디까지나 흉내만 내는 것입니다.
 
 또 MFA가 필요한가? 없습니다. 필요할 상황은 커리어상 마주할 일이 없을 것입니다.
 
 ### 아일랜드 아키텍쳐
 
-부분 하이드레이션(partial hydration)을 지원합니다. 만약에 근본없는 부트캠프 출신이라면 하이드레이션을 처음 들을 것입니다. 랜더링 제어와 전략에 관해 듣기 시작할 때 필요한 개념입니다. 제가 이수한 과정에서는 깊이가 얕아서 따로 찾아봐야 했습니다.
+부분 하이드레이션(partial hydration)을 지원합니다. 리액트는 root dom을 통해 모든 것을 자바스크립트로 html을 만들어 냅니다. next.js는 서버에서 html을 랜더링하고 클라이언트로 보냅니다. astro도 html의 부분을 클라이언트로 보내지만 원하면 일부 동적인 동작을 위해 남길 수 있는 제어가 가능합니다.
+
+## 인식
+
+놀랍게도 나무위키에서도 다루었습니다.
+
+[Astro(웹 프레임워크) - 나무위키](<https://namu.wiki/w/Astro(%EC%9B%B9%20%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC)>)
+
+나무위키는 전망이 안 좋다고 말합니다. 저는 전망도 안 좋다고 봅니다.
+
+<iframe width="768" height="432" src="https://www.youtube.com/embed/dsTXcSeAZq8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+<iframe width="768" height="432" src="https://www.youtube.com/embed/gxBkghlglTg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+개인적으로 Fireship을 굉장히 재미있게 봅니다. 테크 트렌드를 따라가기 쉽게 해줍니다. 하지만 알아야 할 것은 Fireship을 신뢰할 수 있는가? Fireship은 외주개발자입니다. 즉 소프트웨어 제품 수명주기를 매우 짧게 경험한 사람입니다. 이런 이유로 신뢰할 수 없습니다.
+
+https://blog.roto.codes/migrate-ghostjs-to-astro
+
+이 블로그는 마이그레이션 경험을 이야기 해줍니다.
+
+https://gmyankee.tistory.com/377
+
+프로덕션 레벨에서 마이그레이션할 이유는 당연히 없습니다. 하지만 새로운 프로젝트라고 해도 astro로 시작할 이유도 크게 없습니다.
 
 ---
 

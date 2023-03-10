@@ -8,7 +8,6 @@ import IndexHeader from "../../components/IndexHeader.astro";
 const pageTitle = "Astro Cook Book 시리즈";
 const allPosts = await Astro.glob("./posts/*.md");
 const nonDraftPosts = allPosts.filter((post) => !post.frontmatter.draft);
-console.log(nonDraftPosts);
 ---
 
 <BaseLayout pageTitle={pageTitle}>
