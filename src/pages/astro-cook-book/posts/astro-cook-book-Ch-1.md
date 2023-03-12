@@ -130,19 +130,19 @@ figma 수준이면 Rust의 Yew를 사용하도록 합니다.
 
 나무위키는 전망이 안 좋다고 말합니다. 저는 전망도 안 좋다고 봅니다.
 
-<iframe width="768" height="432" src="https://www.youtube.com/embed/dsTXcSeAZq8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/dsTXcSeAZq8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-<iframe width="768" height="432" src="https://www.youtube.com/embed/gxBkghlglTg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/gxBkghlglTg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 개인적으로 Fireship을 굉장히 재미있게 봅니다. 테크 트렌드를 따라가기 쉽게 해줍니다. 하지만 알아야 할 것은 Fireship을 신뢰할 수 있는가? Fireship은 외주개발자입니다. 즉 소프트웨어 제품 수명주기를 매우 짧게 경험한 사람입니다. 이런 이유로 신뢰할 수 없습니다.
 
-https://blog.roto.codes/migrate-ghostjs-to-astro
+[ghost.js 에서 astro 기반으로 블로그 옮긴 후기 - 로토의 블로그](https://blog.roto.codes/migrate-ghostjs-to-astro)
 
-이 블로그는 마이그레이션 경험을 이야기 해줍니다.
+이 블로그는 마이그레이션 경험을 이야기 해줍니다. 학습이 쉬웠다고 후기를 남겼습니다.
 
-https://gmyankee.tistory.com/377
+[Astro.js 찍먹 후기 (장점, 단점, 결론)](https://gmyankee.tistory.com/377)
 
-프로덕션 레벨에서 마이그레이션할 이유는 당연히 없습니다. 하지만 새로운 프로젝트라고 해도 astro로 시작할 이유도 크게 없습니다.
+저자 이름을 모르겠습니다. 하지만 리뷰를 확인해보면 유스케이스가 거의 없다는 것을 알려줍니다. 프로덕션 레벨에서 마이그레이션할 이유는 당연히 없습니다. 하지만 새로운 프로젝트라고 해도 astro로 시작할 이유도 크게 없습니다.
 
 ---
 

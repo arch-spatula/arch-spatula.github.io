@@ -14,9 +14,9 @@ const {
   <div class="description-wrap">
     <Description description={description} />
   </div>
-  <TagList tags={tags} />
+  <TagList tags={tags} size />
   <div class="divider-wrap">
-    <Divider />
+    <!-- <Divider /> -->
   </div>
   <slot />
   <script
@@ -184,8 +184,17 @@ const {
     font-family: "Fragment Mono", monospace;
   }
 
+  hr {
+    background: linear-gradient(90deg, #60a5fa, #a5b4fc);
+    height: 1px;
+    margin: 0;
+  }
+
   iframe {
     margin: 1.25rem 0;
     /* width: calc(100%-2.5rem); */
+    width: 48rem;
+    height: 27rem;
+    aspect-ratio: 16/9;
   }
 </style>
