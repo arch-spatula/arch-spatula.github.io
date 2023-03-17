@@ -1,11 +1,12 @@
 ---
 import Description from "../components/Description.astro";
-import Divider from "../components/Divider.astro";
 import PostTitle from "../components/PostTitle.astro";
+import TableOfContents from "../components/TableOfContents/TableOfContents.astro";
 import TagList from "../components/TagList.astro";
 import BaseLayout from "./BaseLayout.astro";
 const {
   frontmatter: { title, description, tags },
+  headings,
 } = Astro.props;
 ---
 
@@ -15,9 +16,7 @@ const {
     <Description description={description} />
   </div>
   <TagList tags={tags} size />
-  <div class="divider-wrap">
-    <!-- <Divider /> -->
-  </div>
+  <TableOfContents headings={headings} />
   <slot />
   <script
     src="https://giscus.app/client.js"
