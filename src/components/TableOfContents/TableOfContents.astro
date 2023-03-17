@@ -14,11 +14,17 @@ function buildToc(headings) {
 const toc = buildToc(headings);
 ---
 
-<nav class="toc">
-  <ol>
-    {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
-  </ol>
-</nav>
+{
+  toc || (
+    <nav class="toc">
+      <ol>
+        {toc.map((heading) => (
+          <TableOfContentsHeading heading={heading} />
+        ))}
+      </ol>
+    </nav>
+  )
+}
 
 <style>
   .toc {
