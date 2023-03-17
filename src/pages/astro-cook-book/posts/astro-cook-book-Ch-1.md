@@ -134,7 +134,7 @@ figma 수준이면 Rust의 Yew를 사용하도록 합니다.
 
 <iframe src="https://www.youtube.com/embed/gxBkghlglTg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-개인적으로 Fireship을 굉장히 재미있게 봅니다. 테크 트렌드를 따라가기 쉽게 해줍니다. 하지만 알아야 할 것은 Fireship을 신뢰할 수 있는가? Fireship은 외주개발자입니다. 즉 소프트웨어 제품 수명주기를 매우 짧게 경험한 사람입니다. 이런 이유로 신뢰할 수 없습니다.
+개인적으로 Fireship을 굉장히 재미있게 봅니다. 평소 구독하고 있으면 테크 트렌드를 따라가기 쉽습니다. 하지만 알아야 할 것은 Fireship을 신뢰할 수 있는가? Fireship은 외주개발자입니다. 즉 소프트웨어 제품 수명주기를 매우 짧게 경험한 사람입니다. 이런 이유로 신뢰할 수 없습니다.
 
 [ghost.js 에서 astro 기반으로 블로그 옮긴 후기 - 로토의 블로그](https://blog.roto.codes/migrate-ghostjs-to-astro)
 
@@ -143,6 +143,16 @@ figma 수준이면 Rust의 Yew를 사용하도록 합니다.
 [Astro.js 찍먹 후기 (장점, 단점, 결론)](https://gmyankee.tistory.com/377)
 
 저자 이름을 모르겠습니다. 하지만 리뷰를 확인해보면 유스케이스가 거의 없다는 것을 알려줍니다. 프로덕션 레벨에서 마이그레이션할 이유는 당연히 없습니다. 하지만 새로운 프로젝트라고 해도 astro로 시작할 이유도 크게 없습니다.
+
+[아일랜드 아키텍쳐 - Composite](https://velog.io/@composite/%EC%95%84%EC%9D%BC%EB%9E%9C%EB%93%9C-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90)
+
+예전에 <[실무 개발자 입문을 위한 준비물](https://velog.io/@composite/%EC%8B%A4%EB%AC%B4-%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%9E%85%EB%AC%B8%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%A4%80%EB%B9%84%EB%AC%BC)>을 재미있게 읽었던 글쓴이 입니다. 이분은 astro에 나름 긍정적인 평가를 내렸고 전망을 긍정적으로 보고 있습니다. 하지만 본인 스스로를 인용하면 외주 개발자의 조언은 무시해야 하기 때문에 주장한 명제의 역을 수용하는게 현명할 것입니다.
+
+### 결론
+
+대체로 프로젝트 규모가 작거나 외주관련 프로젝트에 긍정적인 경향을 갖고 있습니다. 하지만 외주에 더 효율적인 것들이 있기 때문에 누군가 저에게 astro 괜찮은지 질문한다면 다른 거 사용할 것을 권장할 것입니다.
+
+만약 블로그를 다시 시작할 것이면 docusaurus를 활용했을 것입니다. 당시에는 신뢰가 안 갔는데 [State of JS 2022](https://2022.stateofjs.com/)을 보니 생각이 바뀌었습니다. 점유율과 공식 문서를 확인해보니 astro보다 덜 귀찮게 문서화, 블로그 사이트를 구축할 수 있었습니다. 탓할 것은 저의 정보력과 프레임워크 및 라이브러리 선정 능력 밖에 없습니다.
 
 ---
 
