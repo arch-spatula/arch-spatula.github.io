@@ -1,0 +1,33 @@
+---
+import TableOfContentsHeading from "./TableOfContentsHeading.astro";
+
+const { headings } = Astro.props;
+
+function buildToc(headings) {
+  const toc = [];
+  headings.forEach((h) => {
+    toc.push(h);
+  });
+  return toc;
+}
+
+const toc = buildToc(headings);
+---
+
+<nav class="toc">
+  <ol>
+    {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
+  </ol>
+</nav>
+
+<style>
+  .toc {
+    position: fixed;
+    top: 6rem;
+    left: 4rem;
+    border-left: 0.25rem solid transparent;
+    border-image: linear-gradient(180deg, #60a5fa, #a5b4fc);
+    border-image-slice: 1;
+    padding: 0 0 0.75rem;
+  }
+</style>

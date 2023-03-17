@@ -1,0 +1,49 @@
+---
+// TableOfContentsHeading.astro
+const { heading } = Astro.props;
+---
+
+<li class="table-item">
+  <a class={`table-item-link pl-${heading.depth}`} href={"#" + heading.slug}>
+    {heading.text}
+  </a>
+</li>
+
+<style>
+  .table-item {
+    list-style: none;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  .table-item-link {
+    color: #000;
+    text-decoration: underline;
+  }
+  .table-item-link:hover {
+    color: #00539f;
+  }
+
+  .pl-1 {
+    padding: 0;
+  }
+
+  .pl-2 {
+    padding: 0 0 0 0.75rem;
+  }
+
+  .pl-3 {
+    padding: 0 0 0 1.5rem;
+  }
+
+  .pl-4 {
+    padding: 0 0 0 2.25rem;
+  }
+
+  .pl-5 {
+    padding: 0 0 0 3rem;
+  }
+
+  .pl-6 {
+    padding: 0 0 0 3.75rem;
+  }
+</style>
