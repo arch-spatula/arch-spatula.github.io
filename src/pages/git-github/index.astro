@@ -17,6 +17,8 @@ const nonDraftPosts = allPosts.filter((post) => !post.frontmatter.draft);
     <!-- 블로그 목록을 순회합니다. -->
     {
       nonDraftPosts.map((post) => {
+        console.log(post.url);
+
         return (
           <BlogPost
             url={post.url}
