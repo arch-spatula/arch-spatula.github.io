@@ -1,8 +1,8 @@
 {
-  "label": "Tutorial - Basics",
+  "label": "마크다운 줍줍",
   "position": 2,
   "link": {
     "type": "generated-index",
-    "description": "5 minutes to learn the most important Docusaurus concepts."
+    "description": "마크다운과 관련된 이런저런 줍줍"
   }
 }
