@@ -7,7 +7,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Arch-Spatula의 레시피",
-  tagline: "저 혼자 다시 보려고 만듭니다.",
+  tagline: "저 혼자 다시 보려고 만들었습니다.",
   favicon: "img/logo.svg",
 
   // Set the production url of your site here
