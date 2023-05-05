@@ -3,6 +3,7 @@
 
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+require("dotenv").config();
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -21,6 +22,9 @@ const config = {
   organizationName: "arch-spatula", // Usually your GitHub org/user name.
   projectName: "arch-spatula.github.io", // Usually your repo name.
   trailingSlash: false,
+  customFields: {
+    GIT_PASS: process.env.GIT_PASS,
+  },
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
