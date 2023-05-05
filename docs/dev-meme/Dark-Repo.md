@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 tags: ["코딩애플", "dev meme", "엄준식", "github"]
 description: "심연속 이상한 리포들입니다."
 ---

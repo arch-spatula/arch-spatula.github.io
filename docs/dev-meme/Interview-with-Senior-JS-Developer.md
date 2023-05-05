@@ -1,4 +1,5 @@
 ---
+sidebar_position: 1
 description: "시니어 자바스크립트 개발자 인터뷰입니다."
 tags: ["JavaScript", "dev meme"]
 ---
