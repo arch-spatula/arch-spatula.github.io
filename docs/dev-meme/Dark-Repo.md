@@ -1,11 +1,9 @@
 ---
-layout: ../../../layouts/MarkdownPostLayout.astro
-title: "어떤놈이 만들었는지 궁금한 Github 프로젝트 top 10"
-pubDate: 2023-03-11
-description: "시니어 자바스크립트 개발자 인터뷰입니다."
-author: "Arch Spatula"
+sidebar_position: 1
 tags: ["코딩애플", "dev meme", "엄준식", "github"]
 ---
+
+# 어떤놈이 만들었는지 궁금한 Github 프로젝트 top 10
 
 <iframe width="768" height="432" src="https://www.youtube.com/embed/PddUhEmmreY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 

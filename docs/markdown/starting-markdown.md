@@ -1,11 +1,10 @@
 ---
-layout: ../../../layouts/MarkdownPostLayout.astro
-title: "Markdown 시작하기"
-pubDate: 2023-03-12
 description: "Markdown을 다루는 법을 소개합니다."
-author: "Arch Spatula"
 tags: ["Markdown", "Cook-book"]
+sidebar_position: 1
 ---
+
+# Markdown 시작하기
 
 # Markdown의 위상
 
@@ -107,14 +106,14 @@ html의 `<strong></strong>`랑 비슷합니다.
 
 github pages에서만 가능하기 때문에 나중에 다시 작성하겠습니다.
 
-<div>
+<!-- <div>
 <p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="zYNyEwo" data-user="kimsanghyun" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
   <span>See the Pen <a href="https://codepen.io/kimsanghyun/pen/zYNyEwo">
   full background에 글자 중앙 정렬</a> by 김상현 (<a href="https://codepen.io/kimsanghyun">@kimsanghyun</a>)
   on <a href="https://codepen.io">CodePen</a>.</span>
 </p>
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
-</div>
+</div> -->
 
 # Toggle
 

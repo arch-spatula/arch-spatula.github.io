@@ -1,9 +1,5 @@
 ---
-layout: ../../../layouts/MarkdownPostLayout.astro
-title: "git & github - 1"
-pubDate: 2023-03-21
-description: "git과 github을 다룹니다."
-author: "Arch Spatula"
+sidebar_position: 1
 tags: ["git", "github"]
 ---
 
