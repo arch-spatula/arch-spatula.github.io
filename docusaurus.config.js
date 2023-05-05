@@ -33,6 +33,8 @@ const config = {
     locales: ["ko"],
   },
 
+  deploymentBranch: "main",
+
   presets: [
     [
       "classic",
