@@ -32,3 +32,8 @@
 .center {
   text-align: center;
 }
+
+.codepen {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
