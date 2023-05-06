@@ -58,6 +58,8 @@ Markdown은 별거 다할 수 있습니다.
 ~~(내용)~~
 ```
 
+~~(내용)~~
+
 # 강조
 
 html의 `<strong></strong>`랑 비슷합니다.
@@ -65,6 +67,8 @@ html의 `<strong></strong>`랑 비슷합니다.
 ```md
 **(내용)**
 ```
+
+**(내용)**
 
 # 구분선
 
@@ -102,18 +106,39 @@ html의 `<strong></strong>`랑 비슷합니다.
 └── tsconfig.json
 ```
 
+tree를 설치하면 이런 디렉토리를 표현할 수 있습니다.
+
+```sh
+brew install tree
+```
+
+brew로 tree를 설치합니다.
+
+```sh
+tree -I node_modules
+```
+
+tree로 디렉토리 표현 명령을 합니다. `node_modules`은 숨깁니다.
+
 # codepen.io 임베드
 
-github pages에서만 가능하기 때문에 나중에 다시 작성하겠습니다.
+github pages에서만 가능한 장점은 `iframe` 임베드가 가능합니다.
 
-<!-- <div>
-<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="zYNyEwo" data-user="kimsanghyun" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
-  <span>See the Pen <a href="https://codepen.io/kimsanghyun/pen/zYNyEwo">
+```md
+<iframe class="codepen" scrolling="no" title="full background에 글자 중앙 정렬" src="https://codepen.io/(프로필)/embed/(아이디)" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/kimsanghyun/pen/zYNyEwo">
+  full background에 글자 중앙 정렬</a> by (유저이름) (<a href="https://codepen.io/kimsanghyun">@(프로필)</a>)
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
+```
+
+<iframe class="codepen" scrolling="no" title="full background에 글자 중앙 정렬" src="https://codepen.io/kimsanghyun/embed/zYNyEwo" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/kimsanghyun/pen/zYNyEwo">
   full background에 글자 중앙 정렬</a> by 김상현 (<a href="https://codepen.io/kimsanghyun">@kimsanghyun</a>)
-  on <a href="https://codepen.io">CodePen</a>.</span>
-</p>
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
-</div> -->
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
+
+<!-- TODO: docusaurus 장점으로 분리하기 -->
 
 # Toggle
 
@@ -152,11 +177,19 @@ github pages에서만 가능하기 때문에 나중에 다시 작성하겠습니
 
 블럭으로 작성하는 법입니다. 마크다운으로 설명하기 조금 어럽습니다.
 
-````
-```언어
+````md
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, World!")
+}
+```
 ````
 
-이렇게 코드블럭을 시작합니다. ` ```언어`에서 `언어`만 빼면 블럭이 종료입니다.
+이렇게 코드블럭을 시작합니다. ` ```언어`에서 언어를 지정합니다.
 
 ```go
 package main
@@ -201,6 +234,14 @@ bierner.markdown-mermaid
 ```
 
 이 extensions을 설치하면 이제 mermaid를 미리볼 수 있습니다.
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
 
 # 표
 
