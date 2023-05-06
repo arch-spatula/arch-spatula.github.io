@@ -235,6 +235,7 @@ bierner.markdown-mermaid
 
 이 extensions을 설치하면 이제 mermaid를 미리볼 수 있습니다.
 
+````md
 ```mermaid
 graph TD;
     A-->B;
@@ -242,6 +243,17 @@ graph TD;
     B-->D;
     C-->D;
 ```
+````
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
+<!-- TODO; 설치방법 알려주기 https://docusaurus.io/ko/docs/next/markdown-features/diagrams -->
 
 # 표
 
