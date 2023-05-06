@@ -6,19 +6,19 @@ sidebar_position: 1
 
 # Markdown 시작하기
 
-# Markdown의 위상
+## Markdown의 위상
 
 Markdown은 별거 다할 수 있습니다.
 
 ---
 
-# Markdown-Cook-Book
+## Markdown-Cook-Book
 
 검색해서 찾아보면 되는데 왜 정리하냐고요? 지난주 검색한 거 또 검색하고 싶나요? 아니면 리포 브라우저로 펴놓고 `cmd` + `f`로 해결하고 싶나요?
 
 물론 가끔 없는 내용도 없을 것입니다. 그때 검색하고 여기에 추가하고 정리하면 검색 빈도가 줄어들지 않을까요?
 
-# 주석을 추가하는 방법
+## 주석을 추가하는 방법
 
 ```md
 <!-- 마크다운 주석 -->
@@ -26,7 +26,7 @@ Markdown은 별거 다할 수 있습니다.
 
 놀랍게도 HTML 주석과 동일합니다. 문서 자체도 설계하고 교정, 피드백에 활용할 수 있습니다.
 
-# Heading
+## Heading
 
 ```markdown
 # h1 제목
@@ -42,7 +42,7 @@ Markdown은 별거 다할 수 있습니다.
 ###### h6 제목
 ```
 
-# Check Box
+## Check Box
 
 ```md
 - [ ] 빈 체크박스
@@ -52,7 +52,7 @@ Markdown은 별거 다할 수 있습니다.
 - [ ] 빈 체크박스
 - [x] 채워진 체크박스
 
-# 취소선
+## 취소선
 
 ```md
 ~~(내용)~~
@@ -60,7 +60,7 @@ Markdown은 별거 다할 수 있습니다.
 
 ~~(내용)~~
 
-# 강조
+## 강조
 
 html의 `<strong></strong>`랑 비슷합니다.
 
@@ -70,7 +70,7 @@ html의 `<strong></strong>`랑 비슷합니다.
 
 **(내용)**
 
-# 구분선
+## 구분선
 
 구분선은 `---`으로 간단하게 만들 수 있습니다.
 
@@ -80,7 +80,7 @@ html의 `<strong></strong>`랑 비슷합니다.
 
 ---
 
-# 디렉토리 표현하기
+## 디렉토리 표현하기
 
 ```txt
 ├── src/
@@ -120,7 +120,7 @@ tree -I node_modules
 
 tree로 디렉토리 표현 명령을 합니다. `node_modules`은 숨깁니다.
 
-# codepen.io 임베드
+## codepen.io 임베드
 
 github pages에서만 가능한 장점은 `iframe` 임베드가 가능합니다.
 
@@ -140,7 +140,7 @@ github pages에서만 가능한 장점은 `iframe` 임베드가 가능합니다.
 
 <!-- TODO: docusaurus 장점으로 분리하기 -->
 
-# Toggle
+## Toggle
 
 ```md
 <details>
@@ -163,7 +163,7 @@ github pages에서만 가능한 장점은 `iframe` 임베드가 가능합니다.
 </div>
 </details>
 
-# 인용문
+## 인용문
 
 > Failing to plan is planning to fail
 >
@@ -173,7 +173,7 @@ github pages에서만 가능한 장점은 `iframe` 임베드가 가능합니다.
 > (인용문)
 ```
 
-# 코드
+## 코드
 
 블럭으로 작성하는 법입니다. 마크다운으로 설명하기 조금 어럽습니다.
 
@@ -203,7 +203,7 @@ func main() {
 
 생각보다 다양한 언어를 지원합니다. 이런 코드블럭을 작성하는 것으로 코드 컨벤션 같은 것을 정리할 수 있습니다.
 
-# 이미지
+## 이미지
 
 마크다운에서는 html처럼 `<video />` 태그를 따로 지원해주고 있는 것은 아닙니다.
 
@@ -221,7 +221,7 @@ func main() {
 
 이런식으로도 추가가 가능합니다.
 
-# mermaid
+## mermaid
 
 문서에 코드로 차트를 빠르게 그릴 때 유용한 기능입니다.
 
@@ -255,7 +255,7 @@ graph TD;
 
 <!-- TODO; 설치방법 알려주기 https://docusaurus.io/ko/docs/next/markdown-features/diagrams -->
 
-# 표
+## 표
 
 ```md
 | 기본값 | 왼쪽 정렬 | 가운데 정렬 | 오른쪽 정렬 |
@@ -271,30 +271,25 @@ graph TD;
 | 내용 5 | 내용 6    |   내용 7    |      내용 8 |
 | 내용 9 | 내용 10   |   내용 11   |     내용 12 |
 
-이런식으로 표를 작성할 수 있습니다.
+이런식으로 표를 작성할 수 있습니다.[^1]
 
-# 각주
+## 각주
 
-이런식으로 주석을 달 수 있습니다.<sup>[2](#footnote_2)</sup>
+이런식으로 주석을 달 수 있습니다.[^2]
 
 각주는 글의 앞 부분 뒷 부분 작성하는 법 모두 알아야 합니다.
 
 ```md
-내용<sup>[1](#주석이름)</sup>
+각주내용[^1]
 ```
 
 이런식으로 글 앞은 이렇게 표시합니다.
 
 ```md
-<a name="주석이름">1</a>: 내용
+[^1]: 미주내용
 ```
 
-글 뒷부분은 이렇게 표시합니다.
+글 뒷부분은 이렇게 표시합니다. 이렇게 작성하면 미주에 알아서 구분선이 추가됩니다.
 
----
-
-<a name="footnote_1">1</a>: [여기 링크를 참고했습니다.](https://lynmp.com/ko/article/title/markdown-table-om811c9dc5oi)
-
-<a name="footnote_2">2</a>: [여기 링크를 참고했습니다.](https://lynmp.com/ko/article/nu86c16d8f09c9fbd8)
-
-<a name="footnote_3">3</a>: 출처: [No calculator required - VScode - Youtube](https://www.youtube.com/shorts/dCsmH5BfpdQ)
+[^1]: [[LYNMP 도움말] 마크다운(Markdown) - 표(table) 입력 - LYNMP](https://lynmp.com/ko/article/title/markdown-table-om811c9dc5oi)
+[^2]: [How to add footnotes to GitHub-flavoured Markdown?](https://stackoverflow.com/questions/25579868/how-to-add-footnotes-to-github-flavoured-markdown)
