@@ -4,6 +4,7 @@
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 require("dotenv").config();
+// const mdxMermaid = import('mdx-mermaid')
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -63,6 +64,11 @@ const config = {
       }),
     ],
   ],
+
+  markdown: {
+    mermaid: true,
+  },
+  themes: ["@docusaurus/theme-mermaid"],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
