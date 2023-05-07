@@ -26,6 +26,7 @@ const config = {
   trailingSlash: false,
   customFields: {
     GIT_PASS: process.env.GIT_PASS,
+    GIT_USER: process.env.GIT_USER,
   },
 
   onBrokenLinks: "throw",
