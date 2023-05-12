@@ -51,13 +51,15 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: "https://github.com/arch-spatula/arch-spatula.github.io/",
+          editUrl:
+            "https://github.com/arch-spatula/arch-spatula.github.io/blob/dev/",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: "https://github.com/arch-spatula/arch-spatula.github.io",
+          editUrl:
+            "https://github.com/arch-spatula/arch-spatula.github.io/blob/dev/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
