@@ -1,41 +1,33 @@
-# Website
+# Arch-Spatula의 레시피
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+이 사이트는 저의 개발자 블로그입니다.
 
-### Installation
+[Arch-Spatula의 레시피](https://arch-spatula.github.io/)
 
-```
-$ yarn
-```
-
-### Local Development
+## 설치 명령
 
 ```
-$ yarn start
+yarn
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-### Build
+## 개발 시작 명령
 
 ```
-$ yarn build
+yarn start
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
+## 거의 할 일 없는 빌드 명령
 
 ```
-$ USE_SSH=true yarn deploy
+yarn build
 ```
 
-Not using SSH:
+## 배포 명령
 
 ```
-$ GIT_USER=<Your GitHub username> yarn deploy
+yarn deploy
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+## 참고
+
+[Docusaurus 2](https://docusaurus.io/)릍 통해 만들어졌습니다.
