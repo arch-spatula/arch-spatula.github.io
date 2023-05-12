@@ -3,9 +3,13 @@ sidebar_position: 1
 tags: ["git", "github"]
 ---
 
-https://velog.io/@arch-spatula/TIL.22.10.31.-Git-%ED%8A%B9%EA%B0%95
+# git 시작하기
 
-여기 있던 블로그 글을 옮긴 것입니다.
+<!-- https://velog.io/@arch-spatula/TIL.22.10.31.-Git-%ED%8A%B9%EA%B0%95 -->
+
+<!-- 여기 있던 블로그 글을 옮긴 것입니다. -->
+
+## git 사용하기 전에 같이 알면 좋은 명령
 
 ```sh
 ls -a # 숨김폴더까지 보여달라는 명령입니다.
@@ -15,13 +19,17 @@ ls -a # 숨김폴더까지 보여달라는 명령입니다.
 ls -al # 숨김 폴더에 대한 정보를 더 자세히 보여줍니다.
 ```
 
+<!-- ## 실수로 add로 올리면 내리는 방법
+
 ```sh
 git rm --cached (파일이름) # 실수로 add로 올리면 내리는 방법입니다.
 ```
 
-옛날에는 `git add .` 로 명령하는 게 습관이었습니다. 지금은 VScode가 제공하는 git을 잘 활용합니다.
+옛날에는 `git add .` 로 명령하는 게 습관이었습니다. 지금은 VScode가 제공하는 git을 잘 활용합니다. -->
 
 ---
+
+## github url
 
 ```
 https://github.com/사용자이름/리포이름
