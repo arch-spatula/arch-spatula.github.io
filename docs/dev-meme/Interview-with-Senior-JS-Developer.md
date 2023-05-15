@@ -6,7 +6,7 @@ tags: ["JavaScript", "dev meme"]
 
 # 시니어 자바스크립트 개발자 인터뷰
 
-<iframe width="768" height="432" src="https://www.youtube.com/embed/Uo3cL4nrGOk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe class="codepen" src="https://www.youtube.com/embed/Uo3cL4nrGOk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 제가 제일 좋아하는 밈입니다.
 
