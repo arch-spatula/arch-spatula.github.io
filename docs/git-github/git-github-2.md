@@ -29,6 +29,38 @@ git pull (https://github.com/유저이름/레포이름.git) (브랜치명)
 
 단순하게 원격만 가져올 때는 `git pull`로 충분합니다. 하지만 다른 브랜치에서 다른 개발자가 유용한 거 만들어서 가져오고 싶을 때는 위 명령으로 해당 브랜치를 현재 브랜치로 땡겨오면 됩니다.
 
+## resolve conflicts by command line
+
+가끔 `merge conflict`가 발생하면 다음을 순서대로 하면 됩니다.
+
+`git merge`는 base를 기준으로 다른 브랜치를 받아서 합치는 명령입니다.
+
+1. 원격 리포를 가져옵니다.
+
+```sh
+git pull origin (합칠 브랜치명)
+```
+
+2. merge 시킬 brach를 확인합니다.
+
+```sh
+git checkout (받을 브랜치명)
+```
+
+3. merge 명령을 합니다.
+
+```sh
+git merge (합칠 브랜치명)
+```
+
+4. 충돌을 이제 본인이 편한 에디터에서 보고 직접 결정합니다.
+
+5. 원격 리포에 반영합니다.
+
+```sh
+git push
+```
+
 ## git Flow
 
 <iframe class="codepen" src="https://www.youtube.com/embed/EV3FZ3cWBp8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
