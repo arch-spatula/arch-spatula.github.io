@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-tags: ["certifi", "git stash", "python", "requirements.txt", "venv"]
+tags: ["python", "requirements.txt", "venv"]
 ---
 
 # 가상환경 공유
