@@ -92,27 +92,6 @@ pip3 install -r requirements.txt # 가상환경 반영
 
 그리고 가상환경이 켜져있는지 항상 확인합니다.
 
-<!-- ## certifi
-
-```py
-from pymongo import MongoClient
-import certifi
-
-ca = certifi.where()
-
-client = MongoClient('mongodb+srv://???:???@cluster0.?????.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca)
-db = client.test
-
-doc = {
-  'name':'bob',
-  'age':27
-}
-
-db.users.insert_one(doc)
-```
-
-협업하는 사람 중 한명이 윈도우 사용하고 있었습니다. 이 패키지까지 설치하니까 문제가 사라졌습니다. -->
-
 ## 참고
 
 VScode에서 파이썬 설정하기
