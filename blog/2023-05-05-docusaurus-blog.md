@@ -1,13 +1,16 @@
 ---
-slug: docusaurus-blog
 title: 오늘은 어린이날
 authors: [arch-spatula]
 tags: [docusaurus, blog]
+description: 사실 어린이 날인 것은 별로 안 중요합니다.
+date: 2023-05-05
 ---
 
 # 오늘은 어린이날
 
 사실 어린이 날인 것은 별로 안 중요합니다.
+
+<!--truncate-->
 
 블로그를 대규모 개편했습니다.
 

@@ -384,6 +384,4 @@ chore/
 
 <!-- # Commit 템플릿 관련 탬플릿이 생기기 전까지 작성 보류 -->
 
----
-
-[^1] [좋은 Pull Request를 만드는 방법과 PR Template 구성](https://2jinishappy.tistory.com/337)
+[^1]: [좋은 Pull Request를 만드는 방법과 PR Template 구성](https://2jinishappy.tistory.com/337)
