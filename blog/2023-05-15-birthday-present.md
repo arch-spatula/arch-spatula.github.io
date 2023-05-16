@@ -1,5 +1,4 @@
 ---
-slug: welcome-docusaurus-v2
 title: 생일 선물
 authors: [arch-spatula]
 tags: [docusaurus, blog, birthday, astro]
