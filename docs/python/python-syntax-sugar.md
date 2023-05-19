@@ -213,3 +213,66 @@ print(fn(name='Jake', age=30))  # {'name': 'Jake', 'age': 30}
 ```
 
 딕셔너리도 생성할 수 있습니다.
+
+## 파이썬의 반복문
+
+자바스크립트는 배열 순회를 편안하게 할 수 있었습니다.
+
+```js
+const arr = [...Array(3).keys()].forEach((elem, idx) => {
+  // 배열의 원소도 인덱스도 쉽게 알아 낼 수 있었습니다.
+});
+```
+
+하지만 파이썬은 `range(len(list))` 방식을 사용합니다. 물론 간단하 for문의 문법은 간결해서 좋습니다.
+
+```py
+#파이썬의 for문
+for letter in string:
+	if letter in bin: return letter
+
+# 파이썬의 range in len을 사용한 for문
+for idx in range(len(alphabet_occurrence_array)):
+        if alphabet_occurrence_array[idx] % 2 != 0:
+            bin.append(chr(idx + ord('a')))
+```
+
+대부분의 경우 코드의 심미적인 부분은 파이썬이 더 좋지만 이런 순회에서는 자바스크립트가 더 좋습니다.
+
+### For Else
+
+```py
+input = "abcba"
+
+def is_palindrome(string: str):
+    # 문자열을 한글자식 순회합니다.
+    for index, letter in enumerate(string):
+        # 앞뒤를 비교합니다.
+        if string[index] != string[-index-1]: return False
+            # 불일치하면 False를 반환값이다.
+    else: return True
+
+
+print(is_palindrome(input))
+```
+
+for문 뒤에 `else`를 쓸 수 있습니다. 상당히 달달하네요.
+
+## 문자열 다루기
+
+파이썬에는 다양한 내장함수가 있습니다. `chr`, `ord` 내장함수는 문자열을 아스키 인덱스 혹은 아스키 인덱스를 문자열로 바꿀 수 있게 해줍니다.
+
+```py
+chr()  # 아스키 10진수 -> 문자열
+ord()  # 문자열 -> 아스키 10진수
+```
+
+어느 메서드에 붙어있지 않고 그냥 사용하면 됩니다.
+
+자바스크립트는 프로토타입 기반 언어답게 내장함수보단 내장객체와 메서드로 문제를 해결해야 합니다.
+
+```js
+console.log(String.fromCharCode(97), "a".charCodeAt(0));
+```
+
+`fromCharCode` 정적 매서드랑 `charCodeAt` 동적 매서드를 암기하고 코딩테스트를 풀도록 합시다.
