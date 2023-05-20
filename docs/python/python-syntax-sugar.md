@@ -276,3 +276,21 @@ console.log(String.fromCharCode(97), "a".charCodeAt(0));
 ```
 
 `fromCharCode` 정적 매서드랑 `charCodeAt` 동적 매서드를 암기하고 코딩테스트를 풀도록 합시다.
+
+## 정렬
+
+문법 설탕은 아니지만 정렬 내장함수가 상당히 달달합니다.
+
+```py
+arr = [2, 3, 1]
+print(sorted(arr)) # [1, 2, 3]
+print(sorted(arr, reverse=True)) # [3, 2, 1]
+```
+
+`sorted`는 다양한 자료형에 사용할 수 있는 내장함수고 `sort` 메서드도 같이 제공하고 있습니다.
+
+```py
+arr = [2, 3, 1]
+print(arr.sort()) # [1, 2, 3]
+print(arr.sort(reverse=True)) # [3, 2, 1]
+```
