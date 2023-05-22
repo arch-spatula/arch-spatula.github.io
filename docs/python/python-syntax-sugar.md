@@ -147,6 +147,23 @@ print(b_list)
 
 배열 복사입니다.
 
+```py
+fruits = ["apple", "banana", "cherry", "kiwi", "mango"]
+
+newlist = [x for x in fruits if "a" in x]
+
+print(newlist)
+```
+
+이런 응용도 가능합니다.
+
+[순서쌍의 개수](https://school.programmers.co.kr/learn/courses/30/lessons/120836)문제에서 아래처럼 응용하는 것도 가능합니다.
+
+```py
+def solution(n):
+    return len([number for number in range(1, n+1) if n%number == 0])
+```
+
 ### map
 
 ```py
