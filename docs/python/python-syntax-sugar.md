@@ -147,6 +147,23 @@ print(b_list)
 
 배열 복사입니다.
 
+```py
+fruits = ["apple", "banana", "cherry", "kiwi", "mango"]
+
+newlist = [x for x in fruits if "a" in x]
+
+print(newlist)
+```
+
+이런 응용도 가능합니다.[^1]
+
+[순서쌍의 개수](https://school.programmers.co.kr/learn/courses/30/lessons/120836)문제에서 아래처럼 응용하는 것도 가능합니다.
+
+```py
+def solution(n):
+    return len([number for number in range(1, n+1) if n%number == 0])
+```
+
 ### map
 
 ```py
@@ -333,3 +350,39 @@ def solution(chicken: int) -> int:
         chicken += coupon
     return maximumServiceChicken
 ```
+
+## combinations
+
+$$
+n! = n \cdot (n-1) \cdot (n-2) ... 1
+\\\
+\\\
+_{n}\mathrm{P}_{r} = \frac{n!}{(n-r)!}
+\\\
+\\\
+_{n}\mathrm{C}_{r} = \frac{n!}{(n-r)!\cdot r!}
+$$
+
+위는 팩토리얼, 순열, 조합 공식들입니다.
+
+여기서 파이썬에는 조합을 다루는 모듈도 있습니다.
+
+```py
+from itertools import combinations
+
+# 3 ≤ len(number) ≤ 13
+# min(number) = -1000, max(number) = 1000
+def solution(numbers: list) -> int:
+    '''
+    3개의 정수를 뽑아 더해서 0이 되는 경우의 수를 구사시오.
+    '''
+    result = 0
+    for combo in list(combinations(numbers, 3)):
+        if sum(combo) == 0: result += 1
+
+    return result
+```
+
+[삼총사](https://school.programmers.co.kr/learn/courses/30/lessons/131705)에 이런 풀이와 응용이 가능합니다.
+
+[^1]: [Python - List Comprehension](https://www.w3schools.com/python/python_lists_comprehension.asp)

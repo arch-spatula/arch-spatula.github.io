@@ -5,6 +5,10 @@ tags: ["git", "github"]
 
 # git 시작하기
 
+[learningGitAndGithub](https://github.com/arch-spatula/learningGitAndGithub)
+
+위는 제가 git과 github을 공부할 때 정리한 레포입니다.
+
 <!-- https://velog.io/@arch-spatula/TIL.22.10.31.-Git-%ED%8A%B9%EA%B0%95 -->
 
 <!-- 여기 있던 블로그 글을 옮긴 것입니다. -->
