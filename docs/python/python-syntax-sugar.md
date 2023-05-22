@@ -155,7 +155,7 @@ newlist = [x for x in fruits if "a" in x]
 print(newlist)
 ```
 
-이런 응용도 가능합니다.
+이런 응용도 가능합니다.[^1]
 
 [순서쌍의 개수](https://school.programmers.co.kr/learn/courses/30/lessons/120836)문제에서 아래처럼 응용하는 것도 가능합니다.
 
@@ -311,3 +311,7 @@ arr = [2, 3, 1]
 print(arr.sort()) # [1, 2, 3]
 print(arr.sort(reverse=True)) # [3, 2, 1]
 ```
+
+[삼총사](https://school.programmers.co.kr/learn/courses/30/lessons/131705)에 이런 풀이와 응용이 가능합니다.
+
+[^1]: [Python - List Comprehension](https://www.w3schools.com/python/python_lists_comprehension.asp)
