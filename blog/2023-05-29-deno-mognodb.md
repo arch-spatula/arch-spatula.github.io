@@ -110,9 +110,94 @@ export default AxiosAPI;
 
 이것이 전체 코드입니다.
 
+반환하는 에러 메시지는 다음입니다.
+
+> "Invalid parameter(s) specified: body"
+
+요청을 보낼 때 body 문제라는 것은 파악할 수 있습니다. 하지만 body에 어떻게 변형해도 답을 얻을 수 없었습니다.
+
 ### 해결: fetch 싱글튼
 
-- fetch로 다시 작성해보니까 get, post 모두 정상동작했습니다.
+```ts
+import { config } from "https://deno.land/x/dotenv@v3.2.2/mod.ts";
+import CardRecord from "../model/cards.ts";
+
+const { APP_ID, CARD_API_KEY } = config();
+
+class MongoAPI {
+  private static instance: MongoAPI;
+  private baseURL: string;
+  private options: {
+    method: string;
+    headers: { "Content-Type": string; "api-key": string };
+    body: BodyInit;
+  };
+  private constructor() {
+    this.baseURL = `https://us-west-2.aws.data.mongodb-api.com/app/${APP_ID}/endpoint/data/v1/action`;
+    this.options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "api-key": CARD_API_KEY,
+      },
+      body: JSON.stringify({
+        dataSource: "Cluster0",
+        database: "cards_db",
+        collection: "cards",
+      }),
+    };
+  }
+
+  static getInstance(): MongoAPI {
+    if (!MongoAPI.instance) {
+      MongoAPI.instance = new MongoAPI();
+    }
+    return MongoAPI.instance;
+  }
+
+  async getCards() {
+    return await fetch(`${this.baseURL}/find`, this.options);
+  }
+
+  async postCards(document: CardRecord) {
+    return await fetch(`${this.baseURL}/insertOne`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "api-key": CARD_API_KEY,
+      },
+      body: JSON.stringify({
+        dataSource: "Cluster0",
+        database: "cards_db",
+        collection: "cards",
+        document,
+      }),
+    });
+  }
+}
+
+const mongoAPI = MongoAPI.getInstance();
+
+try {
+  const card = new CardRecord(
+    "순수 함수를 활용합니다.",
+    "부작용이 없습니다.",
+    new Date(),
+    2,
+    "1",
+    "646a089f1c75ae5b5752d35d"
+  );
+  console.log(await mongoAPI.patchCards(card));
+} catch (error) {
+  console.log(error);
+}
+
+export default MongoAPI;
+```
+
+- fetch로 다시 작성해보니까 모두 정상동작했습니다.
+- MongoDB에는 `POST`가 기본인 것 같습니다.
+- 다른 `PATCH`, `DELETE` 동작이 `POST`로 설정하면 모두 동작했습니다.
 
 ### 학습: 왜 Post인가?
 
