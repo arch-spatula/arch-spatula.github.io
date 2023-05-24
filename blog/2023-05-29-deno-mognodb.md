@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ["deno", "axios", "mongoDB"]
 description: deno 런타임에서 axios로 mongoDB랑 통신하는데 에러가 계속됩니다.
 toc_max_heading_level: 6
+draft: false
 ---
 
 deno 런타임에서 axios로 mongoDB랑 통신하는데 에러가 계속됩니다. mongoDB API 문서를 잘 숙지하지 않고 있어서 발생하는 문제 같습니다.

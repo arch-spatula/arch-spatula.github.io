@@ -1,3 +1,8 @@
+---
+sidebar_position: 1
+tags: ["주간회고", "WIL"]
+---
+
 # 회고
 
 교육과정 진행하면서 작성했던 주간회고들을 모았습니다.
@@ -60,3 +65,32 @@
 [technical-interview-for-FE/academy/](https://github.com/arch-spatula/technical-interview-for-FE/tree/main/academy)
 
 이번주 주말은 참 바빴습니다. 더 많은 회고는 다음주에 하겠습니다.
+
+## WIL.22.11.20.
+
+### Liked
+
+- 자료구조와 알고리즘 강의를 모두 수강했습니다. 강의 수강 목표는 달성했습니다.
+
+### Learned
+
+- css `position: sticky`를 사용하기 위해서는 `top:0`을 설정해야 한다는 것을 배웠습니다.
+
+```css
+position: sticky;
+top: 0;
+```
+
+### Lacked
+
+- git강의는 간단하게 정리하고 넘어갈 수 있었지만 그렇게 하지 않았습니다.
+- 웹 퍼블리싱 강의를 다 못 들었습니다. 노션보고 새로운 부분만 따로 배워도 괜찮지만 그렇게 하지도 않았습니다.
+
+### Longed(원하는 것)
+
+- 파이어베이스를 잘 사용하고 많은 사이드 프로젝트를 시작하기
+
+### Action Item
+
+- [ ] vite 바닐라 자바스크립트와 vitest 설치체험하기
+- [ ] Firebase 설치하고 체험하기

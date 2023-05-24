@@ -312,6 +312,45 @@ print(arr.sort()) # [1, 2, 3]
 print(arr.sort(reverse=True)) # [3, 2, 1]
 ```
 
+## math의 factorial
+
+프로그래머스에서 [팩토리얼](https://school.programmers.co.kr/learn/courses/30/lessons/120848) 문제를 푸는 도중에 발견한 정답입니다.
+
+```py
+from math import factorial
+
+def solution(n):
+    k = 10
+    while n < factorial(k):
+        k -= 1
+    return k
+```
+
+이런 모듈이 있을 거라는 생각도 못했습니다. 역시 코테의 언어답습니다.
+
+## divmod
+
+`divmod`는 나눈 값과 나눈 값의 나머지를 얻을 수 있습니다.
+
+교육과정을 수강하던 중에서 팀원과 아침 코테을 같이 했었습니다. 지목한 문제로 [치킨 쿠폰](https://school.programmers.co.kr/learn/courses/30/lessons/120884)를 풀었는데 동료가 `divmod` 내장함수를 알려줬습니다.
+
+```py
+def solution(chicken: int) -> int:
+    # 서비스 치킨 0에서 시작합니다.
+    maximumServiceChicken = 0
+
+    coupon = 0
+    # chicken 서비스를 받을 수 있는 동안
+    while chicken >= 10:
+        # 치킨 10개당
+        chicken, coupon = divmod(chicken, 10)
+        # 서비스 치킨 1개를 먹을 수 있습니다.
+        maximumServiceChicken += chicken
+        # 서비스 치킨 10개로 서비스 치킨 1개를 먹을 수 있습니다.
+        chicken += coupon
+    return maximumServiceChicken
+```
+
 ## combinations
 
 $$
