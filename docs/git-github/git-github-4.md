@@ -175,9 +175,10 @@ Issue Number: N/A
 ## Other information
 ```
 
-angular PR 템플릿입니다.[^2] ~~유사~~오픈소스를 먼저 보고 배우는 것이 더 좋습니다.
+angular PR 템플릿입니다.<!--[^2]--> ~~유사~~오픈소스를 먼저 보고 배우는 것이 더 좋습니다.
 
 편집을 완료하면 `commit` 으로 저장합니다. 다른 브랜치인 것은 잘 확인하도록 합니다.
 
 [^1]: [좋은 Pull Request를 만드는 방법과 PR Template 구성](https://2jinishappy.tistory.com/337)
-[^2]: [angular Pull Request Template.md - angular](https://github.com/angular/angular/blob/main/.github/PULL_REQUEST_TEMPLATE.md)
+
+<!-- [^2]: [angular Pull Request Template - angular](https://github.com/angular/angular/blob/main/.github/PULL_REQUEST_TEMPLATE.md) -->
