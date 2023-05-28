@@ -6,11 +6,11 @@ description: deno 런타임에서 axios로 mongoDB랑 통신하는데 에러가 
 toc_max_heading_level: 6
 ---
 
+# 공룡이 좋아졌습니다.
+
 이번주에 Deno를 활용해서 백엔드 미들웨어 서버를 만들었습니다. Axios, MongoDB, Worker, BCrypt을 사용하면서 겪은 에러들입니다.
 
 <!--truncate-->
-
-# 공룡이 좋아졌습니다.
 
 최근에 Deno를 활용해서 유사 백엔드를 만들기 시작했습니다. 프론트엔드 입장에서 잘해야 하는 부담이 덜해서 재미있게 만들었습니다.
 
