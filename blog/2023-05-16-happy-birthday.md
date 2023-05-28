@@ -1,5 +1,5 @@
 ---
-title: 어제의 내가 오날의 나에게 주는 선물
+title: 어제의 내가 오늘의 나에게 주는 선물
 authors: [arch-spatula]
 tags: [docusaurus, blog, birthday]
 date: 2023-05-16
@@ -7,7 +7,7 @@ description: 생일 축하합니다.
 toc_max_heading_level: 6
 ---
 
-# 어제의 내가 오날의 나에게 주는 선물
+# 어제의 내가 오늘의 나에게 주는 선물
 
 이 블로그 잘 받았습니다.
 
