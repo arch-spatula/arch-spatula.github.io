@@ -4,7 +4,6 @@ authors: [arch-spatula]
 tags: ["deno", "axios", "mongoDB"]
 description: deno 런타임에서 axios로 mongoDB랑 통신하는데 에러가 계속됩니다.
 toc_max_heading_level: 6
-draft: true
 ---
 
 이번주에 Deno를 활용해서 백엔드 미들웨어 서버를 만들었습니다. Axios, MongoDB, Worker, BCrypt을 사용하면서 겪은 에러들입니다.
