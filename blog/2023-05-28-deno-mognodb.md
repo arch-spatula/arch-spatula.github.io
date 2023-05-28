@@ -1,7 +1,7 @@
 ---
 title: 공룡이 좋아졌습니다.
 authors: [arch-spatula]
-tags: ["deno", "axios", "mongoDB"]
+tags: ["deno", "axios", "mongoDB", "Worker", "BCrypt", "deno deploy"]
 description: deno 런타임에서 axios로 mongoDB랑 통신하는데 에러가 계속됩니다.
 toc_max_heading_level: 6
 ---
