@@ -12,3 +12,6 @@ tags: ["vscode", "micro tips", "줍줍"]
 ![마크다운에서 자동완성](https://user-images.githubusercontent.com/84452145/241534966-5fbe31e7-27d9-4ba1-95cb-333f6e604d46.png)
 
 마크다운에서도 자동완성 키워드를 추천합니다.
+
+<!-- ## `code .` -->
+<!-- TODO: 노트북 새롭게 설치하면 추가하기 -->
