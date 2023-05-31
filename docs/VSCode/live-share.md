@@ -1,5 +1,6 @@
 ---
-sidebar_position: 1
+sidebar_position: 3
+tags: ["vscode", "live share"]
 ---
 
 # Live Share 체험
