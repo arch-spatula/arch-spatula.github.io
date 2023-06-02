@@ -1,6 +1,6 @@
 ---
-sidebar_position: 2
-tags: ["vim", "vim command", "vimtutor"]
+sidebar_position: 3
+tags: ['vim', 'vim command', 'vimtutor']
 ---
 
 # Vimtutor에서 배운 Vim 단축키
@@ -36,5 +36,6 @@ vimtutor
 - `ctrl` + `W`: 윈도우 바꾸기
 - `:(글자)` + `ctrl` + `D`: `글자`로 시작하는 명령합니다. `TAB`으로 vim 명령을 순회하면서 명령을 결정할 수 있습니다.
 - `U` / `u`: 대문자/소문자 변환
+- `ctrl` + `a`을 숫자 위에서 실행하면 숫자가 증가합니다.
 
 ---

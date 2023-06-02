@@ -1,6 +1,6 @@
 ---
-sidebar_position: 3
-tags: ["vim", "nvchad"]
+sidebar_position: 4
+tags: ['vim', 'nvchad']
 ---
 
 # nvchad
