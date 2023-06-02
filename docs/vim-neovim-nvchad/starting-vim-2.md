@@ -3,7 +3,7 @@ sidebar_position: 2
 tags: ['vim', 'vim command']
 ---
 
-# vim 커맨드 시작하기
+# vim 커맨드 시작하기 - 1
 
 iterm2를 이미 갖고 있다면 nvchad를 설치합니다.
 
