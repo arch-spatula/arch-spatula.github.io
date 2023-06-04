@@ -1,6 +1,8 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
+const math = require('remark-math');
+const katex = require('rehype-katex');
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 require('dotenv').config();
@@ -53,6 +55,8 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/arch-spatula/arch-spatula.github.io/blob/dev/',
+          remarkPlugins: [math],
+          rehypePlugins: [katex],
         },
         blog: {
           showReadingTime: true,
@@ -62,6 +66,8 @@ const config = {
             'https://github.com/arch-spatula/arch-spatula.github.io/blob/dev/',
           postsPerPage: 'ALL',
           blogSidebarCount: 'ALL',
+          remarkPlugins: [math],
+          rehypePlugins: [katex],
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
