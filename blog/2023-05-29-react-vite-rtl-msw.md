@@ -2,7 +2,7 @@
 title: vitest, RTL, MSW 테스트 설정
 authors: [arch-spatula]
 tags: ['vitest', 'axios', 'vite', 'react', 'msw', 'react testing library']
-description: deno 런타임에서 axios로 mongoDB랑 통신하는데 에러가 계속됩니다.
+description: vitest처럼 빠른 테스트러너에 RTL과 MSW를 같이 사용할 수 있게 설정하는 방법을 다룹니다.
 toc_max_heading_level: 6
 ---
 
