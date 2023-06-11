@@ -96,8 +96,47 @@ module.exports = config;
 
 ### Latex 설치
 
-```sh
+$$
+O(1)
+$$
 
+프그래머가 가장 추구해야할 시간복잡성입니다. 위처럼 수식표현은 문서에 자주하게 될 가능성이 높습니다. 비즈니스 도메인에 어느정도 통계와 ML이 필요하다면 당연히 필요할 것입니다.
+
+[Math Equations](https://docusaurus.io/docs/next/markdown-features/math-equations)
+
+```sh
+yarn add remark-math@3 rehype-katex@5 hast-util-is-element@1.1.0
 ```
+
+```js title="docusaurus.config.js"
+const math = require('remark-math');
+const katex = require('rehype-katex');
+
+/** @type {import('@docusaurus/types').Config} */
+const config = {
+  // 생략...
+  docs: {
+    // 생략...
+    remarkPlugins: [math],
+    rehypePlugins: [katex],
+    // 생략...
+  },
+  blog: {
+    // 생략...
+    remarkPlugins: [math],
+    rehypePlugins: [katex],
+    // 생략...
+  },
+  // 생략...
+};
+
+module.exports = config;
+```
+
+`import` 해서 활용할 부분에 연결해주면 됩니다.
+
+latex를 활용하는 방법은 위키피디아를 잘 활용하면 됩니다. 개발자 입장에서 아주 짧은 문서를 보고 작성하면 됩니다.
+
+[위키백과:TeX 문법](https://ko.wikipedia.org/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:TeX_%EB%AC%B8%EB%B2%95)
 
 ## 댓글추가
