@@ -11,7 +11,7 @@ require('dotenv').config();
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Arch-Spatula의 레시피',
-  tagline: '저 혼자 다시 보려고 만들었습니다.',
+  tagline: '다양하게 조금씩 배우고 레시피로 정리합니다. 정해진 것은 없습니다.',
   favicon: 'img/logo.svg',
 
   // Set the production url of your site here
