@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-tags: ["Markdown", "docusaurus"]
+tags: ['Markdown', 'docusaurus']
 ---
 
 # docusaurus 다루기
@@ -50,3 +50,54 @@ pnpm create docusaurus (폴더이름)
 ```
 
 그 뒤 `classic (recommended)` > `y`은 똑같습니다.
+
+## 플러그인 설치
+
+### mermaid
+
+mermaid는 마크다운에 생각보다 자주 사용합니다. 어떤 관계 혹은 다이어그램을 디자인 툴로 만들기 귀찮을 때 많이 활용합니다.
+
+[mermaid 공식 문서](https://mermaid.js.org/)
+
+```mermaid
+stateDiagram-v2
+    state if_state <<choice>>
+    [*] --> IsPositive
+    IsPositive --> if_state
+    if_state --> False: if n < 0
+    if_state --> True : if n >= 0
+```
+
+개발하면서 성숙한 제품은 이런 다이어그램을 자주 활용합니다. 변경사항이 극단적이지 않기 때문에 작성하면서 만듭니다.
+
+[📦 theme-mermaid - docusaurus](https://docusaurus.io/docs/next/api/themes/@docusaurus/theme-mermaid)
+
+위는 docusaurus 공식 문서에서 설치법을 알려줍니다. 상당히 단순합니다.
+
+```sh
+yarn add @docusaurus/theme-mermaid
+```
+
+```js title="docusaurus.config.js"
+/** @type {import('@docusaurus/types').Config} */
+const config = {
+  // 생략...
+  themes: ['@docusaurus/theme-mermaid'],
+  markdown: {
+    mermaid: true,
+  },
+  // 생략...
+};
+
+module.exports = config;
+```
+
+객체라 순서를 별로 안 중요합니다.
+
+### Latex 설치
+
+```sh
+
+```
+
+## 댓글추가
