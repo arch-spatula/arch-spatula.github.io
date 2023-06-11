@@ -1,7 +1,15 @@
 ---
 title: lazy loading은 default export만 지원합니다.
 authors: [arch-spatula]
-tags: ['frontend', 'domain object', 'font']
+tags:
+  [
+    'frontend',
+    'named export',
+    'default export',
+    'lazy loading',
+    '컨테이너 쿼리',
+    'container query',
+  ]
 description: https는 서버만 있으면 됩니다.
 toc_max_heading_level: 6
 ---
@@ -114,7 +122,7 @@ export default Layout;
 
 로징을 처리하는 동안 보여줄 로더를 넣어야 합니다. 아래 이부분은 의도적으로 커밋하지 않을 것입니다. 커밋 전에 pull을 한번해야 편하게 진행할 수 있을 것 같습니다.
 
-> `React.lazy`는 현재 `default exports`만 지원합니다. `named exports`를 사용하고자 한다면 `default`로 이름을 재정의한 중간 모듈을 생성할 수 있습니다. 이렇게 하면 **tree shaking이 계속 동작하고 사용하지 않는 컴포넌트는 가져오지 않습니다.**
+> `React.lazy`는 현재 `default exports`만 지원합니다. `named exports` "default export", "컨테이너 쿼리", "container query",를 사용하고자 한다면 `default`로 이름을 재정의한 중간 모듈을 생성할 수 있습니다. 이렇게 하면 **tree shaking이 계속 동작하고 사용하지 않는 컴포넌트는 가져오지 않습니다.**
 
 리액트 공식 문서를 읽는 중간에 발견했습니다.[^1]
 
@@ -449,11 +457,11 @@ yarn add react-container-query
 
 그래서 일단 적용 보류를 결정했습니다.
 
-## 설정 페이지 로그아웃 기능
+<!-- ## 설정 페이지 로그아웃 기능
 
 로그아웃은 회원가입과 무관하게 독립적으로 적용할 수 있을 것 같아서 하기로 결심했습니다.
 
-로그아웃 기능은 비교적 단순하게 만들어졌습니다.
+로그아웃 기능은 비교적 단순하게 만들어졌습니다. -->
 
 <!-- ## cookie 전송
 

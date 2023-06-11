@@ -106,7 +106,7 @@ export default Token;
 
 ## Deno 공식문서
 
-https://deno.com/manual@v1.34.1/basics/testing
+[Testing - Deno](https://deno.com/manual@v1.34.1/basics/testing)
 
 ## 피드백
 

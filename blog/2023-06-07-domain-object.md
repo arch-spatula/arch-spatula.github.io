@@ -1,7 +1,16 @@
 ---
 title: 도메인 객체
 authors: [arch-spatula]
-tags: ['frontend', 'domain object', 'font']
+tags:
+  [
+    'frontend',
+    'domain object',
+    'font',
+    'QDD',
+    'frontend testing',
+    'BDD',
+    'Given-When-Then 패턴',
+  ]
 description: 토큰을 생성, 검증하는 테스트 코드를 작성하는 방법입니다. token을 싱글튼으로 제어하는 것은 일반적이지 않은 패턴입니다. 이부분을 리팩토링하고 테스트합니다.
 toc_max_heading_level: 6
 ---
