@@ -65,7 +65,7 @@ const config = {
           editUrl:
             'https://github.com/arch-spatula/arch-spatula.github.io/blob/dev/',
           postsPerPage: 'ALL',
-          blogSidebarCount: 'ALL',
+          blogSidebarCount: 0,
           remarkPlugins: [math],
           rehypePlugins: [katex],
         },
