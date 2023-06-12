@@ -1,12 +1,12 @@
 ---
 sidebar_position: 2
-tags: ["코딩애플", "dev meme", "엄준식", "github"]
-description: "심연속 이상한 리포들입니다."
+tags: ['코딩애플', 'dev meme', '엄준식', 'github']
+description: '심연속 이상한 리포들입니다.'
 ---
 
 # 어떤놈이 만들었는지 궁금한 Github 프로젝트 top 10
 
-<iframe width="768" height="432" src="https://www.youtube.com/embed/PddUhEmmreY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="768" height="432" src="https://www.youtube.com/embed/PddUhEmmreY" title="어떤놈이 만들었는지 궁금한 Github 프로젝트 top 10" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 심연속 이상한 리포들입니다.
 
