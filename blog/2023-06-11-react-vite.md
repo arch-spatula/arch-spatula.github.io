@@ -1,7 +1,7 @@
 ---
 title: '새 React 프로젝트는 vite를 활용해야 하는 이유'
 authors: [arch-spatula]
-tags: ['vite', 'react', 'vitest', 'React.dev']
+tags: ['vite', 'react', 'vitest', 'React.dev', 'Alias 설정']
 description: '이유가 있다면 더 간소하고 성능이 더 좋습니다. HMR 지원이 상당히 빠릅니다.'
 toc_max_heading_level: 6
 ---
@@ -41,6 +41,49 @@ vite을 사용하면 vite 플러그인을 활용할 수 있는데 그중 가장 
 [State of JS 2022 Awards](https://2022.stateofjs.com/en-US/awards/)
 
 가장 많은 점유율 증가와 관심을 받았습니다. 이런 측면으로 보면 생태계의 성숙을 기대해볼 수 있고 기존 webpack이 갖고 있던 한계를 극복하는 모습을 금방 보여줄 수 있을 것 같습니다.
+
+## Alias 설정하기
+
+vite갖고 있는 작은 장점 중 하나를 소개합니다. alias 설정이 생각보다 쉽습니다. Next.js는 이미 되어 있지만 CRA는 carco를 설치해야 합니다. vite은 설정만 추가하면 동작합니다.
+
+- vite으로 Alias 설정해야 합니다. `..`이 `import` 문에 너무 많습니다. 사실 해결하면 엄청난 가치를 갖는 문제는 아닙니다.
+- [Aliasing paths in Vite projects w/ TypeScript](https://dev.to/tilly/aliasing-in-vite-w-typescript-1lfo)
+  - dev.to는 미국의 velog입니다. 그래서 신뢰를 하기 곤란한 것이 많습니다.
+
+```ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+    },
+  },
+  plugins: [react()],
+});
+```
+
+```json
+{
+  "compilerOptions": {
+    // ... 생략
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"]
+    }
+  }
+  // ... 생략
+}
+```
+
+- 코드 블럭 2개로 간단하게 해결되는 문제였습니다. 진작할 것을 ㅂㄷㅂㄷ...
+- 앞으로 조금식 다시 만지는 코드는 `@`를 적용하는 방식으로 리팩토링하면 될 것 같습니다.
+- 적용하면 빌드 실패하고, 테스트 설정 오류 발생하고, 개발환경 중단되고 이런 거 예상했는데 아니였습니다.
 
 <!--
 
