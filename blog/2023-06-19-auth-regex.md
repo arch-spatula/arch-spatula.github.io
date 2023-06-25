@@ -12,6 +12,14 @@ toc_max_heading_level: 6
 
 <!--truncate-->
 
+## 정규표현식 리소스
+
+- 그냥 날잡고 생활코딩 튜토리얼 한번 보면 되는데 자주 잊습니다.
+- 아래 자료는 유튜브를 돌아다니면서 발견했습니다.
+  - [regexr](https://regexr.com/)
+  - [regexper](https://regexper.com/)
+  - [regex101](https://regex101.com/)
+
 ## 이메일 검증
 
 ```ts
