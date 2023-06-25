@@ -20,7 +20,7 @@ toc_max_heading_level: 6
 
 갱신 응답 response에 따라 다양한 전략이 있는데 여기는 그냥 갱신이 필요하다는 응답만 하고 access token은 또 요청하도록 만든 경우입니다.
 
-기술적으로는 이 방법은 틀린 방법입니다. cookie를 활용할 수 없을 때 대응하는 전략 중 하나입니다.
+기술적으로 필요한 이유는 이 방법을 활용한다면 없습니다. 기술적으로는 이 방법은 틀린 방법입니다. cookie를 활용할 수 없을 때 대응하는 전략 중 하나입니다.
 
 원래 정석은 cookie를 refresh에 저장하고 access token을 web storage에 저장하는 것입니다. cookie는 도메인이 같아야 하기 때문에 CSRF(Cross-Site Request Forgery) 공격에서 안전하게 만들기 위해서 활용하는 전략입니다. access token은 여전히 XSS(Cross-Site Scripting) 위험에 노출되어 있지만 web storage 접근이 어렵습니다.
 
