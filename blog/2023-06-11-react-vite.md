@@ -85,6 +85,15 @@ export default defineConfig({
 - 앞으로 조금식 다시 만지는 코드는 `@`를 적용하는 방식으로 리팩토링하면 될 것 같습니다.
 - 적용하면 빌드 실패하고, 테스트 설정 오류 발생하고, 개발환경 중단되고 이런 거 예상했는데 아니였습니다.
 
+### vite image import
+
+```tsx
+import reactLogo from './assets/react.svg'; // assets
+import viteLogo from '/vite.svg'; // public
+```
+
+이미지 import를 자주 까먹습니다.
+
 <!--
 
 ## Million.js
