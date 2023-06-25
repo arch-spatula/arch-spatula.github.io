@@ -108,4 +108,4 @@ export const LoaderWrapper = styled.div`
 
 이렇게 되면 레이아웃 쉬프트 없이 버튼에 로딩 상태를 보여줄 수 있습니다.
 
-<!-- TODO: 화면 추가해줍시다. -->
+![버튼 로딩 스피너](https://user-images.githubusercontent.com/84452145/248538008-e329ff78-da9e-4506-b65c-fcddaed6ba6e.gif)
