@@ -37,7 +37,7 @@ export function Button({
       {...other}
     >
       <TextWrapper isLoading={isLoading}>{children}</TextWrapper>
-      {/* 로딩하는 동안 스피너가 보임 */}
+      // highlight-start
       {isLoading && (
         <LoaderWrapper>
           <PulseLoader
@@ -49,6 +49,7 @@ export function Button({
           />
         </LoaderWrapper>
       )}
+      // highlight-end
     </ButtonWrapper>
   );
 }
@@ -88,9 +89,11 @@ export const TextWrapper = styled.span<{ isLoading: boolean }>`
   max-width: 100%;
 
   color: ${(props) =>
+    // highlight-start
     props.isLoading
       ? 'transparent'
       : props.theme.colors.white}; /* 로딩하는 동안 text를 숨김 */
+  // highlight-end
   margin: 0 1rem;
 `;
 
