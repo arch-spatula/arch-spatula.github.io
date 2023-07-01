@@ -10,6 +10,8 @@ toc_max_heading_level: 6
 
 switch case를 사용할 수 있는 상황이면 `map` 혹은 `object`를 사용할 수 있습니다. 저는 신입 엔지니어라서 무조건 안티패턴이고 코드 스멜이라고 강하게 주장해야 하기는 하지만 별로 그렇게 하고 싶지는 않습니다. 저는 개인적으로 생각이 복잡할 때는 사용해도 괜찮다고 봅니다.
 
+<!--truncate-->
+
 ```tsx
 export const HelperText = styled.p<{
   helperTextColor: 'warning' | 'success' | 'information' | 'normal';
