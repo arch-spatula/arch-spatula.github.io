@@ -76,6 +76,27 @@ const config = {
     ],
   ],
 
+  plugins: [
+    [
+      '@docusaurus/plugin-content-blog',
+      {
+        /**
+         * Required for any multi-instance plugin
+         */
+        id: 'experience',
+        /**
+         * URL route for the blog section of your site.
+         * *DO NOT* include a trailing slash.
+         */
+        routeBasePath: 'experience',
+        /**
+         * Path to data on filesystem relative to site dir.
+         */
+        path: './experience',
+      },
+    ],
+  ],
+
   markdown: {
     mermaid: true,
   },
