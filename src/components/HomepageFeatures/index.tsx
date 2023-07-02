@@ -60,7 +60,7 @@ export default function HomepageFeatures(): JSX.Element {
     <section className={styles.features}>
       <div className="container">
         <div>
-          <h2 className="center">자세한 설명은 생략하겠습니다.</h2>
+          <h2 className="center">레시피를 모으고 Cook-Book을 만듭니다.</h2>
         </div>
       </div>
     </section>
