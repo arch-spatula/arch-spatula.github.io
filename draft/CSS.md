@@ -61,3 +61,15 @@ b:active {
 ```
 
 클릭 시점에 적용되어야 할 스타일은 이렇게 적용할 수 있습니다.
+
+### filter으로 밝기 조절
+
+이미지 밝기를 조절하는 방법이 있습니다.
+
+```css
+img {
+  filter: brightness(50%);
+}
+```
+
+[Darkening an image with CSS (In any shape)](https://stackoverflow.com/questions/15765550/darkening-an-image-with-css-in-any-shape)
