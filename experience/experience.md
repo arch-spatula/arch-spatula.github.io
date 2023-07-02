@@ -1,7 +1,100 @@
 # 경험
 
 - git & github
+  - [x] git `add`, `commit`, `push`
+  - [ ] rebase merge
+  - [x] git amend로 커밋 내역 수정
+  - [ ] git tag 활용
+  - [x] github 프로젝트 활용
+  - [ ] github actions 활용
+  - 협업
+    - [x] git-flow
+    - [ ] github-flow
+    - [ ] gitlab-flow
 - html & css
+  - [x] flex로 div 중앙 정렬
+  - [x] position으로 정렬
+  - [ ] gird 활용
+  - [ ] repaint 최적화
+  - [ ] reflow 최적화
+  - [ ] 순수 css 활용으로 캐러셀 구현
 - JavaScript
+  - [x] map, set 활용
+  - [x] 팩토리함수 활용
+  - [ ] 제네레이터 활용
+  - [ ] symbol 활용
+  - [ ] prototype으로 polyfill 적용
+  - [ ] hidden property 활용
+  - [ ] v8 엔진 편집
+  - [x] 단위 테스트
+  - [ ] 크롤러 구현
+  - [ ] monorepo 적용
+  - [ ] npm 패키지 출시
+  - [ ] 정규 표현식 검색 없이 사용
+- TypeScript
+  - [x] 제네릭 활용
+  - [ ] until 타입 활용
+    - [x] Pick & Omit
+    - [x] ReturnType
+    - [ ] Record
+  - [ ] 데코레이터 활용
+  - [ ] Satisfies
+  - [ ] 디자인 패턴
+    - [x] singleton
+  - [ ] zod 활용
 - React
+  - [x] 6대 네이티브 hook 활용
+  - [x] Context API 활용
+  - [x] memo 활용
+  - [x] lazy loading 적용
+  - [ ] Drag & Drop 구현
+  - [ ] error boundary 활용
+  - [ ] profiler 활용
+  - React-Router-DOM
+    - [x] Data-Router 적용
+    - [x] protected routes 적용
+  - redux
+    - [x] redux 활용
+    - [ ] redux-saga
+    - [x] redux-toolkit 활용
+      - [x] redux thunk 활용
+    - [ ] redux-query 활용
+  - CSS-in-JS
+    - Styled Component & Emotion
+      - [x] 애니메이션 적용
+  - React-Query
+    - [x] optimistic updates 적용
+    - [x] 의존성 쿼리 적용
+    - [x] 병령 쿼리 적용
+    - [ ] 무한 스크롤 적용
+  - React Testing Library
+    - [x] DOM 랜더링 단위 테스트
+    - [x] 유저 행동 테스트
+    - [x] hook 단위 테스트
+    - [ ] mocking & spyOn 결합테스트
+  - E2E testing
+    - [ ] cypress, playwright,
+- 독서
+  - [x] [<리팩터링 2판> - 마틴파울러](https://www.yes24.com/Product/Goods/89649360)
+  - [ ] [<Clean Code 클린 코드> - 로버트 C. 마틴](https://www.yes24.com/Product/Goods/11681152)
+  - [ ] [<클린 아키텍처> - 로버트 C. 마틴](https://www.yes24.com/Product/Goods/77283734)
+  - [ ] [<GoF의 디자인 패턴> - 에릭 감마](https://www.yes24.com/Product/Goods/17525598)
+  - [ ] [<HTTP 완벽 가이드> - 데이빗 고울리, 브라이언 토티, 마조리 세이어, 세일루 레디, 안슈 아가왈](https://www.yes24.com/Product/Goods/15381085)
+  - [ ] [<모던 자바스크립트 Deep Dive> - 이웅모](https://www.yes24.com/Product/Goods/92742567)
+  - [x] [<코어 자바스크립트> - 정재남](https://www.yes24.com/Product/Goods/78586788)
+  - [ ] [<함수형 코딩> - 에릭 노먼드](https://www.yes24.com/Product/Goods/108748841)
+  - [ ] [<Node.js 디자인 패턴 바이블> - Mario Casciaro, Luciano Mammino ](https://www.yes24.com/Product/Goods/101686866)
+  - [ ] [<자바스크립트로 배우는 SICP> - 해럴드 에이블슨, 제럴드 제이 서스먼, 마틴 헨즈, 토비아스 브릭스타드, 줄리 서스먼 ](https://www.yes24.com/Product/Goods/116469364)
+  - [ ] [<한 권으로 읽는 컴퓨터 구조와 프로그래밍> - 조너선 스타인하트](https://www.yes24.com/Product/Goods/98997716)
+  - [ ] [<운영체제> - Abraham Silberschatz, Peter Baer Galvin, Greg Gagne ](https://www.yes24.com/Product/Goods/89496122)
+  - [ ] [<단위 테스트> - 블라디미르 코리코프](https://www.yes24.com/Product/Goods/104084175)
+  - [ ] [<소프트웨어 아키텍처 101> - 마크 리처즈, 닐 포드](https://www.yes24.com/Product/Goods/104491433)
+  - 자기개발
+    - [x] [<업무 시각화> - 도미니카 드그란디스](https://www.yes24.com/Product/Goods/86627323)
+    - [x] [<IT에 몸담은 이들을 위한 지적 생산 기술> - 니시오 히로카즈](https://www.yes24.com/Product/Goods/79652283)
+    - [ ] [<코딩을 지탱하는 기술> - 니시오 히로카즈](https://www.yes24.com/Product/Goods/11101558)
+    - [ ] [<이펙티브 엔지니어> - 에드먼드 라우](https://www.yes24.com/Product/Goods/110243880)
+    - [ ] [<소프트웨어 장인> - 산드로 만쿠소](https://www.yes24.com/Product/Goods/20461940)
+    - [ ] [<일본전산 이야기> - 김성호](https://www.yes24.com/Product/Goods/117934216)
+    - [ ] [<일취월장> - 고영성, 신영준](https://www.yes24.com/Product/Goods/57501187)
 - ETC
