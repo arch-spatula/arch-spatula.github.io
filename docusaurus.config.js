@@ -97,13 +97,13 @@ const config = {
         // style: "primary",
         hideOnScroll: true,
         items: [
+          { to: '/blog', label: '블로그', position: 'left' },
           {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
             label: '이런저런 레시피 시리즈',
           },
-          { to: '/blog', label: '블로그', position: 'left' },
           {
             href: 'https://github.com/arch-spatula/arch-spatula.github.io',
             label: 'GitHub',
@@ -118,12 +118,12 @@ const config = {
             title: '이런저런 것',
             items: [
               {
-                label: '이런저런 레시피 시리즈',
-                to: '/docs/intro',
-              },
-              {
                 label: '블로그',
                 to: '/blog',
+              },
+              {
+                label: '이런저런 레시피 시리즈',
+                to: '/docs/intro',
               },
             ],
           },
