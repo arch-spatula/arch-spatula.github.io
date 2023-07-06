@@ -74,21 +74,28 @@
     - [ ] mocking & spyOn 결합테스트
   - E2E testing
     - [ ] cypress, playwright,
+- [ ] 데이터 시각화
 - 독서
-  - [x] [<리팩터링 2판> - 마틴파울러](https://www.yes24.com/Product/Goods/89649360)
-  - [ ] [<Clean Code 클린 코드> - 로버트 C. 마틴](https://www.yes24.com/Product/Goods/11681152)
-  - [ ] [<클린 아키텍처> - 로버트 C. 마틴](https://www.yes24.com/Product/Goods/77283734)
-  - [ ] [<GoF의 디자인 패턴> - 에릭 감마](https://www.yes24.com/Product/Goods/17525598)
-  - [ ] [<HTTP 완벽 가이드> - 데이빗 고울리, 브라이언 토티, 마조리 세이어, 세일루 레디, 안슈 아가왈](https://www.yes24.com/Product/Goods/15381085)
-  - [ ] [<모던 자바스크립트 Deep Dive> - 이웅모](https://www.yes24.com/Product/Goods/92742567)
-  - [x] [<코어 자바스크립트> - 정재남](https://www.yes24.com/Product/Goods/78586788)
-  - [ ] [<함수형 코딩> - 에릭 노먼드](https://www.yes24.com/Product/Goods/108748841)
-  - [ ] [<Node.js 디자인 패턴 바이블> - Mario Casciaro, Luciano Mammino ](https://www.yes24.com/Product/Goods/101686866)
-  - [ ] [<자바스크립트로 배우는 SICP> - 해럴드 에이블슨, 제럴드 제이 서스먼, 마틴 헨즈, 토비아스 브릭스타드, 줄리 서스먼 ](https://www.yes24.com/Product/Goods/116469364)
-  - [ ] [<한 권으로 읽는 컴퓨터 구조와 프로그래밍> - 조너선 스타인하트](https://www.yes24.com/Product/Goods/98997716)
-  - [ ] [<운영체제> - Abraham Silberschatz, Peter Baer Galvin, Greg Gagne ](https://www.yes24.com/Product/Goods/89496122)
-  - [ ] [<단위 테스트> - 블라디미르 코리코프](https://www.yes24.com/Product/Goods/104084175)
-  - [ ] [<소프트웨어 아키텍처 101> - 마크 리처즈, 닐 포드](https://www.yes24.com/Product/Goods/104491433)
+  - 미분류
+  - 아키텍쳐
+    - [ ] [<클린 아키텍처> - 로버트 C. 마틴](https://www.yes24.com/Product/Goods/77283734)
+    - [ ] [<소프트웨어 아키텍처 101> - 마크 리처즈, 닐 포드](https://www.yes24.com/Product/Goods/104491433)
+  - Programming Practice
+    - [x] [<리팩터링 2판> - 마틴파울러](https://www.yes24.com/Product/Goods/89649360)
+    - [ ] [<함수형 코딩> - 에릭 노먼드](https://www.yes24.com/Product/Goods/108748841)
+    - [ ] [<GoF의 디자인 패턴> - 에릭 감마](https://www.yes24.com/Product/Goods/17525598)
+    - [ ] [<Clean Code 클린 코드> - 로버트 C. 마틴](https://www.yes24.com/Product/Goods/11681152)
+    - [ ] [<단위 테스트> - 블라디미르 코리코프](https://www.yes24.com/Product/Goods/104084175)
+  - CS 이론
+    - [ ] [<한 권으로 읽는 컴퓨터 구조와 프로그래밍> - 조너선 스타인하트](https://www.yes24.com/Product/Goods/98997716)
+    - [ ] [<HTTP 완벽 가이드> - 데이빗 고울리, 브라이언 토티, 마조리 세이어, 세일루 레디, 안슈 아가왈](https://www.yes24.com/Product/Goods/15381085)
+    - [ ] [<운영체제> - Abraham Silberschatz, Peter Baer Galvin, Greg Gagne ](https://www.yes24.com/Product/Goods/89496122)
+    - [ ] [이산수학(Rosen의)](https://www.yes24.com/Product/Goods/78519939)
+  - 자바스크립트
+    - [x] [<코어 자바스크립트> - 정재남](https://www.yes24.com/Product/Goods/78586788)
+    - [ ] [<자바스크립트로 배우는 SICP> - 해럴드 에이블슨, 제럴드 제이 서스먼, 마틴 헨즈, 토비아스 브릭스타드, 줄리 서스먼 ](https://www.yes24.com/Product/Goods/116469364)
+    - [ ] [<모던 자바스크립트 Deep Dive> - 이웅모](https://www.yes24.com/Product/Goods/92742567)
+    - [ ] [<Node.js 디자인 패턴 바이블> - Mario Casciaro, Luciano Mammino ](https://www.yes24.com/Product/Goods/101686866)
   - 자기개발
     - [x] [<업무 시각화> - 도미니카 드그란디스](https://www.yes24.com/Product/Goods/86627323)
     - [x] [<IT에 몸담은 이들을 위한 지적 생산 기술> - 니시오 히로카즈](https://www.yes24.com/Product/Goods/79652283)
