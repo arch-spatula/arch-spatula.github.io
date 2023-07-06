@@ -49,7 +49,7 @@ height는 기본적으로 auto로 되어 있습니다. 콘텐츠 크기만큼 �
 
 ## onClink CSS
 
-https://developer.mozilla.org/ko/docs/Web/CSS/:active
+[:active - MDN](https://developer.mozilla.org/ko/docs/Web/CSS/:active)
 
 ```css
 a:active {

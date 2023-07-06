@@ -285,12 +285,12 @@ yarn swizzle @docusaurus/theme-classic BlogPostPage --danger
 
 <!-- TODO: github pages 설정 방법 -->
 
-## docusaurus blog 및 doc 추가
+## Docusaurus Blog 및 Doc 추가
 
 사이드바에 주제별로 몰아 넣으면 한계가 많습니다. 실제 개발자는 엄청나게 많고 더 다양한 도구와 기술을 많이 활용합니다.
 
 상단 tab을 추가하고 싶었는데 tab이라고 부르는 것은 틀린 용어입니다. multi instance라는 것이 올바른 용어입니다.
 
-https://docusaurus.io/docs/blog#advanced-topics
+[Multiple blogs - Docusaurus](https://docusaurus.io/docs/blog#advanced-topics)
 
-https://docusaurus.io/docs/docs-multi-instance
+[Docs Multi-instance - Docusaurus](https://docusaurus.io/docs/docs-multi-instance)

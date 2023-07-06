@@ -40,15 +40,15 @@ nav는 물론이고 다른 라우팅에 대해서 리소스 접근 제한을 걸
 
 일단 공식 문서에서 설정하는 것이 있나 검색을 시도했습니다. 의외로 없고 아티클과 stack overflow 게시글이 있었습니다.
 
-https://dev.to/collins87mbathi/reactjs-protected-route-m3j
+[Reactjs Protected Route - dev.to](https://dev.to/collins87mbathi/reactjs-protected-route-m3j)
 
-https://stackoverflow.com/questions/66289122/how-to-create-a-protected-route-with-react-router-dom
+[How to create a protected route with react-router-dom? - Stack Overflow](https://stackoverflow.com/questions/66289122/how-to-create-a-protected-route-with-react-router-dom)
 
 좋아요가 꽤 많이 달렸습니다.
 
 ### 시도: github 참고 자료
 
-https://github.com/wanted-frontedend-team5/pre-onboarding-10th-1-5/blob/main/src/router/Router.jsx
+[wanted frontend 5 team pre-onboarding-10th](https://github.com/wanted-frontedend-team5/pre-onboarding-10th-1-5/blob/main/src/router/Router.jsx)
 
 저보다 더 뛰어난 개발자들이 해결한 방식도 있습니다.
 
@@ -98,7 +98,7 @@ const router = createBrowserRouter([
 
 또 공식 문서를 확인해보니까 라우팅을 했을 때 해당하는 데이터에 요청을 보내도록 하는 것이었습니다.
 
-https://reactrouter.com/en/main/route/loader
+[loader - React Router DOM 공식문서](https://reactrouter.com/en/main/route/loader)
 
 아마 라우팅을 하고 화면에 로딩 스피너가 보이는 문제를 해결하려고 했습니다. 원래 서버사이드 라우팅은 데이터를 모두 갖고 클라이언트에게 보여주지만 클라이언트 사이드 라우팅이기 때문에 마운트 시점에 요청을 보내는 것이 유저 경험에 안 좋다고 보고 해결하려는 것처럼 보입니다.
 
@@ -406,7 +406,7 @@ data router와 page router 모두 각각 다릅니다. 하지만 중요한 패�
 
 이번에도 역시다 조기 추상화를 시키는 전략을 취합니다.
 
-https://stackoverflow.com/questions/13315131/enforcing-the-type-of-the-indexed-members-of-a-typescript-object
+[Enforcing the type of the indexed members of a Typescript object? - Stack Overflow](https://stackoverflow.com/questions/13315131/enforcing-the-type-of-the-indexed-members-of-a-typescript-object)
 
 ```ts title="route/route.tsx"
 const routes = createBrowserRouter([
