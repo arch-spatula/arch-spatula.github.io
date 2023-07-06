@@ -145,6 +145,7 @@ const config = {
           {
             to: '/react-docs/intro',
             label: '리액트 레시피',
+            activeBaseRegex: `/react-docs/`,
             position: 'left',
           },
           {
