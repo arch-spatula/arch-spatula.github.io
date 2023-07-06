@@ -104,9 +104,9 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'react-docs',
-        path: 'react-docs',
-        routeBasePath: 'react-docs',
+        id: 'react-cookbook',
+        path: 'react-cookbook',
+        routeBasePath: 'react-cookbook',
         sidebarPath: require.resolve('./sidebars.js'),
         remarkPlugins: [math],
         rehypePlugins: [katex],
@@ -143,9 +143,9 @@ const config = {
             label: '이런저런 레시피 시리즈',
           },
           {
-            to: '/react-docs/intro',
-            label: '리액트 레시피',
-            activeBaseRegex: `/react-docs/`,
+            to: '/react-cookbook/intro',
+            label: '리액트 Cook-Book',
+            activeBaseRegex: `/react-cookbook/`,
             position: 'left',
           },
           {
@@ -170,8 +170,8 @@ const config = {
                 to: '/docs/intro',
               },
               {
-                label: '리액트 레시피',
-                to: '/react-docs/intro',
+                label: '리액트 Cook-Book',
+                to: '/react-cookbook/intro',
               },
             ],
           },
