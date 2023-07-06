@@ -50,7 +50,11 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          routeBasePath: 'docs',
+          path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
+          lastVersion: 'current',
+          onlyIncludeVersions: ['current'],
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
@@ -93,6 +97,19 @@ const config = {
          * Path to data on filesystem relative to site dir.
          */
         path: './experience',
+        remarkPlugins: [math],
+        rehypePlugins: [katex],
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'react-docs',
+        path: 'react-docs',
+        routeBasePath: 'react-docs',
+        sidebarPath: require.resolve('./sidebars.js'),
+        remarkPlugins: [math],
+        rehypePlugins: [katex],
       },
     ],
   ],
@@ -126,6 +143,11 @@ const config = {
             label: '이런저런 레시피 시리즈',
           },
           {
+            to: '/react-docs/intro',
+            label: '리액트 레시피',
+            position: 'left',
+          },
+          {
             href: 'https://github.com/arch-spatula/arch-spatula.github.io',
             label: 'GitHub',
             position: 'right',
@@ -145,6 +167,10 @@ const config = {
               {
                 label: '이런저런 레시피 시리즈',
                 to: '/docs/intro',
+              },
+              {
+                label: '리액트 레시피',
+                to: '/react-docs/intro',
               },
             ],
           },
