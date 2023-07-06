@@ -7,7 +7,7 @@ tags: ['SQL', 'SQLite']
 
 ## SQLite - 1/7. 수업소개
 
-https://www.youtube.com/watch?v=ePodq8vyucQ
+<iframe class="codepen" src="https://www.youtube.com/embed/ePodq8vyucQ" title="SQLite - 1/7. 수업소개" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 구조화된 이라는 뜻을 잘 이해해야 합니다. MS는 크게 2가지 도구가 있습니다. 엑셀과 워드 여기서 엑셀은 구조화된 도구 즉 표는 구조화 된 정보입니다. 일정 기준으로 정렬과 원하는 정보를 보고 계산도 가능합니다.
 
@@ -21,23 +21,23 @@ MySQL도 활용할 수 있게 됩니다.
 
 ## SQLite - 2/7. 설치
 
-https://www.youtube.com/watch?v=3PFrGzv2sEA
+<iframe class="codepen" src="https://www.youtube.com/embed/3PFrGzv2sEA" title="SQLite - 2/7. 설치" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 SQL들은 보통 서버가 필요한데 SQLite는 서버가 필요 없습니다.
 
-https://www.sqlite.org/index.html
+[sqlite 공식 문서](https://www.sqlite.org/index.html)
 
 위 사이트에서 본인 운영체제에 맞게 설치합니다.
 
 SQLite를 GUI에서 제어할 수 있는 도구들이 있습니다.
 
-https://sqlitestudio.pl/
+[sqlitestudio 공식 홈페이지](https://sqlitestudio.pl/)
 
 여기서 실행하면 됩니다.
 
 ## SQLite - 3/7. 데이터베이스와 표 생성
 
-https://www.youtube.com/watch?v=znOGp0jLHXA
+<iframe class="codepen" src="https://www.youtube.com/embed/znOGp0jLHXA" title="SQLite - 3/7. 데이터베이스와 표 생성" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 디렉토리 같은 그룹을 보고 데이터 베이스라고 부릅니다. 데이터 베이스는 시스템 전체를 말하는 포괄적인 의미도 하고 서로 연관을 말하는 폴더를 보고고 DB라고 말합니다.
 
@@ -72,7 +72,7 @@ GUI로 한번 만들어보고 다시 코드를 보니까 생각보다 직관적�
 
 ## SQLite - 4/7. INSERT
 
-https://www.youtube.com/watch?v=HH5HTQ5PXws
+<iframe class="codepen" src="https://www.youtube.com/embed/HH5HTQ5PXws" title="SQLite - 4/7. INSERT" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 표의 데이터를 추가하는 방법입니다.
 
@@ -89,7 +89,7 @@ SQL 삽입문은 생각보다 단순합니다. 테이블과 Colum을 매개변�
 
 ## SQLite - 5/7. SELECT
 
-https://www.youtube.com/watch?v=3j1J_y3BqqM
+<iframe class="codepen" src="https://www.youtube.com/embed/3j1J_y3BqqM" title="SQLite - 5/7. SELECT" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ```sql
 SELECT * FROM topics;
@@ -133,7 +133,7 @@ SELECT title, body FROM topics ORDER BY id DESC LIMIT 0, 2;
 
 ## SQLite - 6/7. Update Delete
 
-https://www.youtube.com/watch?v=US24t45S2Cc
+<iframe class="codepen" src="https://www.youtube.com/embed/US24t45S2Cc" title="SQLite - 6/7. Update Delete" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 갱신과 삭제입니다.
 
@@ -151,7 +151,7 @@ DELETE FROM topics WHERE id=3
 
 ## SQLite - 7/7. 수업을 마치며
 
-https://www.youtube.com/watch?v=KYFCQdOsFpc
+<iframe class="codepen" src="https://www.youtube.com/embed/KYFCQdOsFpc" title="SQLite - 7/7. 수업을 마치며" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 하나의 표로 모든 것을 담으면 곤란합니다. JOIN 명령이 표를 합쳐서 읽습니다.
 
