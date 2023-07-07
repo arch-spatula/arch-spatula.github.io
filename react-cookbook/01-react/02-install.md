@@ -38,6 +38,52 @@ npx create-react-app .
 yarn create react-app . --template typescript
 ```
 
+## CDN
+
+설치하기 조금 애매한 상황이고 빠르게 예시를 보여줘야 하는 상황에는 CDN이 적합할 것입니다.
+
+```sh
+touch index.html style.css app.js
+```
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="app.js" type="text/babel"></script>
+  </body>
+</html>
+```
+
+위 html을 그대로 복붙하세요.
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>{/* 원하는 컴포넌트 작성 */}</React.StrictMode>
+);
+```
+
+이렇게 하면 작성할 수 있지만 자동완성의 지원을 못 받는 치명적인 단점이 생깁니다. 자동완성은 코드의 뽕맛도 중요하지만 올바르게 작성하고 있는지 타입 검증하는 측면에서 더 중요합니다.
+
 ---
 
 ## 부록
@@ -92,12 +138,7 @@ TODO: 프리티어 설치 & 설정
 
 <!--
 
-TODO: CDN 설치법 추가하기
----
 
-## CDN
-
-CDN을 활용해서 리액트를 활용하는 것도 가능합니다. 하지만 치명적인 단점은 자동완성을 지원하지 않습니다.
 
 TODO: Next.js 설치법
 TODO: Remix.js 설치법
