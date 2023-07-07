@@ -12,7 +12,7 @@ toc_max_heading_level: 6
 
 <!--truncate-->
 
-![바르고스](https://i.namu.wiki/i/d-sBwCbnaiOLCJS-Yg4AB_D3YDqkhxaKdlWqD30tkY46-tII-DiVwMSqHoHIZy6Iy9LpgOFpJyBPik6jdZNp-RSJrnq3FlHodaufn9VIk8wjubNQsXPrWhoomKOu8R5n7vpkjdFb3z_rwi81VAd8-Q.webp)
+![바르고스](https://user-images.githubusercontent.com/84452145/250334513-f598ea70-d4c5-4a85-be84-779267cbb35b.png)
 
 > 그 망할 예비군~~탑~~에서 마침내 벗어났군!
 
