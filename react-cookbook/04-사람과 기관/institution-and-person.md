@@ -79,3 +79,4 @@ description: '리액트 및 리액트 생태계 관련된 기관과 사람 위�
 <!-- ryan dahl node, deno, -->
 <!-- goggle firebase, angular, golang -->
 <!-- evan you vue, vite https://evanyou.me/  -->
+<!-- ryan carniato: solid.js, solidStart  -->
