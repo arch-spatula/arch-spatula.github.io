@@ -2051,3 +2051,180 @@ export default counterSlice.reducer;
 ```
 
 [react_redux_toolkit / 01_lesson/](https://github.com/gitdagray/react_redux_toolkit/tree/main/01_lesson)
+
+# useCallBack
+
+useCallBack은 함수를 메모리제이션 하기 위한 hook입니다. 다이나믹 프로그래밍의 메모리제이션 개념과 상통합니다. 이미 한번 계산한 것을 다시 계산할 필요없게 저장합니다.
+
+재랜더링할 때마다 모든 값이 바뀌는 것은 아닙니다. 리액트 컴포넌트가 동작하는 원리의 문제인데 모든 함수를 꼭 저장한 것은 아닙니다. 리액트 앱이 어떤 이벤트가 발생해서 리렌더링할 때 이미 있던 함수를 재사용하는 것이 아니라 처음부터 다시 정의하고 다시 사용하는 함수들이 존재합니다. 그래서 다시 정의할 필요없이 메모리에 저장시키고 접근하게 만는 hook입니다.
+
+useCallBack은 의존성배열을 통해서 값의 변화에 따라 다시 실행할지 말지 결정합니다.
+
+보통 단독컴포넌트보단 자식 컴포넌트로 전달할 때 많이 사용합니다.
+
+```jsx
+import React, { useState, useCallback } from 'react';
+
+export const One = () => {
+  const [value, setValue] = useState('123456');
+  const logger = useCallback(() => {
+    console.log('업데이트');
+  }, []);
+  return (
+    <div>
+      <p>{value}</p>
+      <button onClick={() => setValue('789')}>업데이트</button>
+      <Two logger={logger} />
+    </div>
+  );
+};
+
+export const Two = ({ logger }) => {
+  return <button onClick={logger}>콜솔 보기</button>;
+};
+```
+
+부모 컴포넌트에서 자식컴포넌트로 함수를 넘깁니다.
+
+성능개선을 위해 사용하지만 작은 프로젝트에서는 성능을 체감하기 어렵습니다. 보통 규모가 큰 프로젝트에서 체감하기 쉽습니다.
+
+useMemo hook과 함께 많이 사용합니다. 하지만 무분별한 사용이 무조건 좋은 것은 아닙니다. 무조건 사용한다고 랜더링이 줄어드는 것은 아닙니다.
+
+# DIY React
+
+```js
+// webpack.config.js
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
+
+module.exports = {
+  mode: 'development',
+  entry: {
+    main: './src/index.js',
+  },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'build'),
+  },
+  resolve: { extensions: ['*', '.js', '.jsx'] },
+  stats: { children: true },
+  module: {
+    rules: [
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: true,
+              reloadAll: true,
+            },
+          },
+          'css-loader',
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.(png|jpg|svg|gif)/,
+        use: ['file-loader'],
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+    ],
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      title: 'webpack-react-start-kit',
+      template: './public/index.html',
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+  ],
+  devtool: 'inline-source-map',
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    compress: true,
+    port: 9000,
+  },
+};
+```
+
+```js
+{
+  "name": "webpack-n-babel",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "babel-loader": "^9.1.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.2",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.7.2",
+    "sass-loader": "^13.2.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "webpack-dev-server": "^4.11.1"
+  }
+}
+```
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(<div>안녕 여러분! :)</div>);
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+
+    <title>React App</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+DIY로 리액트를 설치하는 방법입니다. CRA, Vite를 애용합시다.
+
+webpack 자체를 하나의 큰 주제로 공부를 해야겠습니다.
