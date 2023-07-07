@@ -2673,7 +2673,7 @@ export function Component(props) {
 ```
 
 3. Can I pass a custom prop (e.g. `blahblahblah={true}`) to a native
-   DOM element? (e.g. <div blahblahblah={true}>) Why or why not?
+   DOM element? (e.g. `<div blahblahblah={true}>`) Why or why not?
 
 전달할 수 없습니다. props는 JSX로 object로 전달하는 것뿐입니다. 네이티브 DOM은 JSX로 조작하는 것입니다. 중간과정을 건너뛰려는 개념적 논리적 오류입니다.
 
@@ -3355,13 +3355,10 @@ const styles = {
 # State
 
 여기는 초보랑 중급 중간 내용입니다. 부모컴포넌트에서 데이터를 자식컴포넌트에서 전달하고 자식컴포넌트에서 State를 업데이트하는 것입니다.
-![이미지](img/Frame.png)
 
 이런 방식은 처음에는 직관적일 수 있지만 SOT가 2개가 됩니다.
 
 State를 자식컴포넌트가 아니라 `App` 컴포넌트에 넣어서 해결하는 것이 좋습니다. 물론 복잡성이 높습니다. 자식컴포넌트에게는 메서드만 전달하고 State은 부모컴포넌트에서 관리합니다.
-
-![이미지](img/Frame2.png)
 
 이런 방식으로 접근하면 문제는 몇번째 컴포넌트를 클린한 것인지 알아내기 어려울 수 있습니다. 물론 알아낼 수 있습니다. `key`가 필요한 컴포넌트면 `props`로 값을 조회할 수 있습니다.
 
