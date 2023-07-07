@@ -1,12 +1,12 @@
 ---
-description: '문서에 대해서 개괄적으로 설명합니다.'
-tags: ['react', 'intro', 'form']
+description: '초기 프로젝트에 input 제어를 위해 사용하는 대표적으로 사용하는 custom hook입니다.'
+tags: ['react', 'form']
 sidebar_position: 1
 ---
 
 # useInput
 
-초기 프로젝트에 대표적으로 사용하는 custom hook입니다.
+초기 프로젝트에 input 제어를 위해 사용하는 대표적으로 사용하는 custom hook입니다.
 
 ## 전형적인 useInput
 

@@ -1,6 +1,6 @@
 {
   "label": "etc",
-  "position": 3,
+  "position": 4,
   "link": {
     "type": "generated-index",
     "description": "리액트와 관련된 지식인데 분류하기 애매한 내용들입니다."
