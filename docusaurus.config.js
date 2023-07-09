@@ -112,6 +112,17 @@ const config = {
         rehypePlugins: [katex],
       },
     ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'js-ts-cookbook',
+        path: 'js-ts-cookbook',
+        routeBasePath: 'js-ts-cookbook',
+        sidebarPath: require.resolve('./sidebars.js'),
+        remarkPlugins: [math],
+        rehypePlugins: [katex],
+      },
+    ],
   ],
 
   markdown: {
@@ -149,6 +160,12 @@ const config = {
             position: 'left',
           },
           {
+            to: '/js-ts-cookbook/intro',
+            label: 'JS & TS Cook-Book',
+            activeBaseRegex: `/js-ts-cookbook/`,
+            position: 'left',
+          },
+          {
             href: 'https://github.com/arch-spatula/arch-spatula.github.io',
             label: 'GitHub',
             position: 'right',
@@ -172,6 +189,10 @@ const config = {
               {
                 label: '리액트 Cook-Book',
                 to: '/react-cookbook/intro',
+              },
+              {
+                label: 'JS & TS Cook-Book',
+                to: '/js-ts-cookbook/intro',
               },
             ],
           },
