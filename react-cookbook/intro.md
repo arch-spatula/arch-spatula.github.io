@@ -12,6 +12,8 @@ sidebar_position: 1
 
 :::
 
+<!-- @todo: 레포의 자료 편집 및 마이그레이션 https://github.com/arch-spatula/React-Cook-Book -->
+
 리액트 시작하기
 
 ## 이 문서에 대해서
