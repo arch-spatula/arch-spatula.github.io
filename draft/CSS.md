@@ -73,3 +73,32 @@ img {
 ```
 
 [Darkening an image with CSS (In any shape)](https://stackoverflow.com/questions/15765550/darkening-an-image-with-css-in-any-shape)
+
+### 텍스트 드레그 방지
+
+텍스트 드레그를 방지하는 방법입니다.
+
+```tsx
+export const NoCardMessage = styled.p`
+  ${(props) => props.theme.fonts.heading20Bold}
+  color: ${(props) => props.theme.colors.gray300};
+  /* 텍스트 드래그 방지 */
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+`;
+```
+
+```css
+.class {
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+```
+
+위 예시를 적용하면 됩니다.
