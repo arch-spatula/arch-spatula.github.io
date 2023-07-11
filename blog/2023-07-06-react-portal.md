@@ -2,13 +2,13 @@
 title: 'react portal'
 authors: [arch-spatula]
 tags: ['react', 'react portal']
-description: 'dropdown, modal, accordion 등 컴포넌트 로직에 자주 사용하는 로직입니다. 모두 개별적으로 만들지 말고 이 hook 하나 호출하고 적용해야 인생이 편해집니다.'
+description: '지금 구현해야 하는 것은 삭제시 경고 modal(더 구체적으로 Dialog)입니다. 이 작업을 기록하는 이유는 react portal로 구현하는 것이 처음이기 때문에 기록합니다.'
 toc_max_heading_level: 6
 ---
 
 # react portal
 
-지금 구현해야 하는 것은 삭제시 경고 modal입니다. 이 작업을 기록하는 이유는 react portal로 구현하는 것이 처음이기 때문에 기록합니다.
+지금 구현해야 하는 것은 삭제시 경고 modal(더 구체적으로 Dialog)입니다. 이 작업을 기록하는 이유는 react portal로 구현하는 것이 처음이기 때문에 기록합니다.
 
 <!--truncate-->
 
@@ -28,7 +28,7 @@ best practice를 ChatGPT에 물어봤습니다.
 >
 > \- ChatGPT
 
-DOM 구조를 생각해보면 적절합니다. 우리가 호출자체는 JSX에서 조건부 랜더링으로 호출하지만 실제 DOM은 외부에 존재해야 합니다. context 문제로 생각하면 독립적이어야 합니다. 스타일링은 해당페이지의 고유한 스타일의 영향을 받지 말아야 합니다.
+DOM 구조를 생각해보면 적절합니다. 우리가 호출자체는 JSX에서 조건부 랜더링으로 호출하지만 실제 DOM은 외부에 존재해야 합니다. context 문제로 생각하면 독립적이어야 합니다. 스타일링 오염문제를 생각하면 Portal 활용이 적절합니다.
 
 ## 왜 경고 Modal을 만들어 줘야 하는가?
 
