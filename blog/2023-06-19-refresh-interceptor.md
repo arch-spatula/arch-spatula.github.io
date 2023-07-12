@@ -14,21 +14,37 @@ toc_max_heading_level: 6
 
 ## 이 글이 왜 필요한가?
 
-검색을 해보면 velog에서 많이 다룬 주제입니다.
+검색을 해보면 velog에서 많이 다룬 주제입니다. 그만큼 프론트엔드 업무에서 기초적인 내용입니다. 또 분명 저보다 더 설명 잘한 사람들이 많을 것입니다.
 
 이 글이 필요한 이유입니다. 언젠가 새로운 서비스를 또 만들면 또 인증관련 처리가 필요합니다. 이거 다시보면 됩니다.
 
 ## 왜 token 갱신이 필요한가?
 
-이 token 갱신이 필요한 이유는 보안상 이유가 첫번째입니다. 유저가 본인이 본인이라는 것을 인증하기 위한 전략 중 하나입니다. 다른 전략은 session입니다. 전략 자체는 대표적으로 이 2가지 중 1가지를 고르면 됩니다. 서버의 부담은 session이 더크고 보안이 더 철저합니다. session은 클라이언트의 set-cookie를 활용하고 http-only에 CORS 설정해서 session id를 보관하도록 합니다. 요청을 받으면 cookie를 확인하고 DB를 조회하고 남은 작업을 처리합니다. 반면 token을 활용하면 서버는 복화처리만 하면 되기 때문에 부하가 더 적습니다. 조회로 발생하는 비용이 복호화 비용보다 비쌉니다. 그리고 token의 경우 session id 대신에 refresh token을 보관하도록 하고 access token을 인메모리, local storage, session storage 중 1곳에 저장합니다. 참고로 인메모리의 경우 새로고침하면 사라져서 서버에 재요청 비용이 발생할 것입니다.
+보안을 잘 유지하면서 UX 해치지 않기 위해 필요합니다.
 
-UX/UI 관점에서 필요한 이유는 인증 노력비용을 아껴줘야 합니다. 생각을 깊게 하지않고 access token 유효 기간을 짧게 하면 유저의 action cost가 크게 증가합니다. 만약의 프로덕트에 유저 트레커를 달아두고 대부분 유저의 하루 평균 체류시간이 1시간인데 10분마다 재로그인 입력을 해야 하면 action cost 관점에서 상당히 나쁩니다. 체류시간을 반영해서 유효기간을 늘리는 전략도 있지만 보안상의 이유를 생각하면 access token 갱신을 내부적으로 자동 처리하는 것이 action cost를 0으로 감소시킬 수 있을 것입니다.
+access token은 유효기간을 보통 짧게 제공합니다. 해커가 탈취에 성공해도 짧은 유효기간이 너무 짧으면 악용하기 어렵도록 만듭니다. 하지만 이렇게 되면 UX적인 문제가 생깁니다. 유효기간이 너무 짧으면 유저가 다시 로그인(재인증)하는 노력이 필요합니다. 체류시간이 긴 서비스에 이런 방식으로 보안을 적용하면 유저가 이탈할 가능성이 높습니다. 하지만 refresh token으로 재인증하면 action cost 0으로 만들 수 있습니다.
+
+access token이 만료되면 만료 응답을 intercept하고 refresh 요청해서 token을 갱신하고 만료로 실패한 기존요청을 재시도합니다. 유저의 action cost를 2번의 request-response 사이클로 지불하는 것입니다.
 
 ### 참고
 
 저의 제품은 refresh token은 갱신시키지 않기로 했지만 요구사항에 따라 refresh token도 갱신하게 만드는 경우도 많이 있습니다.
 
 처음 시작할 때 유효기간의 어림잡기는 개발자와 PM이 같이 결정하면 됩니다. 그리고 서비스에 유저 데이터가 쌓이고 트레커로 체류시간 정보를 알 수 있으면 체류시간 정보를 활용해서 2개의 token 유효기간을 다시 설정하도록 합니다.
+
+<!-- ### token 인증/인가를 활용하는 이유
+
+token을 활용하는 이유는 서버 부하가 덜 발생하기 때문에 활용합니다. 이 질문 token refresh보다 더 high level입니다.
+
+인가 상태부터 논하겠습니다. 가장 먼저 인가 상태를 어디에 보관하는가의 문제가 있습니다. http는 상태가 없습니다. 모든 요청과 응답 즉 통신자체는 서로 독립적입니다. 인가 상태는 통신을 주고 받는 클라이언트 혹은 서버에서 보관해야 합니다. 그리고 이 인가 상태관리 전략은 대표적으로 2가지가 존재합니다. 하나는 session 다른 하나는 token입니다. 아주 간단하게는 session은 서버가 상태관리하고 token은 클라이언트가 관리한다고 생각할 수 있습니다. 그리고 cookie는 이 인가를 위한 매개체입니다.
+
+먼저 cookie입니다. cookie는 정보를 상당히 안전하게 보관할 수 있습니다. token이든 session이든 set-cookie 응답을 활용하는 것이 일반적입니다. set-cookie응답을 할 때 http-only 설정으로 클라이언트가 자바스크립트 접근하는 것을 차단합니다. 또 cookie는 브라우저 정책으로 서버와 다른 origin을 갖고 있으면 자동으로 삭제하고 요청을 보냅니다. 즉 다른 origin을 갖고 있으면 cookie로 정보를 공유할 수 없습니다.
+
+session입니다. session은 인가 상태를 서버에서 관리합니다. 이런 이유로 서버의 부담이 더있지만 일반적으로 더 안전합니다. session은 클라이언트의 로그인(인증) 요청을 받고 인증되면 session DB에 `sessionId`, `Date`(생성 시점), `userId`를 만들고 `sessionId`를 set-cookie로 응답합니다. 클라이언트 요청을 받을 때마다 cookie를 확인하고 session DB를 조회하는 방식으로 인가하고 남은 서버측 로직을 처리합니다.
+
+token입니다. token은 인증 상태를 클라이언트에서 관리합니다. token을 활용하면 서버는 암호화(token 생성)와 복호화(token 검증)처리만합니다. token을 활용할 때는 2개의 token(refresh token, access token)을 각각 보안상 상호보완적인 위치에 보관합니다. refresh token은 cookie에 보관합니다. access token은 인메모리, local storage, session storage 중 1곳에 저장합니다. 참고로 인메모리의 경우 새로고침하면 사라져서 서버에 재요청 비용이 발생할 것입니다. 이런 이유로 web storage를 많이 활용합니다. 그리고 모든 요청을 보낼 때는 access token을 검증합니다. 하지만 만료되면 refresh token으로 access token을 갱신하는 방식입니다.
+
+token의 장점은 인가 상태관리가 클라이언트 측에서 많이 처리하기 때문에 서버부담이 줄어듭니다. 또 session DB 사이즈 문제도 없습니다. -->
 
 ## 타임라인
 
@@ -40,11 +56,11 @@ UX/UI 관점에서 필요한 이유는 인증 노력비용을 아껴줘야 합�
 
 ![token 타임라인](https://user-images.githubusercontent.com/84452145/248524296-fdaf3d69-e8c6-4527-85c6-9805fafa5152.png)
 
-access token을 확인하고 유효하면 응답합니다. access token이 만료되었고 refresh token이 유효하면 access token을 갱신할 수 있는 window입니다~~window 운영체제 말고 한정된 시간동안 무엇을 할 기회를 말하는 영어식 표현~~. 꽤 길게 제공합니다. 이 기간이 만료되었을 때 refresh 요청 혹은 access 요청에 로그아웃 처리할 수 있습니다. 백엔드 엔지니어의 재량의 영역이지만 프론트엔드가 갱신요청을 하도록 만들 수 있고 아니면 그냥 갱신된 access token을 응답으로 주는 경우도 있습니다. 사실 프론트엔드 엔지니어가 여기서 고생하주면 해커는 더 많은 고생을 해야 하기 때문에 프론트엔드가 axios interceptor를 활용해서 처리하는 경우가 많습니다.
+access token을 확인하고 유효하면 응답합니다. access token이 만료되었고 refresh token이 유효하면 access token을 갱신할 수 있는 시간입니다. 꽤 길게 제공합니다. 이 기간이 만료되었을 때 refresh 요청 혹은 access 요청에 로그아웃 처리할 수 있습니다. 백엔드 엔지니어의 재량의 영역이지만 프론트엔드가 갱신요청을 하도록 만들 수 있고 아니면 그냥 갱신된 access token을 응답으로 주는 경우도 있습니다. 사실 프론트엔드 엔지니어가 여기서 고생하주면 해커는 더 많은 고생을 해야 하기 때문에 프론트엔드가 axios interceptor를 활용해서 처리하는 경우가 많습니다.
 
 하지만 위 시각자료만 보면 이해가 덜 될 것입니다. 그래서 조금 더 자세히 부분별로 도식화 하겠습니다.
 
-![login](https://user-images.githubusercontent.com/84452145/252542176-dfff4b8a-0af9-46c2-9f8f-44eeb151f4af.png)
+![login](https://user-images.githubusercontent.com/84452145/252848033-71d56f74-1ab0-4811-ba84-a0a980b60d51.png)
 
 일반적인 login입니다. 유저는 이메일과 비밀번호를 담아 서버에 POST 요청을 하고 유효함을 확인(인증)하면 token 2개를 응답합니다. 이 token 2개는 일반적이고 정석인 상황은 위에서 이야기 한 것처럼 refresh token은 set-cookie하고 CORS 설정으로 다른 도메인 요청을 차단하고 http-only 설정으로 자바스크립트로 접근을 차단하는 것이 일반적입니다. 그리고 access token은 보유한 인프라와 정책에 따라 다르지만 웹 스토리 혹은 인메모리 보관을 합니다.
 
