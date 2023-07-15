@@ -50,3 +50,49 @@ export default useStopScroll;
 ```
 
 이 custom hook은 modal을 활용할 때 뒤 배경의 스크롤 동작을 차단하기 위한 custom hook입니다.
+
+### button form submit 테스트 코드
+
+```tsx
+it('should invoke the function when the button is call from form', async () => {
+  user.setup();
+  const btnText = 'Button';
+  const mock = vi.fn((e) => e.preventDefault());
+
+  render(
+    <form onSubmit={mock}>
+      <Button>{btnText}</Button>
+    </form>
+  );
+  const btnElement = screen.getByRole('button');
+  await user.click(btnElement);
+
+  expect(btnElement).toBeInTheDocument();
+  expect(mock).toHaveBeenCalledTimes(1);
+});
+```
+
+form을 테스트할 때는 조금 특이합니다. 클릭 시점에 초기화 때문인지 모르겠는데 `preventDefault`가 필요합니다.
+
+```tsx
+it('should invoke the function when the button is call from form', async () => {
+  user.setup();
+  const btnText = 'Button';
+  const mock = vi.fn((e) => e.preventDefault());
+
+  render(
+    <form onSubmit={mock}>
+      <Button>{btnText}</Button>
+    </form>
+  );
+  const btnElement = screen.getByRole('button');
+  const linkElement = screen.queryByRole('link');
+  await user.click(btnElement);
+
+  expect(linkElement).not.toBeInTheDocument();
+  expect(btnElement).toBeInTheDocument();
+  expect(mock).toHaveBeenCalledTimes(1);
+});
+```
+
+`queryByRole`은 존재하지 않을 수 있을 때 활용합니다.
