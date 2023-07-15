@@ -39,6 +39,9 @@ Brendan Eich
 
 Douglas Crockford
 
+- JSON의 보급자
+- `자바스크립트 핵심 가이드(javascript the good parts)`의 저자
+
 [Fireship(Jeff Delaney)](https://www.youtube.com/channel/UCsBjURrPoezykLs9EqgamOA)
 
 - 모르면 간첩입니다.
