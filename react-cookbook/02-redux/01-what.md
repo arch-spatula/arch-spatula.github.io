@@ -24,9 +24,53 @@ Redux는 Reducer와 Ducks Pattern의 합성어입니다.
 
 리액트의 useReducer는 특정 상황에 따라 특정 방식으로 state를 갱신하는 hook입니다. 하지만 React에만 있는 것이 아닙니다.
 
+```tsx
+const initialState = { count: 0 };
+
+function reducer(
+  state: { count: number },
+  action: { type: 'increment' | 'decrement' }
+) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    default:
+      throw new Error();
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  return (
+    <>
+      Count: {state.count}
+      <button onClick={() => dispatch({ type: 'decrement' })}>-</button>
+      <button onClick={() => dispatch({ type: 'increment' })}>+</button>
+    </>
+  );
+}
+```
+
+과거 리액트 공식 문서에서 가져온 useReducer 예시입니다. 사실 useState에 handler hook에서 갱신하는 방식을 설정하고 처리할 수 있습니다. 하지만 이렇게 useReducer를 활용하면 더 많은 복잡성을 수용할 수 있습니다. 보통 처음보면 혼란스러울 것입니다. 하지만 나중에 리팩토링하면서 useState를 정리할 때 많이 활용해볼 수 있는 hook이 될 것입니다.
+
+```js
+total = [0, 1, 2, 3].reduce(
+  (accumulator, currentValue) => accumulator + currentValue,
+  0
+);
+```
+
+JavaScript Array의 reduce 메서드입니다. 많은 경우 총합을 구할 때 많이 활용하지만 여기서 하나의 값으로 합쳐집니다.
+
+<!-- ![](https://user-images.githubusercontent.com/84452145/253721205-41ed3a08-fe21-4ce9-b70a-4249918ee8ab.png) -->
+
+<!-- 함수형 프로그래밍에서는 하나로 합친다는 의미로 -->
+
 ## Ducks Pattern이란 무엇인가?
 
-Ducks Pattern이란 하나의 Store에 모든 state을 보관하는 패턴을 말합니다. 몰어 넣는다는 것이 특징입니다.
+Ducks Pattern이란 하나의 Store에 모든 state을 보관하는 패턴을 말합니다. 몰어 넣는다는 것이 중요한 특징입니다.
 
 ## 상태관리 라이브러리는 왜 사용해야 하는가?
 
