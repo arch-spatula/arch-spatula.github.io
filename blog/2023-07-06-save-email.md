@@ -188,7 +188,7 @@ function Component() {
 
   const signIn = async () => {
     // ... api 호출 생략
-    if (isChecked) localStorage.setItem('email', emailValue);
+    storeEmail();
   };
 
   return (

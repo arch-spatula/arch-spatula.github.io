@@ -106,7 +106,7 @@ export { axiosClient };
 
 ### refresh token 유효
 
-이 경우 로직을 처음 보면 복잡할 것입니다. 또 성능도 꽤 않 좋습니다. request-response 사이클을 3회 정도 오게가 됩니다.
+이 경우 로직을 처음 보면 복잡할 것입니다. 또 성능도 나쁩니다. request-response 사이클을 3회 정도 오게가 됩니다.
 
 ![](https://user-images.githubusercontent.com/84452145/252550472-4adb0b36-fb8a-49b0-b6c2-02b43a2186f6.png)
 
@@ -166,18 +166,19 @@ axiosClient.interceptors.response.use(
 위 3가지 가드를 통과(해당하지 않으면)하면 다음 로직들을 처리합니다. `config.sent`에 `true`를 할당해서 flag를 활성화부터 합니다. 그리고 refresh 요청을 합니다. refresh 요청하는 함수는 아래입니다.
 
 ```ts title="authClient.ts"
-/** - API 명세의 요구사항 때문에 authClient 중 유일하게 header를 활용해야 함 */
+type TokenResponse = {
+  success: boolean;
+  access_token: string;
+};
+
 async function refreshAccessAPI() {
   try {
     const sessionToken = sessionStorage.getItem(STORAGE_KEY.SESSION_TOKEN);
-    if (!sessionToken) throw Error('sessionToken');
+    if (!sessionToken) throw Error('sessionToken 없음');
 
     const {
       data: { access_token },
-    } = await authClient.post<{
-      success: boolean;
-      access_token: string;
-    }>(API_URLS.REFRESH, null, {
+    } = await authClient.post<TokenResponse>(API_URLS.REFRESH, null, {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },
@@ -197,11 +198,11 @@ async function refreshAccessAPI() {
 }
 ```
 
-이부분에서 특수성을 갖는 것은 `session storage`를 접근합니다. refresh token을 `cookie`에 보관할 수 없는 이유는 프론트엔드는 vercel로 배포하고 백엔드는 Deno deploy로 배포했서 origin이 다르기 때문에 `cookie`를 클라이언트에서 서버로 보낼 수 없습니다.
+이부분에서 특수점은 `Cookie`를 사용할 수 없다는 것입니다. refresh token을 `cookie`에 보관할 수 없는 이유는 프론트엔드와 백엔드 각각 개별 배포했기 때문입니다. 프론트엔드는 vercel로 배포하고 백엔드는 Deno deploy로 배포했서 origin이 다르고 통일 할 수 없습니다. 서버에서 클라이언트로 set-cookie response는 가능하지만 클라이언트에서 `cookie`를 서버로 보낼 수 없습니다.
 
 만약에 기술스택으로 Next.js를 선택하고 vercel하나를 활용했다면 origin 문제는 없었을 것입니다.
 
-위 3가지 중 3번은 다음 코드를 보면 이해가 될 것입니다.
+<!-- 위 3가지 중 3번은 다음 코드를 보면 이해가 될 것입니다. -->
 
 ### refresh token 만료
 
@@ -214,7 +215,11 @@ async function refreshAccessAPI() {
 물론 서버에 장애가 발생할 수 있지만 장애가 발생해도 비슷한 처리를 하는 것이 적절하다고 봅니다. 리소스 갱신과 조회를 반영할 수 없다면 사용을 중단시키는 것이 적절하다고 봤습니다.
 
 ```ts title="authClient.ts"
-/** - API 명세의 요구사항 때문에 authClient 중 유일하게 header를 활용해야 함 */
+type TokenResponse = {
+  success: boolean;
+  access_token: string;
+};
+
 async function refreshAccessAPI() {
   try {
     const sessionToken = sessionStorage.getItem(STORAGE_KEY.SESSION_TOKEN);
@@ -222,10 +227,7 @@ async function refreshAccessAPI() {
 
     const {
       data: { access_token },
-    } = await authClient.post<{
-      success: boolean;
-      access_token: string;
-    }>(API_URLS.REFRESH, null, {
+    } = await authClient.post<TokenResponse>(API_URLS.REFRESH, null, {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },
