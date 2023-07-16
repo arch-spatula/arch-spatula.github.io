@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['morning glory']
 description: '현재 유사과학적으로는 비효율적입니다. 현재까지 개인경험입니다.'
 toc_max_heading_level: 6
+draft: true
 ---
 
 # 모닝 글로리는 효율적인가?
