@@ -24,7 +24,7 @@ yarn create vite . --template react-swc-ts
 
 ## Create React App a.k.a. CRA
 
-CRA의 장점은 Test, Web Vitals가 같이 설정되어 있습니다. vite 보다 분명히 더 무거울 것입니다. 하지만 테스트관련 설정을 덜 할 수 있는 점이 장점입니다.
+CRA의 장점은 Test, Web Vitals가 같이 설정되어 있다는 것입니다. vite 보다 분명히 더 무거울 것입니다. 하지만 테스트관련 설정을 덜 할 수 있습니다.
 
 ```sh
 npx create-react-app .
