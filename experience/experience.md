@@ -85,8 +85,19 @@
   - [ ] Drag & Drop 구현
   - [x] suspense 활용
   - [ ] error boundary 활용
+  - [ ] callbackRef 활용
   - [ ] profiler 활용
-  - [ ] react fiber 기여
+  - [ ] useLayoutEffect
+  - [ ] useDebugValue
+  - [ ] forwardRef
+  - react 18 hook
+    - [ ] useTranslation
+    - [x] useId
+    - [ ] useSyncExternalStore
+    - [ ] useImperativeHandle
+    - [ ] useDeferredValue
+    - [ ] use
+  - [ ] react fiber 오픈소스 기여
   - React-Router-DOM
     - [x] Data-Router 적용
     - [x] protected routes 적용
@@ -99,6 +110,7 @@
     - [x] redux-toolkit 활용
       - [x] redux thunk 활용
     - [ ] redux-query 활용
+    - [ ] redux testing
   - CSS-in-JS
     - Styled Component & Emotion
       - [x] 애니메이션 적용
@@ -127,6 +139,7 @@
     - [ ] App Router
     - [ ] CSS-in-JS 설정
     - [x] CSS-in-JS 활용
+    - [ ] SSR hydration
 - [ ] 데이터 시각화
   - [ ] D3.js
   - [ ] React Chart
