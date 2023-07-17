@@ -1,6 +1,6 @@
 ---
 sidebar_position: 9
-tags: ['git', 'github', 'git command', 'git amend']
+tags: ['git', 'github', 'github project', '칸반']
 description: '칸반과 github 프로젝트를 같이 사용하면서 얻은 작은 팁'
 ---
 
@@ -44,6 +44,8 @@ git 초보는 남아있는 의존성이 1개 이하부터 착수하면 됩니다
 
 todo, hold, in progress, review, done
 
+![5 colum 칸반](https://user-images.githubusercontent.com/84452145/253795990-cbd38cf8-1777-4632-b2c7-975e0190cf0b.png)
+
 진행을 해야 하는 작업은 todo에 둡니다. 의존성 1개 이하부터 배치하면 됩니다.
 
 작업 내용이 생각나면 일단 만들어 둡니다. 하지만 착수하기 곤란해 보이면 hold에 배치합니다. 회사에서는 PM이 우선순위를 변경하면 진행하던 업무도 hold에 옮겨둡니다.
@@ -59,3 +61,5 @@ done은 작업이 끝난 상태입니다.
 [<업무 시각화> - 도미니카 드그란디스](https://www.yes24.com/Product/Goods/86627323)
 
 위 도서는 칸반 다루기의 고전입니다.
+
+읽어 볼 이유가 있는 이유는 다양합니다. 하지만 개발자로서 업무량이 많다고 거절할 근거 자료로 활용할 수 있다는 점에서 읽을 가치가 있습니다.

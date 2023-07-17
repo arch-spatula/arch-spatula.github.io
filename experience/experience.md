@@ -4,6 +4,7 @@
   - [x] git `add`, `commit`, `push`
   - [ ] rebase merge
   - [x] git amend로 커밋 내역 수정
+  - [x] git squash
   - [ ] git tag 활용
   - [x] github 프로젝트 활용
   - [ ] github actions 활용
@@ -15,9 +16,11 @@
   - [x] flex로 div 중앙 정렬
   - [x] position으로 정렬
   - [ ] gird 활용
+  - [ ] Masonry Layout 구현
+  - [ ] container query 활용
+  - [ ] 순수 css 활용으로 캐러셀 구현
   - [ ] repaint 최적화
   - [ ] reflow 최적화
-  - [ ] 순수 css 활용으로 캐러셀 구현
 - JavaScript
   - [x] map, set 활용
   - [x] 팩토리함수 활용
@@ -27,8 +30,15 @@
   - [ ] hidden property 활용
   - [ ] v8 엔진 편집
   - [x] 단위 테스트
+  - [ ] vitest
+    - [ ] CI 파이프라인 연결
   - [ ] 크롤러 구현
+  - [ ] worker API 활용
   - [ ] monorepo 적용
+    - [ ] pnpm monorepo 적용
+    - [ ] yarn monorepo 적용
+    - [ ] turborepo monorepo 적용
+    - [ ] Nx monorepo 적용
   - [ ] npm 패키지 출시
   - [ ] 정규 표현식 검색 없이 사용
 - TypeScript
@@ -39,26 +49,68 @@
     - [ ] Record
   - [ ] 데코레이터 활용
   - [ ] Satisfies
-  - [ ] 디자인 패턴
-    - [x] singleton
+  - 디자인 패턴
+    - Creational
+      - [x] Singleton
+      - [ ] Abstract Factory
+      - [ ] Factory Method
+      - [ ] Builder
+      - [ ] Prototype
+    - Structural
+      - [ ] Adapter
+      - [ ] Bridge
+      - [ ] Composite
+      - [ ] Decorator
+      - [ ] Facade
+      - [ ] Flyweight
+      - [ ] Proxy
+    - Behavioral
+      - [ ] Visitor
+      - [ ] Template Method
+      - [ ] Strategy
+      - [ ] State
+      - [ ] Observer
+      - [ ] Memento
+      - [ ] Mediator
+      - [ ] Iterator
+      - [ ] Command
+      - [ ] Chain of Responsibility
   - [ ] zod 활용
 - React
   - [x] 6대 네이티브 hook 활용
   - [x] Context API 활용
   - [x] memo 활용
   - [x] lazy loading 적용
+  - [ ] Observer Lazy Rendering
   - [ ] Drag & Drop 구현
+  - [x] suspense 활용
   - [ ] error boundary 활용
+  - [ ] callbackRef 활용
   - [ ] profiler 활용
+  - [ ] useLayoutEffect
+  - [ ] useDebugValue
+  - [ ] forwardRef
+  - react 18 hook
+    - [ ] useTranslation
+    - [x] useId
+    - [ ] useSyncExternalStore
+    - [ ] useImperativeHandle
+    - [ ] useDeferredValue
+    - [ ] use
+  - [ ] react fiber 오픈소스 기여
   - React-Router-DOM
     - [x] Data-Router 적용
     - [x] protected routes 적용
+    - [x] loader fetch 적용
+    - [ ] search routing 적용
+    - [ ] Form update 적용
   - redux
     - [x] redux 활용
     - [ ] redux-saga
     - [x] redux-toolkit 활용
       - [x] redux thunk 활용
     - [ ] redux-query 활용
+    - [ ] redux testing
   - CSS-in-JS
     - Styled Component & Emotion
       - [x] 애니메이션 적용
@@ -73,8 +125,31 @@
     - [x] hook 단위 테스트
     - [ ] mocking & spyOn 결합테스트
   - E2E testing
-    - [ ] cypress, playwright,
+    - [ ] cypress
+    - [ ] playwright
+  - Next.js
+    - [x] SSG
+    - [ ] ISG
+    - [x] SSR
+    - [x] CSR
+    - [ ] API
+    - [ ] Next Link
+    - [ ] Next Font
+    - [ ] Form update
+    - [ ] App Router
+    - [ ] CSS-in-JS 설정
+    - [x] CSS-in-JS 활용
+    - [ ] SSR hydration
 - [ ] 데이터 시각화
+  - [ ] D3.js
+  - [ ] React Chart
+- AWS
+  - [x] mfa 보안 설정
+  - [ ] EC2 인스턴스 자료 없이 설정
+  - [ ] S3로 정적 사이트 배포
+- [x] 웹 서버 개발
+- [ ] DNS 서버 개발
+- [ ] 홈 서버 개발
 - 독서
   - 미분류
   - 아키텍쳐

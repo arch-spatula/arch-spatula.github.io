@@ -102,3 +102,36 @@ export const NoCardMessage = styled.p`
 ```
 
 위 예시를 적용하면 됩니다.
+
+### CSS 버튼 비활성화
+
+접근을 금지하는 것과 접근할 수 없는 것은 다릅니다. 일반적으로 버튼이 비활성화 되어 있으면 접근할 수 없도록 설정합니다.
+
+```tsx
+const Button = styled.button`
+  :hover {
+    cursor: ${(props) => !props.disabled && 'pointer'};
+    ${(props) =>
+      props.disabled &&
+      `
+        -ms-user-select: none;
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+      `}
+  }
+`;
+```
+
+일반적으로 비활성화되어 있으면 상호작용이 불가능하다고 이렇게 설정합니다.
+
+```tsx
+const Button = styled.button`
+  :hover {
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  }
+`;
+```
+
+이렇게 설정하면 버튼 접근 금지상태가 됩니다.
