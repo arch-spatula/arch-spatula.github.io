@@ -1,7 +1,8 @@
 ---
+title: '취향 존중'
 description: '취향 존중'
 tags: ['Silicon Valley', '취존']
-sidebar_position: 15
+date: 1000-1-15
 ---
 
 # 취향 존중

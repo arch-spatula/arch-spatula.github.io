@@ -1,7 +1,8 @@
 ---
-sidebar_position: 5
-description: "디자이너 vs 개발자"
-tags: ["dev meme", "CSS", "design"]
+title: '디자이너 vs 개발자'
+date: 1000-1-5
+description: '디자이너 vs 개발자'
+tags: ['dev meme', 'CSS', 'design']
 ---
 
 # 디자이너 vs 개발자

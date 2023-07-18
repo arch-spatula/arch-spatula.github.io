@@ -1,7 +1,8 @@
 ---
+title: 'AI Overflow'
 description: 'AI Overflow'
 tags: ['ai', 'ai overflow', 'ChatGPT', 'Silicon Valley']
-sidebar_position: 14
+date: 1000-1-14
 ---
 
 # AI Overflow

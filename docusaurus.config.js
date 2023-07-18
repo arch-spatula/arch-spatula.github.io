@@ -84,8 +84,18 @@ const config = {
     [
       '@docusaurus/plugin-content-blog',
       {
+        /**
+         * Required for any multi-instance plugin
+         */
         id: 'easter',
+        /**
+         * URL route for the blog section of your site.
+         * *DO NOT* include a trailing slash.
+         */
         routeBasePath: 'easter',
+        /**
+         * Path to data on filesystem relative to site dir.
+         */
         path: './easter',
         blogSidebarCount: 0,
       },
@@ -93,20 +103,20 @@ const config = {
     [
       '@docusaurus/plugin-content-blog',
       {
-        /**
-         * Required for any multi-instance plugin
-         */
         id: 'experience',
-        /**
-         * URL route for the blog section of your site.
-         * *DO NOT* include a trailing slash.
-         */
         routeBasePath: 'experience',
-        /**
-         * Path to data on filesystem relative to site dir.
-         */
         path: './experience',
         blogSidebarCount: 0,
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-blog',
+      {
+        id: 'meme',
+        routeBasePath: 'meme',
+        path: './meme',
+        blogSidebarCount: 0,
+        postsPerPage: 'ALL',
       },
     ],
     [

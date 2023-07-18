@@ -1,7 +1,8 @@
 ---
-sidebar_position: 2
 tags: ['코딩애플', 'dev meme', '엄준식', 'github']
+title: '심연속 이상한 리포들입니다.'
 description: '심연속 이상한 리포들입니다.'
+date: 1000-1-2
 ---
 
 # 어떤놈이 만들었는지 궁금한 Github 프로젝트 top 10

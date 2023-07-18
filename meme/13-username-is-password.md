@@ -1,7 +1,8 @@
 ---
+title: '최강 어드민 계정'
 description: '최강 어드민 계정'
 tags: ['Silicon Valley', 'auth', 'admin']
-sidebar_position: 13
+date: 1000-1-13
 ---
 
 # 최강 어드민 계정

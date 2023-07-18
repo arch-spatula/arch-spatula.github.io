@@ -1,7 +1,8 @@
 ---
-sidebar_position: 1
+title: '시니어 자바스크립트 개발자 인터뷰입니다.'
 description: '시니어 자바스크립트 개발자 인터뷰입니다.'
 tags: ['JavaScript', 'dev meme']
+date: 1000-1-1
 ---
 
 # 시니어 자바스크립트 개발자 인터뷰

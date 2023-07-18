@@ -1,7 +1,8 @@
 ---
+title: '스마트 냉장고 해킹하다가 실수로 분산시스템 만듬 ㅋ'
 description: '스마트 냉장고 해킹하다가 실수로 분산시스템 만듬 ㅋ'
 tags: ['Silicon Valley', 'smart fridge']
-sidebar_position: 6
+date: 1000-1-6
 ---
 
 # 스마트 냉장고 해킹하다가 실수로 분산시스템 만듬 ㅋ

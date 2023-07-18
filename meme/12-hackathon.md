@@ -1,7 +1,8 @@
 ---
+title: '사내 해커톤의 위험성'
 description: '사내 해커톤의 위험성'
 tags: ['해커톤', '클린코드', '사내정치', 'QA']
-sidebar_position: 12
+date: 1000-1-12
 ---
 
 # 사내 해커톤의 위험성

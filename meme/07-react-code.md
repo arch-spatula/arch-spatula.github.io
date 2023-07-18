@@ -1,7 +1,8 @@
 ---
+title: '리액트 코드짜는 법'
 description: '리액트 코드짜는 법'
 tags: ['react', 'props drilling', '코딩애플']
-sidebar_position: 7
+date: 1000-1-7
 ---
 
 # 리액트 코드짜는 법
