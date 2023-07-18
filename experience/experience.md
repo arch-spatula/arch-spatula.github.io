@@ -1,3 +1,10 @@
+---
+title: 경험
+tags: ['Easter Egg', 'hidden page', 'experience']
+description: '개발자로 경험한 것들과 앞으로 경험할 것을 체크리스트로 표시합니다.'
+date: 1453-5-29
+---
+
 # 경험
 
 - git & github

@@ -84,6 +84,15 @@ const config = {
     [
       '@docusaurus/plugin-content-blog',
       {
+        id: 'easter',
+        routeBasePath: 'easter',
+        path: './easter',
+        blogSidebarCount: 0,
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-blog',
+      {
         /**
          * Required for any multi-instance plugin
          */
@@ -97,8 +106,7 @@ const config = {
          * Path to data on filesystem relative to site dir.
          */
         path: './experience',
-        remarkPlugins: [math],
-        rehypePlugins: [katex],
+        blogSidebarCount: 0,
       },
     ],
     [
