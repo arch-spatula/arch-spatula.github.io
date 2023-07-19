@@ -15,6 +15,8 @@ date: 1453-5-29
 
 [MEME](meme)
 
+[Python](python)
+
 Clang
 
 golang
