@@ -1,3 +1,11 @@
+## Next JS에서 제일 중요한 기능
+
+[Next.js Server Actions... 5 awesome things you can do](https://www.youtube.com/watch?v=O94ESaJtHtM)
+
+[Server Actions: NextJS 13.4's Best New Feature](https://www.youtube.com/watch?v=czvSZqnpTHs)
+
+[Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions)
+
 ## TIL.22.12.29. - 리액트 네이티브 체험시작
 
 ## flex는 퍼센트입니다.
