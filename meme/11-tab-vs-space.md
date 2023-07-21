@@ -1,7 +1,8 @@
 ---
+title: 'tab vs space 성전'
 description: 'tab vs space 성전'
 tags: ['vim vs emacs', 'tab vs space']
-sidebar_position: 11
+date: 1000-1-11
 ---
 
 # tab vs space 성전

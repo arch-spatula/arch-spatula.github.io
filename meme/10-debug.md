@@ -1,7 +1,8 @@
 ---
+title: '개발자들의 신비로운 삶'
 description: '개발자들의 신비로운 삶'
 tags: ['디버깅', '버그 바운티']
-sidebar_position: 10
+date: 1000-1-10
 ---
 
 # 개발자들의 신비로운 삶

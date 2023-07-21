@@ -1,8 +1,11 @@
 ---
-sidebar_position: 17
+date: 1000-1-17
+title: 'DB 실수로 삭제함 ㅋ'
 description: 'DB 실수로 삭제함 ㅋ'
 tags: ['dev meme', '교훈', 'gitlab', '서비스 장애']
 ---
+
+# DB 실수로 삭제함 ㅋ
 
 <iframe class="codepen" src="https://www.youtube.com/embed/tLdRBsuvVKc" title="Dev Deletes Entire Production Database, Chaos Ensues" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 

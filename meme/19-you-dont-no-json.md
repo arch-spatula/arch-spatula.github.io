@@ -1,5 +1,6 @@
 ---
-sidebar_position: 19
+date: 1000-1-19
+title: '당신은 JSON을 모른다.'
 description: '당신은 JSON을 모른다.'
 tags: ['dev meme', 'JSON', '면접질문']
 ---

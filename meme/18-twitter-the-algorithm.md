@@ -1,5 +1,5 @@
 ---
-sidebar_position: 18
+date: 1000-1-18
 description: '트위터 오픈소스 레포의 성숙한 개발 문화'
 tags: ['Twitters Algorithm', 'dev meme', 'the algorithm', 'twitter']
 ---

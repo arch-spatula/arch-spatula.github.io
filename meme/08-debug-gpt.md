@@ -1,7 +1,8 @@
 ---
+title: 'GPT로 디버깅하면 생기는 일'
 description: 'GPT로 디버깅하면 생기는 일'
 tags: ['ai', 'ChatGPT', 'Silicon Valley']
-sidebar_position: 8
+date: 1000-1-8
 ---
 
 # GPT로 디버깅하면 생기는 일

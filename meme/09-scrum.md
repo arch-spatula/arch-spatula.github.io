@@ -1,7 +1,8 @@
 ---
+title: '스크럼'
 description: '스크럼'
 tags: ['스크럼', 'scrum', '애자일', '애자일 코치', '사내정치', 'Silicon Valley']
-sidebar_position: 9
+date: 1000-1-9
 ---
 
 # 스크럼

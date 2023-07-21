@@ -87,16 +87,46 @@ const config = {
         /**
          * Required for any multi-instance plugin
          */
-        id: 'experience',
+        id: 'easter',
         /**
          * URL route for the blog section of your site.
          * *DO NOT* include a trailing slash.
          */
-        routeBasePath: 'experience',
+        routeBasePath: 'easter',
         /**
          * Path to data on filesystem relative to site dir.
          */
+        path: './easter',
+        blogSidebarCount: 0,
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-blog',
+      {
+        id: 'experience',
+        routeBasePath: 'experience',
         path: './experience',
+        blogSidebarCount: 0,
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-blog',
+      {
+        id: 'meme',
+        routeBasePath: 'meme',
+        path: './meme',
+        blogSidebarCount: 0,
+        postsPerPage: 'ALL',
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'python',
+        path: 'python',
+        routeBasePath: 'python',
+        sidebarPath: require.resolve('./sidebars.js'),
+        // 아래는 수식 쓰기 시작하면 풀어주세요
         remarkPlugins: [math],
         rehypePlugins: [katex],
       },

@@ -1,7 +1,8 @@
 ---
-sidebar_position: 4
-tags: ["CORS", "dev meme", "error"]
-description: "CORS 설정 에러"
+title: 'CORS 설정 에러'
+tags: ['CORS', 'dev meme', 'error']
+description: 'CORS 설정 에러'
+date: 1000-1-4
 ---
 
 # CORS 설정 에러
