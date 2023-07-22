@@ -3203,3 +3203,280 @@ CRA로 npx로 설치했습니다. 이럴 경우 오래된 버전으로 설치될
 ### 기대랑 예상은 많은 경우 다릅니다.
 
 컨벤션을 많이 합의했다고 생각했지만 아닌 경우가 많습니다.
+
+## TIL.22.12.26. - patch를 위해 input 채우기
+
+### 편집 버튼을 누르면 input을 채웁니다.
+
+맥락을 위해 댓글 편집 기능을 구현하는 것입니다. 로직은 편집을 구현하기 위해서 먼저 작성한 데이터를 저장합니다. 저장한 데이터를 편집하는 단계를 거칩니다. 편집을 완료하면 저장합니다. 저장은 서버에 반영시킵니다.
+
+```txt
+├── src/
+│   ├── components/
+│   │   ├── CommentRead.jsx/
+│   │   └── CommentCreate.jsx/
+│   └── redux/
+│       ├── config/
+│       │   └── configStore.js
+│       └── modules/
+│           └── commentSlice.js
+```
+
+프로젝트 디렉토리는 위처럼 생겼습니다.
+
+```js title="CommentRead.js"
+if (!isLoading) {
+  const renderedComments = comments
+    .filter((comment) => comment.boardId === id)
+    .map((comment) => (
+      <div key={comment.id}>
+        <div>작성자: {comment.name}</div>
+        <div>댓글내용: {comment.comment}</div>
+        <button onClick={() => handleEditComment(comment.id)}>편집</button>
+        <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
+      </div>
+    ));
+
+  return (
+    <CommentReadStyled>
+      <div>
+        <p>작성자</p>
+        <p>댓글내용</p>
+      </div>
+
+      <div>{comments ? renderedComments : '댓글이 없습니다.'}</div>
+    </CommentReadStyled>
+  );
+}
+```
+
+순회하는 목록에서 id를 선택하는 것은 생각보다 쉽습니다. `handleEditComment`의 인자는 순회를 하면서 `id`를 대입합니다.
+
+```js title="CommentRead.js"
+const handleEditComment = (id) => {
+  dispatch(editComment(id));
+};
+```
+
+아까 본 `handleEditComment`의 정의입니다. `editComment`을 `dispatch`합니다.
+
+```js title="commentsSlice.js"
+const commentsSlice = createSlice({
+  name: "comments",
+  initialState,
+  reducers: {
+    editComment: (state, action) => {
+      state.editText = action.payload;
+    },
+    emptyComment: (state) => {
+      state.editText = null;
+    },
+  },
+```
+
+`editComment`의 정의입니다. 그리고 `emptyComment`의 정의도 같이 봅시다. `editComment`는 `dispatch`로 보낸 `id`를 잠시 보관하기 위해 사용합니다. 반대로 `emptyComment`는 보관한 데이터를 비우기 위해 사용하는 메서드입니다.
+
+```js title="commentsSlice.js"
+const initialState = {
+  comments: [],
+  isLoading: false,
+  error: null,
+  editText: null,
+};
+```
+
+`initialState`에 잠시 보관할 프로퍼티 `editText`를 `null`로 정의합니다. `null`로 정의한 방식은 중요합니다. 의도적으로 비어있음을 표현하기 위함입니다.
+
+```js title="commentCreate.js"
+const { editText, comments } = useSelector((state) => state.comments);
+```
+
+`store`를 위 코드로 접근합니다.
+
+```js title="commentCreate.js"
+// useEffect 내부 boardId, id을 접근하기 위해 사용합니다.
+let editTextSaveRef = useRef(null);
+
+useEffect(() => {
+  if (editText) {
+    const { boardId, comment, id, name, password } = comments.find(
+      (comment) => comment.id === editText
+    );
+    setWriter(name);
+    setComment(comment);
+    setPassword(password);
+
+    editTextSaveRef.current = { boardId, id };
+  }
+}, [editText]);
+```
+
+`editText`가 `null`이 아닌 어떤 `id`값을 갖을 때 실행하도록 조건문을 추가했습니다. `comments.find`으로 db에서 해당하는 댓글의 데이터를 찾습니다. `CreateComment`는 제어된 `input`을 갖고 있는 로컬 컴포넌트에서 `setter 함수`로 댓글 데이터로 업데이트합니다.
+
+`useRef`로 `useEffect`내부 콜백함수에서 `boardId`, `id`를 외부 스코프로 유출시킵니다.
+
+```js title="commentCreate.js"
+{
+  editText ? (
+    <button onClick={(e) => handleSaveComment(e)}>댓글저장</button>
+  ) : (
+    <button onClick={(e) => handlePostComment(e)}>댓글작성</button>
+  );
+}
+```
+
+`editText`의 상태에 따라 `patch` 혹은 `post`용 버튼을 각각 다르게 보여줍니다. `handleSaveComment`가 `patch`합니다.
+
+```js title="commentCreate.js"
+const handleSaveComment = () => {
+  const editTextSave = {
+    id: editTextSaveRef.current.id,
+    boardId: editTextSaveRef.current.boardId,
+    name: writer,
+    comment: comment,
+    password: password,
+  };
+
+  dispatch(patchCommentThunk(editTextSave));
+  dispatch(emptyComment());
+  setWriter('');
+  setComment('');
+  setPassword('');
+};
+```
+
+`handleSaveComment`는 `editTextSave`에 업데이트할 데이터를 담고 `patchCommentThunk`으로 `store`에 보냅니다. 그리고 `editText`을 초기화할
+`emptyComment`를 실행합니다. 그리고 로컬 컴포넌트의 제어된 input을 모두 초기화합니다.
+
+```js title="commentCreate.js"
+// 편집용 editText을 초기화합니다.
+useEffect(() => {
+  dispatch(emptyComment());
+}, []);
+```
+
+이 `useEffect`를 통해서 다른 페이지를 접근할 때마다 `editText`를 `null`로 초기화합니다.
+
+## TIL.22.12.27. - 모달은 global state 활용하기
+
+[[react] 모달 팝업창 만들기 (react modal)](https://phrygia.github.io/react/2021-09-21-react-modal/)
+
+위 블로그를 참고했습니다.
+
+```js
+const initialState = {
+  boards: [],
+  isLoading: false,
+  error: null,
+  createBoardModalVisibility: false,
+};
+
+const boardSlice = createSlice({
+  name: "boards",
+  initialState,
+  reducers: {
+    showCreateBoardModal: (state) => {
+      state.createBoardModalVisibility = true;
+    },
+    hideCreateBoardModal: (state) => {
+      state.createBoardModalVisibility = false;
+    },
+  },
+}
+```
+
+모달의 state를 글로벌 state로 제어합니다.
+
+```js
+// 구독
+const modalVisibility = useSelector(
+  (state) => state.boards.createBoardModalVisibility
+);
+
+// 추가
+const handleSubmitBoard = (e) => {
+  e.preventDefault();
+  const newBoard = {
+    id: nanoid(),
+    name,
+    title,
+    category: `todo`,
+    content,
+    password,
+  };
+  dispatch(postBoardThunk(newBoard));
+  resetAllInput();
+  dispatch(hideCreateBoardModal());
+  openScroll();
+};
+
+// 취소
+const cancelPostBoard = () => {
+  resetAllInput();
+  dispatch(hideCreateBoardModal());
+  openScroll();
+};
+```
+
+```js
+return (
+  <CreateBoardModalStyled visibility={modalVisibility ? 'show' : null}>
+    <div className="modal">
+      <div className="user-info">
+        <input
+          className="modal-input user-info-item"
+          type="text"
+          placeholder="담당자 이름"
+          name="name"
+          id="name"
+          value={name}
+          onChange={(e) => handleOnChangeName(e)}
+        />
+        <input
+          className="modal-input user-info-item"
+          type="password"
+          placeholder="비밀번호"
+          name="password"
+          id="password"
+          value={password}
+          onChange={(e) => handleOnChangePassword(e)}
+        />
+      </div>
+      <input
+        className="modal-input"
+        type="text"
+        placeholder="제목"
+        name="title"
+        id="title"
+        value={title}
+        onChange={(e) => handleOnChangeTitle(e)}
+      />
+      <textarea
+        className="modal-input text-area"
+        name="content"
+        id="content"
+        placeholder="(내용)"
+        value={content}
+        onChange={(e) => handleOnChangeContent(e)}
+      ></textarea>
+      <div className="modal-btn-container">
+        <button className="modal-btn-item" onClick={() => cancelPostBoard()}>
+          취소
+        </button>
+        <button
+          className="modal-btn-item"
+          onClick={(e) => handleSubmitBoard(e)}
+        >
+          저장
+        </button>
+      </div>
+    </div>
+  </CreateBoardModalStyled>
+);
+```
+
+조건부 렌더링을 `styled-components`로 처리하도록 합니다.
+
+```js
+display: ${(props) => (props.visibility ? "flex" : "none")};
+```

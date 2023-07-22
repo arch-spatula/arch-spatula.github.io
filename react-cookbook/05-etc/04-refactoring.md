@@ -157,3 +157,31 @@ export default Button;
 ```
 
 이렇게 되면 상위의 컴포넌트는 순수 마크업에 가까워집니다. 즉 독자 관점에서는 상태가 없어 보이게 됩니다.
+
+---
+
+## 래퍼런스
+
+[I kinda hate hooks ... a refactoring story](https://www.youtube.com/watch?v=t3jC2xbEyTI)
+
+- 조건문이 있으면 custom hook으로 추출합니다.
+
+[React Query tips from the maintainer @tkDodo](https://www.youtube.com/watch?v=PtHRZqh3LHI)
+
+- useEffect는 custom hook으로 추출합니다.
+  - useState도 있으면 추가 랜더링도 발생할 것입니다.
+- ReactQuery를 직접활용하는 것이 좋습니다. 캐시를 직접 접근하는 경우는 자제하도록 합니다.
+  - useQuery에서 접근해야 리액트가 화면상 구독하고 캐싱관리를 잘합니다.
+- useMutation의 반환값을 지역상태로 활용하지 않습니다.
+  - loading, error flag를 편하게 활용하도록 제공하는 wrapper에 불과합니다.
+  - 반환 데이터를 data를 클라이언트의 local state로 사용하도록 설계를 의도하지는 않았습니다.
+  - stateManager의 역할이 아니라 갱신의 역할을 부여할 의도로 만들었습니다.
+  - 1가지 방법은 반환응답을 캐시에 반영하는 것입니다. 다른 방법은 현재 캐시를 유효하지 않음 처리하고 refetch해서 받아옵니다.
+  - mutation이 발생하면 캐시(useQuery)에서 데이터를 읽도록 합니다.
+- 통신으로 갱신이 발생하면 option 객체에서 onSettled callback으로 queryClient.invalidateQueries에서 해당하는 캐시의 유효함을 무효처리하면 됩니다.
+- queryClient는 트리에서 가장가까운 순서로 조회합니다.
+- react-query의 state 모두 복사하지 말고 최소한의 state만 활용합니다.
+- 사이드이펙트는 이벤트 핸들러 내에 있고 useEffect는 자제하도록 합니다.
+- useQuery는 여러개의 query를 하나로 결합하는 것도 가능합니다.
+  - 비즈니스 특성상 의존성을 원래부터 갖고 있으면 코드를 제어하고 중복을 제거하는 관점에서 결합이 좋습니다. 2개의 리소스를 동시에 제어하는 관점입니다.
+  - 트레이드오프는 만약에 관련성이 원래부터 없었으면 무관한 리소스에 요청이 발생한다는 것입니다.
