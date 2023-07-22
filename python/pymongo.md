@@ -1,6 +1,6 @@
 ---
-sidebar_position: 2
-tags: ["certifi", "pymongo", "python"]
+sidebar_position: 5
+tags: ['certifi', 'pymongo', 'python']
 ---
 
 # pymongo 이런저런 에러

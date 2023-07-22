@@ -1,6 +1,6 @@
 ---
-sidebar_position: 3
-tags: ["python", "data structure", "algorithm", "queue", "stack", "linked list"]
+sidebar_position: 4
+tags: ['python', 'data structure', 'algorithm', 'queue', 'stack', 'linked list']
 ---
 
 # 파이썬 기초 자료구조와 알고리즘
