@@ -5,6 +5,12 @@ description: '자바스크립트 생태계에 중요한 기관과 사람들입�
 
 # 사람과 기관
 
+:::caution
+
+React와 관련된 내용은 분리했습니다.
+
+:::
+
 자바스크립트 생태계에 중요한 기관과 사람들입니다. 지극히 개인적이고 주관적인 기준으로 선정한 목록입니다.
 
 ## 기관
@@ -16,16 +22,21 @@ description: '자바스크립트 생태계에 중요한 기관과 사람들입�
 
 [MDN](https://developer.mozilla.org/ko/):
 
-- firefox
+<!-- - firefox -->
+
+- 웹개발 표준을 잘 정리해주는 재단입니다.
 
 [vercel](https://vercel.com/):
 
-- SvelteKit, Nuxt, Turbo(TurboRepo, TurboPack)
+- 다음 프레임워크와 라이브러리를 개발합니다.
+- [SvelteKit](https://kit.svelte.dev/)
+- [Nuxt](https://v2.nuxt.com/)
+- [Turbo(TurboRepo, TurboPack)](https://turbo.build/)
 
-goggle
+Goggle
 
-- firebase
-- angular
+- [Firebase](https://firebase.google.com/)
+- [Angular](https://angular.io/)
 <!-- golang -->
 
 [Builder.io](http://www.builder.io/):
@@ -34,7 +45,7 @@ goggle
 
 [netlify](https://www.netlify.com/)
 
-- [gatsby](https://www.gatsbyjs.com/)
+- [Gatsby](https://www.gatsbyjs.com/)
 
 ## 사람
 
@@ -44,12 +55,16 @@ Brendan Eich
 
 Douglas Crockford
 
-- JSON의 보급자
-- `자바스크립트 핵심 가이드(javascript the good parts)`의 저자
+- JSON의 보급자입니다.
+- `자바스크립트 핵심 가이드(javascript the good parts)`의 저자입니다.
 
-[Fireship(Jeff Delaney)](https://www.youtube.com/channel/UCsBjURrPoezykLs9EqgamOA)
+[Jeff Delaney(A.K.A. Fireship)](https://www.youtube.com/channel/UCsBjURrPoezykLs9EqgamOA)
 
-- 모르면 간첩입니다.
+- 웹개발과 관련된 트렌드를 많이 보고합니다.
+- 2022 ~ 2023년 기준 Firebase와 SvelteKit을 좋아합니다.
+- GDE를 받은 개발자입니다.
+- 유튜브는 Angular 컨설팅을 하면서 저장하기 위해 시작했습니다.
+- Ruby on Rails 개발자로 커리어를 시작했다고 합니다.
 
 [Steve](https://www.youtube.com/@Steve8708)
 
@@ -60,8 +75,9 @@ Rich Harris
 
 - Svelte
 - SvelteKit(Svelte의 메타프레임워크)
-- 과거 times에서 웹 개발자로 관여했습니다.
-  - 데이터시각화, 프로토타이핑에 가까운 작업을 많이하고 이 경험이 Svelte에 많이 반영되었습니다.
+- 과거 times에서 웹 개발자로 근무했습니다.
+  - 프토타이핑, 데이터 시각화, 웹 인터랙션을 많이 구현했습니다.
+  - 과거 본인 작업의 편의를 위한 기능들이 Svelte에 많이 반영되었습니다.
 
 Ryan Dahl
 
@@ -70,13 +86,13 @@ Ryan Dahl
 
 [Evan You](https://evanyou.me/)
 
-- Vue
-- Vite
+- [Vue](https://v3-docs.vuejs-korea.org/)
+- [Vite](https://ko.vitejs.dev/guide/)
 
 Ryan Carniato
 
-- Solid.js
-- SolidStart(solid의 메타프레임워크)
+- [Solid.js](https://www.solidjs.com/)
+- [SolidStart(solid의 메타프레임워크)](https://start.solidjs.com/)
 
 ## 일반 인플루언서 및 강사
 
@@ -98,3 +114,25 @@ Ryan Carniato
 [Dave Gray](https://www.youtube.com/@DaveGrayTeachesCode)
 
 - 일반적이고 준비가 잘된 튜토리얼을 만듭니다.
+
+[Ben Holmes](https://www.youtube.com/@bholmesdev/featured)
+
+- 숏츠형식으로 최근 테크 트렌드를 정리해줍니다.
+
+[Web Dev Cody](https://www.youtube.com/@WebDevCody)
+
+- 개발자의 업무 예시, 기업과제 예시를 많이 볼 수 있습니다.
+- 2023년 기준 유명하지 않습니다.
+
+### 국내에서 유명한 인플루언서 및 강사
+
+[생활코딩](https://opentutorials.org/course/1)
+
+- 개인적으로 입문보단 복습에 좋은 강사라고 봅니다.
+- 복잡한 응용은 없고 기초 중에 핵심만 다룹니다.
+
+[노마드 코더](https://nomadcoders.co/)
+
+- 난이도 낮은 영어듣기입니다.
+
+<!-- 드림코딩은 올리지 않습니다., 조코딩, 거니 -->
