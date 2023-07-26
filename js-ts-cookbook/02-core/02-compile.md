@@ -22,6 +22,24 @@ draft: true
 
 :::
 
+## tl;dr
+
+- 자바스크립트 컴파일 과정에서 제일 중요한 것은 바이트코드를 확보하고 최적화하는 것입니다.
+
+## 시작
+
+의외로 자바스크립트의 기초중 기초는 C++ 코드를 읽는 것입니다. ~~사실 아닙니다.~~
+
+[Chromium Code Search](https://source.chromium.org/)
+
+위에서 V8 코드의 부분을 검색할 수 있습니다. 검색이 필요할 정도로 V8 엔진의 아키텍쳐는 거대합니다. 그래서 이해하는데 꽤 노력이 많이 필요할 것입니다.
+
+<iframe class="codepen" src="https://www.youtube.com/embed/p-iiEDtpy6I" title="Franziska Hinkelmann: JavaScript engines - how do they even? | JSConf EU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+<iframe class="codepen" src="https://www.youtube.com/embed/r5OWCtuKiAk" title="BlinkOn 6 Day 1 Talk 2: Ignition - an interpreter for V8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+<iframe class="codepen" src="https://www.youtube.com/embed/xckH5s3UuX4" title="Understanding the V8 JavaScript Engine" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 ## 컴파일과 인터프리터의 차이
 
 자바스크립트는 컴파일 언어인가? 인터프린터 언어인가? 이 질문에 답하기 애매한 것이 너무 많습니다. 현재 2023년 기준 컴파일 언어라고 말할 수 있습니다. 하지만 실제 프로그래밍할 때 개발경험은 인터프린터 언어와 유사합니다. 대체로 컴파일 언어는 컴파일 시점에 타입검증을 하고 실행전에 잠재적인 버그를 차단합니다. 반면 인터프린터 언어는 대체로 읽으면서 실행하는 방식으로 동작합니다. 자바스크립트는 런타임에 타입을 검증하는 부분에서 인터프린터 언어라는 느낌을 받을 것입니다.
@@ -77,13 +95,40 @@ V8 엔진은 자바스크립트를 스트림으로 받아 UTF-16으로 변환합
 V8 엔진에서 제일 중요한 single source of truth는 바이트코드입니다.
 -->
 
-## 자바스크립트 코드 작성
+## blink에서 V8으로
+
+```html title="index.html"
+<!doctype html>
+<html lang="ko" >
+  <head>
+    <title>Arch-Spatula의 레시피</title>
+  </head>
+  <body class="navigation-with-keyboard">
+    <div id="root">
+    <script src="main.js"></script>
+  </body>
+</html>
+```
+
+여기서 CSS는 없지만 `body`최하단에 script가 있습니다. 크롬 브라우저는 script을 읽기 시작하면 V8엔진에서 처리하기 시작합니다. 참고로 Node 런타임에서는 JavaScript를 바로 읽고 처리합니다.
+
+<!-- 브라우저가 서버에서 리소스를 받으면 처리하는 과정이 있습니다. 자바스크립트 처리시작은 자바스크립트를 읽어야 하는 시점부터입니다. 브라우저는 자바스크립트를 읽기 전까지 크롬의 경우 Blink 렌더엔진이 처리합니다. 하지만 HTML, CSS를 읽는 중간에 JavaScript로 볼 Script 태그를 읽기 시작하면 되면 V8 엔진이 처리를 시작합니다. Script 태그를 보게 되면 Blink 태그가 잠시 정지 되게 때문에 마지막에 처리하도록 합니다. 그래서 `body` 바닥 혹은 `head`에 `defer` 키워드를 넣어서 `Script` 태그를 작성하는 경우를 많이 봤을 것입니다. 이런 이유에서 그렇게 작성합니다. -->
+
+```js title="main.js"
+function getHelloWorld() {
+  return 'hello world!';
+}
+
+console.log(getHelloWorld());
+```
+
+V8 엔진은 `main.js` 파일에 속한 소스코드를 읽고 변환을 시작합니다.
+
+## 자바스크립트 소스코드란?
 
 우리가 작성하는 일반적인 자바스크립트 코드를 보고 소스코드라고 부릅니다. 이런 소스코드는 사람의 언어입니다. 물론 이 사람의 언어를 기계가 이해할 수 있게 여러 변환과정을 거쳐야 합니다.
 
 <!-- 소스코드는 대부분의 경우 사람이 읽기 편하도록 작성합니다. 왜냐하면 소스코드는 사람의 언어입니다. 기계와 중간에 있다고 하면 어셈블리가 중간입니다. -->
-
-브라우저가 서버에서 리소스를 받으면 처리하는 과정이 있습니다. 자바스크립트 처리시작은 자바스크립트를 읽어야 하는 시점부터입니다. 브라우저는 자바스크립트를 읽기 전까지 크롬의 경우 Blink 렌더엔진이 처리합니다. 하지만 HTML, CSS를 읽는 중간에 JavaScript로 볼 Script 태그를 읽기 시작하면 되면 V8 엔진이 처리를 시작합니다. Script 태그를 보게 되면 Blink 태그가 잠시 정지 되게 때문에 마지막에 처리하도록 합니다. 그래서 `body` 바닥 혹은 `head`에 `defer` 키워드를 넣어서 `Script` 태그를 작성하는 경우를 많이 봤을 것입니다. 이런 이유에서 그렇게 작성합니다.
 
 ## Script에서 UTF-16으로
 
@@ -142,6 +187,7 @@ Ignition은 AST를 받아 바이트 코드로 컴파일합니다. AST를 컴파�
 이름을 잘 보면 Fan 선풍기 즉 냉각기 역할을 한다고 생각할 수 있습니다.
 
 <!--
+
 ## 소스코드의 토큰화
 
 자바스크립트 스트림을 읽기 시작하고
@@ -150,7 +196,9 @@ Ignition은 AST를 받아 바이트 코드로 컴파일합니다. AST를 컴파�
 
 V8엔진의 경우 Lexer가 토큰을 생성해줍니다. V8 개발팀은 Lexer를 스케너(scanner)라고 부르고 있습니다.[^2] 스캐너는 토큰을 만들어서 스트림[^스트림이란?]을 생성합니다.
 
-여기서 중요한 포인트는 처음부터 바로 파서가 처리하지 않습니다. -->
+여기서 중요한 포인트는 처음부터 바로 파서가 처리하지 않습니다.
+
+-->
 
 <!-- 1. 엔진(브라우저라면 내장 엔진)이 스크립트를 읽습니다(파싱).
 2. 읽어 들인 스크립트를 기계어로 전환합니다(컴파일).
@@ -208,8 +256,6 @@ V8엔진의 역할은 다양합니다.
 <!-- [자바스크립트는 Compiler / Interpreter 언어다?](https://velog.io/@seungchan__y/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EB%8A%94-Compiler-Interpreter-%EC%96%B8%EC%96%B4%EB%8B%A4) -->
 
 [^1]: [V8 에서 Javascript 코드를 실행하는 방법 정리해보기](https://pks2974.medium.com/v8-%EC%97%90%EC%84%9C-javascript-%EC%BD%94%EB%93%9C%EB%A5%BC-%EC%8B%A4%ED%96%89%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95-%EC%A0%95%EB%A6%AC%ED%95%B4%EB%B3%B4%EA%B8%B0-25837f61f551)
-
-<!-- [BlinkOn 6 Day 1 Talk 2: Ignition - an interpreter for V8](https://www.youtube.com/watch?v=r5OWCtuKiAk) -->
 
 <!--
 [^1]: [자바스크립트 코드 실행 동작 원리: 엔진, 가상머신, 인터프리터, AST 기초 - 카레유](https://curryyou.tistory.com/237)
