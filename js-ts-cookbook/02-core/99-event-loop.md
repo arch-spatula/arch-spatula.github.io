@@ -12,6 +12,10 @@ draft: true
 
 <iframe class="codepen" src="https://www.youtube.com/embed/8aGhZQkoFbQ" title="어쨌든 이벤트 루프는 무엇입니까? | Philip Roberts | JSConf EU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
+### 이벤트 루프 딥다이브
+
+<iframe class="codepen" src="https://www.youtube.com/embed/cCOL7MC4Pl0" title="Jake Archibald: 루프 속 - JSConf.Asia" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 ## 콜백 큐
 
 ## 콜스택
