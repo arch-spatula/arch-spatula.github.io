@@ -25,6 +25,7 @@ React와 관련된 내용은 분리했습니다.
 <!-- - firefox -->
 
 - 웹개발 표준을 잘 정리해주는 재단입니다.
+- spidermonkey를 개발했습니다.
 
 [vercel](https://vercel.com/):
 
@@ -37,6 +38,7 @@ Goggle
 
 - [Firebase](https://firebase.google.com/)
 - [Angular](https://angular.io/)
+- 크롬에 사용 중인 V8엔진을 개발했습니다.
 <!-- golang -->
 
 [Builder.io](http://www.builder.io/):
@@ -134,5 +136,42 @@ Ryan Carniato
 [노마드 코더](https://nomadcoders.co/)
 
 - 난이도 낮은 영어듣기입니다.
+- 일부 의견은 약간의 의구심(grain of salt)을 갖고 판단해야 합니다.
+  - 가끔은 meta의 VR 전망을 낙관적으로 평가
+  - 암호화 화폐, 블록체인, Web3 시대에 대한 전망
+
+[코딩애플](https://www.youtube.com/@codingapple)
+
+- 2023년 나무위키 설명이 정확합니다.
+
+> 올린 영상들을 보면 건조한 유머스타일과 인터넷 밈 활용도, 뭔가 설렁설렁하는 느낌을 주면서도 필요한 건 다 있는 강의 스타일 때문에 유튜브 댓글 등에서 어둠의 생활코딩이라는 별명으로 불리기도 한다.
+>
+> \- 나무위키
 
 <!-- 드림코딩은 올리지 않습니다., 조코딩, 거니 -->
+
+### 기타
+
+[ThePrimeagen](https://www.twitch.tv/ThePrimeagen)
+
+- 트위치 개발자 스트리머입니다.
+- 넷플릭스 엔지니어입니다.
+- VIM 전도사입니다.
+
+[Joma Tech](https://www.youtube.com/c/JomaOppa)
+
+- 금융권(트레이딩)에서 C++ 기반 소프트웨어를 많이 개발했었습니다.
+- 데이터 사이언티스트로 커리어를 전환하기도 했습니다.
+- 지금은 풀타임 유튜버로 전환했습니다.
+- ~~작업거는 부캐 계정도 재미있습니다.[^1]~~
+
+[Kevin Fang](https://www.youtube.com/@kevinfaang)
+
+- 업로드한 영상은 몇개 없습니다. 하지만 몇개 임팩트가 큰것들이 있습니다.
+
+[mayuko](https://www.youtube.com/@hellomayuko)
+
+- iOS 개발자입니다.
+- 나름 유용한 조언을 많이 합니다.
+
+[^1]: [Joma in NYC](https://www.youtube.com/@JomainNYC)
