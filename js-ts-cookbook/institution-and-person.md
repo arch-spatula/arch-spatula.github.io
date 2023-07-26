@@ -174,4 +174,6 @@ Ryan Carniato
 - iOS 개발자입니다.
 - 나름 유용한 조언을 많이 합니다.
 
+<!-- [kevin powell](https://www.youtube.com/@KevinPowell) CSS 고인물은 따로 다룹니다. -->
+
 [^1]: [Joma in NYC](https://www.youtube.com/@JomainNYC)
