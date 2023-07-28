@@ -523,3 +523,458 @@ const numberOrString = (value: number | string): string => {
 ```
 
 이런 방법으로 커스텀 타입 가드를 만들 수 있습니다.
+
+## TIL.23.01.13. - 타입스크립트 문제풀이(2점)
+
+https://github.com/total-typescript/beginners-typescript-tutorial
+
+https://www.totaltypescript.com/tutorials/beginners-typescript/implicit-any-type-error
+
+# The Implicit ‘Any’ Type Error(절대적인 any 자료형 에러)
+
+```sh
+npm run exercise 01
+```
+
+```ts
+import { expect, it } from 'vitest';
+
+export const addTwoNumbers = (a: number, b: number): number => {
+  return a + b;
+};
+
+it('Should add the two numbers together', () => {
+  expect(addTwoNumbers(2, 4)).toEqual(6);
+  expect(addTwoNumbers(10, 10)).toEqual(20);
+});
+```
+
+타입스크립트는 함수를 생성할 때마다 매개변수의 자료형을 정해줘야 합니다. 함수를 만들 때 각 매개변수마다 정해줘야 합니다. 엄격모드에서 피드백을 제공합니다. any 타입은 피할 타입인데 사용하고 있다고 경고해주는 것입니다.
+
+단연히 타입스크립트는 엄격모드를 활성화 해야 합니다. 안하는 사람도 있지만 초심자일수록 더욱더 엄격모드를 권장합니다.
+
+# Working with Object Params(객체 매개변수 다루기)
+
+```ts
+import { expect, it } from 'vitest';
+
+export const addTwoNumbers = (params) => {
+  return params.first + params.second;
+};
+
+it('Should add the two numbers together', () => {
+  expect(
+    addTwoNumbers({
+      first: 2,
+      second: 4,
+    })
+  ).toEqual(6);
+
+  expect(
+    addTwoNumbers({
+      first: 10,
+      second: 20,
+    })
+  ).toEqual(30);
+});
+```
+
+이 에러를 해결하도록 합니다.
+
+```ts
+import { expect, it } from 'vitest';
+
+interface numbers {
+  first: number;
+  second: number;
+}
+
+export const addTwoNumbers = (params: numbers): number => {
+  return params.first + params.second;
+};
+
+it('Should add the two numbers together', () => {
+  expect(
+    addTwoNumbers({
+      first: 2,
+      second: 4,
+    })
+  ).toEqual(6);
+
+  expect(
+    addTwoNumbers({
+      first: 10,
+      second: 20,
+    })
+  ).toEqual(30);
+});
+```
+
+이렇게 풀었습니다. 이 문제를 풀수 있을 때는 다양하게 풀 수 있습니다. 객체의 각각의 요소를 인라인으로 해결할 수 있습니다.
+
+```ts
+import { expect, it } from 'vitest';
+
+export const addTwoNumbers = (params: { first: number; second: number }) => {
+  return params.first + params.second;
+};
+
+it('Should add the two numbers together', () => {
+  expect(
+    addTwoNumbers({
+      first: 2,
+      second: 4,
+    })
+  ).toEqual(6);
+
+  expect(
+    addTwoNumbers({
+      first: 10,
+      second: 20,
+    })
+  ).toEqual(30);
+});
+```
+
+```ts
+import { expect, it } from 'vitest';
+
+type AddTwoNumbersArgs = {
+  first: number;
+  second: number;
+};
+
+export const addTwoNumbers = (params: AddTwoNumbersArgs) => {
+  return params.first + params.second;
+};
+
+it('Should add the two numbers together', () => {
+  expect(
+    addTwoNumbers({
+      first: 2,
+      second: 4,
+    })
+  ).toEqual(6);
+
+  expect(
+    addTwoNumbers({
+      first: 10,
+      second: 20,
+    })
+  ).toEqual(30);
+});
+```
+
+이것은 2번째 방법입니다. 마지막 방법은 이미 한 풀이입니다.
+
+interface의 단점은 객체에만 적용될 수 있습니다.
+
+interface이든 type을 사용하든 취향 문제입니다.
+
+타입 엘리어스(별칭)를 사용하면 읽기 더 쉽습니다. 타입 엘리어스를 자주 만들기를 권장합니다. 하지만 처음 공부할 때는 안해도 괜찮습니다.
+
+# Set Properties as Optional
+
+```ts
+import { expect, it } from 'vitest';
+
+export const getName = (params: { first: string; last: string }) => {
+  if (params.last) {
+    return `${params.first} ${params.last}`;
+  }
+  return params.first;
+};
+
+it('Should work with just the first name', () => {
+  const name = getName({
+    first: 'Matt',
+  });
+
+  expect(name).toEqual('Matt');
+});
+
+it('Should work with the first and last name', () => {
+  const name = getName({
+    first: 'Matt',
+    last: 'Pocock',
+  });
+
+  expect(name).toEqual('Matt Pocock');
+});
+```
+
+```ts
+import { expect, it } from 'vitest';
+
+export const getName = (params: { first: string; last?: string }) => {
+  if (params.last) {
+    return `${params.first} ${params.last}`;
+  }
+  return params.first;
+};
+
+it('Should work with just the first name', () => {
+  const name = getName({
+    first: 'Matt',
+  });
+
+  expect(name).toEqual('Matt');
+});
+
+it('Should work with the first and last name', () => {
+  const name = getName({
+    first: 'Matt',
+    last: 'Pocock',
+  });
+
+  expect(name).toEqual('Matt Pocock');
+});
+```
+
+제가 풀이한 정답입니다. ?를 선택적으로 입력하는 매개변수로 지정했습니다. 이게 있으면 객체 속성을 선택적으로 넣을 수 있게 해줍니다.
+
+# Optional Parameters(선택적 매개변수)
+
+```ts
+import { expect, it } from 'vitest';
+
+export const getName = (first: string, last?: string) => {
+  if (last) {
+    return `${first} ${last}`;
+  }
+  return first;
+};
+
+it('Should work with just the first name', () => {
+  const name = getName('Matt');
+
+  expect(name).toEqual('Matt');
+});
+
+it('Should work with the first and last name', () => {
+  const name = getName('Matt', 'Pocock');
+
+  expect(name).toEqual('Matt Pocock');
+});
+```
+
+이전 문제와 동일합니다.
+
+# Assigning Types to Variables
+
+```ts
+import { expect, it } from 'vitest';
+
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  isAdmin: boolean;
+}
+
+/**
+ * How do we ensure that defaultUser is of type User
+ * at THIS LINE - not further down in the code?
+ */
+const defaultUser = {};
+
+const getUserId = (user: User) => {
+  return user.id;
+};
+
+it('Should get the user id', () => {
+  expect(getUserId(defaultUser)).toEqual(1);
+});
+```
+
+```ts
+import { expect, it } from 'vitest';
+
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  isAdmin: boolean;
+}
+
+/**
+ * How do we ensure that defaultUser is of type User
+ * at THIS LINE - not further down in the code?
+ */
+const defaultUser: User = {
+  id: 1,
+  firstName: 'Jake',
+  lastName: 'the dog',
+  isAdmin: true,
+};
+
+const getUserId = (user: User) => {
+  return user.id;
+};
+
+it('Should get the user id', () => {
+  expect(getUserId(defaultUser)).toEqual(1);
+});
+```
+
+객체에는 인터페이스로 지정해서 특정 속성값이 없으면 에러가 발생하도록 합니다. 또 유용한 자동완성도 활용할 수 있습니다.
+
+특정 식별자에 특정 자료형 요건을 정의하기 유용한 방식입니다.
+
+# Constraining Value Types(값 자료형의 제약)
+
+```ts
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  /**
+   * How do we ensure that role is only one of:
+   * - 'admin'
+   * - 'user'
+   * - 'super-admin'
+   */
+  role: string;
+}
+
+export const defaultUser: User = {
+  id: 1,
+  firstName: 'Matt',
+  lastName: 'Pocock',
+  // @ts-expect-error
+  role: 'I_SHOULD_NOT_BE_ALLOWED',
+};
+```
+
+문제는 role이 `admin`, `user`, `super-admin` 중 하나여야 합니다.
+
+```ts
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  /**
+   * How do we ensure that role is only one of:
+   * - 'admin'
+   * - 'user'
+   * - 'super-admin'
+   */
+  role: 'admin' | 'user' | 'super-admin';
+}
+
+export const defaultUser: User = {
+  id: 1,
+  firstName: 'Matt',
+  lastName: 'Pocock',
+  // @ts-expect-error
+  role: 'I_SHOULD_NOT_BE_ALLOWED',
+};
+```
+
+유니언 타입을 사용한 것으로 문제를 해결한 것입니다. 생각보다 많이 사용합니다. 자료형의 유형을 정의할 수 있게 해줍니다. 학생, 교직원, 교수, 연구원처럼 대학교에서 구분하는 것처럼 구분도 가능합니다.
+
+# Working with Arrays(배열 다루기)
+
+```ts
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  role: 'admin' | 'user' | 'super-admin';
+  posts: Post;
+}
+
+interface Post {
+  id: number;
+  title: string;
+}
+
+export const defaultUser: User = {
+  id: 1,
+  firstName: 'Matt',
+  lastName: 'Pocock',
+  role: 'admin',
+  posts: [
+    {
+      id: 1,
+      title: 'How I eat so much cheese',
+    },
+    {
+      id: 2,
+      title: "Why I don't eat more vegetables",
+    },
+  ],
+};
+```
+
+문제입니다.
+
+```ts
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  role: 'admin' | 'user' | 'super-admin';
+  posts: Post[];
+}
+
+interface Post {
+  id: number;
+  title: string;
+}
+
+export const defaultUser: User = {
+  id: 1,
+  firstName: 'Matt',
+  lastName: 'Pocock',
+  role: 'admin',
+  posts: [
+    {
+      id: 1,
+      title: 'How I eat so much cheese',
+    },
+    {
+      id: 2,
+      title: "Why I don't eat more vegetables",
+    },
+  ],
+};
+```
+
+정답입니다. 2가지가 정답이 있습니다.
+
+제네릭을 사용하는 방법입이 있습니다.
+
+```ts
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  role: 'admin' | 'user' | 'super-admin';
+  posts: Array<Post>;
+}
+
+interface Post {
+  id: number;
+  title: string;
+}
+
+export const defaultUser: User = {
+  id: 1,
+  firstName: 'Matt',
+  lastName: 'Pocock',
+  role: 'admin',
+  posts: [
+    {
+      id: 1,
+      title: 'How I eat so much cheese',
+    },
+    {
+      id: 2,
+      title: "Why I don't eat more vegetables",
+    },
+  ],
+};
+```
+
+조금더 복잡한 상황에서 많이 사용합니다. map, set, recode, promise에서 많이 사용합니다. 일단은 배열도 이런 표기가 가능합니다.
