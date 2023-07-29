@@ -3480,3 +3480,404 @@ return (
 ```js
 display: ${(props) => (props.visibility ? "flex" : "none")};
 ```
+
+## TIL.23.01.17. - Zustand, Tailwind, React&TypeScript
+
+# 서론
+
+꿀빨고 싶어서 간단하기로 소문난 라이브러리로 todo app을 만들어 보겠습니다.
+
+다 큰 어른인데 설치랑 폴더구조 각자 알아서 하시기 바랍니다(사실 작성하기 귀찮습니다).
+
+# store
+
+```ts
+// store.ts
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import type { todoSlice } from '../types';
+import createTodoSlice from './todoSlice';
+
+/**
+ * slice마다 추상화시키고 결합시킬 수 있습니다.
+ * 초기설정
+ * @see https://github.com/pmndrs/zustand/blob/main/docs/guides/slices-pattern.md
+ * 타입스크립트 패턴
+ * @see https://github.com/pmndrs/zustand/blob/main/docs/guides/typescript.md#slices-pattern
+ * 브라우저에 저장
+ * @see https://github.com/pmndrs/zustand/blob/main/docs/integrations/persisting-store-data.md
+ */
+const useBoundStore = create<todoSlice>()(
+  persist(
+    (...a) => ({
+      ...createTodoSlice(...a),
+    }),
+    { name: 'all-store', storage: createJSONStorage(() => localStorage) }
+  )
+);
+
+export default useBoundStore;
+```
+
+앱의 핵심이 되는 store입니다.
+
+공식문서에서 권장하는 것은 slice 패턴을 활용하는 것입니다.
+
+# todoSlice
+
+```ts
+// todoSlice.ts
+import { StateCreator } from 'zustand';
+import type { todoSlice } from '../types';
+
+const createTodoSlice: StateCreator<todoSlice> = (set) => ({
+  //
+  todos: [],
+
+  //
+  addTodo: (newTodo) => {
+    set((state) => ({
+      ...state,
+      todos: [...state.todos, newTodo],
+    }));
+  },
+
+  // 사용자가 편집을 완료하면 Save하는 기능입니다.
+  updateTodo: (id, content) => {
+    set((state) => ({
+      ...state,
+      todos: [...state.todos].map((todo) =>
+        todo.id === id ? { ...todo, content } : todo
+      ),
+    }));
+  },
+
+  //
+  deleteTodo: (id) => {
+    set((state) => ({
+      ...state,
+      todos: [...state.todos].filter((todo) => todo.id !== id),
+    }));
+  },
+
+  shiftTodo: (id, progress) => {
+    set((state) => {
+      const newArr = [...state.todos].filter((todo) => todo.id !== id);
+      const shiftItem = [...state.todos].filter((todo) => todo.id === id)[0];
+      return { ...state, todos: [...newArr, { ...shiftItem, progress }] };
+    });
+  },
+});
+
+export default createTodoSlice;
+```
+
+개별 Slice인 todoSlice입니다. 여기서 모든 CRUD를 지원하고 있습니다. 불변성을 유지하면서 코드가독성이 상당히 많이 떨어졌습니다. 물론 `immer.js`를 지원하게 때문에 활용해도 되지만 일단은 안 했습니다.
+
+# types
+
+```ts
+// types.ts
+export type progressType = 'todo' | 'done';
+
+export type todoItemType = {
+  id: string;
+  content: string;
+  progress: progressType;
+};
+
+export type todoSlice = {
+  todos: todoItemType[];
+  addTodo: (newTodoItem: todoItemType) => void;
+  updateTodo: (id: string, content: string) => void;
+  deleteTodo: (id: string) => void;
+  shiftTodo: (id: string, progress: progressType) => void;
+};
+
+export type IconType = {
+  icon: 'arrow-back-up' | 'circle-check' | 'edit' | 'trash';
+};
+```
+
+그리고 모두가 공유하는 `types.ts`입니다.
+
+결함은 1번만 호출하고 사용하는 type들을 유틸파일에 넣어서 관리한다는 것입니다. 사전에 1회 사용할 경우 해당 sliec에서 정의하는 패턴은 공식문서에 있었는데 놓쳤습니다.
+
+이제는 APP입니다.
+
+# App
+
+```ts
+// App.tsx
+import { CreateTodo, TodoColum } from './components';
+import useBoundStore from './Store/Store';
+
+function App() {
+  return (
+    <div>
+      <CreateTodo />
+      <div className="max-w-7xl mx-auto my-0 flex flex-row gap-4">
+        <TodoColum progress="todo" />
+        <TodoColum progress="done" />
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
+
+tailwind로 스타일링을 시작했습니다. 상당히 단순하고 지루합니다.
+
+Zustand를 사용했기 때문에 ContextAPI도 필요없습니다.
+
+저장은 `localStorage`에 하기 때문에 서버랑 통신하지 않았습니다. 브라우저 자체를 캐시처럼 활용해보는 연습도 필요한 것 같습니다. 물론 이것은 연습에 해당하는 것 같지는 않습니다.
+
+# CreateTodo
+
+```ts
+import { ChangeEvent, FC, useState } from 'react';
+import type { todoItemType } from '../types';
+import { nanoid } from 'nanoid';
+import useBoundStore from '../Store/Store';
+import { useTextInput } from '../hooks';
+
+const CreateTodo: FC = () => {
+  const addTodo = useBoundStore((state) => state.addTodo);
+
+  // useTextInput으로 리팩토링
+  const {
+    textInputValue: inputValue,
+    handleInputChange,
+    resetInput,
+  } = useTextInput();
+
+  // 데이터 스키마 정의하기
+  const newTodo: todoItemType = {
+    id: nanoid(),
+    content: inputValue,
+    progress: 'todo',
+  };
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    addTodo(newTodo);
+    resetInput();
+  };
+
+  return (
+    <form className="flex h-24 bg-slate-100 items-center justify-center gap-4">
+      <input
+        className="px-3 py-2 border-2 border-emerald-500 rounded-lg text-base"
+        type="text"
+        onChange={handleInputChange}
+        value={inputValue}
+      />
+      <button
+        className="px-3 py-2 border-2 border-emerald-500 bg-emerald-500 text-white rounded-lg text-base"
+        onClick={handleSubmit}
+      >
+        생성
+      </button>
+    </form>
+  );
+};
+
+export default CreateTodo;
+```
+
+todo를 생성할 수 있게 해주는 컴포넌트입니다. todoItemTpye은 2번 사용되었기 때문에 공유하는 것은 적절한 설계라는 생각이 듭니다.
+
+참고로 저는 폴더 구조잘 짜는 것과 코드의 import export 잘 짜는 것도 설계라고 생각하는 모자란 사람입니다.
+
+# todoColum
+
+```ts
+// todoColum.tsx
+import { FC } from 'react';
+import useBoundStore from '../Store/Store';
+import type { progressType } from '../types';
+import TodoItem from './TodoItem';
+
+interface TodoColumProps {
+  progress: progressType;
+}
+
+const TodoColum: FC<{ progress: progressType }> = ({
+  progress,
+}: TodoColumProps) => {
+  const todos = useBoundStore((state) => state.todos);
+
+  return (
+    <div className="w-1/2">
+      <h2 className="font-bold text-2xl py-4 px-2">{progress}</h2>
+      <ul className="flex flex-col gap-4">
+        {todos
+          .filter((todo) => todo.progress === progress)
+          .map(({ id, content, progress }) => (
+            <li key={id}>
+              <TodoItem id={id} content={content} progress={progress} />
+            </li>
+          ))}
+      </ul>
+    </div>
+  );
+};
+
+export default TodoColum;
+```
+
+여러개의 목록을 묶어내는 컴포넌트에 해당합니다. 즉 `ul`, `il`관계에서 `ul`에 해당합니다.
+
+Zustand 덕분에 `useBoundStore로` 글로벌 state를 간단하게 접근합니다. 목록 하나만 간단하게 선택합니다. 이렇게 보면 상당히 좋은 추상화입니다.
+
+`FC`를 타입으로 지정하시는 분들도 있고 `ComponentNameProps`라고 인터페이스를 정의하고 `args`에 타입을 지정하는 사람도 있습니다.
+
+`FC`는 많지만 구시대적인 것 같습니다. 하지만 제가 제네릭을 사용할 줄 아는 간지나는 사람 흉내를 내볼 수 있습니다. 물론 개발자 흉내내기도 어려워하는 사람이 이런 짓거리하고 있습니다.
+
+# todoItem
+
+```ts
+// todoItem.tsx
+import arrowBackUp from '/arrow-back-up.svg';
+import circleCheck from '/circle-check.svg';
+import edit from '/edit.svg';
+import trash from '/trash.svg';
+import cornerDownLeft from '/corner-down-left.svg';
+import { FC, useState } from 'react';
+import type { todoItemType } from '../types';
+import useBoundStore from '../Store/Store';
+import { useTextInput } from '../hooks';
+import IconButton from './IconButton';
+
+const TodoItem: FC<todoItemType> = ({ content, id, progress }) => {
+  const { deleteTodo, shiftTodo, updateTodo } = useBoundStore(
+    ({ deleteTodo, shiftTodo, updateTodo }) => ({
+      deleteTodo,
+      shiftTodo,
+      updateTodo,
+    })
+  );
+
+  // 추측: editing은 local state로 고유해도 됩니다.
+  const [isEditing, setIsEditing] = useState(false);
+  const { textInputValue, handleInputChange } = useTextInput(content);
+
+  const handleToggleEdit = () => {
+    setIsEditing((prev) => !prev);
+    if (isEditing) {
+      updateTodo(id, textInputValue);
+    }
+  };
+
+  return (
+    <div className="bg-slate-100 flex flex-row justify-between items-center py-3 pr-2 pl-3 rounded-lg">
+      {isEditing ? (
+        <input
+          className="font-medium text-base rounded-lg py-1 px-3 border-2 border-emerald-500"
+          type="text"
+          value={textInputValue}
+          onChange={handleInputChange}
+        />
+      ) : (
+        <h2 className="font-medium">{content}</h2>
+      )}
+
+      <div className="flex flex-row gap-2">
+        {progress === 'todo' ? (
+          <IconButton
+            onClick={() => shiftTodo(id, 'done')}
+            icon={circleCheck}
+            alt="완료"
+          />
+        ) : (
+          <IconButton
+            onClick={() => shiftTodo(id, 'todo')}
+            icon={arrowBackUp}
+            alt="뒤로가기"
+          />
+        )}
+
+        {!isEditing ? (
+          <IconButton
+            onClick={() => handleToggleEdit()}
+            icon={edit}
+            alt="편집"
+          />
+        ) : (
+          <IconButton
+            onClick={() => handleToggleEdit()}
+            icon={cornerDownLeft}
+            alt="수정완료"
+          />
+        )}
+
+        <IconButton onClick={() => deleteTodo(id)} icon={trash} alt="삭제" />
+      </div>
+    </div>
+  );
+};
+
+export default TodoItem;
+```
+
+`useBoundStore`에서 3개의 메서드를 뽑습니다. `deleteTodo`, `shiftTodo`, `updateTodo`, 3개를 뽑습니다.
+
+# IconButton
+
+```ts
+//IconButton.tsx
+import { FC } from 'react';
+
+const IconButton: FC<{
+  onClick: () => void;
+  icon: string;
+  alt: string;
+}> = ({ onClick, icon, alt }) => {
+  return (
+    <button
+      className="flex items-center justify-center p-2 bg-slate-200 rounded-lg"
+      onClick={onClick}
+    >
+      <img src={icon} alt={alt} />
+    </button>
+  );
+};
+
+export default IconButton;
+```
+
+섭하지 않게 커스텀 컴포넌트입니다.
+
+모든 클릭 이벤트는 대입하는 값이 없는 콜백함수라 가능합니다.
+
+# useTextInput
+
+```ts
+// useTextInput.ts
+import { useState, ChangeEvent } from 'react';
+
+const useTextInput = (initText: string = '') => {
+  const [textInputValue, setTextInputValue] = useState(initText);
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTextInputValue(e.target.value);
+  };
+
+  const resetInput = () => {
+    setTextInputValue('');
+  };
+
+  return { textInputValue, handleInputChange, resetInput };
+};
+
+export default useTextInput;
+```
+
+아주 귀여운 실력의 useTextInput입니다. custom hook입니다.
+
+# 결론
+
+Zustand, Tailwind는 🐶🍯입니다.
+
+리액트를 위한 타입스크립트는 고인물들에게 패턴을 더 배워오겠습니다.
