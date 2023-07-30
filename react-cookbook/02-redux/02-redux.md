@@ -1,11 +1,17 @@
 ---
 description: 'Redux 예시'
-tags: ['react', 'redux']
+tags: ['react', 'redux', 'redux classic']
 sidebar_position: 2
 draft: true
 ---
 
 # 리덕스(Redux)
+
+:::danger 경고
+
+여기서 다루는 Redux는 Toolkit 전입니다.
+
+:::
 
 리덕스는 리액트의 상태관리 라이브러리 중 하나로 reducer와 ducks pattern을 결합한 의미를 갖습니다.
 
@@ -15,7 +21,7 @@ draft: true
 
 이것은 문화권마다 다르지만 미국권에서는 리덕스는 코드 작성량이 많은 것(verbose)도 단점이라고 지적합니다.
 
-## Redux part 1
+## Redux를 사용하는 이유
 
 리덕스의 장점 중 하나는 전역으로 State를 관리할 수 있습니다. 훨씬더 복잡한 앱을 만들 수 있습니다.
 
@@ -27,7 +33,9 @@ draft: true
 
 store는 글로벌 state를 보관합니다.
 
-## Redux part 2
+store를 통해서 따로 전달하면 얻는 장점은 2가지 측면입니다. 하나는 랜더링 관점에서 정확히 갱신해야 할 컴포넌트만 State를 주입하기 때문에 불필요한 부모컴포넌트의 랜더링을 막습니다. 다른 측면은 제어 측면입니다. prop drilling을 하면서 관심사와 무관한 props를 읽는 것을 피할 수 있습니다.
+
+## Redux 설정
 
 설치하는 방법입니다. 리액트를 설치하고 난뒤에 다음 명령을 하도록 합니다.
 
@@ -60,7 +68,7 @@ yarn add react-redux
 
 configStore.js는 설정 파일입니다. 전역 상태로 받을 수 있게 해주는 설정 파일입니다.
 
-```js
+```js title="configStore.js"
 import { createStore } from 'redux';
 import { combineReducers } from 'redux';
 
@@ -106,11 +114,6 @@ root.render(
     <App />
   </Provider>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
 ```
 
 공부하는 방법에 따라다르지만 지금은 사용법을 먼저 공부하고 다음에 원리를 이해한다고 가정하면 내부의 동작원리는 설명은 잠시 보류하겠습니다.
@@ -119,9 +122,7 @@ reportWebVitals();
 
 이번에 만들어볼 예제는 카운터 app입니다.
 
-```js
-// src/modules/counter.js
-
+```js title="src/modules/counter.js"
 // 초기 상태값
 const initialState = {
   number: 0,
@@ -141,11 +142,11 @@ export default counter;
 
 ```txt
 ├── src/
-│   └── redux/
-│       ├── config/
-│       │   └── configStore.js
-│       └── modules/
-│           └── counter.js
+│   ├── redux/
+│   │   ├── config/
+│   │   │   └── configStore.js
+│   │   └── modules/
+│   │       └── counter.js
 │   ├── App.js
 │   └── index.js
 ```
@@ -199,7 +200,7 @@ import { combineReducers } from 'redux';
 import counter from '../modules/counter';
 
 const rootReducer = combineReducers({
-  counter: counter,
+  counter,
 });
 const store = createStore(rootReducer);
 
@@ -215,32 +216,24 @@ import { useSelector } from 'react-redux';
 
 function App() {
   const countStore = useSelector((state) => state);
-  console.log(countStore);
+  console.log(countStore); // { counter: { number: 0 } }
   return <div className="App"></div>;
 }
 
 export default App;
 ```
 
-```js
-{
-  counter: {
-    number: 0,
-  }
-}
-```
-
-console.log를 확인하면 이렇게 피드백 주는 것을 확인할 수 있습니다.
+`console.log`를 확인하면 이렇게 피드백 주는 것을 확인할 수 있습니다.
 
 데이터가 흐르는 방향입니다.
 
-modules은 기능의 이름을 참고해서 파일을 생성합니다. modules의 데이터를 configStore.js에 전달합니다. configStore.js에서 호출할 때 redux의 `useSelector` hook으로 접근합니다. state는 모든 모듈의 데이터를 접근할 수 있습니다.
+modules은 기능의 이름을 참고해서 파일을 생성합니다. modules의 데이터를 `configStore.js`에 전달합니다. `configStore.js`에서 호출할 때 redux의 `useSelector` hook으로 접근합니다. state는 모든 모듈의 데이터를 접근할 수 있습니다.
 
 모듈의 구성요소는 initialState, reducer 2가지가 있습니다. 생성하면 store에 연결해야 합니다. `useSelector`로 사용할 컴포넌트에 전달합니다.
 
 ## Redux part 4
 
-[리덕스 흐름 도식화](https://user-images.githubusercontent.com/84452145/205887636-7bf7044a-72e3-4cae-ada6-81e2b05a06f5.gif)
+![리덕스 흐름 도식화](https://user-images.githubusercontent.com/84452145/205887636-7bf7044a-72e3-4cae-ada6-81e2b05a06f5.gif)
 
 1. 사용자는 ui와 어떤 상호작용을 합니다.
 2. dispatch에서 action이 일어나게 됩니다.
@@ -274,8 +267,7 @@ const counter = (state = initialState, action) => {
 
 `useDispatch` redux hook으로 제어할 수 있습니다.
 
-```js
-// App.js
+```js title="App.js"
 import './App.css';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -298,9 +290,7 @@ function App() {
 export default App;
 ```
 
-```js
-// src/modules/counter.js
-
+```js title="src/modules/counter.js"
 // 초기 상태값
 const initialState = {
   number: 0,
@@ -352,9 +342,7 @@ UI에는 반영을 이렇게 보여줄 수 있습니다.
 
 useState처럼 useSelector가 참조하고 있는 컴포넌트도 모두 리랜더링됩니다.
 
-```js
-// src/modules/counter.js
-
+```js title="src/modules/counter.js"
 // 초기 상태값
 const initialState = {
   number: 0,

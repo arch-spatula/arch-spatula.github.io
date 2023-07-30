@@ -13,6 +13,8 @@ React Redux: Redux를 React 많이 사용하지만 React가 아닌 라이브러�
 
 Store: Redux의 모든 상태는 Store에 보관하고 접근합니다.
 
+- Store는 Module, Slice를 주입받습니다.
+
 Provider: 컴포넌트 트리에 상태를 접근 가능하도록 주입하는 컴포넌트입니다.
 
 - Redux 고유용어가 아닙니다. 하지만 Redux를 통해 처음배우는 경우가 많아 설명합니다.
@@ -39,13 +41,37 @@ Action Type: Action Type은 실행할 Reducer의 종류를 고릅니다. 문자�
 
 Action Creator: Action Type은 직접 사용하지 않습니다. Action Creator 함수를 호출해서 활용합니다.
 
+InitState: 초기 상태를 의미합니다.
+
+```js
+// 초기 상태값
+const initialState = {
+  number: 0,
+};
+```
+
 Reducer: Store를 직접 갱신하는 함수입니다.
 
-<!-- Module: -->
+```js
+// 리듀서
+const counter = (state = initialState, action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+```
+
+Module: State와 Reducer를 보관하는 단위입니다.
+
+- Action Type, Action Creator, Reducer로 구현합니다.
+
+<!-- Saga: -->
 
 Slice: State와 Reducer를 보관하는 단위입니다.
 
-InitState: 초기 상태를 의미합니다.
+- Reducer와 Action으로 만듭니다.
+- Action Type, Action Creator를 내부적으로 만들어줍니다.
 
 Persist: 웹 스토리지에 저장한 Redux 상태를 말합니다.
 
@@ -57,4 +83,4 @@ Persist: 웹 스토리지에 저장한 Redux 상태를 말합니다.
 
 RTK-Query: Redux에 ducks pattern과 Reducer pattern을 유지하면서 활용할 수 있는 서버 상태 라이브러입니다.
 
-<!-- Saga: -->
+Zustand: Redux

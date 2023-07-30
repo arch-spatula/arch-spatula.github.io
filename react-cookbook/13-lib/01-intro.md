@@ -24,3 +24,7 @@ sidebar_position: 1
 [react spinners](https://www.davidhu.io/react-spinners/)
 
 - 리액트 스피너입니다. 간단하고 유용합니다.
+
+[react-error-boundary](https://github.com/bvaughn/react-error-boundary#readme)
+
+- Error boundary를 설정하는 대표적인 라이브러리입니다.
