@@ -7,6 +7,8 @@ date: 1453-5-29
 
 # 경험
 
+경험이라고 하지만 사실 엔지니어로서 버킷리스트에 가깝습니다.
+
 - git & github
   - [x] git `add`, `commit`, `push`
   - [ ] rebase merge
@@ -14,7 +16,10 @@ date: 1453-5-29
   - [x] git squash
   - [ ] git tag 활용
   - [x] github 프로젝트 활용
-  - [ ] github actions 활용
+  - github actions 활용
+    - [ ] AWS 연동
+    - [ ] 릴리즈 문서 자동화
+    - [ ] 테스트 자동화
   - 협업
     - [x] git-flow
     - [ ] github-flow
@@ -84,6 +89,37 @@ date: 1453-5-29
       - [ ] Chain of Responsibility
   - [ ] zod 활용
 - React
+  - 컴포넌트 개발
+    <!-- - https://www.notion.so/5d8eafb6fde4446c8b94dad80c1ea865 -->
+    - atom
+      - [ ] icon
+    - molecule
+      - [x] button
+      - [x] input
+      - [ ] tag
+      - [ ] chip
+      - [ ] Badge
+      - [x] toggle
+      - [x] check box
+      - [ ] radio button
+    - organism
+      - [ ] 캐러셀
+      - [ ] card
+      - [ ] toast ui
+      - [ ] snackbar ui
+      - [ ] breadcrumb
+      - [ ] date picker
+      - [ ] search
+      - [ ] table
+    - Templates
+      - [x] modal
+      - [x] nav
+      - [ ] video
+    - Page
+      - [x] sign up
+      - [x] sign in
+      - [x] profile
+      - [ ] landing
   - [x] 6대 네이티브 hook 활용
   - [x] Context API 활용
   - [x] memo 활용
@@ -91,7 +127,7 @@ date: 1453-5-29
   - [ ] Observer Lazy Rendering
   - [ ] Drag & Drop 구현
   - [x] suspense 활용
-  - [ ] error boundary 활용
+  - [x] error boundary 활용
   - [ ] callbackRef 활용
   - [ ] profiler 활용
   - [ ] useLayoutEffect
@@ -116,11 +152,13 @@ date: 1453-5-29
     - [ ] redux-saga
     - [x] redux-toolkit 활용
       - [x] redux thunk 활용
-    - [ ] redux-query 활용
+    - [ ] RTK-query 활용
     - [ ] redux testing
   - CSS-in-JS
     - Styled Component & Emotion
       - [x] 애니메이션 적용
+      - [x] theme provider 적용
+      - [x] props 활용
   - React-Query
     - [x] optimistic updates 적용
     - [x] 의존성 쿼리 적용
@@ -142,8 +180,8 @@ date: 1453-5-29
     - [ ] API
     - [ ] Next Link
     - [ ] Next Font
-    - [ ] Form update
-    - [ ] App Router
+    - [ ] Server action(Form update)
+    - [ ] App Router 활용
     - [ ] CSS-in-JS 설정
     - [x] CSS-in-JS 활용
     - [ ] SSR hydration
@@ -154,9 +192,16 @@ date: 1453-5-29
   - [x] mfa 보안 설정
   - [ ] EC2 인스턴스 자료 없이 설정
   - [ ] S3로 정적 사이트 배포
+  - [ ] Route 53
+  - [ ] Beanstalk
+  - [ ] Lightsail
+- Docker
+  - [x] Docker 설치
+  - [ ] Docker Volume 활용
 - [x] 웹 서버 개발
 - [ ] DNS 서버 개발
-- [ ] 홈 서버 개발
+- 홈 서버 개발
+  - [ ] 라즈베리파이 구매
 - 독서
   - 미분류
   - 아키텍쳐
@@ -181,9 +226,9 @@ date: 1453-5-29
   - 자기개발
     - [x] [<업무 시각화> - 도미니카 드그란디스](https://www.yes24.com/Product/Goods/86627323)
     - [x] [<IT에 몸담은 이들을 위한 지적 생산 기술> - 니시오 히로카즈](https://www.yes24.com/Product/Goods/79652283)
-    - [ ] [<코딩을 지탱하는 기술> - 니시오 히로카즈](https://www.yes24.com/Product/Goods/11101558)
     - [ ] [<이펙티브 엔지니어> - 에드먼드 라우](https://www.yes24.com/Product/Goods/110243880)
-    - [ ] [<소프트웨어 장인> - 산드로 만쿠소](https://www.yes24.com/Product/Goods/20461940)
+    - [ ] [<코딩을 지탱하는 기술> - 니시오 히로카즈](https://www.yes24.com/Product/Goods/11101558)
+    - [ ] [<소프트웨어 장인 정신 이야기> - 로버트 C. 마틴](https://www.yes24.com/Product/Goods/117713965)
     - [ ] [<일본전산 이야기> - 김성호](https://www.yes24.com/Product/Goods/117934216)
     - [ ] [<일취월장> - 고영성, 신영준](https://www.yes24.com/Product/Goods/57501187)
 - ETC
