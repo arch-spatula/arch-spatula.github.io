@@ -46,19 +46,26 @@ P(x) & p_{\footnotesize{1}} & p_{\footnotesize{2}} & p_{\footnotesize{3}} & \cdo
 \end {array}
 ```
 
+$$
+\begin{array}{c:c|c|c|c|c|c}
+X & x_{\footnotesize{1}} & x_{\footnotesize{2}} & x_{\footnotesize{3}} & \cdots & x_{\footnotesize{n}} \\ \hline
+P(x) & p_{\footnotesize{1}} & p_{\footnotesize{2}} & p_{\footnotesize{3}} & \cdots & x_{\footnotesize{n}}  \\
+\end {array}
+$$
+
 ### LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "한글" used in math mode [unicodeTextInMathMode]
 
 ```tex title="문제"
-$$
 Z_{실험집단} = \frac{\bar{x}_{\text{실험집단}-\mu}}{\frac{\sigma}{\sqrt{n}}}
-$$
 ```
 
 ```tex title="해결"
+Z_{\text{실험집단}} = \frac{\bar{x}_{\text{실험집단}-\mu}}{\frac{\sigma}{\sqrt{n}}}
+```
+
 $$
 Z_{\text{실험집단}} = \frac{\bar{x}_{\text{실험집단}-\mu}}{\frac{\sigma}{\sqrt{n}}}
 $$
-```
 
 ### LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
 
@@ -73,3 +80,10 @@ H_{\alpha}: \mu_{1} - \mu_{2} = 0 \\
 H_{\alpha}: \mu_{1} - \mu_{2} \neq 0
 \end{align}
 ```
+
+$$
+\begin{align}
+H_{\alpha}: \mu_{1} - \mu_{2} = 0 \\
+H_{\alpha}: \mu_{1} - \mu_{2} \neq 0
+\end{align}
+$$

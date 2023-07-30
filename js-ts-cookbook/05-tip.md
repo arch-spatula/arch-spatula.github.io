@@ -9,20 +9,20 @@ description: '분류하기 애매한 미세팁들'
 
 최근 프로젝트에 export하는 방식에 명칭이 barrel export였습니다.
 
-```ts title="filename/foo.ts"
+```ts title="foldername/foo.ts"
 export function foo() {
   console.log('foo');
 }
 ```
 
-```ts title="filename/index.ts"
+```ts title="foldername/index.ts"
 export * from './foo';
 ```
 
 폴더 내에서 자유롭게 정의하고 모두 `index`로 묶어주면 됩니다.
 
 ```ts
-import { foo } from '../filename';
+import { foo } from '../foldername';
 
 foo();
 ```

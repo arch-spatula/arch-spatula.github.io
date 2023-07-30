@@ -39,12 +39,14 @@ function reducer(
 
 function Counter() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const handleIncrement = () => dispatch({ type: 'decrement' });
+  const handleDecrement = () => dispatch({ type: 'decrement' });
   return (
-    <>
+    <div>
       Count: {state.count}
-      <button onClick={() => dispatch({ type: 'decrement' })}>-</button>
-      <button onClick={() => dispatch({ type: 'increment' })}>+</button>
-    </>
+      <button onClick={handleIncrement}>-</button>
+      <button onClick={handleDecrement}>+</button>
+    </div>
   );
 }
 ```

@@ -82,14 +82,6 @@ export const useToggleTakenPill = () => {
 
 ## TIL.23.01.12. - 낙관인가? 난관인가?
 
-# prune
-
-```sh
-git remote prune origin
-```
-
-원격에 트레킹 안하는 브랜치를 삭제하는 명령입니다. 오늘 처음봤습니다.
-
 # 진정한 낙관적 업데이트
 
 https://tanstack.com/query/v4/docs/react/guides/optimistic-updates
