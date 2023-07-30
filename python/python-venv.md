@@ -1,6 +1,6 @@
 ---
-sidebar_position: 1
-tags: ["python", "requirements.txt", "venv"]
+sidebar_position: 2
+tags: ['python', 'requirements.txt', 'venv']
 ---
 
 # 가상환경 공유
