@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-tags: ["syntactic sugar", "python"]
+tags: ['syntactic sugar', 'python']
 ---
 
 # 파이썬 문법 줍줍
@@ -289,7 +289,7 @@ ord()  # 문자열 -> 아스키 10진수
 자바스크립트는 프로토타입 기반 언어답게 내장함수보단 내장객체와 메서드로 문제를 해결해야 합니다.
 
 ```js
-console.log(String.fromCharCode(97), "a".charCodeAt(0));
+console.log(String.fromCharCode(97), 'a'.charCodeAt(0));
 ```
 
 `fromCharCode` 정적 매서드랑 `charCodeAt` 동적 매서드를 암기하고 코딩테스트를 풀도록 합시다.
@@ -354,13 +354,15 @@ def solution(chicken: int) -> int:
 ## combinations
 
 $$
+\begin{align}
 n! = n \cdot (n-1) \cdot (n-2) ... 1
-\\\
-\\\
+\\
+\\
 _{n}\mathrm{P}_{r} = \frac{n!}{(n-r)!}
-\\\
-\\\
+\\
+\\
 _{n}\mathrm{C}_{r} = \frac{n!}{(n-r)!\cdot r!}
+\end{align}
 $$
 
 위는 팩토리얼, 순열, 조합 공식들입니다.

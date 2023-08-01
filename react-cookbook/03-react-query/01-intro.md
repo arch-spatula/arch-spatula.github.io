@@ -6,6 +6,14 @@ sidebar_position: 1
 
 # React Query
 
+React Query는 간단하게 말하면 서버 상태관리(Server State Management) 라이브러리입니다. 하지만 이것은 편의상 사용하는 용어입니다. 정확히는 data fetching, data caching 라이브러리입니다.
+
+data fetching의 상태를 관리한다는 것은 서버랑 통신이 진행 중인지, 성공했는지, 실패했는 관리한다는 것입니다.
+
+data caching을 관리한다는 것은 라이브러리마다 다를 수 있습니다. 하지만 동일한 요청을 보내기 전에 캐싱된 데이터를 보여주고 갱신이 된 부분은 받아고 화면에 방영해준다는 것입니다.
+
+## React Query 용어
+
 쿼리 캐시(query cache): 서버에서 데이터를 가져오고 저장한 값을 보고 쿼리 캐시라고 합니다.
 
 - 쿼리 캐시는 인메모리로 저장합니다. 그래서 새로고침하면 없기 때문에 refetch합니다.
@@ -20,3 +28,12 @@ Stale Time: 요청한 쿼리가 유효하다고 간주하는 시간입니다.
 Query Invalidation: 요청한 쿼리가 유효하지 않다고 처리하는 것입니다.
 
 - Stale Time이 지나기 전이라도 유효하지 않다고 처리하면 refetch합니다.
+  - Stale 하고 말고 상관없이 쿼리가 유효하지 않다고 하기 때문입니다.
+
+isLoading, isFetching: 모두 서버에 요청을 처리하고 있는 상태를 나타내지만 캐시의 보유여부에 따라 다릅니다.
+
+- isLoading, isFetching 모두 flag state입니다.
+- isLoading은 캐시를 보유하지 않고 서버에 요청을 보내는 상태라고 합니다.
+- isLoading은 캐시를 받고 다시 서버에 요청을 하게 되면 활성화 되지 않습니다.
+- isFetching은 데이터를 캐싱하고 말고 상관없이 데이터를 요청하는 상태를 말합니다.
+- 유저가 중간 저장할 때 로딩 스피너(Notion 확인해보기 바랍니다)를 보여줘야 한다면 활용할 수 있는 flag입니다.

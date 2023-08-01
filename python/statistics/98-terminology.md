@@ -24,7 +24,7 @@ toc_max_heading_level: 6
 평균이랑 비슷한데 가능한 값마다 확률에 가중평균을 구하는 것이다. $E(x)$로 표현한다.
 
 $$
-\begin{array}{c:c}
+\begin{array}{c:c|c|c|c|c|c}
 X & x_{\footnotesize{1}} & x_{\footnotesize{2}} & x_{\footnotesize{3}} & \cdots & x_{\footnotesize{n}} \\ \hline
 P(x) & p_{\footnotesize{1}} & p_{\footnotesize{2}} & p_{\footnotesize{3}} & \cdots & x_{\footnotesize{n}}  \\
 \end {array}
@@ -33,7 +33,9 @@ $$
 $x$값이 나올 확률 $P(x)$확률 함수나온다.
 
 $$
+\begin{align}
 E(x) = \displaystyle\sum_{i=1}^{n} x_{\footnotesize{i}}\cdot p_{\footnotesize{i}}
+\end{align}
 $$
 
 ```python
@@ -76,8 +78,10 @@ print(expect)
   - **제 2종오류**는 귀무가설이 거짓인데 채택하는 오류 -->
 
 $$
+\begin{align}
 E(\overline{x}) = \frac{\overset{N}{\underset{i = 1}{\sum}}x_{i}}{N} \\
 \text{평균} = \overline{x} = \frac{\overset{N}{\underset{i = 1}{\sum}}x_{i}}{N}
+\end{align}
 $$
 
 ```py
@@ -92,13 +96,17 @@ describe([0, 1]).mean
 #### 절사평균
 
 $$
+\begin{align}
 \text{절사평균} = \bar{x} = \frac{\overset{n-p}{\underset{i = p+1}{\sum}} x_{i}}{n-2p}
+\end{align}
 $$
 
 #### 가중평균
 
 $$
+\begin{align}
 \text{가중평균} = \bar{x} = \frac{\overset{n}{\underset{i = 1}{\sum}} w_{i}x_{i}}{\overset{n}{\underset{i = 1}{\sum}} w_{i}}
+\end{align}
 $$
 
 #### 기하평균(geometric mean)
@@ -106,7 +114,9 @@ $$
 재무학 분야에서 장기재무계획에 사용하는 평균이다.
 
 $$
+\begin{align}
 G = \sqrt[n]{\prod_{i=1}^n x_i}
+\end{align}
 $$
 
 #### 조화평균(harmonic mean)
@@ -114,7 +124,9 @@ $$
 역수의 산술평균의 역수
 
 $$
+\begin{align}
 H = \frac{1}{\frac{(\overset{n}{\underset{i = 1}{\sum}}\frac{1}{a_{i}})}{n}}
+\end{align}
 $$
 
 ### 중간값([中央-], 중위수, Median)
@@ -140,12 +152,15 @@ $$
 ## 베이즈 정리
 
 $$
+\begin{align}
 P(H|E) = \frac{P(E|H)P(H)}{P(E)}
+\end{align}
 $$
 
 ## 베르누이 분포
 
 $$
+\begin{align}
 \text{the Bernoulli Distribution} \\
 
 \text{Bern}(x;\mu) =
@@ -155,6 +170,7 @@ $$
 \end{cases}
 \\
 \text{Bern}(x, \mu) = \mu^{x} \cdot (1 - \mu)^{1-x}
+\end{align}
 $$
 
 ## 의사결정 오류: 1종 오류와 2종 오류
@@ -204,7 +220,7 @@ $$
 sampling distribution which is the distribution of all possible group means for a certain sample size.
 
 $$
-Z_{실험집단} = \frac{\bar{x}_{\text{실험집단}-\mu}}{\frac{\sigma}{\sqrt{n}}}
+Z_{\text{실험집단}} = \frac{\bar{x}_{\text{실험집단}-\mu}}{\frac{\sigma}{\sqrt{n}}}
 $$
 
 So, the z-score--also called the z-statistic--tells us how many standard errors away from the sampling distribution mean our group mean is.
@@ -249,8 +265,10 @@ because we want to be a bit more cautious about rejecting the null hypothesis th
 would be if we used the standard of 0.05.
 
 $$
+\begin{align}
 H_{\alpha}: \mu_{1} - \mu_{2} = 0 \\
 H_{\alpha}: \mu_{1} - \mu_{2} \neq 0
+\end{align}
 $$
 
 The two sample t-statistic again follows the general form.

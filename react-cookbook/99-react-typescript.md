@@ -5,6 +5,8 @@ sidebar_position: 99
 draft: true
 ---
 
+# React와 TypeScript 조합하기
+
 # React TypeScript Tutorial - 1 - Introduction
 
 https://www.youtube.com/watch?v=TiSGujM22OI
