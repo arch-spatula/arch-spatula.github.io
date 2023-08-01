@@ -9,7 +9,7 @@ draft: true
 
 :::danger 경고
 
-여기서 다루는 Redux는 Toolkit 전입니다.
+여기서 다루는 Redux는 Toolkit 전입니다. 2023년에는 Redux는 Redux toolkit을 활용하기 바랍니다.
 
 :::
 
