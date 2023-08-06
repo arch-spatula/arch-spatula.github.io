@@ -64,3 +64,40 @@ console.log(name, age); // Jonathan Smith 18
 ```
 
 이렇게 검색의 복수형 searchPrams를 의미합니다. key, value관계를 갖고 값을 저장할 수 있습니다.
+
+## 큰파일을 다운로드 받는 중 중단하고 싶으면?
+
+중단하는 방법은 `AbortController`를 활용하면 됩니다. 현재 experimental technology 단계라 활용은 조심스럽게 하도록 합니다.
+
+[AbortController](https://developer.mozilla.org/ko/docs/Web/API/AbortController)
+
+```js
+var controller = new AbortController();
+var signal = controller.signal;
+
+var downloadBtn = document.querySelector('.download');
+var abortBtn = document.querySelector('.abort');
+
+downloadBtn.addEventListener('click', fetchVideo);
+
+abortBtn.addEventListener('click', () => {
+  controller.abort();
+  console.log('Download aborted');
+});
+
+/**
+ * --------------------------------------------------------------------------
+ * helper
+ * --------------------------------------------------------------------------
+ */
+function fetchVideo() {
+  // ...
+  fetch(url, { signal }) // 여기서 signal 설정으로 fetch API에서 중단합니다.
+    .then(function (response) {
+      // ...
+    })
+    .catch(function (e) {
+      reports.textContent = 'Download error: ' + e.message;
+    });
+}
+```
