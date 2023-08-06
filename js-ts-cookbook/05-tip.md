@@ -5,6 +5,22 @@ description: '분류하기 애매한 미세팁들'
 
 # 분류하기 애매한 미세팁들
 
+## jsDoc `@deprecated`
+
+```js
+/** @deprecated */
+function inNewEngland(aCustomer) {
+  const stateCode = aCustomer.address.state;
+  return ['MA', 'CT', 'ME', 'VT', 'NH', 'RI'].includes(stateCode);
+}
+
+inNewEngland();
+```
+
+코드 베이스가 극단적으로 거대하고 부분적으로 수정하는게 너무 많은 영역에서 버그를 발생시키고 merge conflict를 발생시킬 것 같으면 `@deprecated` 주석으로 더이상 쓰지말라고 전달하는 전략도 있습니다.
+
+~~ 이 내용은 리덕스가 싫어합니다. ~~
+
 ## barrel export
 
 최근 프로젝트에 export하는 방식에 명칭이 barrel export였습니다.
@@ -30,6 +46,8 @@ foo();
 호출할 때는 호출하고자 하는 함수의 내부 계층구조를 알 필요가 없어집니다.
 
 [Barrel - TypeScript Deep dive](https://basarat.gitbook.io/typescript/main-1/barrel)
+
+<!-- @todo: default export랑 섞어 사용해야 하는 경우 추가로 다루기 -->
 
 ## URL을 읽는 법
 
