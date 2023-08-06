@@ -8,7 +8,27 @@ sidebar_position: 10
 
 - 직렬화
 - 엔티티
-- 컬렉션 & 레코드 -->
+- 컬렉션
+
+-->
+
+## 레코드란?
+
+컴퓨터 과학에서 레코드(record, struct)는 기본적인 자료 구조이다. 데이터베이스나 스프레드시트의 레코드는 보통 로우(row)라고 부른다.
+
+레코드는 각기 다른 자료형에 속할 수 있는 필드의 모임이며, 보통 고정 숫자나 시퀀스로 이루어져 있다.[5] 레코드의 필드들은 특히 객체 지향 프로그래밍에서 멤버(member)로도 부른다.
+
+```go
+type Date struct {
+        year  int
+        month time.Month
+        day   int
+}
+```
+
+위는 golang으로 레코드 비슷하게 표현한 예시입니다.[^3]
+
+---
 
 ## 영어 및 영어권 표현
 
@@ -26,3 +46,4 @@ sidebar_position: 10
 
 [^1]: [Out of the box (feature) - wikipedia](<https://en.wikipedia.org/wiki/Out_of_the_box_(feature)>)
 [^2]: [Eating your own dog food - wikipedia](https://en.wikipedia.org/wiki/Eating_your_own_dog_food)
+[^3]: [레코드 - 컴퓨터 과학](<https://ko.wikipedia.org/wiki/%EB%A0%88%EC%BD%94%EB%93%9C_(%EC%BB%B4%ED%93%A8%ED%84%B0_%EA%B3%BC%ED%95%99)>)
