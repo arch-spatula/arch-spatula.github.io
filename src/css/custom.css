@@ -38,6 +38,11 @@
   aspect-ratio: 16 / 9;
 }
 
+.codesnadbox {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
 .phone-video {
   width: fit-content;
   aspect-ratio: 9 / 16;
