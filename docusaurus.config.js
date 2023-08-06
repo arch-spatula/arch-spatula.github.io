@@ -134,6 +134,18 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
+        id: 'nest',
+        path: 'nest',
+        routeBasePath: 'nest',
+        sidebarPath: require.resolve('./sidebars.js'),
+        // 아래는 수식 쓰기 시작하면 풀어주세요
+        remarkPlugins: [math],
+        rehypePlugins: [katex],
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
         id: 'react-cookbook',
         path: 'react-cookbook',
         routeBasePath: 'react-cookbook',
