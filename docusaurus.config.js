@@ -134,9 +134,9 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'nest',
-        path: 'nest',
-        routeBasePath: 'nest',
+        id: 'nestjs',
+        path: 'nestjs',
+        routeBasePath: 'nestjs',
         sidebarPath: require.resolve('./sidebars.js'),
         // 아래는 수식 쓰기 시작하면 풀어주세요
         remarkPlugins: [math],
