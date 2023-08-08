@@ -1,0 +1,876 @@
+---
+sidebar_position: 1
+---
+
+# Nest.js
+
+https://namu.wiki/w/NestJS
+
+나무위키도 신기하게 있습니다.
+
+https://www.youtube.com/watch?v=GHTA143_b-s&t=82s
+
+express의 단점은 아키텍쳐문제입니다. 어떻게 구조화해야 할지 의견이 없습니다. Nest.js는 의견을 갖고 어떻게 구현해야 하는지 아키텍쳐를 구성할지 압니다.
+
+Nest.js는 백엔드 앵귤러라는 별명을 갖고 있습니다.
+
+구조화, 모듈화, 타입스크립ㅌ, 마이크로서비스 등 다양한 장점이 있습니다.
+
+express 다음으로 제일 인기가 많습니다.
+
+아키텍쳐 구조가 다 결정되어 있기 때문에 기업입장에서 교육비용이 낮은 편입니다.
+
+```sh
+npm i -g @nestjs/cli
+```
+
+전역으로 설치할 라이브러리입니다.
+
+```sh
+nest new project-name
+```
+
+`app.module.ts`은 다른 모듈이 모일 파일입니다.
+
+```ts title="app.module.ts"
+import { Module } from '@nestjs/common';
+
+@Module({
+  imports: [],
+})
+export class AppModule {}
+```
+
+https://docs.nestjs.com/
+
+Module은 controller와 provider를 받을 수 있습니다.
+
+어플리케이션을 기능단위로 쪼갤 수 있습니다.
+
+auth, todo, user 처럼 분리가 가능합니다. 모듈기준으로 앱을 정리합니다.
+
+작은 하위 모듈을 분리할 수 있습니다.
+
+컨벤션은 모듈을 만들 때마다 폴더를 만들어야 합니다. app.module.ts만 상위에서 예외로 둡니다.
+
+```ts title="auth.module.ts"
+import { Module } from '@nestjs/common';
+
+@Module({
+  imports: [],
+})
+export class Auth {}
+```
+
+```sh
+yarn run start
+```
+
+위 명령은 시작입니다.
+
+```sh
+yarn start dev
+```
+
+개발서버 시작입니다.
+
+```sh
+nest g module user
+```
+
+모듈 자동생성입니다. `app.module.ts`에 자동추가된 것을 확인할 수 있을 것입니다.
+
+```ts
+import { Module } from '@nestjs/common';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { BookmarkModule } from './bookmark/bookmark.module';
+
+@Module({
+  imports: [AuthModule, UserModule, BookmarkModule],
+})
+export class AppModule {}
+```
+
+공식 문서에서 컨트롤러는 요청을 처리하고 응답하는 책임을 갖는다고 합니다.
+
+Provider는 비즈니스로직을 처리하는 책임을 갖고 있다고 합니다.
+
+```ts title="auth.controller.ts"
+import { Controller } from '@nestjs/common';
+
+@Controller()
+export class AuthController {}
+```
+
+```ts title="auth.service.ts"
+import { Injectable } from '@nestjs/common';
+
+@Injectable({})
+export class AuthService {}
+```
+
+```ts title="auth.module.ts"
+import { Module } from '@nestjs/common';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+
+@Module({
+  imports: [],
+  controllers: [AuthController],
+  providers: [AuthService],
+})
+export class AuthModule {}
+```
+
+---
+
+```ts
+import { Controller, Post } from '@nestjs/common';
+import { AuthService } from './auth.service';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  @Post('signup')
+  signup() {
+    return 'sign up';
+  }
+
+  @Post('signin')
+  signin() {
+    return 'sign in';
+  }
+}
+```
+
+```
+http://localhost:3000/auth/signup
+```
+
+post 요청을 하면 sign up 응답을 확인할 수 있습니다.
+
+지금은 문자열인데 응답을 객체같은 참조형으로 응답해도 알아서 json으로 변환합니다.
+
+```ts
+import { Controller, Post } from '@nestjs/common';
+import { AuthService } from './auth.service';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  @Post('signup')
+  signup() {
+    return { mas: 'good' };
+  }
+
+  @Post('signin')
+  signin() {
+    return 'sign in';
+  }
+}
+```
+
+요청응답처리는 controller가 처리합니다. 비즈니스 로직은 service에서 처리합니다.
+
+```ts title="auth.service.ts"
+import { Injectable } from '@nestjs/common';
+
+@Injectable({})
+export class AuthService {
+  login() {
+    return { msg: 'good' };
+  }
+
+  signup() {
+    return { msg: 'fuiyoh' };
+  }
+}
+```
+
+```ts title="auth.controller.ts"
+import { Controller, Post } from '@nestjs/common';
+import { AuthService } from './auth.service';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  @Post('signup')
+  signup() {
+    return this.authService.signup();
+  }
+
+  @Post('signin')
+  signin() {
+    return this.authService.login();
+  }
+}
+```
+
+이렇게 하면 요청을 처리하는 객체와 비즈니스 로직을 처리하는 관심사가 분리됩니다.
+
+요청과 비즈니스로직을 분리해서 비즈니스로직에 더 집중하는 전략입니다.
+
+```yml
+version: '3.8'
+services:
+  dev-db:
+    image: postgres:13
+    ports:
+      - 5434:5432
+    environment:
+      - POSTGRES_USER:postgres
+      - POSTGRES_PASSWORD:123
+      - POSTGRES_DB:nest
+    networks:
+      - freecodecamp
+networks:
+  freecodecamp:
+```
+
+위 명령을 활용하니까 동작하지 않습니다.
+
+```yml
+version: '3.8'
+services:
+  dev-db:
+    image: postgres:13
+    ports:
+      - 5434:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=nest
+    networks:
+      - freecodecamp
+networks:
+  freecodecamp:
+```
+
+위 명령 파일로 명령하니까 동작했습니다.
+
+참고로 동작하게 명령은 아래와 같습니다.
+
+```sh
+docker compose up dev-db -d
+```
+
+```sh
+docker ps
+```
+
+위 명령을 동작하는 프로세스를 볼 수 있습니다.
+
+어떤 `CONTAINER ID`를 명령에 활용하면 접근할 수 있습니다.
+
+```sh
+docker logs (CONTAINER_ID)
+```
+
+이렇게 명령하면 해당 컨테이너의 터미널 로그를 볼 수 있습니다.
+
+프리즈마는 쿼리빌더입니다.
+
+프리즈마 cli가 필요합니다. 프리즈마 client 2개를 설치해야 활용할 수 있습니다.
+
+```sh
+yarn add -D prisma # CLI
+```
+
+```sh
+yarn add @prisma/client # Client
+```
+
+```sh
+npx prisma init
+```
+
+프리즈마 파일을 만들어줍니다.
+
+```prisma
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id Int @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  email String
+  hash String
+  salt String
+  firstName String?
+  lastName String?
+}
+
+model Bookmark{
+  id Int @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  title String
+  description String?
+  link String
+}
+```
+
+아까만든 docker 파일을 보면 환경변수에 다음과 같이 설정하면 됩니다.
+
+```
+DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public" # 프리즈마로 받은 정보
+```
+
+```
+DATABASE_URL="postgresql://postgres:123@localhost:5434/nest?schema=public" # 설정할 환경변수
+```
+
+---
+
+```sh
+npx prisma migrate dev
+```
+
+이름을 정해주기는 해야합니다. 프로덕션 마이그레이션은 따로 있습니다.
+
+```sh
+npx prisma generate
+```
+
+프리즈마에 정의한 DB의 타입을 타입스크립트에 활용할 수 있습니다.
+
+```sh
+npx prisma studio
+```
+
+브라우저에 DB을 볼 수 있습니다.
+
+프리즈마와 postgres SQL을 설정하고 나면 이제 DB에 연결하는 작업이 남았습니다. Nest.js에 모듈에 위임해서 처리하는 것 좋습니다.
+
+```sh
+nest g module prisma
+```
+
+```sh
+nest g service prisma --no-spec
+```
+
+참고로 spec은 요구사항 즉 테스트코드를 작성하는 파일도 자동 생성해줍니다. 하지만 플레그 설정하면 자동생성은 안 합니다.
+
+---
+
+```ts title=/prisma.service.ts"
+import { Injectable } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
+import { env } from 'process';
+
+@Injectable()
+export class PrismaService extends PrismaClient {
+  constructor() {
+    super({ datasources: { db: { url: env.DATABASE_URL } } });
+  }
+}
+```
+
+확인을 위해 npx prisma studio으로 브라우저를 확인하고 서버를 가동합니다.
+
+### local import
+
+서비스 로직을 처리하는 것을 각각 독립적으로 주입받게 만들 수 있습니다.
+
+```ts title="prisma.module.ts"
+import { Module } from '@nestjs/common';
+import { PrismaService } from './prisma.service';
+
+@Module({
+  providers: [PrismaService],
+  exports: [PrismaService], // 접근 가능하게 처리
+})
+export class PrismaModule {}
+```
+
+```ts title="auth.module.ts"
+import { Module } from '@nestjs/common';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { PrismaModule } from 'src/prisma/prisma.module';
+
+@Module({
+  imports: [PrismaModule],
+  controllers: [AuthController],
+  providers: [AuthService],
+})
+export class AuthModule {}
+```
+
+```ts title="auth.service.ts"
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+
+@Injectable({})
+export class AuthService {
+  constructor(private prisma: PrismaService) {}
+  login() {
+    return { msg: 'good' };
+  }
+
+  signup() {
+    return { msg: 'fuiyoh' };
+  }
+}
+```
+
+이렇게 하면 접근가능해집니다.
+
+의존성을 주입할 때 주입의 주체에서도 주입할지 말지 export 설정을 해야 합니다. 그리고 서비스끼리 공유하기 위해서는 module에서 먼저 받아야 service에서 접근할 수 있습니다.
+
+하지만 하위 구체적인 의존성이면 적합하지만 다양한 module에 공유가 필요하다면 비효율적입니다.
+
+### global import
+
+```ts title="prisma.module.ts"
+import { Global, Module } from '@nestjs/common';
+import { PrismaService } from './prisma.service';
+
+@Global()
+@Module({
+  providers: [PrismaService],
+  exports: [PrismaService],
+})
+export class PrismaModule {}
+```
+
+이렇게 설정하면 전역으로 공유할 수 있습니다.
+
+```ts title="app.module.ts"
+import { Module } from '@nestjs/common';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { BookmarkModule } from './bookmark/bookmark.module';
+import { PrismaModule } from './prisma/prisma.module';
+
+@Module({
+  imports: [AuthModule, UserModule, BookmarkModule, PrismaModule],
+})
+export class AppModule {}
+```
+
+루트 모듈에도 공유하는 것을 잊지말도록 합니다.
+
+nest.js는 설정작업을 많이 간소하게 해줍니다. 익숙해지기만 하면 일관된 구조를 확보할 수 있습니다.
+
+여기서부터 비즈니스 로직을 처리하면 됩니다.
+
+### 회원가입 로직 처리하기
+
+```ts title="auth.controller.ts"
+import { Controller, Post, Req } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { Request } from 'express';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  @Post('signup')
+  signup(@Req() req: Request) {
+    console.log(req);
+    return this.authService.signup();
+  }
+
+  @Post('signin')
+  signin() {
+    return this.authService.login();
+  }
+}
+```
+
+express를 이렇게 접근할 수 있습니다.
+
+이렇게 요청의 정보를 받을 수 있습니다. 여기서 nest.js는 여러가지 검증 도구들이 있습니다.
+
+Nest.js는 DTO를 지원합니다.
+
+참고로 Nest.js에서 express이렇게 직접 접근하고 활용하는 것은 권장하지 않는 패턴입니다.
+
+```ts title="auth.module.ts"
+import { Body, Controller, Post } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { Request } from 'express';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  @Post('signup')
+  signup(@Body() dto: any) {
+    console.log({ dto });
+    return this.authService.signup();
+  }
+
+  @Post('signin')
+  signin() {
+    return this.authService.login();
+  }
+}
+```
+
+이렇게 @Body를 활용하는 것을 권장합니다.
+
+폴더의 계층 구조는 dto를 각각의 module과 대응해서 정리하도록 합니다.
+
+```ts title="auth/dto/auth.dto.ts"
+export interface AuthDto {
+  email: string;
+  password: string;
+}
+```
+
+```ts title="auth/dto/index.ts"
+export * from './auth.dto';
+```
+
+```ts title="auth.controller.ts"
+import { Body, Controller, Post } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { AuthDto } from './dto';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  @Post('signup')
+  signup(@Body() dto: AuthDto) {
+    console.log({ email: dto.email, password: dto.password });
+    return this.authService.signup();
+  }
+
+  @Post('signin')
+  signin() {
+    return this.authService.login();
+  }
+}
+```
+
+이렇게 타입지정이 가능합니다.
+
+```json
+{
+  "email": "email@email.com",
+  "password": "qwer1234"
+}
+```
+
+해당하는 body의 유효성을 검증해야 합니다. 만약에 body에 저런 방법으로 안 넘겨줬다면 어떻게 되었을 것인가?
+
+아마 서버는 이상하게 처리할 것입니다. 로직을 직접 작성할 수 있지만 꽤 많은 사람들이 자주 겪은 문제입니다.
+
+이때 사용할 수 있는 것은 pipe입니다. pipe은 nest.js에서 데이터를 변환하는 함수입니다.
+
+```ts
+import { Body, Controller, ParseIntPipe, Post } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { AuthDto } from './dto';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  @Post('signup')
+  signup(
+    @Body('email') email: string,
+    @Body('password', ParseIntPipe) password: string
+  ) {
+    console.log({ email: email, password: password });
+    return this.authService.signup();
+  }
+
+  @Post('signin')
+  signin() {
+    return this.authService.login();
+  }
+}
+```
+
+```json
+{
+  "email": "email@email.com",
+  "password": "qwer1234"
+}
+```
+
+이렇게 하면 실패하고
+
+```json
+{
+  "email": "email@email.com",
+  "password": "1234"
+}
+```
+
+이렇게 하면 성공합니다. 숫자로 변형도 자동으로 해줍니다.
+
+하지만 이렇게 작성하면 verbose합니다.
+
+pipe는 내부적으로 이렇게 동작한다는 것을 배웠습니다.
+
+이제는 DTO 차원에서 알아서 유효성 검사하도록 할 것입니다.
+
+```sh
+yarn add class-validator class-transformer
+```
+
+먼저 위 라이브러리를 설치해야 합니다.
+
+```ts title="auth/dto/auth.dto.ts"
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+
+export class AuthDto {
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+}
+```
+
+대소문자 구분을 조심하기 바랍니다. 소문자 대문자 모두 있습니다.
+
+```ts title="main.ts"
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
+  await app.listen(3000);
+}
+bootstrap();
+```
+
+`app.useGlobalPipes(new ValidationPipe());`까지 설정하는 것일 잊지말도록 합니다.
+
+이렇게 설정하면 DTO에서 유효성을 대신 검증해줍니다.
+
+여기서 약간의 보안에서도 좋은 설정도이 있습니다.
+
+```ts title="main.ts"
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  await app.listen(3000);
+}
+bootstrap();
+```
+
+```json
+{
+  "email": "email@email.com",
+  "password": "1234",
+  "stop": "drop and roll"
+}
+```
+
+이렇게 데이터를 보내도 stop key에 해당하는 정보는 알아서 차단합니다.
+
+### 비밀번호 해쉬하기
+
+```sh
+yarn add argon2
+```
+
+위 라이브러리를 활용해서 비밀번호를 hashing하면 됩니다.
+
+https://github.com/ranisalt/node-argon2#readme
+
+```ts
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { AuthDto } from './dto';
+import * as argon from 'argon2';
+
+@Injectable({})
+export class AuthService {
+  constructor(private prisma: PrismaService) {}
+  async signup(dto: AuthDto) {
+    const hash = await argon.hash(dto.password);
+    const salt = hash;
+    const user = await this.prisma.user.create({
+      data: { email: dto.email, hash, salt },
+    });
+    delete user.hash;
+    delete user.salt;
+    return user;
+  }
+
+  login() {
+    return { msg: 'good' };
+  }
+}
+```
+
+모르던 지식이었지만 argon을 활용하면 사용자 비밀번호를 저장할 때 salt도 같이 저장할 필요는 없었습니다.
+
+### 마이그레이션하기
+
+```prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User{
+  id Int @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  email String @unique
+  hash String
+  firstName String?
+  lastName String?
+
+  bookmarks Bookmark[]
+
+  @@map("users")
+}
+
+model Bookmark{
+  id Int @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  title String
+  description String?
+  link String
+
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("bookmarks")
+}
+```
+
+이렇게 되면 유저가 들고 있는 bookmark를 표현할 수 있습니다. bookmarks인 이유는 유저는 여러개의 bookmark를 들지만 bookmark는 하나의 유저에게 쥐어지기 때문입니다. 유저라는 1과 북마크라는 여러(다) 대응이 되는 구조입니다.
+
+이 기회에 필요없는 salt도 삭제합시다.
+
+또 email에 @unique로 지정해서 중복 생성문제도 차단해줍니다.
+
+```sh
+npx prisma migrate dev
+```
+
+하지만 중복생성을 하면 클라이언트에게 500에러를 반환합니다. 이상한 회사와 이상한 백엔드는 많지만 우리는 이것보다 더 문명인다운 방법을 활용할 것입니다.
+
+```ts
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { AuthDto } from './dto';
+import * as argon from 'argon2';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+
+@Injectable({})
+export class AuthService {
+  constructor(private prisma: PrismaService) {}
+  async signup(dto: AuthDto) {
+    try {
+      const hash = await argon.hash(dto.password);
+      const user = await this.prisma.user.create({
+        data: { email: dto.email, hash },
+      });
+      delete user.hash;
+      return user;
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new ForbiddenException('email is taken');
+        }
+      }
+      throw error;
+    }
+  }
+
+  login() {
+    return { msg: 'good' };
+  }
+}
+```
+
+서버랑 통신하는데 예외처리를 안 할 수 없습니다. 하지만 특이하게 Nest.js는 에러가 발생하면 잡고 throw합니다. 추상화 해준다는 점이 좋은 것 같습니다.
+
+참고로 `P2002`은 Prisma 문서 내용입니다.
+
+### 로그인 처리하기
+
+```ts
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { AuthDto } from './dto';
+import * as argon from 'argon2';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+
+@Injectable({})
+export class AuthService {
+  constructor(private prisma: PrismaService) {}
+  async signup(dto: AuthDto) {
+    try {
+      const hash = await argon.hash(dto.password);
+      const user = await this.prisma.user.create({
+        data: { email: dto.email, hash },
+      });
+      delete user.hash;
+      return user;
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new ForbiddenException('email is taken');
+        }
+      }
+      throw error;
+    }
+  }
+
+  async login(dto: AuthDto) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: { email: dto.email },
+      });
+
+      if (!user) throw new ForbiddenException('no email');
+      const pwMatch = await argon.verify(user.hash, dto.password);
+
+      if (!pwMatch) throw new ForbiddenException('password not match');
+
+      delete user.hash;
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+}
+```
+
+몇번의 검증가드만 해주면 됩니다.
+
+### DB & 프리즈마 마이그레이션 자동화
+
+https://youtu.be/GHTA143_b-s?t=4645

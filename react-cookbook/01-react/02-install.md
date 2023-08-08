@@ -46,7 +46,7 @@ yarn create react-app . --template typescript
 touch index.html style.css app.js
 ```
 
-```html
+```html title="index.html"
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -73,7 +73,7 @@ touch index.html style.css app.js
 
 위 html을 그대로 복붙하세요.
 
-```js
+```js title="app.js"
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 

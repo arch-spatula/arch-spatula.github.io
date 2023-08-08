@@ -63,3 +63,11 @@ export default defineConfig(({ mode }) => {
 ```
 
 다른 폴더에서 `import`하면 앞에 `@`이 이쁘게 붙습니다.
+
+<!--
+
+@todo: 번들사이즈가 페이별로 고르지 않습니다. code splitting
+
+rollup-plugin-visualizer: 추가하기
+
+-->
