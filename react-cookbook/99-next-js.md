@@ -3618,3 +3618,579 @@ export default News;
 https://www.youtube.com/watch?v=BxdXXnL0xLw
 
 기타 등등에 대한 것들을 배웠습니다. 레이아웃, Head 태그 제어, 이미지 최적화, 절대경로 `import`, html export, 타입스크립트, Preview, 리다이렉션, 환경 변수등 다양하게 배웠습니다.
+
+# Next-Auth
+
+# Next.js Tutorial - 66 - Authentication Section Intro
+
+https://www.youtube.com/watch?v=d3cfV2Y0_p0
+
+마지막 장인 인증입니다. Next.js에게 인증이 무엇인지 볼 것입니다. 또 Next-auth 라이브러리를 배웁니다.
+
+다른 제공자와도 같이 사용하는 법을 응용할 수 있습니다.
+
+로그인 로그아웃도 구현합니다.
+
+데이터 베이스랑 연결하는 것도 배웁니다.
+
+# Next.js Tutorial - 67 - Authentication in Next.js
+
+https://www.youtube.com/watch?v=Lfgdc8r8CRE
+
+유저는 2가지가 중요합니다. 하나는 아이덴티티와 접근입니다.
+
+풀스택 프레임워크 답게 사용자 인증이 가능합니다. 사용자 인증이 3가지가 가능합니다. 클라이언트 사이드, 서버사이드, API 라우트 측면에서 보안입니다.
+
+또 기존의 변경된 데이터를 보존해야 하는지 안해도 괜찮은지 판단해야 합니다. 없어도 괜찮으면 외부 로그인으로 처리합니다.
+
+로그인을 직접 처리하면 1년이 걸립니다.
+
+NextAuth처럼 다양한 인증기능을 사용할 수 있습니다. 비밀번호 없는 회원가입도 가능하고 데이터베이스를 활용하는 것도 가능합니다.
+
+Auth는 Next.js에 권장하는 사용자 인증 패키지입니다.
+
+# Next.js Tutorial - 68 - NextAuth Setup
+
+https://www.youtube.com/watch?v=Aiqzfmy9A_4
+
+```sh
+yarn add next-auth
+```
+
+이렇게 설치합니다.
+
+auth를 설정할 때 컨벤션이 존재합니다.
+
+api에는 auth 폴더를 만듭니다.
+
+```txt
+/api
+  /auth
+    [...nextauth].js
+```
+
+이렇게 파일을 만듭니다.
+
+```js
+// api/auth/[...nextauth].js
+import NextAuth from 'next-auth/next';
+import { Provider } from 'next-auth/providers';
+
+export default NextAuth({
+  providers: [],
+});
+```
+
+배열로 복수의 서비스에 연결할 수 있습니다.
+
+```js
+// NextAuth package is now updated to version 4, there is some changes when importing the Providers :
+
+import NextAuth from 'next-auth/next';
+import GitHubProvider from 'next-auth/providers/github';
+
+export default NextAuth({
+  providers: [
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
+  ],
+});
+```
+
+업데이트로 각각의 서비스 단위로 import를 해야 합니다.
+
+setting을 설정하고 github에서 OAuth APP을 등록하면 됩니다.
+
+Client ID, Secrets는 환경변수(`.env`)로 저장합니다.
+
+```sh
+GITHUB_ID=스니펫복붙
+GITHUB_SECRET=스니펫복붙
+```
+
+ui는 패키지로 제공받습니다. ui를 커스터마이징하는 것도 가능합니다. 로그인을 하면 쿠키가 생성되는 것을 네트워크 탭에서 확인할 수 있습니다.
+
+로그아웃도 비슷하게 처리할 수 있습니다.
+
+제공 업체에 따라 맞게 활용할 수 있습니다.
+
+```url
+http://localhost:3000/api/auth/sigin
+```
+
+```url
+http://localhost:3000/api/auth/signout
+```
+
+각각의 url에 로그인과 로그아웃을 해주고 ui도 자동으로 제공해줍니다.
+
+# Next.js Tutorial - 69 - Sign In and Sign Out
+
+https://www.youtube.com/watch?v=K08z-qiySZg
+
+url 요청말고 클릭으로 요청하는 법을 다룹니다.
+
+```js
+import Link from 'next/link';
+import { signIn, signOut, useSession } from 'next-auth/client';
+
+function Navbar() {
+  const [session, loading] = useSession();
+  return (
+    <nav className="header">
+      <h1 className="logo">
+        <a href="#">NextAuth</a>
+      </h1>
+      <ul className={`main-nav ${!session && loading ? 'loading' : 'loaded'}`}>
+        <li>
+          <Link href="/">Home</Link>
+        </li>
+        <li>
+          <Link href="/dashboard">Dashboard</Link>
+        </li>
+        <li>
+          <Link href="/blog">
+            <a>Blog</a>
+          </Link>
+        </li>
+
+        {!loading && !session && (
+          <li>
+            <Link
+              href="/api/auth/signin"
+              onClick={(e) => {
+                e.preventDefault();
+                signIn('github');
+              }}
+            >
+              Sign In
+            </Link>
+          </li>
+        )}
+        {session && (
+          <li>
+            <Link
+              href="/api/auth/signout"
+              onClick={(e) => {
+                e.preventDefault();
+                signOut();
+              }}
+            >
+              Sign Out
+            </Link>
+          </li>
+        )}
+      </ul>
+    </nav>
+  );
+}
+
+export default Navbar;
+```
+
+이렇게 작성하면 로그인과 로그아웃 그리고 쿠키로 화면상 상태를 구현할 수 있습니다. 또 세션 토큰으로 이미 로그인을 했으면 저장해두고 재방문에 처음부터 로그인 상태가 되도록 합니다.
+
+로그인 상태는 클라이언트 사이드로 브라우저에서 확인이 가능합니다.
+
+# Next.js Tutorial - 70 - Client-side Authentication
+
+https://www.youtube.com/watch?v=B5wyB5QiseU
+
+Nav는 로그인 상태에 따라 보이는 것이 좋습니다. 로그인 상태면 로그아웃을 제공하고 로그아웃이면 로그인을 보이게 하는 것이 일반적입니다. 이 때 `useSession` hook을 사용하면 됩니다.
+
+`useSession` hook은 로그인과 로딩상태 2가지 값을 갖고 있습니다. 또 배열이라 순서도 중요합니다.
+
+```js
+{
+  !loading && !session && (
+    <li>
+      <Link
+        href="/api/auth/signin"
+        onClick={(e) => {
+          e.preventDefault();
+          signIn('github');
+        }}
+      >
+        Sign In
+      </Link>
+    </li>
+  );
+}
+{
+  session && (
+    <li>
+      <Link
+        href="/api/auth/signout"
+        onClick={(e) => {
+          e.preventDefault();
+          signOut();
+        }}
+      >
+        Sign Out
+      </Link>
+    </li>
+  );
+}
+```
+
+로그인 상태에 따라 로그인과 로그아웃이 조건에 따라 보입니다.
+
+하지만 약간의 문제가 있습니다. 클릭을 하면 깜박임이 있습니다.
+
+```css
+.loading {
+  opacity: 0;
+  transition: all 0.2s ease-in;
+}
+
+.loaded {
+  opacity: 1;
+  transition: all 0.2s ease-in;
+}
+```
+
+```jsx
+<ul className={`main-nav ${!session && loading ? 'loading' : 'loaded'}`}>
+  {/* ... */}
+</ul>
+```
+
+이렇게 조건부 스타일링으로 걸어두면 간단하게 해결할 수 있습니다.
+
+# Next.js Tutorial - 71 - Securing Pages Client-side
+
+https://www.youtube.com/watch?v=vCpqiRabmDk
+
+대시보드 페이지 보안입니다.
+
+useSession을 활용해도 괜찮지만 getSession이 더 효율적인 해결방법입니다.
+
+```js
+// dashboard.js
+import { useState, useEffect } from 'react';
+import { getSession, signIn } from 'next-auth/client';
+
+function Dashboard() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const securePage = async () => {
+      const session = await getSession();
+      console.log({ session });
+      if (!session) {
+        signIn();
+      } else {
+        setLoading(false);
+      }
+    };
+
+    securePage();
+  }, []);
+
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
+  return <h1>Dashboard page</h1>;
+}
+
+export default Dashboard;
+```
+
+위는 고전적인 방식입니다. 지금은 useSession이 잘 업데이트 되었습니다.
+
+```js
+import { useSession } from 'next-auth/react';
+
+function Dashboard() {
+  const { data: session, status } = useSession();
+  return (
+    <>
+      {status === 'loading' && <h2>Loading...</h2>}
+      {!session && <h1>You are not Authorized</h1>}
+      {/* or you can sign in with if statement here */}
+      {session && status === 'authenticated' && <h1>Dashboard</h1>}
+    </>
+  );
+}
+
+export default Dashboard;
+```
+
+useSession이 서버 state처럼 data를 접근할 수 있습니다. 클라이언트 사이드로 이렇게 페이지에 보안처리를 할 수 있습니다.
+
+ui상 지원하지 않는 방법도 있습니다. 하지만 보안에서 상대할 사람은 해커입니다. url 접근도 할 줄 모를 것이라고 생각하면 곤란합니다.
+
+# Next.js Tutorial - 72 - NextAuth Provider
+
+https://www.youtube.com/watch?v=dhLo-GhOPRw
+
+provider 라이브러리를 사용하는 방법도 있습니다.
+
+```js
+import styles from '../styles/Home.module.css';
+import { useSession } from 'next-auth/client';
+
+export default function Home() {
+  const [session, loading] = useSession();
+  console.log({ session, loading });
+  return <div className={styles.container}></div>;
+}
+```
+
+일단 이렇게 작성하고 새로고침하면 로딩이 true가 됩니다. 그리고 session값은 undefined가 됩니다. 정적인 페이지이기 때문에 요청이 없습니다.
+
+provider 설정으로 이 문제를 해결할 수 있습니다.
+
+```js
+// _app.js
+import { Provider } from 'next-auth/client';
+import Navbar from '../components/Navbar';
+import '../styles/globals.css';
+import '../components/Navbar.css';
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <Provider session={pageProps.session}>
+      <Navbar />
+      <Component {...pageProps} />
+    </Provider>
+  );
+}
+
+export default MyApp;
+```
+
+이렇게 설정하면 세션의 존재여부를 판단할 수 있습니다. 모든 페이지에서 세션 인스턴스를 공유할 수 있게 해줍니다. 자주 사용하도록 권장합니다. 라우팅마다 페이지 깜박임을 막도록 할 수 있습니다.
+
+네트워크 콜과 깜박임을 완전히 없애는 것은 아닙니다. 그전보다 덜할뿐입니다.
+
+최초 설치 할 때 빠르게 설정하도록 권장합니다.
+
+# Next.js Tutorial - 73 - Server-side Authentication
+
+https://www.youtube.com/watch?v=ae8lxOOhOtY
+
+서버사이드 인증입니다.
+
+서버사이드 클라이언트 사이드처럼 세센에 따라 ui를 랜더링하는 것처럼 클라이언트에 전달해줄 props를 제어합니다.
+
+```js
+import { getSession, useSession } from 'next-auth/client';
+
+function Blog({ data }) {
+  const [session] = useSession();
+  console.log({ session });
+
+  return <h1>Blog page - {data}</h1>;
+}
+
+export default Blog;
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/api/auth/signin?callbackUrl=http://localhost:3000/blog',
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {
+      data: 'List of 100 personalized blogs',
+      session,
+    },
+  };
+}
+```
+
+getSession함수로 접근합니다. 서버사이드로 세션정보를 접근하는 것은 다릅니다. 서버사이드는 context 매개변수를 받을 수 있습니다.
+
+`session`이 존재하면 화면을 보여주고 없으면 조건부로 안보이게 합니다. 그리고 session이 없으면 로그인 화면으로 리다이렉션을 하도록 합니다.
+
+랜더링 전에 세션정보를 사용자에게 보여줄 수 있기는 합니다. 그래서 session 자체를 props로 넘겨주는 전략이 있습니다.
+
+Session의 존재여부를 먼저 판단한 다음에 요청하기 때문에 session을 서버사이드로 알고 보내주도록 합니다.
+
+```js
+import { getSession } from 'next-auth/react';
+
+function Blog({ blogsdata }) {
+  return <h1>Blog Page - {blogsdata}</h1>;
+}
+
+export default Blog;
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  console.log(session);
+  return {
+    props: {
+      blogsdata: session
+        ? 'List of 100 personalizedblogs'
+        : 'List of free blogs',
+    },
+  };
+}
+```
+
+최근에는 이런 방식으로 구현하는 것도 가능합니다.
+
+SSR을 사용하고 있으면 session을 념겨주도록 합니다.
+
+# Next.js Tutorial - 74 - Securing Pages Server-side
+
+https://www.youtube.com/watch?v=jbcChDTnPuU
+
+페이지를 서버사이드로 보안을 만드는 방법입니다.
+
+```js
+import { getSession, useSession } from 'next-auth/client';
+
+function Blog({ data }) {
+  const [session] = useSession();
+  console.log({ session });
+
+  return <h1>Blog page - {data}</h1>;
+}
+
+export default Blog;
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/api/auth/signin?callbackUrl=http://localhost:3000/blog',
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {
+      data: 'List of 100 personalized blogs',
+      session,
+    },
+  };
+}
+```
+
+서버사이드로 리다이렉션을 처리할 수 있기 때문에 세션을 확인하고 바로 실행하면 됩니다.
+
+지금은 url을 하드코딩했습니다. 환경변수를 활용하거나 요청없이 리다이렉션을 처리하도록 합니다.
+
+# Next.js Tutorial - 75 - Securing API Routes
+
+https://www.youtube.com/watch?v=ODL0Dlh7ZFE
+
+API 라우트 보안입니다.
+
+```js
+// test-session.js
+import { getSession } from 'next-auth/client';
+
+const handler = async (req, res) => {
+  const session = await getSession({ req });
+  if (!session) {
+    res.status(401).json({ error: 'Unauthenticated user' });
+  } else {
+    res.status(200).json({ message: 'Success', session });
+  }
+};
+
+export default handler;
+```
+
+getSession으로 먼저 접근합니다. getSession은 클라이언트의 요청정보를 접근합니다.
+
+그래서 요청정보로 세션이 존재하면 비로그인 유저 로그인 유저로 response 대응을 할 수 있습니다.
+
+Session을 구조분해할 당해서 유저의 인증로직에 따라각각 원하는 응답을 보내도록 구현하는 것도 가능합니다.
+
+# Next.js Tutorial - 76 - Connecting to a Database
+
+https://www.youtube.com/watch?v=H4ptrFimcSM
+
+유저 데이터를 보존해야 할 때가 많습니다. 유저 정보를 보관하고 또 마케팅을 위해 정보활용을 위해서는 DB가 필요합니다.
+
+```sh
+yarn add mongodb
+```
+
+mongoDB를 활용했습니다. 이것은 DB마다 다릅니다.
+
+JWT로 session을 제어할 수 있습니다.
+
+```js
+import NextAuth from 'next-auth';
+import Providers from 'next-auth/providers';
+
+export default NextAuth({
+  providers: [
+    Providers.GitHub({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
+  ],
+  database: process.env.DB_URL,
+  session: {
+    jwt: true,
+  },
+  jwt: {
+    secret: 'asdcvbtjhm',
+  },
+  callbacks: {
+    async jwt(token, user) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session(session, token) {
+      session.user.id = token.id;
+      return session;
+    },
+  },
+});
+```
+
+이렇게 설정하면 됩니다. NextAuth에서 제공하는 JWT를 활용할 수 있습니다.
+
+# Next.js Tutorial - 77 - Callbacks
+
+https://www.youtube.com/watch?v=TcnRPXPM68Q
+
+Callbacks입니다. Session을 확인하면 그 값 자체로 유저를 확인하기는 어렵습니다. 유저 데이터로 CRUD를 처리하고 추가 속성값을 부여해야 할 수 있습니다.
+
+```js
+  callbacks: {
+    async jwt(token, user) {
+      if (user) {
+        token.id = user.id
+      }
+      return token
+    },
+    async session(session, token) {
+      session.user.id = token.id
+      return session
+    }
+```
+
+객체에서 이부분에 해당합니다.
+
+유저의 고유한 정보를 식별할 수 있게 id를 추가한 것입니다. 해당하는 유저와 관련된 요청을 보낼 수 있게 됩니다.
+
+# Next.js Tutorial - 78 - Authentication Summary
+
+https://www.youtube.com/watch?v=9wjWM0ZpDuU
+
+callback으로 유저 데이터를 고유하게 만드는 법을 배웠습니다.
+
+# Next.js Tutorial - 79 - Deploying Next.js Apps to Vercel
+
+https://www.youtube.com/watch?v=KmxAH7ng8Qw
+
+배포입니다. 배포는 github과 vercel로 간단하게 처리할 수 있습니다.
