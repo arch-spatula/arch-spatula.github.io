@@ -8,7 +8,9 @@ toc_max_heading_level: 6
 
 :::caution 주의
 
-참고로 storybook.js, bit.js는 안 다룹니다.
+디자이너로 재직하면서 디자인 시스템에 대해서 정리했던 내용을 점진적으로 마이그레이션하는 문서입니다.
+
+<!-- 참고로 storybook.js, bit.js는 안 다룹니다. -->
 
 이 문서는 문제를 해결하는 일렬의 절차를 알려주는 레시피의 모음인 cook book이 아닙니다.
 
