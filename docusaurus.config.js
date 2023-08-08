@@ -146,6 +146,18 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
+        id: 'design-systen-wiki',
+        path: 'design-systen-wiki',
+        routeBasePath: 'design-systen-wiki',
+        sidebarPath: require.resolve('./sidebars.js'),
+        // 아래는 수식 쓰기 시작하면 풀어주세요
+        remarkPlugins: [math],
+        rehypePlugins: [katex],
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
         id: 'react-cookbook',
         path: 'react-cookbook',
         routeBasePath: 'react-cookbook',
@@ -215,6 +227,12 @@ const config = {
             to: '/js-ts-cookbook/intro',
             label: 'JS & TS Cook-Book',
             activeBaseRegex: `/js-ts-cookbook/`,
+            position: 'left',
+          },
+          {
+            to: '/design-systen-wiki',
+            label: '디자인 시스템 위키',
+            activeBaseRegex: `/디자인 시스템 위키/`,
             position: 'left',
           },
           {
