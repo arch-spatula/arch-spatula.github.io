@@ -17,6 +17,112 @@ draft: true
 
 캐러셀, markdown textarea처럼 CSR로 강제되지 않는 경우만 주의하면 됩니다.
 
+## Next.js 새로고침 문제
+
+```tsx
+import useInput from '@/hooks/useInput';
+import { BASE_URL } from '@/util';
+import axios from 'axios';
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+
+type TodoDetailType = {
+  todoDetail: todoItemType;
+};
+
+export default function TodoDetail({ todoDetail }: TodoDetailType) {
+  const { id, todoTitle, todoContent } = todoDetail;
+  const [isEditing, setIsEditing] = useState(false);
+  const { inputValue: titleValue, handleInput: handleTitle } =
+    useInput(todoTitle);
+  const { inputValue: contentValue, handleInput: handleContent } =
+    useInput(todoContent);
+
+  const router = useRouter();
+
+  const handleGoBack = () => {
+    router.push('/');
+  };
+
+  const handleStartEditing = () => {
+    setIsEditing(true);
+  };
+
+  const handleCancelEditing = () => {
+    setIsEditing(false);
+  };
+
+  const handleSave = () => {
+    const editTodoItem: todoItemType = {
+      id,
+      todoTitle: titleValue,
+      todoContent: contentValue,
+    };
+    axios.patch(`${BASE_URL}/${id}`, editTodoItem);
+    setIsEditing(false);
+    axios.get(BASE_URL);
+    location.reload();
+  };
+
+  return (
+    <div>
+      <button onClick={handleGoBack}>뒤로가기</button>
+      {isEditing ? (
+        <>
+          <input
+            type="text"
+            placeholder={todoTitle}
+            value={titleValue}
+            onChange={handleTitle}
+          />
+          <input
+            type="text"
+            placeholder={todoContent}
+            value={contentValue}
+            onChange={handleContent}
+          />
+          <button onClick={handleSave}>저장</button>
+          <button onClick={handleCancelEditing}>취소</button>
+        </>
+      ) : (
+        <>
+          <h1>{todoTitle}</h1>
+          <h3>Todo details</h3>
+          <p>{todoContent}</p>
+          <button onClick={handleStartEditing}>수정</button>
+        </>
+      )}
+    </div>
+  );
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { params } = context;
+  const todoDetail = params?.todoId?.[0];
+  const { data } = await axios.get(`${BASE_URL}/${todoDetail}`);
+
+  return {
+    props: {
+      todoDetail: data,
+    },
+  };
+};
+```
+
+상세페이지 코드입니다.
+
+서버랑 동기적으로 화면을 보여주기 위해 post 요청을 보내고 새로고침합니다.
+
+```tsx
+axios.patch(`${BASE_URL}/${id}`, editTodoItem);
+setIsEditing(false);
+axios.get(BASE_URL);
+location.reload();
+```
+
+이렇게 작성할 것이면 그냥 SWR 사용하는게 좋은 것 같습니다.
+
 # Next.js Tutorial - Codevolution
 
 Next.js 입문입니다.
