@@ -1072,8 +1072,299 @@ https://www.passportjs.org/
 
 express를 위해 사용할 수 있습니다. 하지만 여기서 JWT를 활용할 것입니다.
 
-https://youtu.be/GHTA143_b-s?t=5757
+```sh
+yarn add @nestjs/passport passport
+```
+
+위 명령으로 passport를 설치합니다.
+
+```sh
+yarn add @nestjs/jwt passport-jwt
+yarn add -D @types/passport-jwt
+```
+
+```ts title="auth.module.ts"
+import { Module } from '@nestjs/common';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { JwtModule } from '@nestjs/jwt';
+
+@Module({
+  imports: [JwtModule.register({})],
+  controllers: [AuthController],
+  providers: [AuthService],
+})
+export class AuthModule {}
+```
+
+이렇게 모듈을 연결해주면됩니다.
+
+```ts title="auth.service.ts"
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { AuthDto } from './dto';
+import * as argon from 'argon2';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { JwtService } from '@nestjs/jwt';
+
+@Injectable({})
+export class AuthService {
+  constructor(private prisma: PrismaService, private jwt: JwtService) {}
+  async signup(dto: AuthDto) {}
+
+  async login(dto: AuthDto) {}
+}
+```
+
+이렇게 연결해줍니다.
 
 ```ts
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { AuthDto } from './dto';
+import * as argon from 'argon2';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
+@Injectable({})
+export class AuthService {
+  constructor(
+    private prisma: PrismaService,
+    private jwt: JwtService,
+    private config: ConfigService
+  ) {}
+  async signup(dto: AuthDto) {}
+
+  async login(dto: AuthDto) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: { email: dto.email },
+      });
+      if (!user) throw new ForbiddenException('no email');
+      const pwMatch = await argon.verify(user.hash, dto.password);
+      if (!pwMatch) throw new ForbiddenException('password not match');
+      return await this.signToken(user.id, user.email);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async signToken(userId: number, email: string) {
+    const payload = { sub: userId, email };
+
+    const secret = this.config.get('JWT_SECRET');
+
+    const token = await this.jwt.signAsync(payload, {
+      expiresIn: '60m',
+      secret,
+    });
+
+    return {
+      access_token: token,
+    };
+  }
+}
 ```
+
+이렇게 해주면 전통적인 access_token을 반환하는 메서드를 만들고 로그인 갱신에 응답할 수 있는 메서드를 만들 수 있게 됩니다.
+
+이제부터 인가 유효성 검증입니다. 이런것을 일반적으로 전략이라고 부릅니다.
+
+https://docs.nestjs.com/recipes/passport#implementing-passport-jwt
+
+이런 형태로 작성하면 됩니다.
+
+```ts
+import { Module } from '@nestjs/common';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './strategy';
+
+@Module({
+  imports: [JwtModule.register({})],
+  controllers: [AuthController],
+  providers: [AuthService, JwtStrategy],
+})
+export class AuthModule {}
+```
+
+이렇게 연결합니다.
+
+```ts title="strategy/jwt.strategy.ts"
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy) {
+  constructor(private config: ConfigService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: config.get('JWT_SECRET'),
+    });
+  }
+}
+```
+
+이렇게 구현하고 베런 export로 내보내면 됩니다.
+
+이제 간단한 구현 확인을 해겠습니다. 본인 인가가 필요한 리소스인지 검증하는 로직을 구현합니다.
+
+## guards
+
+즉 간단한 수준의 가드를 만들고 get 요청을 구현할 것입니다.
+
+https://docs.nestjs.com/guards
+
+```sh
+nest g controller user --no-spec
+```
+
+```ts
+import { Controller, Get } from '@nestjs/common';
+
+@Controller('users')
+export class UserController {
+  @Get('me')
+  getMe() {
+    return 'user info';
+  }
+}
+```
+
+http://localhost:3000/users/me
+
+여기로 get 요청으로 구현을 확인합니다.
+
+```ts title="jwt.strategy.ts"
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+  constructor(private config: ConfigService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: config.get('JWT_SECRET'),
+    });
+  }
+}
+```
+
+JWT 설정을 추가합니다.
+
+```ts title="user.controller.ts"
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+
+@Controller('users')
+export class UserController {
+  @UseGuards(AuthGuard('jwt'))
+  @Get('me')
+  getMe() {
+    return 'user info';
+  }
+}
+```
+
+이렇게 가드 설정을 추가합니다.
+
+동일한 문자열을 입력하는 것으로 동일한 전략의 보호를 받는 것이라고 설정하는 것입니다.
+
+```ts
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+  constructor(private config: ConfigService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: config.get('JWT_SECRET'),
+    });
+  }
+
+  validate(payload: any) {
+    console.log({ payload });
+    return payload;
+  }
+}
+```
+
+이렇게 유효성검증하면 통과됩니다. 요청 객체에서 추가합니다.
+
+```ts
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
+
+@Controller('users')
+export class UserController {
+  @UseGuards(AuthGuard('jwt'))
+  @Get('me')
+  getMe(@Req() req: Request) {
+    console.log(req.user);
+    return 'user info';
+  }
+}
+```
+
+요청 객체에 추가한다는 의미는 여기서 이해할 수 있습니다. payload에 유저가 접근가능해집니다.
+
+이렇게 소비할 때 유저 JWT 정보를 접근하고 활용할 수 있게 됩니다.
+
+```ts
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { PrismaService } from 'src/prisma/prisma.service';
+
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+  constructor(config: ConfigService, private prisma: PrismaService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: config.get('JWT_SECRET'),
+    });
+  }
+
+  async validate(payload: { sub: number; email: string }) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: payload.sub,
+      },
+    });
+    delete user.hash;
+    return user;
+  }
+}
+```
+
+이렇게 해서 본인인증을 합니다. DB에 유저가 있는지 확인하고 없으면 접근 금지 있으면 허용하고 유저정보를 요청객체에 붙입니다.
+
+```ts
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
+
+@Controller('users')
+export class UserController {
+  @UseGuards(AuthGuard('jwt'))
+  @Get('me')
+  getMe(@Req() req: Request) {
+    return req.user;
+  }
+}
+```
+
+이렇게 본인정보를 볼 수 있게 제공합니다.
+
+여기서 더 개선하는 방법이 있습니다. 커스텀 가드 설정으로 이제 추출해보겠습니다.
