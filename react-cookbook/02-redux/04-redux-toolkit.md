@@ -1,3 +1,10 @@
+---
+description: 'Redux Toolkit'
+tags: ['react', 'redux', 'Redux Toolkit']
+sidebar_position: 4
+draft: true
+---
+
 # Redux Toolkit
 
 !youtube[bbkBuqC1rU4]

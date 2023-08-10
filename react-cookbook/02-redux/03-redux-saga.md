@@ -1,6 +1,7 @@
 ---
 description: 'Redux Saga'
 tags: ['react', 'redux', 'redux classic', 'Redux Saga', '통신']
+sidebar_position: 3
 draft: true
 ---
 

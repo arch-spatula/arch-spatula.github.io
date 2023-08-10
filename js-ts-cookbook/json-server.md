@@ -89,3 +89,49 @@ http://localhost:3001/todos
 ```sh
 yarn serve
 ```
+
+## 참고: thunder client를 사용하는데 json-server가 응답을 안합니다.
+
+사실 이걸 시도해보는게 이상한 짓입니다. 그냥 궁금해서 한번 시도해봤습니다.
+
+<!--
+
+[Connection was refused by the server. - Thunder Client Repo](https://github.com/rangav/thunder-client-support/issues/170)
+
+[What is the difference between 0.0.0.0, 127.0.0.1 and localhost? - stack overflow](https://stackoverflow.com/questions/20778771/what-is-the-difference-between-0-0-0-0-127-0-0-1-and-localhost)
+
+[127.0.0.1 vs localhost vs 0.0.0.0](https://velog.io/@gwak2837/127.0.0.1localhost-vs-0.0.0.0)
+
+-->
+
+`thunder client json-server Connection was refused by the server.`이런 에러메시지를 받았습니다.
+
+```json title="package.json"
+{
+  "name": "arch-spatula.github.io",
+  "scripts": {
+    // highlight-next-line
+    "serve-json": "json-server --watch db.json --port 4000"
+  },
+  "dependencies": {
+    "json-server": "^0.17.3"
+  }
+}
+```
+
+이렇게 되었있으면 에러가 발생합니다.
+
+```json title="package.json"
+{
+  "name": "arch-spatula.github.io",
+  "scripts": {
+    // highlight-next-line
+    "serve-json": "json-server --watch db.json --port 4000 --host 0.0.0.0"
+  },
+  "dependencies": {
+    "json-server": "^0.17.3"
+  }
+}
+```
+
+이렇게 수정하면 해결됩니다. 물론 특별히 해결할 문제는 아닙니다.

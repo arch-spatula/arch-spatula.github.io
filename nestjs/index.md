@@ -874,3 +874,206 @@ export class AuthService {
 ### DB & 프리즈마 마이그레이션 자동화
 
 https://youtu.be/GHTA143_b-s?t=4645
+
+데이터 마이그레이션 입력을 위해 일일이 입력하는 것은 번거롭습니다. 이것을 자동화하는 script 명령을 자동화해봅니다.
+
+잠시 docker를 제거할 것입니다.
+
+```sh
+docker compose rm --help
+```
+
+```
+  -f, --force     Don't ask to confirm removal
+  -s, --stop      Stop the containers, if required, before removing
+  -v, --volumes   Remove any anonymous volumes attached to containers
+```
+
+docker를 제어하는 스크립트 명령입니다. 현재 docker 설정을 다시한번더 확인하겠습니다.
+
+```yml
+version: '3.8'
+services:
+  dev-db:
+    image: postgres:13
+    ports:
+      - 5434:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=nest
+    networks:
+      - freecodecamp
+networks:
+  freecodecamp:
+```
+
+```json title="package.json"
+{
+  "name": "nest-test",
+  "version": "0.0.1",
+  "scripts": {
+    "db:dev:rm": "docker compose rm dev-db -s -f -v",
+    "db:dev:up": "docker compose up dev-db -b",
+    "db:dev:restart": "yarn db:dev:rm && yarn db:dev:up"
+  }
+}
+```
+
+```sh
+yarn db:dev:restart
+```
+
+위 명령을 하면 docker을 재가동하는 명령입니다.
+
+```
+yarn run v1.22.19
+$ yarn db:dev:rm && yarn db:dev:up
+$ docker compose rm dev-db -s -f -v
+[+] Stopping 1/1
+ ✔ Container nest-test-dev-db-1  Stopped                                                   0.2s
+Going to remove nest-test-dev-db-1
+[+] Removing 1/0
+ ✔ Container nest-test-dev-db-1  Removed                                                   0.0s
+$ docker compose up dev-db -d
+[+] Running 1/1
+ ✔ Container nest-test-dev-db-1  Started                                                   0.2s
+✨  Done in 1.05s.
+```
+
+이런 피드백을 받은 것을 볼 수 있을 것입니다. `docker ps`명령으로 가동을 확인하도록 합니다.
+
+이제 마이그레션을 적용하면 됩니다.
+
+prisma 마이그레이션 명령도 같이 사용해서 자동화를 할 것입니다.
+
+```json title="package.json"
+{
+  "name": "nest-test",
+  "version": "0.0.1",
+  "scripts": {
+    "prisma:dev:deploy": "prisma migrate deploy",
+    "db:dev:rm": "docker compose rm dev-db -s -f -v",
+    "db:dev:up": "docker compose up dev-db -b",
+    "db:dev:restart": "yarn db:dev:rm && yarn db:dev:up && sleep 1 && yarn prisma:dev:deploy"
+  }
+}
+```
+
+```sh
+yarn db:dev:restart
+```
+
+명령하면 마이그레이션까지 모두 처리해줄 것입니다.
+
+참고로 예전에 중간에 마이그레이션 실수로 추가한거 삭제 하니까 무시하지 않고 에러를 보여줍니다. 마이그레이션 삭제할 때는 주의하도록 합니다.
+
+여기까지 마이그레이션 자동화입니다.
+
+### config module
+
+config module부터 구현할 것입니다.
+
+```ts title="prisma.service.ts"
+import { Injectable } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
+import { env } from 'process';
+
+@Injectable()
+export class PrismaService extends PrismaClient {
+  constructor() {
+    super({ datasources: { db: { url: env.DATABASE_URL } } });
+  }
+}
+```
+
+위에서 처리한 것보다 조금더 우아하게 처리하는 방법을 볼 것입니다.
+
+```sh
+yarn add @nestjs/config
+```
+
+위 패키지를 설치하면 끝입니다.
+
+env 유효성 검증을 위해 config module을 따로 폴더를 만드는 경우가 일반적이지만 가벼운 프로젝트에는 root module에 만들어도 문제가 없습니다.
+
+```ts title="app.module.ts"
+import { Module } from '@nestjs/common';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { BookmarkModule } from './bookmark/bookmark.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { ConfigModule } from '@nestjs/config';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({}), // 여기
+    AuthModule,
+    UserModule,
+    BookmarkModule,
+    PrismaModule,
+  ],
+})
+export class AppModule {}
+```
+
+비슷한 module을 다시 작성하지 말고 프레임워크가 이미 직성해둔 것을 그냥 사용하면 됩니다.
+
+ConfigModule은 내부적으로 dotenv를 내부적으로 활용합니다.
+
+```ts title="app.module.ts"
+import { Module } from '@nestjs/common';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { BookmarkModule } from './bookmark/bookmark.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { ConfigModule } from '@nestjs/config';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    AuthModule,
+    UserModule,
+    BookmarkModule,
+    PrismaModule,
+  ],
+})
+export class AppModule {}
+```
+
+isGlobal 플레그로 global 데코레이터로 접근할 수 있게 해준 것처럼 설정해주면 됩니다.
+
+```ts
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PrismaClient } from '@prisma/client';
+
+@Injectable()
+export class PrismaService extends PrismaClient {
+  constructor(config: ConfigService) {
+    super({ datasources: { db: { url: config.get('DATABASE_URL') } } });
+  }
+}
+```
+
+이렇게 설정하면 타입세이프하게 접근할 수 있습니다. Injectable로 의존성 주입을 받을 수 있게 하고 config 클래스 메서드에서 접근할 수 있습니다.
+
+### JWT 인증, 인가
+
+사용자가 본인 인증을 위해 로그인하면 인증입니다. 인증 이후 계속 보안상 보호받으면 인가가가 필요합니다. 이 예시에서는 JWT를 사용합니다.
+
+JWT를 처리하기 위해서 따로 모듈을 정의해야 합니다. 이전 예시는 직접 커스텀으로 모듈을 만든 예시입니다. 이제는 Nest.js가 제공하는 module을 활용할 것입니다.
+
+인증, 인가는 상당히 간단할 것이라는 착각하기 쉽습니다. 하지만 실제로는 꽤 어렵습니다.
+
+nest는 이미 내부적으로 구현한 것이 많습니다. 내부적으로는 past port를 사용합니다.
+
+https://www.passportjs.org/
+
+express를 위해 사용할 수 있습니다. 하지만 여기서 JWT를 활용할 것입니다.
+
+https://youtu.be/GHTA143_b-s?t=5757
+
+```ts
+
+```
