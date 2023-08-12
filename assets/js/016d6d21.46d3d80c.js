@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[82056],{93105:a=>{a.exports=JSON.parse('{"permalink":"/blog/tags/deno","page":1,"postsPerPage":9,"totalPages":1,"totalCount":9,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

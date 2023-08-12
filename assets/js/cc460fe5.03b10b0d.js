@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[79007],{92179:a=>{a.exports=JSON.parse('{"label":"Queue Map","permalink":"/blog/tags/queue-map","allTagsPath":"/blog/tags","count":1}')}}]);

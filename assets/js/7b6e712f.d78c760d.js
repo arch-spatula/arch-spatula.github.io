@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[42419],{9157:t=>{t.exports=JSON.parse('{"label":"Twitters Algorithm","permalink":"/meme/tags/twitters-algorithm","allTagsPath":"/meme/tags","count":1}')}}]);

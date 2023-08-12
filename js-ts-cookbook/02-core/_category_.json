@@ -1,8 +1,0 @@
-{
-  "label": "Core and Deep dive",
-  "position": 2,
-  "link": {
-    "type": "generated-index",
-    "description": "자바스크립트의 내부 동작방식을 이해합니다."
-  }
-}

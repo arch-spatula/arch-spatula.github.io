@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[82367],{33276:s=>{s.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"js-ts-cookbook"}')}}]);

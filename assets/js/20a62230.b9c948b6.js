@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[39539],{47116:s=>{s.exports=JSON.parse('{"title":"Recent posts","items":[]}')}}]);

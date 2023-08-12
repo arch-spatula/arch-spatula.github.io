@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[9397],{41141:e=>{e.exports=JSON.parse('{"label":"Pull Request","permalink":"/meme/tags/pull-request","allTagsPath":"/meme/tags","count":1}')}}]);

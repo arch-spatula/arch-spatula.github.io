@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[7373],{21521:a=>{a.exports=JSON.parse('{"label":"hidden page","permalink":"/easter/tags/hidden-page","allTagsPath":"/easter/tags","count":1}')}}]);

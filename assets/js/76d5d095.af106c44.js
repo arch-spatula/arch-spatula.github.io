@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[86700],{6874:a=>{a.exports=JSON.parse('{"permalink":"/blog/tags/react","page":1,"postsPerPage":15,"totalPages":1,"totalCount":15,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

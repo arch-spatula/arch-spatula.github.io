@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[18950],{89656:a=>{a.exports=JSON.parse('{"label":"log out","permalink":"/blog/tags/log-out","allTagsPath":"/blog/tags","count":1}')}}]);

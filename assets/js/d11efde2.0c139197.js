@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[95963],{93084:o=>{o.exports=JSON.parse('{"label":"Worker","permalink":"/js-ts-cookbook/tags/worker","allTagsPath":"/js-ts-cookbook/tags","count":1,"items":[{"id":"worker","title":"Worker","description":"Worker","permalink":"/js-ts-cookbook/worker"}]}')}}]);

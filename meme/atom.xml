@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://arch-spatula.github.io/meme</id>
+    <title>Arch-Spatula의 레시피 Blog</title>
+    <updated>1000-01-20T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://arch-spatula.github.io/meme"/>
+    <subtitle>Arch-Spatula의 레시피 Blog</subtitle>
+    <icon>https://arch-spatula.github.io/img/logo.svg</icon>
+    <entry>
+        <title type="html"><![CDATA[QA하는 법]]></title>
+        <id>https://arch-spatula.github.io/meme/20-QA</id>
+        <link href="https://arch-spatula.github.io/meme/20-QA"/>
+        <updated>1000-01-20T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[QA하는 법]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/GzhKG23pl-0" title="A software tester walks into a bar" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><iframe class="codepen" src="https://www.youtube.com/embed/baY3SaIhfl0" title="Devs watching QA test the product" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><p>원본도 있습니다.<sup id="fnref-1-e700d4"><a href="#fn-1-e700d4" class="footnote-ref">1</a></sup></p><div class="footnotes"><hr><ol><li id="fn-1-e700d4"><a href="https://www.youtube.com/watch?v=cUbIkNUFs-4" target="_blank" rel="noopener noreferrer">The Original Square Hole Girl Video + The Redemption</a><a href="#fnref-1-e700d4" class="footnote-backref">↩</a></li></ol></div>]]></content>
+        <category label="dev meme" term="dev meme"/>
+        <category label="QA" term="QA"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[당신은 JSON을 모른다.]]></title>
+        <id>https://arch-spatula.github.io/meme/19-you-dont-no-json</id>
+        <link href="https://arch-spatula.github.io/meme/19-you-dont-no-json"/>
+        <updated>1000-01-19T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[당신은 JSON을 모른다.]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/TTjYjSEGHek" title="JSON, I hardly know 'er" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><ul><li>아마 면접질문에 나올 것 같습니다.</li><li>제가 취업하면 면접질문으로 낼 겁니다. ㅋ</li></ul>]]></content>
+        <category label="dev meme" term="dev meme"/>
+        <category label="JSON" term="JSON"/>
+        <category label="면접질문" term="면접질문"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[트위터의 성숙한 오픈소스 문화]]></title>
+        <id>https://arch-spatula.github.io/meme/18-twitter-the-algorithm</id>
+        <link href="https://arch-spatula.github.io/meme/18-twitter-the-algorithm"/>
+        <updated>1000-01-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[트위터의 성숙한 오픈소스 문화]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/2gG08VUuwzg" title="Twitter's Algorithm Has MASSIVE Problems" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><p>오늘도 개발자의 세계는 평화롭습니다.</p>]]></content>
+        <category label="Twitters Algorithm" term="Twitters Algorithm"/>
+        <category label="dev meme" term="dev meme"/>
+        <category label="the algorithm" term="the algorithm"/>
+        <category label="twitter" term="twitter"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[DB 실수로 삭제함 ㅋ]]></title>
+        <id>https://arch-spatula.github.io/meme/17-deletes-production-db</id>
+        <link href="https://arch-spatula.github.io/meme/17-deletes-production-db"/>
+        <updated>1000-01-17T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[DB 실수로 삭제함 ㅋ]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/tLdRBsuvVKc" title="Dev Deletes Entire Production Database, Chaos Ensues" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><p>모의 장애를 겪는 것도 필요해보입니다.</p><iframe class="codepen" src="https://www.youtube.com/embed/1u08QZyjguo" title="Gitlab DELETING Production Databases | Prime Reacts" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><p>위는 해설 영상입니다.</p>]]></content>
+        <category label="dev meme" term="dev meme"/>
+        <category label="교훈" term="교훈"/>
+        <category label="gitlab" term="gitlab"/>
+        <category label="서비스 장애" term="서비스 장애"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[개발자가 연애 못하는 이유]]></title>
+        <id>https://arch-spatula.github.io/meme/16-milk</id>
+        <link href="https://arch-spatula.github.io/meme/16-milk"/>
+        <updated>1000-01-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[개발자가 연애 못하는 이유]]></summary>
+        <content type="html"><![CDATA[<p><img loading="lazy" src="https://user-images.githubusercontent.com/84452145/246638255-9b2a5532-d70c-4826-8039-225a482819a1.png" alt="개발자가 연애 못하는 이유" class="img_ev3q"></p><p><del>프로그래머가 잘못했네요.</del></p><p><del>PM이 스펙을 잘못짰네요.</del></p>]]></content>
+        <category label="조건문" term="조건문"/>
+        <category label="휴먼 에러" term="휴먼 에러"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[취향 존중]]></title>
+        <id>https://arch-spatula.github.io/meme/15-code-gay</id>
+        <link href="https://arch-spatula.github.io/meme/15-code-gay"/>
+        <updated>1000-01-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[취향 존중]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/_7bkbv4u1tc" title="Silicon Valley S01E07 - Code gay" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><p>저도 여자가 코딩 잘하면 끌릴 것 같습니다.</p>]]></content>
+        <category label="Silicon Valley" term="Silicon Valley"/>
+        <category label="취존" term="취존"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI Overflow]]></title>
+        <id>https://arch-spatula.github.io/meme/14-ai-overflow</id>
+        <link href="https://arch-spatula.github.io/meme/14-ai-overflow"/>
+        <updated>1000-01-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[AI Overflow]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/Y1gFSENorEY" title="Silicon Valley: Gilfoyle Made A Bot (Season 6 Episode 1 Clip) | HBO" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><iframe class="codepen" src="https://www.youtube.com/embed/9-1P0v4IIwE" title="Silicon Valley S06E01 - AI Gilfoyle" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><iframe class="codepen" src="https://www.youtube.com/embed/2TpSWVN4zkg" title="Silicon Valley S06E01 - AI Dinesh Breaks Everything" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>]]></content>
+        <category label="ai" term="ai"/>
+        <category label="ai overflow" term="ai overflow"/>
+        <category label="ChatGPT" term="ChatGPT"/>
+        <category label="Silicon Valley" term="Silicon Valley"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[최강 어드민 계정]]></title>
+        <id>https://arch-spatula.github.io/meme/13-username-is-password</id>
+        <link href="https://arch-spatula.github.io/meme/13-username-is-password"/>
+        <updated>1000-01-13T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[최강 어드민 계정]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/L4Xmud9iX3w" title="Username is Password - Silicon Valley" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><div class="language-txt codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockTitle_Ktv7">아이디</div><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-txt codeBlock_bY9V thin-scrollbar"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">password</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="클립보드에 코드 복사" title="복사" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div><div class="language-txt codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockTitle_Ktv7">비밀번호</div><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-txt codeBlock_bY9V thin-scrollbar"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">password</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="클립보드에 코드 복사" title="복사" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div><p>앞으로 공용 어드민 계정만들면 이렇게 만들어야 겠습니다.</p>]]></content>
+        <category label="Silicon Valley" term="Silicon Valley"/>
+        <category label="auth" term="auth"/>
+        <category label="admin" term="admin"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[사내 해커톤의 위험성]]></title>
+        <id>https://arch-spatula.github.io/meme/12-hackathon</id>
+        <link href="https://arch-spatula.github.io/meme/12-hackathon"/>
+        <updated>1000-01-12T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[사내 해커톤의 위험성]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/qNj_sI6qndw" title="Clean code challenge - Silicon Valley Season 5, Ep6 🚀" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><blockquote><p>Dinesh's pull requests must be brutal</p></blockquote><blockquote><p>Clean Code does not just mean having less Errors by the way</p></blockquote>]]></content>
+        <category label="해커톤" term="해커톤"/>
+        <category label="클린코드" term="클린코드"/>
+        <category label="사내정치" term="사내정치"/>
+        <category label="QA" term="QA"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[tab vs space 성전]]></title>
+        <id>https://arch-spatula.github.io/meme/11-tab-vs-space</id>
+        <link href="https://arch-spatula.github.io/meme/11-tab-vs-space"/>
+        <updated>1000-01-11T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[tab vs space 성전]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/JfEIkkDkrmE" title="Spaces or Tabs (Silicon Valley) Holy War of Coders 😄" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><p><del>아마 저도 리덕스 좋다는 개발자 여자친구는 만나기 어려울 것 같습니다.</del></p>]]></content>
+        <category label="vim vs emacs" term="vim vs emacs"/>
+        <category label="tab vs space" term="tab vs space"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[개발자들의 신비로운 삶]]></title>
+        <id>https://arch-spatula.github.io/meme/10-debug</id>
+        <link href="https://arch-spatula.github.io/meme/10-debug"/>
+        <updated>1000-01-10T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[개발자들의 신비로운 삶]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/ocwnns57cYQ" title="Kantega | The Mysterious Life of Developers" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>]]></content>
+        <category label="디버깅" term="디버깅"/>
+        <category label="버그 바운티" term="버그 바운티"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[스크럼]]></title>
+        <id>https://arch-spatula.github.io/meme/09-scrum</id>
+        <link href="https://arch-spatula.github.io/meme/09-scrum"/>
+        <updated>1000-01-09T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[스크럼]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/Ps4nSgyieIw" title="Silicon Valley - 'Scrum'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><iframe class="codepen" src="https://www.youtube.com/embed/bB340S0tGf8" title="Interview with an Agile Coach - Sprint1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><iframe class="codepen" src="https://www.youtube.com/embed/A-H-xZ5ZXgo" title="Interview with an Agile Coach - Sprint2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><iframe class="codepen" src="https://www.youtube.com/embed/GGbsgs611MM" title="Shit Bad Scrum Masters Say" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>]]></content>
+        <category label="스크럼" term="스크럼"/>
+        <category label="scrum" term="scrum"/>
+        <category label="애자일" term="애자일"/>
+        <category label="애자일 코치" term="애자일 코치"/>
+        <category label="사내정치" term="사내정치"/>
+        <category label="Silicon Valley" term="Silicon Valley"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[GPT로 디버깅하면 생기는 일]]></title>
+        <id>https://arch-spatula.github.io/meme/08-debug-gpt</id>
+        <link href="https://arch-spatula.github.io/meme/08-debug-gpt"/>
+        <updated>1000-01-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[GPT로 디버깅하면 생기는 일]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/ySDX02WD0og" title="Gilfoyle Saved Pied Piper" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><blockquote><p>통계적으로 가장 정확한 디버깅은 소프트웨어를 삭제하는 것입니다.</p></blockquote><p>잘 배워갑니다.</p>]]></content>
+        <category label="ai" term="ai"/>
+        <category label="ChatGPT" term="ChatGPT"/>
+        <category label="Silicon Valley" term="Silicon Valley"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[리액트 코드짜는 법]]></title>
+        <id>https://arch-spatula.github.io/meme/07-react-code</id>
+        <link href="https://arch-spatula.github.io/meme/07-react-code"/>
+        <updated>1000-01-07T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[리액트 코드짜는 법]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/3MB8DBXzEos" title="리액트 코드짜는 법" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><p>네 이게 리액트 전부입니다.</p><iframe class="phone-video" src="https://youtube.com/embed/u86KSUc9Ngg" title="리액트 코드짜는 법(new)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><p>신버전입니다.</p>]]></content>
+        <category label="react" term="react"/>
+        <category label="props drilling" term="props drilling"/>
+        <category label="코딩애플" term="코딩애플"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[스마트 냉장고 해킹하다가 실수로 분산시스템 만듬 ㅋ]]></title>
+        <id>https://arch-spatula.github.io/meme/06-gilfoyle-saved-pied-piper</id>
+        <link href="https://arch-spatula.github.io/meme/06-gilfoyle-saved-pied-piper"/>
+        <updated>1000-01-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[스마트 냉장고 해킹하다가 실수로 분산시스템 만듬 ㅋ]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/BnKpNVHw-TQ" title="Gilfoyle Saved Pied Piper" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>]]></content>
+        <category label="Silicon Valley" term="Silicon Valley"/>
+        <category label="smart fridge" term="smart fridge"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[디자이너 vs 개발자]]></title>
+        <id>https://arch-spatula.github.io/meme/05-design-vs-programming</id>
+        <link href="https://arch-spatula.github.io/meme/05-design-vs-programming"/>
+        <updated>1000-01-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[디자이너 vs 개발자]]></summary>
+        <content type="html"><![CDATA[<p class="center"><iframe class="phone-video" src="https://github.com/arch-spatula/arch-spatula.github.io/assets/84452145/79c38bf8-a8b7-4cb3-947f-c5135e192562" title="design vs programming" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe></p><p>ㅋㅋㅋㅋㅋ</p><p>저런짓 할 거면 <a href="https://lottiefiles.com/" target="_blank" rel="noopener noreferrer">lottie</a> 뽑아 달라고 하겠습니다.</p>]]></content>
+        <category label="dev meme" term="dev meme"/>
+        <category label="CSS" term="CSS"/>
+        <category label="design" term="design"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CORS 설정 에러]]></title>
+        <id>https://arch-spatula.github.io/meme/04-CORS</id>
+        <link href="https://arch-spatula.github.io/meme/04-CORS"/>
+        <updated>1000-01-04T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[CORS 설정 에러]]></summary>
+        <content type="html"><![CDATA[<p class="center"><img loading="lazy" src="https://user-images.githubusercontent.com/84452145/241549745-f4d94c6e-ca93-4712-bdeb-3f66ea0f7150.png" width="400px" alt="CORS error" class="img_ev3q"></p><p>이 밈은 고전이 될 것 같습니다.</p><p>누군가의 개발일지에서 발견했습니다.<sup id="fnref-1-a51618"><a href="#fn-1-a51618" class="footnote-ref">1</a></sup> 감사합니다!</p><div class="footnotes"><hr><ol><li id="fn-1-a51618"><a href="https://warn-code.tistory.com/entry/TIL-%EC%98%A4%EB%8A%98%EC%9D%98-%EA%B0%9C%EB%B0%9C%EC%9D%BC%EC%A7%80-51" target="_blank" rel="noopener noreferrer">[TIL] 오늘의 개발일지 - 따따시</a><a href="#fnref-1-a51618" class="footnote-backref">↩</a></li></ol></div>]]></content>
+        <category label="CORS" term="CORS"/>
+        <category label="dev meme" term="dev meme"/>
+        <category label="error" term="error"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CORS 설정 에러]]></title>
+        <id>https://arch-spatula.github.io/meme/03-OK-LGTM</id>
+        <link href="https://arch-spatula.github.io/meme/03-OK-LGTM"/>
+        <updated>1000-01-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[CORS 설정 에러]]></summary>
+        <content type="html"><![CDATA[<p class="center"><img loading="lazy" src="https://user-images.githubusercontent.com/84452145/223464994-cadefd60-86f2-426a-911e-cc9d7ee12a9e.png" width="400px" alt="OK LGTM" class="img_ev3q"></p><p>1000줄 넘는 PR 리뷰는 매일있습니다. PR이 너무 많으면 코드 작성시간보단 코드 읽는 시간이 더 많은 것 같습니다.</p><p>모두의 책임으로 분산되어 있으면 이런 사람들 많습니다.</p><p>이상한 학원이나 회사 다녀보면 이런 사람들 많습니다.</p>]]></content>
+        <category label="OK LGTM" term="OK LGTM"/>
+        <category label="dev meme" term="dev meme"/>
+        <category label="Code Review" term="Code Review"/>
+        <category label="코드 리뷰" term="코드 리뷰"/>
+        <category label="Pull Request" term="Pull Request"/>
+        <category label="무지성 LGTM" term="무지성 LGTM"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[심연속 이상한 리포들입니다.]]></title>
+        <id>https://arch-spatula.github.io/meme/02-Dark-Repo</id>
+        <link href="https://arch-spatula.github.io/meme/02-Dark-Repo"/>
+        <updated>1000-01-02T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[심연속 이상한 리포들입니다.]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/PddUhEmmreY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><p>심연속 이상한 리포들입니다.</p><ol><li><p><a href="https://github.com/cat-milk/Anime-Girls-Holding-Programming-Books" target="_blank" rel="noopener noreferrer">https://github.com/cat-milk/Anime-Girls-Holding-Programming-Books</a></p></li><li><p><a href="https://github.com/kelseyhightower/nocode" target="_blank" rel="noopener noreferrer">https://github.com/kelseyhightower/nocode</a></p></li><li><p><a href="https://github.com/assertive-lang/asserlang" target="_blank" rel="noopener noreferrer">https://github.com/assertive-lang/asserlang</a></p></li><li><p><a href="https://github.com/felixrieseberg/windows95" target="_blank" rel="noopener noreferrer">https://github.com/felixrieseberg/windows95</a></p></li><li><p><a href="https://github.com/jezen/is-thirteen" target="_blank" rel="noopener noreferrer">https://github.com/jezen/is-thirteen</a></p></li><li><p><a href="https://github.com/henjicn/MHDDoS-BY-MHProDev" target="_blank" rel="noopener noreferrer">https://github.com/henjicn/MHDDoS-BY-MHProDev</a></p></li><li><p><a href="https://github.com/jangscon/zzase_name_generator" target="_blank" rel="noopener noreferrer">https://github.com/jangscon/zzase_name_generator</a></p></li><li><p><a href="https://github.com/ajalt/fuckitpy" target="_blank" rel="noopener noreferrer">https://github.com/ajalt/fuckitpy</a></p></li><li><p><a href="https://github.com/shrutikapoor08/devjoke" target="_blank" rel="noopener noreferrer">https://github.com/shrutikapoor08/devjoke</a></p></li><li><p><a href="https://github.com/sindresorhus/awesome" target="_blank" rel="noopener noreferrer">https://github.com/sindresorhus/awesome</a></p></li><li><p><a href="https://github.com/busyloop/lolcat" target="_blank" rel="noopener noreferrer">https://github.com/busyloop/lolcat</a></p></li><li><p><a href="https://github.com/3b1b/videos" target="_blank" rel="noopener noreferrer">https://github.com/3b1b/videos</a></p></li><li><p><a href="https://github.com/bconnorwhite/all-package-names" target="_blank" rel="noopener noreferrer">https://github.com/bconnorwhite/all-package-names</a></p></li><li><p><a href="https://github.com/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" target="_blank" rel="noopener noreferrer">https://github.com/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</a></p></li><li><p><a href="https://github.com/jwasham/coding-interview-university" target="_blank" rel="noopener noreferrer">https://github.com/jwasham/coding-interview-university</a></p></li></ol>]]></content>
+        <category label="코딩애플" term="코딩애플"/>
+        <category label="dev meme" term="dev meme"/>
+        <category label="엄준식" term="엄준식"/>
+        <category label="github" term="github"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[시니어 자바스크립트 개발자 인터뷰입니다.]]></title>
+        <id>https://arch-spatula.github.io/meme/01-Interview-with-Senior-JS-Developer</id>
+        <link href="https://arch-spatula.github.io/meme/01-Interview-with-Senior-JS-Developer"/>
+        <updated>1000-01-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[시니어 자바스크립트 개발자 인터뷰입니다.]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/Uo3cL4nrGOk" title="시니어 자바스크립트 개발자 인터뷰" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe><p>제가 제일 좋아하는 밈입니다.</p><blockquote><p>my job is to keep our code running while other packages are changing theirs</p></blockquote><blockquote><p>oh look another library was added today to patch the problems of the other 150 that were also released</p></blockquote><p>이 밈덕분에 이런 사이트도 생겼습니다.</p><p><a href="https://jjquery.io/" target="_blank" rel="noopener noreferrer">JJQuery</a></p>]]></content>
+        <category label="JavaScript" term="JavaScript"/>
+        <category label="dev meme" term="dev meme"/>
+    </entry>
+</feed>

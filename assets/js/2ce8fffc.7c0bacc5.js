@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[91281],{66231:a=>{a.exports=JSON.parse('{"label":"container query","permalink":"/blog/tags/container-query","allTagsPath":"/blog/tags","count":1}')}}]);

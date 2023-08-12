@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[16856],{28449:a=>{a.exports=JSON.parse('{"label":"ChatGPT","permalink":"/meme/tags/chat-gpt","allTagsPath":"/meme/tags","count":2}')}}]);

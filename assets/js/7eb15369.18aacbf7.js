@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[20548],{11039:a=>{a.exports=JSON.parse('{"name":"docusaurus-plugin-content-blog","id":"easter"}')}}]);

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>Arch-Spatula의 레시피 Blog</title>
+        <link>https://arch-spatula.github.io/easter</link>
+        <description>Arch-Spatula의 레시피 Blog</description>
+        <lastBuildDate>Sun, 29 May 1453 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>ko</language>
+        <item>
+            <title><![CDATA[Easter Egg]]></title>
+            <link>https://arch-spatula.github.io/easter/egg</link>
+            <guid>https://arch-spatula.github.io/easter/egg</guid>
+            <pubDate>Sun, 29 May 1453 00:00:00 GMT</pubDate>
+            <description><![CDATA[This is a easter egg not meg the egg]]></description>
+            <content:encoded><![CDATA[<div class="theme-admonition theme-admonition-caution alert alert--warning admonition_LlT9"><div class="admonitionHeading_tbUL"><span class="admonitionIcon_kALy"><svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></span>주의</div><div class="admonitionContent_S0QG"><p>여기는 블로그의 무법지대입니다.</p></div></div><p><a href="/easter/experience">Experience</a></p><p><a href="/easter/meme">MEME</a></p><p><a href="/easter/python">Python</a></p><p><a href="/easter/nestjs">주니어가 다루는 거 보면 신뢰도가 떨어져 보이는 NestJS</a></p><p>Clang</p><p>golang</p><p>Rust</p><p>Ocaml</p><p>꼰대가 되기 위한 Java</p><p>Python</p><p>elixir</p><p>elm</p>]]></content:encoded>
+            <category>Easter Egg</category>
+            <category>hidden page</category>
+            <category>index page</category>
+        </item>
+    </channel>
+</rss>

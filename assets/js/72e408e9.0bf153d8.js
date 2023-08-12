@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[55703],{11093:a=>{a.exports=JSON.parse('{"label":"Easter Egg","permalink":"/blog/tags/easter-egg","allTagsPath":"/blog/tags","count":1}')}}]);
