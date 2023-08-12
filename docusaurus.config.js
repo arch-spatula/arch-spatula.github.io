@@ -27,7 +27,6 @@ const config = {
   projectName: 'arch-spatula.github.io', // Usually your repo name.
   trailingSlash: false,
   customFields: {
-    GIT_PASS: process.env.GIT_PASS,
     GIT_USER: process.env.GIT_USER,
   },
 
@@ -42,7 +41,7 @@ const config = {
     locales: ['ko'],
   },
 
-  deploymentBranch: 'main',
+  deploymentBranch: 'gh-pages',
 
   presets: [
     [
