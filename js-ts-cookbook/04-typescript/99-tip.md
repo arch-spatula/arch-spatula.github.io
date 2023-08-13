@@ -5,6 +5,55 @@ description: '타입스크립트 이런저런 팁'
 
 # 타입스크립트 팁
 
+## keyof 연산자
+
+keyof는 자바스크립트에 없습니다. 객체에서 key만 추출하고 싶을 때 사용할 수 있는 타입스크립트 연산자입니다.
+
+```ts
+const obj = { foo: 1, bar: 2, baz: 3 };
+
+type Key = keyof typeof obj; // type Key = "foo" | "bar" | "baz"
+```
+
+이렇게 객체에서 키를 string enum으로 타입 추출이 가능합니다.
+
+## instanceof Type Guards
+
+instanceof는 자바스크립트 자원에서 지원하고 있습니다.
+
+class는 instanceof 연산자로 해당하는 인스턴스가 어느 클래스에서 온 것인지 구분할 수 있고 이것을 타입가드로 활용할 수 있습니다.[^1]
+
+```ts
+class Animal {
+  name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
+}
+
+class Dog extends Animal {
+  bark() {
+    console.log('Woof!');
+  }
+}
+
+function makeSound(animal: Animal) {
+  if (animal instanceof Dog) {
+    animal.bark(); // Type: Dog
+  } else {
+    console.log('Unknown animal');
+  }
+}
+
+const dog = new Dog('Buddy');
+const animal = new Animal('Unknown');
+
+makeSound(dog); // Output: Woof!
+makeSound(animal); // Output: Unknown animal
+```
+
+<!-- https://dev.to/lakshmananarumugam/15-advanced-typescript-tips-for-development-5ddj -->
+
 ## satisfies
 
 <iframe class="codepen" src="https://www.youtube.com/embed/49gHWuepxxE" title="The `satisfies` operator in TypeScript 4.9 is a game changer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -184,3 +233,5 @@ goToRoute(routes.home); // 문제 없음
 <iframe class="codepen" src="https://www.youtube.com/embed/z12xYmmJ8Ww" title="🔥 NEW to TypeScript - satisfies" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 -->
+
+[^1]: [15 Advanced TypeScript Tips for Development](https://dev.to/lakshmananarumugam/15-advanced-typescript-tips-for-development-5ddj)
