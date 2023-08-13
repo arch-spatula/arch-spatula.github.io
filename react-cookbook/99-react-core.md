@@ -5,11 +5,15 @@ sidebar_position: 99
 draft: true
 ---
 
+# React Core
+
+<!-- https://d2.naver.com/helloworld/2690975 -->
+
 <!-- @todo: 폴더 만들고 주제별로 다루기 -->
 
 <!-- @todo: https://github.com/arch-spatula/technical-interview-for-FE/blob/main/%EB%A9%B4%EC%A0%91%EC%A7%88%EB%AC%B8/%EB%A6%AC%EC%95%A1%ED%8A%B8.md -->
 
-# React Core
+<!-- https://www.youtube.com/watch?v=7YhdqIR2Yzo -->
 
 ## Virtual DOM
 
