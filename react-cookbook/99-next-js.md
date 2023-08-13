@@ -17,6 +17,12 @@ draft: true
 
 캐러셀, markdown textarea처럼 CSR로 강제되지 않는 경우만 주의하면 됩니다.
 
+## React Server Components
+
+리액트 서버 컴포넌트란 무엇인가? 왜 서버 사이드 랜더링말고 서버 컴포넌트인가?
+
+<!-- https://www.freecodecamp.org/news/how-to-use-react-server-components/ -->
+
 ## Next.js 새로고침 문제
 
 ```tsx
