@@ -9,6 +9,8 @@ draft: true
 
 제일 먼저 TDD랑 테스팅이랑은 다릅니다.
 
+<!-- https://jbee.io/developments/frontend-testing-and-dependency/ -->
+
 # 왜 테스트를 공부하는가?
 
 지루하고 현타가 와서 시작한 것은 맞습니다.

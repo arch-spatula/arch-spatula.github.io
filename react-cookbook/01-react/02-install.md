@@ -84,6 +84,61 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 이렇게 하면 작성할 수 있지만 자동완성의 지원을 못 받는 치명적인 단점이 생깁니다. 자동완성은 코드의 뽕맛도 중요하지만 올바르게 작성하고 있는지 타입 검증하는 측면에서 더 중요합니다.
 
+<!-- https://velog.io/@eunbinn/how-to-start-a-react-project-in-2023 -->
+
+## NextJS
+
+이접근은 리액트를 프레임워크가 기반으로 활용하고 있는 리액트라는 관점입니다.
+
+```sh
+yarn create next-app
+```
+
+[NextJS 공식 문서](https://nextjs.org/docs/getting-started/installation)
+
+## Remix
+
+```sh
+yarn add remix
+```
+
+## Nx
+
+Nx는 모노레포 툴입니다.
+
+```sh
+nx g @nx/react:app .
+```
+
+## Gatsby
+
+```sh
+yarn add gatsby
+```
+
+개발 공부를 처음 시작할 때 개발자 블로그를 만들고 싶어서 gatsby를 설치했던 기억이 있습니다. 그때 버그가 많아서 다른 대안을 찾기 시작했습니다.
+
+## Astro
+
+```sh
+yarn create astro
+yarn astro add react
+```
+
+예전에 개발자 블로그 만들 때 astro를 활용했었습니다. 블리딩엣지를 쓰다가 블리딩했습니다.
+
+<!-- https://velog.io/@eunbinn/how-to-start-a-react-project-in-2023#%EB%A6%AC%EC%95%A1%ED%8A%B8%EC%99%80-astro%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%96%88%EC%9D%84-%EB%95%8C-%EB%8B%A8%EC%A0%90 -->
+
+<!-- https://www.youtube.com/watch?v=2OTq15A5s0Y -->
+
+<!-- 01:00 - StackBlitz, CodeSandBox
+01:33 - Vite
+02:40 - Nx
+03:57 - NextJS
+04:32 - Remix
+05:06 - Gatsby
+05:48 - Astro -->
+
 ---
 
 ## 부록
@@ -107,6 +162,12 @@ npm --version
 ```
 
 node를 설치하면 자동적으로 npm 패키지 매니저도 설치됩니다.
+
+참고로 맥사용자는 homebrew로 설치할 수 있습니다.
+
+```sh
+brew install node
+```
 
 <!--
 
@@ -138,13 +199,6 @@ TODO: 프리티어 설치 & 설정
 
 <!--
 
-
-
-TODO: Next.js 설치법
-TODO: Remix.js 설치법
-TODO: Nx.js 설치법
-TODO: Astro.js 설치법
-TODO: Gatsby.js 설치법
 TODO: DIY 개별 설치법
 
 [7 better ways to create a React app](https://www.youtube.com/watch?v=2OTq15A5s0Y)

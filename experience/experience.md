@@ -232,3 +232,8 @@ date: 1453-5-29
     - [ ] [<일본전산 이야기> - 김성호](https://www.yes24.com/Product/Goods/117934216)
     - [ ] [<일취월장> - 고영성, 신영준](https://www.yes24.com/Product/Goods/57501187)
 - ETC
+
+## 취업 후 해볼 것들
+
+- 수강할 강의
+  - [100가지 시나리오로 학습하는 프론트엔드](https://fastcampus.co.kr/dev_online_fe100)

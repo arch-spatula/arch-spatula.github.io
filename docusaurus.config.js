@@ -145,9 +145,21 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'design-systen-wiki',
-        path: 'design-systen-wiki',
-        routeBasePath: 'design-systen-wiki',
+        id: 'design-system-wiki',
+        path: 'design-system-wiki',
+        routeBasePath: 'design-system-wiki',
+        sidebarPath: require.resolve('./sidebars.js'),
+        // 아래는 수식 쓰기 시작하면 풀어주세요
+        remarkPlugins: [math],
+        rehypePlugins: [katex],
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'html-css',
+        path: 'html-css',
+        routeBasePath: 'html-css',
         sidebarPath: require.resolve('./sidebars.js'),
         // 아래는 수식 쓰기 시작하면 풀어주세요
         remarkPlugins: [math],
@@ -228,12 +240,12 @@ const config = {
             activeBaseRegex: `/js-ts-cookbook/`,
             position: 'left',
           },
-          {
-            to: '/design-systen-wiki',
-            label: '디자인 시스템 위키',
-            activeBaseRegex: `/디자인 시스템 위키/`,
-            position: 'left',
-          },
+          // {
+          //   to: '/design-systen-wiki',
+          //   label: '디자인 시스템 위키',
+          //   activeBaseRegex: `/디자인 시스템 위키/`,
+          //   position: 'left',
+          // },
           {
             href: 'https://github.com/arch-spatula/arch-spatula.github.io',
             label: 'GitHub',
