@@ -1,7 +1,7 @@
 ---
 sidebar_position: 98
-description: '컴파일러'
-tags: ['컴파일러']
+description: '컴파일러 & 인터프리터'
+tags: ['컴파일러 & 인터프리터']
 draft: true
 ---
 
