@@ -31,7 +31,7 @@ date: 1453-5-29
 
 Clang
 
-golang
+[golang](golang)
 
 Rust
 
