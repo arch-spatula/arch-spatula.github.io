@@ -52,3 +52,9 @@ console.log(b); // 3
 ```
 
 넹
+
+## 숫자가 아닌데 숫자다.
+
+```js
+console.log(typeof (1 % 0));
+```
