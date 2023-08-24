@@ -5,6 +5,22 @@ sidebar_position: 99
 draft: true
 ---
 
+## `ReferenceError: self is not defined`
+
+```ts
+import dynamic from 'next/dynamic';
+
+const DynamicHeader = dynamic(() => import('../components/header'), {
+  loading: () => 'Loading...',
+});
+
+export default function Home() {
+  return <DynamicHeader />;
+}
+```
+
+https://velog.io/@hmds1606/%ED%8C%80%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0220713
+
 ## 비공개 레포 vercel에 연결하기
 
 <!-- 사실 분류하기 애매해서 여기 추가함 -->
