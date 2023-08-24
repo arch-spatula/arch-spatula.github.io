@@ -1,9 +1,21 @@
 ---
 description: '문서에 대해서 개괄적으로 설명합니다.'
-tags: ['react', 'intro']
+tags: ['react', 'intro', 'vercel']
 sidebar_position: 99
 draft: true
 ---
+
+## 비공개 레포 vercel에 연결하기
+
+<!-- 사실 분류하기 애매해서 여기 추가함 -->
+
+connect private repo to vercel
+
+[Deploying Private Repository using Vercel](https://stackoverflow.com/questions/68780959/deploying-private-repository-using-vercel)
+
+시키는데로 연결하면 됩니다.
+
+주의할 점은 연결시간 은근히 걸립니다.
 
 ## server action
 

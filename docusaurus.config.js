@@ -125,7 +125,6 @@ const config = {
         path: 'python',
         routeBasePath: 'python',
         sidebarPath: require.resolve('./sidebars.js'),
-        // 아래는 수식 쓰기 시작하면 풀어주세요
         remarkPlugins: [math],
         rehypePlugins: [katex],
       },
@@ -137,7 +136,28 @@ const config = {
         path: 'nestjs',
         routeBasePath: 'nestjs',
         sidebarPath: require.resolve('./sidebars.js'),
-        // 아래는 수식 쓰기 시작하면 풀어주세요
+        remarkPlugins: [math],
+        rehypePlugins: [katex],
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'diy-cs',
+        path: 'diy-cs',
+        routeBasePath: 'diy-cs',
+        sidebarPath: require.resolve('./sidebars.js'),
+        remarkPlugins: [math],
+        rehypePlugins: [katex],
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'golang',
+        path: 'golang',
+        routeBasePath: 'golang',
+        sidebarPath: require.resolve('./sidebars.js'),
         remarkPlugins: [math],
         rehypePlugins: [katex],
       },

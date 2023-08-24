@@ -1,6 +1,6 @@
 {
-  "label": "React Query",
-  "position": 4,
+  "label": "React Router DOM",
+  "position": 3,
   "link": {
     "type": "generated-index",
     "description": "React Query를 다룹니다."

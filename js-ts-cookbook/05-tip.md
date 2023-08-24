@@ -83,6 +83,15 @@ console.log(name, age); // Jonathan Smith 18
 
 이렇게 검색의 복수형 searchPrams를 의미합니다. key, value관계를 갖고 값을 저장할 수 있습니다.
 
+## replace로 search params 바꾸기
+
+```js
+if (!window.location.search) {
+  const newUrl = `${window.location.origin}/?asdf=qwer`;
+  window.location.replace(newUrl);
+}
+```
+
 ## 큰파일을 다운로드 받는 중 중단하고 싶으면?
 
 중단하는 방법은 `AbortController`를 활용하면 됩니다. 현재 experimental technology 단계라 활용은 조심스럽게 하도록 합니다.

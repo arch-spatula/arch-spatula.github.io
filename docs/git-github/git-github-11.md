@@ -11,6 +11,10 @@ draft: true
 
 ## github action 릴리즈 노트 자동화
 
+[github actions로 버전 관리하기-릴리즈 노트편](https://mong-blog.tistory.com/entry/github-actions%EB%A1%9C-%EB%B2%84%EC%A0%84-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0-%EB%A6%B4%EB%A6%AC%EC%A6%88-%EB%85%B8%ED%8A%B8%ED%8E%B8)
+
+예전에 적용하고 싶었던 릴리즈 노트입니다. 왜 검색을 못했는지 모르겠습니다. ㅂㄷㅂㄷ...
+
 <iframe class="codepen" src="https://www.youtube.com/embed/yfBtjLxn_6k" title="How GitHub Actions 10x my productivity" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 `.github/workflows` 폴더를 만듭니다.
