@@ -174,3 +174,11 @@ item::after {
   clear: both;
 }
 ```
+
+## html input의 type color
+
+```html
+<input type="color" />
+```
+
+input은 이런것도 지원합니다. 이런것도 있는게 신기합니다.
