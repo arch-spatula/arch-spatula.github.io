@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 99
 description: '기타 모르는 것과 용어'
 draft: true
 ---
