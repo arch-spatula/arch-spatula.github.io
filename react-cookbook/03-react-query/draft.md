@@ -9,6 +9,12 @@ https://velog.io/@drrobot409/Firebase-Auth-error-%EB%AA%A8%EC%9D%8C%EC%A7%91#aut
 
 파이어 베이스는 다양한 에러를 뿜습니다. 위 에러 모음은 유용합니다.
 
+https://github.com/TanStack/query/issues/2395
+
+병렬 쿼리에 error boundary를 적용할 수 있는가?
+
+이슈는 가능하다고 합니다.
+
 ## 병렬 쿼리에 error boundary를 적용할 수 있는가?
 
 https://github.com/TanStack/query/issues/2395
