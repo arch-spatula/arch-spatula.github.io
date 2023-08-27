@@ -5,6 +5,41 @@ draft: true
 
 # React 입문
 
+## base64 vs Blob vs File
+
+모두 각각 다른 객체입니다.
+
+https://stackoverflow.com/questions/35940290/how-to-convert-base64-string-to-javascript-file-object-like-as-from-file-input-f
+
+```ts
+const handleProfileImage = (e: ChangeEvent<HTMLInputElement>) => {
+  const [file] = e.target.files as FileList;
+  if (!file) return;
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = async (uploadedBlob) => {
+    // base64 -> blob -> file
+    const imgDataUrl = uploadedBlob.target?.result; // data:image/jpeg;base64,/
+    const base64 = await fetch(`${imgDataUrl}`);
+    const blob = await base64.blob();
+    const blobFile = new File([blob], 'name');
+    const publicImageURL = await uploadImage(blobFile);
+    if (!publicImageURL) return;
+    setProfileImage(publicImageURL);
+  };
+};
+```
+
+내일은 2번 컨버션하지말고 1번에 컨버션하는 코드로 수정합니다.
+
+base64 -> Blob
+https://ionic.io/blog/converting-a-base64-string-to-a-blob-in-javascript
+
+Blob -> File
+https://stackoverflow.com/questions/27159179/how-to-convert-blob-to-file-in-javascript
+
+이런 이상한 글 그만 읽으세요
+
 ## State
 
 State랑 props만 알아도 리액트의 상당부분을 알게되는 것입니다.
