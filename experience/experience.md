@@ -236,4 +236,7 @@ date: 1453-5-29
 ## 취업 후 해볼 것들
 
 - 수강할 강의
-  - [100가지 시나리오로 학습하는 프론트엔드](https://fastcampus.co.kr/dev_online_fe100)
+  - [ ] [100가지 시나리오로 학습하는 프론트엔드](https://fastcampus.co.kr/dev_online_fe100)
+- [ ] 컨프런스 및 키노트 발표
+- [ ] 오픈소스 메인테이너
+- [ ] CivicTech 분야의 웹, 앱 개선하기
