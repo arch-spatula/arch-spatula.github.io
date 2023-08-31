@@ -5,6 +5,16 @@ draft: true
 
 # React 입문
 
+## 면접질문: useLayoutEffect는 무엇인가요? 🔥
+
+useEffect랑 동일하지만 브라우저 랜더링 과정에서 Layout과 Paint 이전에 동기적으로 실행합니다.
+
+여기서 말하는 렌더링은 리액트 렌더링이고 Layout과 Paint는 브라우저에서 처리하는 단계입니다.
+
+보통 DOM조작과 animation과 과련된 작업에 활용할 hook에 사용합니다. 일반적인 라이프 사이클별로 처리하고자 하는 것은 useEffect를 사용할 것을 권장합니다.
+
+fiber가 requestAnimationFrame으로 해당하는 함수를 실행하는 것으로 추측됩니다.
+
 ## base64 vs Blob vs File
 
 모두 각각 다른 객체입니다.
