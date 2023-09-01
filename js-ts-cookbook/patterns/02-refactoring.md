@@ -1,6 +1,7 @@
 ---
 sidebar_position: 2
 description: '리팩토링'
+draft: true
 ---
 
 # 리팩토링
@@ -98,3 +99,50 @@ function statement(invoice, plays) {
 - 공연료와 별개로 포인트(volume credit)를 지급해서 다음번 의뢰시 공연료를 할인받을 수도 있다.
 
 저는 이런 코드보면 다루기 싫어집니다. <!-- 또 쫄보라서 테스트 코드를 추가하겠습니다. -->
+
+```js
+import { describe, expect, test } from 'vitest';
+import { statement } from './statement';
+
+describe('statement', () => {
+  test('리팩토링 이전', () => {
+    const plays = {
+      hamlet: { name: 'Hamlet', type: 'tragedy' },
+      'as-like': { name: 'As You Like It', type: 'comedy' },
+      othello: { name: 'Othello', type: 'tragedy' },
+    };
+    const invoice = [
+      {
+        customer: 'BigCo',
+        performances: [
+          { playID: 'hamlet', audience: 55 },
+          { playID: 'as-like', audience: 35 },
+          { playID: 'othello', audience: 40 },
+        ],
+      },
+    ];
+
+    const billing = statement(invoice[0], plays);
+
+    expect(billing).toBe(
+      '청구 내역 (고객명: BigCo)\nHamlet: $650.00 (55석)\nAs You Like It: $580.00 (35석)\nOthello: $500.00 (40석)\n총액: $1,730.00\n적립 포인트: 47점'
+    );
+  });
+});
+```
+
+위와 같은 테스트 코드를 작성하면 됩니다. 여기서 결과를 값으로 검증하면 처리는 바꿔도 괜찮습니다.
+
+또 편의를 위해 타입지정을 해줍시다.
+
+```js
+/**
+ * @param {{customer: string, performances: {playID: string, audience: number}[]}} invoice
+ * @param {Record<string, {name: string, type: "tragedy" | "comedy"}>} plays
+ */
+function statement(invoice, plays) {
+  // 생략 ...
+}
+```
+
+자바스크립트에 일단 이렇게 타입을 흉내냅시다.
