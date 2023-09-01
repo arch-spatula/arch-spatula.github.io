@@ -8,12 +8,12 @@
     <subtitle>Arch-Spatula의 레시피 Blog</subtitle>
     <icon>https://arch-spatula.github.io/img/logo.svg</icon>
     <entry>
-        <title type="html"><![CDATA[Easter Egg]]></title>
+        <title type="html"><![CDATA[🤫 Easter Egg 🥚]]></title>
         <id>https://arch-spatula.github.io/easter/egg</id>
         <link href="https://arch-spatula.github.io/easter/egg"/>
         <updated>1453-05-29T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[This is a easter egg not meg the egg]]></summary>
-        <content type="html"><![CDATA[<div class="theme-admonition theme-admonition-caution alert alert--warning admonition_LlT9"><div class="admonitionHeading_tbUL"><span class="admonitionIcon_kALy"><svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></span>주의</div><div class="admonitionContent_S0QG"><p>여기는 블로그의 무법지대입니다.</p></div></div><p><a href="/easter/experience">Experience</a></p><p><a href="/easter/meme">MEME</a></p><p><a href="/easter/python">Python</a></p><p><a href="/easter/nestjs">주니어가 다루는 거 보면 신뢰도가 떨어져 보이는 NestJS</a></p><p>Clang</p><p>golang</p><p>Rust</p><p>Ocaml</p><p>꼰대가 되기 위한 Java</p><p>Python</p><p>elixir</p><p>elm</p>]]></content>
+        <content type="html"><![CDATA[<div class="theme-admonition theme-admonition-caution alert alert--warning admonition_LlT9"><div class="admonitionHeading_tbUL"><span class="admonitionIcon_kALy"><svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></span>주의</div><div class="admonitionContent_S0QG"><p>🤫 여기는 블로그의 무법지대입니다. 🤠</p></div></div><p><a href="/easter/experience">Experience</a></p><p><a href="/easter/meme">MEME</a></p><p><a href="/easter/python">Python</a></p><p><a href="/easter/nestjs">주니어가 다루는 거 보면 신뢰도가 떨어져 보이는 NestJS</a></p><p><a href="/easter/design-system-wiki">디자인 시스템 위키</a></p><p><a href="/easter/html-css">HTML &amp; CSS</a></p><p><a href="/easter/diy-cs">DIY-CS</a></p><p>Clang</p><p><a href="/easter/golang">golang</a></p><p>Rust</p><p>Ocaml</p><p>꼰대가 되기 위한 Java</p><p>Python</p><p>elixir</p><p>elm</p>]]></content>
         <category label="Easter Egg" term="Easter Egg"/>
         <category label="hidden page" term="hidden page"/>
         <category label="index page" term="index page"/>

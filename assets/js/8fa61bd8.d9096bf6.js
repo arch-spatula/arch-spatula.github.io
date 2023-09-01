@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[50374],{24210:a=>{a.exports=JSON.parse('[{"label":"golang","permalink":"/golang/tags/golang","count":1},{"label":"hobby","permalink":"/golang/tags/hobby","count":1},{"label":"draft","permalink":"/golang/tags/draft","count":1}]')}}]);

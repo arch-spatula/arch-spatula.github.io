@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[43372],{38219:s=>{s.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"design-system-wiki"}')}}]);
