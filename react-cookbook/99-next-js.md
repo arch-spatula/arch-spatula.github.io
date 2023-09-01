@@ -1,9 +1,37 @@
 ---
 description: '문서에 대해서 개괄적으로 설명합니다.'
-tags: ['react', 'intro']
+tags: ['react', 'intro', 'vercel']
 sidebar_position: 99
 draft: true
 ---
+
+## `ReferenceError: self is not defined`
+
+```ts
+import dynamic from 'next/dynamic';
+
+const DynamicHeader = dynamic(() => import('../components/header'), {
+  loading: () => 'Loading...',
+});
+
+export default function Home() {
+  return <DynamicHeader />;
+}
+```
+
+https://velog.io/@hmds1606/%ED%8C%80%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0220713
+
+## 비공개 레포 vercel에 연결하기
+
+<!-- 사실 분류하기 애매해서 여기 추가함 -->
+
+connect private repo to vercel
+
+[Deploying Private Repository using Vercel](https://stackoverflow.com/questions/68780959/deploying-private-repository-using-vercel)
+
+시키는데로 연결하면 됩니다.
+
+주의할 점은 연결시간 은근히 걸립니다.
 
 ## server action
 
@@ -16,6 +44,12 @@ draft: true
 [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions)
 
 캐러셀, markdown textarea처럼 CSR로 강제되지 않는 경우만 주의하면 됩니다.
+
+## React Server Components
+
+리액트 서버 컴포넌트란 무엇인가? 왜 서버 사이드 랜더링말고 서버 컴포넌트인가?
+
+<!-- https://www.freecodecamp.org/news/how-to-use-react-server-components/ -->
 
 ## Next.js 새로고침 문제
 

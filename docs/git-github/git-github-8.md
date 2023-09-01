@@ -8,6 +8,10 @@ description: '폴더 속에 .gitkeep 파일을 만들고 커밋하면 폴더 구
 
 개발자가 협업할 때 중요한 것들이 있습니다. 나중에 누가 가르쳐줘서 알게 된 부분들입니다.
 
+<!-- https://yozm.wishket.com/magazine/detail/2007/ -->
+
+<!-- https://yozm.wishket.com/magazine/detail/2095/ -->
+
 ## 이슈, PR, 위키는 개조식 보고서
 
 개발자가 github에서 이슈, PR, 위키는 모두 보고서입니다. 보고서 중에서 개조식 보고서라고 인식해야 합니다.

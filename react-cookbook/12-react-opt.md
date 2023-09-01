@@ -24,3 +24,9 @@ draft: true
 성능최적화에는 철학적인 문제도 있습니다. 성능이란 무엇인가? 클라이언트 사이드에서 사용자가 사용하는 부분을 엔지니어링하는 입장에서 성능이란 무엇인가? 이것부터 잘 정의해야 합니다. 사용자의 대기시간이 너무 긴가? 클라이언트 기계에서 서버로 요청을 너무 많이 보내는가? 렌더링하면서 CLS가 발생하는가? 클라이언트에서 계산작업이 너무 오래걸리는가?
 
 [How To Maximize Performance In Your React Apps](https://www.youtube.com/watch?v=Qwb-Za6cBws)
+
+<!-- https://velog.io/@sehyunny/how-react-18-improves-app-perf -->
+
+<!-- https://vercel.com/blog/how-react-18-improves-application-performance -->
+
+<!-- https://dev.to/alais29/building-a-real-time-search-filter-in-react-a-step-by-step-guide-3lmm -->

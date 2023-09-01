@@ -1,13 +1,15 @@
 ---
-title: Easter Egg
+title: 🤫 Easter Egg 🥚
 tags: ['Easter Egg', 'hidden page', 'index page']
 description: 'This is a easter egg not meg the egg'
 date: 1453-5-29
 ---
 
+# 🤫 Easter Egg 🥚
+
 :::caution
 
-여기는 블로그의 무법지대입니다.
+🤫 여기는 블로그의 무법지대입니다. 🤠
 
 :::
 
@@ -21,9 +23,15 @@ date: 1453-5-29
 
 <!-- @todo: 시니어가 되면 Spring 따라하는 NestJS라고 수정하기 -->
 
+[디자인 시스템 위키](design-system-wiki)
+
+[HTML & CSS](html-css)
+
+[DIY-CS](diy-cs)
+
 Clang
 
-golang
+[golang](golang)
 
 Rust
 

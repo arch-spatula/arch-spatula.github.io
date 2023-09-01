@@ -6,6 +6,12 @@ description: '칸반과 github 프로젝트를 같이 사용하면서 얻은 작
 
 # github 프로젝트 칸반 활용
 
+<!-- https://kciter.so/posts/effective-work -->
+
+<!-- https://www.jobplanet.co.kr/contents/news-5099 -->
+
+<!-- https://news.hada.io/topic?id=10222 -->
+
 칸반과 github 프로젝트를 같이 사용하면서 얻은 작은 팁입니다.
 
 칸반 활용 자체는 어려운 것은 아닙니다. 도구 자체는 쉽습니다.

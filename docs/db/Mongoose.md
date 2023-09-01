@@ -1,8 +1,13 @@
 ---
 sidebar_position: 1
+draft: true
 ---
 
 # Mongoose
+
+<!-- A-Z: MongoDB Cheat Sheet🌱 https://dev.to/burakboduroglu/mongodb-cheat-sheet-1a6a -->
+
+<!-- https://github.com/FerretDB/FerretDB -->
 
 자바스크립트로 Mongo DB를 다룰 때는 [Mongoose](https://www.npmjs.com/package/mongoose)를 사용한다는 것을 알게 되었습니다.
 
