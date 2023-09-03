@@ -5,6 +5,14 @@ tags: ['draft']
 draft: true
 ---
 
+## promises 동시에 다루기
+
+<!-- @todo 아래 내용 정리하기 -->
+
+https://www.youtube.com/shorts/HrL8HXlvlgE
+
+https://www.builder.io/blog/promises
+
 ## DOM으로 추출한 유사배열객체는 NodeList라고 부릅니다.
 
 https://developer.mozilla.org/ko/docs/Web/API/NodeList
