@@ -68,6 +68,8 @@ Question: When shall we upgrade to HTTP 3.0? Any pros & cons you can think of?
 
 ## 용어
 
+[url vs uri vs urn](https//www.youtube.com/post/UgkxFWdiySGxN41hpohPYQsBXHjcX0dhfMx0)
+
 네트워크
 
 - 네트워크란 컴퓨터와 컴퓨터 사이 통신을 의미합니다.
