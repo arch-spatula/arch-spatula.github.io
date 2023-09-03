@@ -5,6 +5,49 @@ tags: ['draft']
 draft: true
 ---
 
+## Amplitude
+
+Amplitude는 구글 애널리틱스처럼 사용자 행동을 분석할 수 있는 도구입니다. 사용자의 클릭 방문 등 다양한 행위에 대한 데이터를 수집할 수 있습니다.
+
+유저 행동에 따라 퍼널이 다를 것입니다. 단순한 설문 조사보다는 좋습니다. 데이터 기반으로 분석해서 정성적인 성격이 강한 자료보단 유저 데이터에 의존해서 문제를 정의할 수 있습니다.
+
+설치와 분석예시까지 다룹니다.
+
+회원가입을 통해서 진행하도록 합니다. 이메일 인증까지 잘 하도록 합니다. 웹 개발은 브라우저 SDK를 활용하면 됩니다. Next, CRA모두 동일합니다.
+
+환경변수 설정을 통해 가리도록 합니다.
+
+모든 페이지에 적용하기 만들기 위해 `_app.js`에 설정하도록 합니다. 비회원도 트레킹하기 위해서 init 함수의 두번째 인자는 생략합니다.
+
+이벤트 추적이 가능하게 `amplitude.track`으로 할 수 있습니다.
+
+```ts
+import * as amplitude from '@amplitude/analytics-browser';
+
+amplitude.init('YOUR_API');
+amplitude.track('Button Clicked');
+```
+
+실제 활용은 개발에 활용할 때는 조금 다릅니다. init, track, setUserId, reset등을 util로 관리하는 것이 더 좋습니다.
+
+```js
+export const logEvent = (eventName, eventProperties) => {
+  track(eventName, eventProperties);
+};
+```
+
+여기서 eventProperties는 버전 페이지에서 다양한 정보를 객체로 담아서 보내도록 합니다.
+
+AmplitudeId는 디바이스 ID로 생성됩니다. 디바이스 ID는 SDK로 디바이스 정보를 받아서 보내도록 합니다. 동일한 디바이스에 다양한 유저 반대로 동일한 유저가 다양한 디바이스를 사용하는 문제가 있을 수 있습니다. 디바이스 ID의 맹점을 보완하기 위해 유저 Id를 설정할 수 있습니다. setUserId로 설정할 수 있습니다.
+
+시크릭모드로 테스트가 가능합니다.
+
+User Look-Up table을 활용해서 확인할 수 있습니다. 하지만 개발자는 개발 테스트를 위해 크롬 확장자를 설치하도록 합니다.
+
+기획 측면에서 Segmentation을 활용할 수 있습니다. 특정이벤트를 시간별로 발생한것과 조건문을 달아둘 수 있습니다. 보통 연령, 지역같은 정보로 분리합니다. Funnel은 유저 플로우의 이탈률을 분석하는 도구입니다.
+
+데이터 기반으로 이터레이션을 돌고 목표를 정하고 개발하는 방법론을 적용할 수 있습니다.
+
 ## DOM으로 추출한 유사배열객체는 NodeList라고 부릅니다.
 
 https://developer.mozilla.org/ko/docs/Web/API/NodeList
