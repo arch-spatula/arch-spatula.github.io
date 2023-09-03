@@ -1,0 +1,8 @@
+{
+  "label": "기타 미분류",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "이런저런 분류하기 애매한 CS 지식을 추가합니다."
+  }
+}
