@@ -19,6 +19,8 @@ http는 사실 따로 다뤄야 하지만 나중에 하겠습니다.
 
 ## What is GraphQL? Is it a replacement for the REST API?
 
+![GraphQL](https://yt3.ggpht.com/4I63dVsgVMM-9_-Nl1ae9NrQAce4WvWayKgHchAjRaCwAHBA-YEhYcQYHNkfo4aNDvndZNSH8GP3Mw=s640-nd-v1)
+
 The diagram below shows the quick comparison between REST and GraphQL.
 
 🔹 GraphQL is a query language for APIs developed by Meta. It provides a complete description of the data in the API and gives clients the power to ask for exactly what they need.
@@ -35,8 +37,6 @@ Over to you:
 
 1. Is GraphQL a database technology?
 2. Do you recommend GraphQL? Why/why not?
-
-![GraphQL](https://yt3.ggpht.com/4I63dVsgVMM-9_-Nl1ae9NrQAce4WvWayKgHchAjRaCwAHBA-YEhYcQYHNkfo4aNDvndZNSH8GP3Mw=s640-nd-v1)
 
 ## http
 
