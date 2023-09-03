@@ -218,3 +218,398 @@ Up 마이그레이션은 초신 마이그레이션입니다. 앞으로 이동합
 - 0은 false, 1은 true입니다. false로 작성해도 0으로 기록되고 true로 작성해도 1로 기록됩니다.
 - varchar는 문자열 길이를 알면 활용합니다. 문자열 길이를 알면 성능개선에 활용할 수 있습니다. 비밀번호 해쉬, 이메일은 길이가 비교적 한정적입니다.
   - varchar은 캐릭터 가변을 의미합니다.
+
+## Constraints
+
+https://youtu.be/KBDSJU3cGkc?t=3045
+
+https://github.com/bootdotdev/fcc-learn-sql-assets/tree/main/course/3-constraints/exercises
+
+null 값은 중요합니다. 만약에 유저이름 셀이 비어있는 문자열("")이면 유저이름이 존재한다는 의미입니다. 빈 문자열, false보단 null을 활용해서 비어있음을 알려주는 것이 더 직관적입니다.
+
+Constraints는 직역하면 제약입니다. 처리가 불가능하게 프로그래머가 막을 수 있습니다.
+
+```sql
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    country_code TEXT NOT NULL,
+    username TEXT UNIQUE,
+    password TEXT NOT NULL,
+    is_admin BOOLEAN
+);
+```
+
+PRIMARY KEY 제약은 row가 고유합니다. 테이블마다 1개만 사용할 수 있습니다. 보통 id에 많이 사용합니다. 고유하게 해주고 또 Not Null입니다.
+
+UNIQUE는 고유자하지만 null이 될 수 있습니다.
+
+이메일이 고유하다고 이메일을 프라이머리 키로 사용하는 짓거리를 하지말도록 합니다. 일단 id가 더 직관적입니다. 또 비즈니스 로직은 변화합니다. 만약에 이메일 중복을 허용하면 변형이 어렵습니다.
+
+```sql
+INSERT into users (
+    id,
+    name,
+    age,
+    username,
+    password,
+    is_admin
+) values (
+    1,
+    "Jerry",
+    25,
+    "jerrysmith",
+    "mypasswordis1234",
+    true
+);
+```
+
+삽입할 때는 매개변수의 순서에 주의해주시기 바랍니다.
+
+프라이머리 키가 있으면 이제는 Foreign는 sql이 관계를 갖고 있다고 표현할 수 있는 수단입니다. Foreign 키를 Foreign라고 굳지 제약을 설정해줄 필요는 없습니다. 참조에 불과하기 때문에 그렇습니다.
+
+지정하는 문법은 소개하겠습니다. 이유는 참조하고 있음을 보장해야 하기 때문입니다. 관계가 존재하면 처리하고 없으면 차단하도록 설정할 수 있습니다.
+
+```sql
+CREATE TABLE departments (
+    id INTEGER PRIMARY KEY,
+    department_name TEXT NOT NULL
+);
+
+CREATE TABLE employees (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    department_id INTEGER,
+    CONSTRAINT fk_departments   -- CONSTRAINT 이름
+    FOREIGN KEY (department_id) -- department_id INTEGER의 department_id매개변수를 고릅니다.
+    REFERENCES departments(id)  -- departments 테이블의 id를 참조하도록 합니다.
+);
+```
+
+스키마란 DB베이스에서 테이블관의 관계와 테이블의 이름과 컬럼별 자료형을 보고 포괄적으로 지칭하는 용어입니다.
+
+세상에 완벽한 스키마는 없습니다. 데이터베이스 스키마는 최선을 고르도록 합니다. 최대한 단순하게 유지하면서 관계를 적절히 표현하도록 합니다. 처음부터 복잡성을 넣으면 나중에 풀어서 없애야할 때 고생하게 됩니다.
+
+```sql
+CREATE TABLE transactions (
+    id INTEGER PRIMARY KEY,
+    sender_id INTEGER,
+    recipient_id INTEGER,
+    memo TEXT NOT NULL,
+    amount INTEGER NOT NULL,
+    balance INTEGER NOT NULL
+);
+```
+
+이렇게 거래 내역을 저장하는 테이블을 정의하고 스키마를 정의할 수 있습니다.
+
+금융은 정수단위로 저장할 가능성이 더 높습니다. 5달러는 500개 페니를 저장하기 위해서 real 대신에 integer를 사용합니다. 메모리 공간의 유한함을 CS 지식으로 갖고 있으명 알 수 있습니다.
+
+row를 보고 레코드라고 부릅니다.
+
+관계형 DB는 이제 알 수 있습니다. 그렇다면 NoSQL은 어떻게 생겼는가?
+
+일반적으로 NoSQL은 nested된 데이터로 표현합니다. 큼직한 json이라고 생각할 수 있습니다.
+
+```json
+{
+  "users": [
+    {
+      "id": 0,
+      "name": "Elon",
+      "courses": [
+        {
+          "name": "Biology",
+          "id": 0
+        },
+        {
+          "name": "Biology",
+          "id": 0
+        }
+      ]
+    }
+  ]
+}
+```
+
+이런 관계를 갖고 있습니다. 이렇게 포함관계를 갖고 있는데 단점이 있습니다. 동일한 데이터가 복사됩니다.
+
+NoSQL은 관계형 데이터 베이스에서 many to many 관계를 표현하는 방식을 표현하기 어렵습니다.
+
+## CRUD
+
+https://github.com/bootdotdev/fcc-learn-sql-assets/tree/main/course/4-crud/exercises
+
+CRUD는 데이터와 데이터 베이스 관련된 것의 핵심입니다. 일반적인 REST API는 대응관계가 잘 됩니다.
+
+http는 post - create, get - read, put - update, delete - delete로 대응됩니다.
+
+sql도 대응됩니다. create - create, read - select, update - update, delete - delete
+
+```sql
+INSERT INTO employees(id, name, title)
+VALUES (1, 'Allan', 'Engineer');
+```
+
+인서트문은 이렇게 생겼습니다.
+
+```sql
+INSERT INTO 테이블 이름(컬럼이름1, 컬럼이름2, 컬럼이름3)
+VALUES (필드1, 필드2, 필드3);
+```
+
+이런 형식입니다.
+
+데이터가 웹앱에 일반적으로 흐르는 방식입니다. 프론트엔드, 백엔드 웹서버, 데이터베이스가 있습니다. 프론트엔드는 백엔드에게 http로 주로 통신합니다. 백엔드 서버는 데이터 베이스를 sql로 통신합니다.
+
+사용자가 회원가입 요청을 post로 서버에게 요청을 보내면 서버는 해당 정보를 sql로 실행해서 기록합니다. 이 처리가 성공하면 클라이언트는 성공응답 200을 돌려 받습니다.
+
+프론트엔드랑 db랑 직접 통신하는 경우는 로컬 전용 어플리케이션에서 주로 합니다. 하지만 클라우드를 수단으로 서로 통신해야 하면 프론트엔드는 서버랑 통신해야 합니다.
+
+auto increment는 자동 증감을 명시하지 않고 1개 증가를 처리할 수 있습니다. 하지만 이렇게 사용하면 db를 한번 읽어야 합니다. 하지만 그 뒤부터 서버가 구동되는 동안 증가시켜줄 필요는 없습니다. 재구동으로 메모리가 비워지면 다시 db를 읽어야 합니다. uuid도 자주 볼 수 있습니다. uuid는 삽입 전에 읽을 필요 없어서 좋습니다.
+
+어떤 데이터 베이스는 auto increment는 명시해야 합니다. 하지만 sqlite는 명시할 필요 없습니다.
+
+```sql
+INSERT INTO users (name, age, country_code, username, password, is_admin)
+VALUES (Lance, 20, US, LanChr, b00tdevisbest, false)
+```
+
+sqlite는 id를 생략하면 위처럼 자동으로 id를 increment 해줄 것입니다.
+
+```go
+sqlQuery := fmt.Sprintf(`
+INSERT INTO users(name, age, country_code)
+VALUES ('%s', %v, %s);
+`, user.Name, user.Age, user.CountryCode)
+```
+
+위처럼 작성하는 경우는 거의 없습니다. 다른 프레임워크 orm을 통해서 처리할 것입니다. sql injection 공격으로부터 방어해줄 수 있습니다.
+
+sql문은 동적으로 프로그래밍 언어에서 생성되는 경우가 대부분입니다. code gen을 해주는 프레임워크 및 라이브러리를 활용하게 될 것입니다.
+
+```sql
+SELECT count(*) from employees;
+```
+
+row 전체의 개수를 구하는 명령입니다. sqlite에서 지원합니다.
+
+클라이언트는 get 서버는 db에게 select합니다. 그리고 db에서 가져오면 json으로 응답합니다. 유일한 방법은 아니고 자주 볼 수 있는 방법입니다.
+
+where 절은 자주 볼 것입니다. where 절 없이 db를 조회하는 경우는 거의 없습니다.
+
+```sql
+SELECT name FROM users WHERE power_level >= 9000;
+```
+
+이렇게 생겼습니다.
+
+```sql
+SELECT 컬럼명 FROM 테이블명 WHERE 선택 조건;
+```
+
+위처럼 where를 사용하는 것이 일반적입니다. 안 사용하면 클라이언트, 서버가 터질 수 있습니다.
+
+```sql
+SELECT username FROM users WHERE is_admin=true;
+```
+
+위는 is_admin이 true 경우만 선택합니다.
+
+is null과 is not null 문법으로 선택 혹은 무시하게 만들 수 있습니다.
+
+```sql
+SELECT name FROM users WHERE first_name IS NULL; -- 존재하지 않는 경우
+
+SELECT name FROM users WHERE first_name IS NOT NULL; -- 존재하는 경우
+```
+
+위처럼 입력이 없는 경우를 무시 혹은 확인하게 만들 수 있습니다.
+
+```sql
+DELETE from employees
+    WHERE id = 251;
+```
+
+위에서 where 절이 없으면 테이블이 비워집니다. where 절로 필터를 반드시 해주시기 바랍니다.
+
+노하우가 하나 있다면 delete 명령 전에 select로 where 의도가 맞는지 확인하고 select를 delete로 바꿉니다.
+
+삭제를 할 때는 또 조심할 점은 프라이머리키를 통해서 삭제하도록 합니다. 동시에 여러개 삭제할 필요가 없으면 프라이머리키를 접근해서 삭제합니다. 의도하지 않게 중복삭제가 발생할 수 있습니다.
+
+```sql
+DELETE from employees
+    WHERE name="jake";
+```
+
+가장 지혜로운 개발자는 프로덕션 앱이 분명 버그로 가득하다는 것을 알고 있습니다. 장애까지 1커밋 남은 상황일 수 있습니다. 장애가 발생해도 db를 메모리에 저장하지 말고 사용자 db를 저장하고 있는 것이 지혜로울 것입니다.
+
+이번에는 백업의 동작방식입니다.
+
+제일 일반적인 방식입니다. 매일 스냅샷을 찍습니다. 밤 12시 정각에 정검시간이 있을 수 있습니다. 이때 백업 처리를 진행합니다. 파일 시스템로 디스크를 제공해주는 클라우드 서비스에 쑤셔 넣을 것입니다. 만약에 잘못되면 하루전으로 돌릴 수 있습니다. 하루 단위 스탭샷을 보관하고 월 단위로 보관할 것입니다. 월을 넘기면 삭제합니다.
+
+단점은 스냅샷 이후로 데이터를 모두 잃습니다. 보완은 시간단위입니다. 이렇게 되면 비용이 커집니다. 하지만 작은 회사는 이렇게 해도 괜찮습니다.
+
+조금이라도 데이터를 잃으면 안되는 경우면 다른 방법이 있습니다. DB에 변화가 발생하면 append only log에 추가되도록 합니다. 해당 log를 기록합니다. 실제 db에서 삭제하면 삭제가 된 것이지만 append only log는 삭제가 되었다는 기록을 남길 수 있습니다.
+
+대부분의 작은 회사는 스냅샷으로 충분합니다.
+
+항상 프로덕션 환경을 위해 백업 db를 구축하도록 합니다. 하루 단위로 데이터를 잃지만 모든 데이터를 잃는 것보다 좋습니다.
+
+가끔은 soft delete 전략을 갖고 있습니다. db에 진짜로 delete 처리를 하지 않고 delete log를 기록하고 나중에 진짜로 삭제하고 다시 쿼리할 때는 안보이게 합니다. 문제는 복잡성입니다. 필터링이 필요합니다. 또 프라이버시 문제도 있습니다. 유저가 탈퇴했지만 유저의 데이터는 남기 쉽습니다. 또 문제는 쿼리가 느리게 만들어 줄 것입니다. 조회해야 하는 량이 많아지기 때문입니다.
+
+```sql
+UPDATE employees
+SET job_title = 'Backend Engineer', salary = 150000
+WHERE id = 251;
+```
+
+위와 같이 처리하면 갱신됩니다. 구체적으로 1개의 row를 갱신합니다.
+
+ORM입니다. ORM은 DB 제어를 더 편하게 해주는 라이브러리입니다. 인메모리 객체, 구조, 레코드를 데이터베이스 스키마에 맞춰서 제어할 수 있게 해줍니다.
+
+go는 구조체가 있습니다.
+
+```go
+type User struct {
+    ID int
+    Name string
+    IsAdmin bool
+}
+
+user := User{
+    ID: 10,
+    Name: "Lane",
+    IsAdmin: false,
+}
+
+// generates a SQL statement and runs it,
+// creating a new record in the users table
+db.Create(user)
+```
+
+모든 것은 sql문으로 직접 작성할 필요가 없어서 제어하기 좋습니다. ORM은 직접 sql작성도 쉽다는 조건 하에 ORM을 통해 작성할 것을 권장합니다.
+
+나중에는 아주 복잡한 쿼리도 작서해야 합니다. ORM은 제어를 지불해서 낮은 복잡성을 얻는 경우가 많습니다.
+
+코드의 작성량이 작아서 아주 좋은 장점이 있습니다. 하지만 절대 제어가 늘지 않습니다. 또 가끔 디버깅도 더 어려워질 수 있습니다. ORM이 복잡해지면 쿼리 성능도 나빠질 수 있습니다.
+
+하지만 대부분의 경우 ORM을 사용하는 것이 좋습니다.
+
+https://youtu.be/KBDSJU3cGkc?t=7214
+
+## Ch 5. Basic Queries
+
+https://youtu.be/KBDSJU3cGkc?t=7217
+
+SQL에 AS 키워드로 별칭(alias)을 지정할 수 있습니다.
+
+```sql
+SELECT employee_id AS id, employee_name AS name
+FROM employees;
+```
+
+위처럼 작성하면 그냥 id, name이라고 작성할 수 있고 또 DB에서 가져온 테이블의 컬럼 이름도 바뀝니다.
+
+SQL도 언어입니다. 대부분의 프로그래밍 언어처럼 함수를 사용할 수 있습니다.
+
+sqlite는 삼항연산자처럼 IIF 함수를 사용할 수 있습니다.
+
+```sql
+IIF(carA > carB, "Car a is bigger", "Car b is bigger")
+```
+
+참이면 앞의 매개변수 거짓이면 뒤의 매개변수를 반환하게 만들 수 있습니다.
+
+Between 절도 유용합니다.
+
+```sql
+SELECT employee_name, salary
+FROM employees
+WHERE salary BETWEEN 30000 and 60000;
+```
+
+위처럼 범위를 표현할 수 있습니다.
+
+```sql
+SELECT product_name, quantity
+FROM products
+WHERE quantity NOT BETWEEN 20 and 100;
+```
+
+NOT을 앞에 붙이면 역이라 제외할 범위를 설정하게 됩니다.
+
+DISTINCT는 쿼리의 중복 레코드를 제외합니다. 예를 들어 국가코드를 쿼리하면 분명 겹치는 국가가 많을 것인데 중복을 제거합니다.
+
+```sql
+SELECT DISTINCT previous_company
+    FROM employees;
+```
+
+논리연산자들도 제공합니다. AND, OR 키워드 그대로 사용합니다. WHERE절에 AND, OR에 여러 로직을 조합할 때 활용할 수 있습니다.
+
+```sql
+SELECT product_name, quantity, shipment_status
+    FROM products
+    WHERE shipment_status = 'pending'
+    AND quantity BETWEEN 0 and 10;
+```
+
+대문자 AND가 2개의 조건을 조합합니다. 참고로 sql은 동등비교 연산자가 `=`입니다. 일반적인 프로그래밍 언어들은 할당이지만 sql은 아닙니다.
+
+OR는 예상한 것처럼 조건 둘 중 하나라도 참이면 모두 쿼리가 됩니다. 또 소괄호(`()`)로 순서를 제어할 수 있습니다.
+
+또 IN 절도 존재합니다. 유용한데 직관적이지 않습니다.
+
+```sql
+SELECT product_name, shipment_status
+    FROM products
+    WHERE shipment_status IN ('shipped', 'preparing', 'out of stock');
+```
+
+```sql
+SELECT product_name, shipment_status
+    FROM products
+    WHERE shipment_status = 'shipped'
+        OR shipment_status = 'preparing'
+        OR shipment_status = 'out of stock';
+```
+
+같은 동작이지만 위 SQL이 더 간소합니다. 컬럼에서 인자에 해당하는 값 중 하나라도 해당하면 쿼리할 수 있게 됩니다.
+
+LIKE 연산자도 있습니다. 퍼지 매칭, 와일드카드 매칭입니다. 데이터 베이스에서 부분적으로 일치하는 것을 찾습니다.
+
+```sql
+SELECT * FROM products
+WHERE product_name LIKE 'banana%';
+```
+
+banana%: banana로 시작하면 선택합니다.
+%banana: banana로 끝나면 선택합니다.
+%banana%: banana문자가 존재하면 선택합니다.
+
+다른 연산자들이 있습니다. 언더스코어(`_`)도 존재합니다. 정확히 그문자의 개수를 맞출 수 있습니다.
+
+```sql
+SELECT * FROM products
+    WHERE product_name LIKE '_oot';
+```
+
+boot
+root
+foot
+
+```sql
+SELECT * FROM products
+    WHERE product_name LIKE '__oot';
+```
+
+shoot
+groot
+
+즉 문자열의 일치하는 부분만 조회합니다.
+
+https://youtu.be/KBDSJU3cGkc?t=8681
+
+https://www.youtube.com/post/Ugkx2gW-KZJWRZhRmv9U31BPPX5OajCLGJt1
