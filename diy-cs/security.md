@@ -79,7 +79,7 @@ CORS는 허용하는 보안 정책입니다. 동일한 origin 혹은 CORS를 허
 
 암호학에서 HMAC(keyed-hash message authentication code, hash-based message authentication code)는 암호화 해시 함수와 기밀 암호화 키를 수반하는 특정한 유형의 메시지 인증 코드(MAC)
 
-https://ko.wikipedia.org/wiki/HMAC
+[HMAC - 위키피디아](https://ko.wikipedia.org/wiki/HMAC)
 
 유튜브 돌아다니다가 발견했습니다.
 
