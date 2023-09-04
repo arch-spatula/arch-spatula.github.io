@@ -7,6 +7,88 @@ draft: true
 
 리액트 쿼리는 천천히 공개하겠습니다.
 
+## useTableQuery
+
+사실 다시 생각해보면 react-query를 다룰 때 mutation은 table 단위로 다루면 좋겠다는 생각이 들었습니다. db도 테이블 단위로 호출하고 활용하는데 들었던 생각입니다.
+
+custom hook을 모르면 react를 모르는 것입니다.
+
+```ts
+import { getUserProfile, patchUserProfile } from '@/utils/APIs/supabase';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
+
+const USER_PROFILE = 'user_profile';
+
+/**
+ * user_profile 테이블에 관한 query hook입니다.
+ * @see https://tanstack.com/query/v4/docs/react/guides/optimistic-updates
+ * @TODO updateCache함수 구현
+ * @TODO 최초 데이터를 유출하지 말고 갱신된 쿼리캐시를 유출하기
+ * @TODO 변수명 변경: const { profileCache, setProfileCache, updateProfileData } = useUserProfile();
+ */
+
+const useUserProfile = () => {
+  const queryClient = useQueryClient();
+
+  // get
+  const { data } = useQuery([USER_PROFILE], getUserProfile, {});
+
+  // null이면 갱신
+  const profileData: UserProfileType = {
+    id: data?.id ?? '',
+    user_id: data?.user_id ?? '',
+    user_name: data?.user_name ?? '',
+    phone: data?.phone ?? '01000000000',
+    contact_email: data?.contact_email ?? '',
+    profile_image: data?.profile_image ?? '',
+    background_color: data?.background_color ?? '#ffffff',
+    birth_year: data?.birth_year ?? new Date().getFullYear(),
+    self_profile: data?.self_profile ?? '',
+    gender: data?.gender ?? '선택안함',
+    is_public: data?.is_public ?? true,
+    field: data?.field ?? [],
+    skills: data?.skills ? data?.skills : [],
+    career: data?.career ?? '신입',
+    bookmark_folders: data?.bookmark_folders ?? [],
+  };
+
+  // 무한 리랜더링 버그 해결하기
+  useEffect(() => {
+    queryClient.setQueryData([USER_PROFILE], profileData);
+  }, []);
+
+  // patch
+  const { mutate: updateProfileData } = useMutation(patchUserProfile, {
+    onMutate: async (newProfile) => {
+      await queryClient.cancelQueries({ queryKey: [USER_PROFILE] });
+      const previousProfile = queryClient.getQueriesData([USER_PROFILE]);
+      queryClient.setQueriesData([USER_PROFILE], newProfile);
+
+      return { newProfile, previousProfile };
+    },
+    onError: (_err, _newProfile, context) => {
+      queryClient.setQueriesData([USER_PROFILE], context?.previousProfile);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [USER_PROFILE] });
+    },
+  });
+
+  return { profileData, updateProfileData };
+};
+
+export default useUserProfile;
+```
+
+hook을 설계할 때 관심사의 기준을 Table로 작성한 custom hook입니다. 여전히 사람같지 않습니다.
+
+Zod도 활용이 필요해보입니다.
+
+관심사를 유출입을 기준으로 한 것은 좋으나 거기까지인듯 합니다. 코드 전반적으로 더러운 것은 여전합니다.
+
+고장나기 전까지는 관심사가 아니지만 자주 고장날 hook입니다. 그럼 이 hook의 소비자의 관심사는 맞습니다. test도 적용해서 더욱더 신뢰할 수 있는 코드를 작성할 수 있도록 합니다.
+
 ## TIL.23.01.05. - 리액트 쿼리
 
 https://github.com/gopinav/React-Query-Tutorials
