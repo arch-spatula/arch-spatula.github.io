@@ -5,6 +5,14 @@ tags: ['draft']
 draft: true
 ---
 
+## promises 동시에 다루기
+
+<!-- @todo 아래 내용 정리하기 -->
+
+https://www.youtube.com/shorts/HrL8HXlvlgE
+
+https://www.builder.io/blog/promises
+
 ## Amplitude
 
 Amplitude는 구글 애널리틱스처럼 사용자 행동을 분석할 수 있는 도구입니다. 사용자의 클릭 방문 등 다양한 행위에 대한 데이터를 수집할 수 있습니다.
