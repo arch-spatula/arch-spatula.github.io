@@ -228,6 +228,39 @@ goToRoute(routes.home); // 문제 없음
 
 타입에서 키와 그 값을 이런 패턴으로 as const를 활용해서 접근이 가능합니다.
 
+## instanceof 가드
+
+```ts
+const onImagePasted = useCallback(
+  async (
+    dataTransfer: DataTransfer | FileList | null // Drag and Drop API
+  ) => {
+    if (!dataTransfer) return;
+    const files: File[] = []; // 드래그 앤 드랍으로 가져온 파일들
+    if (dataTransfer instanceof DataTransfer) {
+      for (let index = 0; index < dataTransfer.items.length; index += 1) {
+        const file = dataTransfer.items[index].getAsFile();
+        if (!file) return;
+        files.push(file);
+      }
+    } else if (dataTransfer instanceof FileList) {
+      const file = dataTransfer[0];
+      if (!file) return;
+      files.push(file);
+    }
+  },
+  []
+);
+```
+
+2개 타입을 같이 받아야 할 때 활용할 수 있는 패턴입니다.
+
+인스턴스를 통해서 타입가드를 하는 전략입니다.
+
+[Codefolio 프로젝트 해당 모듈](https://github.com/react-challengers/Codefolio/blob/dev/Components/CreatePost/PostEditor.tsx)
+
+옛날에 `instanceof`로 타입가드를 했었습니다.
+
 <!--
 
 <iframe class="codepen" src="https://www.youtube.com/embed/z12xYmmJ8Ww" title="🔥 NEW to TypeScript - satisfies" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
