@@ -91,3 +91,62 @@ export default defineConfig(({ mode }) => {
 rollup-plugin-visualizer: 추가하기
 
 -->
+
+## rollup-plugin-visualizer
+
+vite 라이브러리가 아닙니다. 딱잘라 단순합니다.
+
+하지만 굳이 다루는 이유는 vite이 rollup 번들러 기만으로 만들어졌습니다.
+
+[rollup-plugin-visualizer](https://github.com/btd/rollup-plugin-visualizer)
+
+```sh
+yarn add --dev rollup-plugin-visualizer
+```
+
+위 명령으로 설치하면 됩니다.
+
+```ts
+import { defineConfig, type PluginOption } from 'vite';
+export default defineConfig({
+  plugins: [visualizer() as PluginOption],
+});
+```
+
+일반적으로 위처럼 설정하면 됩니다.
+
+```ts title="vite.config.ts"
+/// <reference types="vitest" />
+/// <reference types="vite/client" />
+
+import react from '@vitejs/plugin-react-swc';
+import { defineConfig } from 'vite';
+import { visualizer } from 'rollup-plugin-visualizer';
+
+// https://vitejs.dev/config/
+export default defineConfig(() => {
+  return {
+    plugins: [react(), visualizer() as PluginOption],
+    // ...
+  };
+});
+```
+
+설정이 많으면 반환 값 속성에 이렇게 설정해주면 됩니다.
+
+`visualizer() as PluginOption`로 배열에 추가하면 됩니다.
+
+특별한 설정을 안 하면 `yarn build` 명령에 `state.html`을 생성할 것입니다. 알아서 브라우저로 열기 바랍니다.
+
+라이브러리와 각 모듈의 대략적인 점유율을 확인할 수 있습니다.
+
+![모듈 번들 계층형 트리맵](https://user-images.githubusercontent.com/84452145/266338159-1bca76e9-3e03-44cb-9603-b43705351e70.png)
+
+참고로 위 도표를 보고 (계층형)트리맵이라고 합니다. 데이터 시각화할 때 비중을 확인할 때 사용합니다.
+
+```txt title=".gitignore"
+# 아래 stats.html를 추가해주세요
+stats.html
+```
+
+마지막으로 `.gitignore`에 추가해주세요. 모두의 빌드가 모두에게 각자 다를 것입니다. 개발하는 중간에 누가 새로운 라이브러리를 추가할 것입니다.
