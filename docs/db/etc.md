@@ -613,3 +613,48 @@ groot
 https://youtu.be/KBDSJU3cGkc?t=8681
 
 https://www.youtube.com/post/Ugkx2gW-KZJWRZhRmv9U31BPPX5OajCLGJt1
+
+## Ch 6. Structuring
+
+LIMIT 키워드는 자주 사용하는 키워드입니다. 어플리케이션과 데이터 베이스 퀄리 모두 사용합니다. 프로덕션 데이터 베이스는 1000줄 단위입니다.
+
+LIMIT 키워드는 1000줄 쿼리가 나올 거 같을 때 사용합니다.
+
+```sql
+SELECT * FROM products
+    WHERE product_name LIKE '%berry%'
+    LIMIT 50;
+```
+
+처음 50개의 row만 가져오게 됩니다.
+
+데이터 베이스가 있고 모든 레코드를 봐야할 필요는 없습니다. 연결하고 10 ~ 20개 정도 가볍게 쿼리합니다.
+
+LIMIT은 최대만 정합니다. 그 이하로 반환하는 경우도 있습니다.
+
+쿼리를 한번에 너무 많이 하면 처리시간이 길어집니다. 서버가 가져온 데이터가 많고 거기에 가하는 변형이 많기 때문에 주의해야 합니다. 성능부하를 줄이기 위해 사용합니다.
+
+```sql
+SELECT name, price, quantity FROM products
+    ORDER BY price;
+```
+
+ORDER BY는 어센딩 순서 즉 작은 것에서 큰 순서로 나열합니다.
+
+```sql
+SELECT name, price, quantity FROM products
+    ORDER BY price desc;
+```
+
+desc 키워드를 뒤에 붙여서 큰 것에서 작은 순서로 나열합니다.
+
+데이터는 정렬을 먼저하고 그다음에 LIMIT을 걸어야 합니다. 즉 서순이 중요합니다.
+
+```sql
+SELECT * FROM transactions
+WHERE amount BETWEEN 10 AND 80
+ORDER BY amount desc
+LIMIT 4;
+```
+
+위에서 LIMIT과 ORDER BY 서순을 바꾸면 에러가 발생할 것입니다.
