@@ -658,3 +658,87 @@ LIMIT 4;
 ```
 
 위에서 LIMIT과 ORDER BY 서순을 바꾸면 에러가 발생할 것입니다.
+
+## Ch 7. Aggregations
+
+Aggregations은 큰 데이터를 하나로 합하는 것입니다. 즉 집산입니다.
+
+결과를 미리 처리하고 저장하는 것은 별로 권장하지 않습니다. 원본을 저장하고 필요할 때 집산하는 것이 좋습니다.
+
+```sql
+SELECT COUNT(*)
+FROM products
+WHERE quantity = 0;
+```
+
+COUNT 함수가 row의 숫자를 더하기 때문에 이미 집산 함수를 이미 한번 경험해본 것입니다.
+
+row의 수량을 저장하는 것도 전략이지만 나중에 원본을 확인하기 어렵습니다.
+
+최대한 원본에 가깝게 저장하도록 합니다.
+
+```sql
+SELECT SUM(salary)
+FROM employees;
+```
+
+SUM 함수는 해당하는 컬럼의 합산을 구할 수 있습니다.
+
+```sql
+SELECT max(price)
+FROM products
+```
+
+MAX 최댓값을 찾습니다. 직관적입니다.
+
+```sql
+SELECT product_name, min(price)
+from products;
+```
+
+MIN은 MAX의 역입니다. 최솟값을 찾습니다.
+
+```sql
+SELECT album_id, count(song_id)
+FROM songs
+GROUP BY album_id;
+```
+
+GROUP BY 절은 집산 기능이 아닙니다. 다른 집산과 유용한 처리할 때 자주 사용합니다. 그래서 맥락에 유용하기 때문에 알려줍니다.
+
+GROUP BY는 여러개의 집산 결과를 만들 때 유용합니다. 위 예시는 album_id를 기준으로 묶어서 각각의 album_id 별로 수록된 노래의 수량을 출력합니다.
+
+```sql
+SELECT user_id, sum(amount) AS balance
+  FROM transactions
+  GROUP BY user_id;
+```
+
+`AS balance`로 에일리어싱 처리까지 하면 유용하게 새로운 row를 뽑는 것이 가능합니다.
+
+```sql
+select song_name, avg(song_length)
+from songs
+```
+
+sql은 산술 평균을 구하는 AVG 함수도 지원합니다. 참고로 null은 무시합니다.
+
+```sql
+SELECT album_id, count(id) as count
+FROM songs
+GROUP BY album_id
+HAVING count > 5;
+```
+
+having 절은 이해하기 어려울 수 있습니다. where절과 비슷합니다. 집산 이후 처리합니다. where은 쿼리하고 다음에 집산을 처리하고 having으로 처리합니다.
+
+필터링하는 기능이라는 것은 동일합니다. having은 where보다 덜 사용합니다.
+
+처음 공부하는 사람들에게 많은 혼란이 발생할 수 있습니다. 그래서 잘 암기하도록 합니다. where은 쿼리 having은 집산입니다.
+
+```sql
+select song_name, round(avg(song_length), 1) AS song_int
+from songs
+```
+
+ROUND는 집산 함수가 아닙니다. 꽤 집산과 같이 자주 사용합니다. 소수점 버리기 할 때 꽤 유용할 것입니다.
