@@ -742,3 +742,55 @@ from songs
 ```
 
 ROUND는 집산 함수가 아닙니다. 꽤 집산과 같이 자주 사용합니다. 소수점 버리기 할 때 꽤 유용할 것입니다.
+
+## Ch 8. Subqueries
+
+이부분은 복잡합니다. 일반 쿼리는 잘 이해해야 합니다.
+
+```sql
+SELECT id, song_name, artist_id
+FROM songs
+WHERE artist_id IN (
+    SELECT id
+    FROM artists
+    WHERE artist_name LIKE 'Rick%'
+);
+```
+
+IN 키워드는 이미 사용해봤습니다. IN 키워드 내부에 서브 쿼리를 먼저 실행하고 다음 일반 쿼리를 처리합니다.
+
+```sql
+SELECT * from transactions
+WHERE user_id = (
+  SELECT id
+  FROM users
+  WHERE name = 'David'
+)
+```
+
+= 동등 연산자에서도 서브 쿼리를 같이 사용할 수 있습니다. IN 키워드는 서브쿼리에 받드시 필요한 것은 아닙니다. 지금은 예시는 1명 유저를 찾기 때문에 이렇게 작성했습니다.
+
+서브쿼리는 실행하는 동안에만 테이블이 존재합니다. 성능과 대부분 무관합니다. 중첩된 구조로 쿼리할 수 있는 것입니다.
+
+서브 쿼리는 테이블 전체에서 한번 선택을 하고 일반쿼리로 컬럼을 선택하는 방식으로도 작성합니다.
+
+SQL은 프로그래밍 언어입니다. 도메인 구체적인 언어입니다. 데이터 베이스를 위해 사용하는 언어입니다. SQL을 DB 없이 작성하는 것은 가능합니다.
+
+```sql
+SELECT 5 + 10 as sum;
+```
+
+충격적이게도 15입니다.
+
+```sql
+SELECT * FROM users
+WHERE age_in_days > (
+  SELECT 365 * 40
+)
+```
+
+이런 응용도 가능합니다. 근무일수로 재직기간을 측정했는데 40년 이상 재직자를 쿼리하는 것입니다.
+
+## Ch 9 . Normalization
+
+https://youtu.be/KBDSJU3cGkc?t=11022
