@@ -812,10 +812,10 @@ WHERE age_in_days > (
 | 1   | gophers     |
 | 2   | pythonistas |
 
-| id  | user_id | group_id |
-| --- | ------- | -------- |
-|     | 1       | 1        |
-|     | 1       | 2        |
+| user_id | group_id |
+| ------- | -------- |
+| 1       | 1        |
+| 1       | 2        |
 
 다대다는 테이블을 하나 만들어서 해결해야 합니다.
 
