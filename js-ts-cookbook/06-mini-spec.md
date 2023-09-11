@@ -61,18 +61,28 @@ console.log(typeof (1 % 0));
 
 ## Date 객체의 난해한 감성
 
-[2016년 - 프로그래머스](https://school.programmers.co.kr/learn/courses/30/lessons/12901)
+아래 코딩 테스트 문제를 풀어보세요.
 
 두 수 a ,b를 입력받아 2016년 a월 b일이 무슨 요일인지 리턴하는 함수를 완성하세요.
 
 자바스크립트 `Data` 객체의 난해한 감성을 느낄 수 있는 문제입니다.
 
+[2016년 - 프로그래머스](https://school.programmers.co.kr/learn/courses/30/lessons/12901)
+
 ```js
+/**
+ * @typedef {"SUN"|"MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT"} DayType
+ * @param {number} a
+ * @param {number} b
+ * @returns {DayType}
+ */
 function solution(a, b) {
   let result = '';
   return result;
 }
 ```
+
+저의 자체 ts 능력은 무시해주시기 바랍니다.
 
 ```js
 import solution from './playground';
@@ -153,7 +163,7 @@ function solution(a, b) {
 export default solution;
 ```
 
-월은 0부터 시작해야 합니다. 그래서 `-1`을 해줘야 합니다.
+월은 0부터 시작해야 합니다. 그래서 `-1`을 해줘야 합니다. 당황해서 1시간 날렸습니다. ㅂㄷㅂㄷ...
 
 그래도 요일은 고정되어 있습니다.
 
