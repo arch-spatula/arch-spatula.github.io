@@ -114,3 +114,110 @@ export default solution;
 
 </div>
 </details>
+
+## 최소공배수 최대공약수
+
+최소공배수와 최대공약수는 대수적으로 표현하기는 어려운 문제입니다. 알고리즘처럼 풀이하는 절차표현하는 일반적인 문제입니다.
+
+수학적 성질을 이해하는 것도 중요하지만 문제의 요구사항을 알고리즘으로 표현하는 것이 더 중요합니다.
+
+### N개의 최소공배수
+
+[N개의 최소공배수 - 프로그래머스](https://school.programmers.co.kr/learn/courses/30/lessons/12953)
+
+```js
+/**
+ * @param {number[]} arr
+ * @returns {number}
+ */
+function solution(arr) {
+  const multiple = [];
+  let copyArr = arr.slice();
+  let div = 2;
+
+  while (div <= Math.max(...copyArr)) {
+    if (copyArr.every((num) => num % div === 0)) {
+      copyArr = copyArr.map((num) => parseInt(num / div));
+      multiple.push(div);
+      div = 2;
+    } else {
+      div += 1;
+    }
+  }
+
+  return copyArr.concat(multiple).reduce((acc, curr) => acc * curr);
+}
+
+export default solution;
+```
+
+원래 시도한 정답
+
+최소 공배수를 구하기 위해 수학적으로 표를 만들고 나눗셈하는 방식을 활용했습니다.
+
+소수가 섞여있고 이 소수를 제외하는 방법을 생각하지 못했습니다.
+
+```js
+import solution from './playground';
+import { test, expect, describe } from 'vitest';
+
+// arr	      result
+// [2,6,8,14]	168
+// [1,2,3]	  6
+
+describe('N개의 최소공배수', () => {
+  test('예제 1', () => {
+    expect(solution([2, 6, 8, 14])).toBe(168);
+  });
+  test('예제 2', () => {
+    expect(solution([1, 2, 3])).toBe(6);
+  });
+  test('예제 3', () => {
+    expect(solution([2, 7])).toBe(14);
+  });
+  test('예제 4', () => {
+    expect(solution([12, 32, 45, 67, 72])).toBe(96480);
+  });
+  test('예제 5', () => {
+    expect(solution([17, 34])).toBe(34);
+  });
+  test('예제 6', () => {
+    expect(solution([4, 4])).toBe(4);
+  });
+});
+```
+
+<details>
+<summary>2023년 08월 28일</summary>
+<div markdown="1">
+
+```js
+/**
+ * @param {number[]} arr
+ * @returns {number}
+ */
+
+function solution(arr) {
+  arr.sort((a, b) => b - a);
+  let result,
+    isDivide = false,
+    count = arr[0];
+
+  while (!isDivide) {
+    isDivide = arr.every((num) => count % num === 0);
+    if (isDivide) {
+      result = count;
+      break;
+    }
+    count += 1;
+  }
+  return result;
+}
+
+export default solution;
+```
+
+정답 코드에 해당합니다.
+
+</div>
+</details>
