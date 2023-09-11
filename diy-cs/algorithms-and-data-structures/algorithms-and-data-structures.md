@@ -1,8 +1,8 @@
 ---
-sidebar_position: 96
+sidebar_position: 1
 description: '자료구조와 알고리즘'
 tags: ['자료구조와 알고리즘', '자료구조', '알고리즘']
-draft: true
+# draft: true
 ---
 
 # 자료구조 & 알고리즘
