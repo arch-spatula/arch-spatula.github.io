@@ -1,7 +1,7 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 description: '구현'
-tags: ['구현', 'implementation']
+tags: ['구현', 'implementation', '문제 유형']
 ---
 
 # 구현
