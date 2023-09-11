@@ -967,3 +967,79 @@ BC 정규화는 자주 언급하지 않습니다.
 id는 프라이머리키를 명명하는 국룰입니다. i를 반복문에서 사용하는 것과 비슷한 컨벤션입니다.
 
 데이터 베이스 정규화의 어림잡기 규칙을 내면화하는 것이 가치가 더 큽니다. 물론 이론을 잘 이해는 것도 유용하지만 어림잡기, 간편추론을 우선시해야 합니다.
+
+## Ch 10. Joins
+
+https://youtu.be/KBDSJU3cGkc?t=14145
+
+Joins입니다. 관계형 DB의 강력한 기능입니다. 쿼리를 여러개의 테이블을 동시에 처리하는 것입니다.
+
+모든 row를 찾는 것이 아닙니다. A, B 테이블 2개 동시에 존재하는 것만 찾습니다. 예를들어 어떤 id가 서로 공유하고 있을 것입니다.
+
+```sql
+SELECT *
+FROM employees
+INNER JOIN departments
+ON employees.department_id = departments.id;
+```
+
+employees라는 테이블에서 departments에서 정규화 관계를 찾는 것입니다.
+
+테이블을 Join하면 모든 컬럼을 합치기 때문에 중복이 발생합니다.
+
+네임 스페이스는 프로퍼티의 속성을 접근하는 것과 같습니다. 테이블에서 `.`으로 프로퍼티를 접근합니다. 다른 프로그래밍 언어에서 자주 볼만한 문법입니다.
+
+테이블은 복수형으로 명명하는 것이 좋은 컨벤션입니다.
+
+```sql
+SELECT students.name, classes.name
+FROM students
+INNER JOIN classes on classes.class_id = students.class_id;
+```
+
+SELECT를 네임스페이스로 한 경우입니다.
+
+LEFT JOIN은 왼쪽 테이블의 모든 레코드를 반환하게 만들 수 있습니다. 오른쪽은 왼쪽에 포함된 레코드만 반환하게 됩니다.
+
+테이블 명에 별칭을 지정해서 코드 길이를 줄이는 경우도 있을 것입니다. 쿼리는 여러번 사용하기 때문에 별칭을 너무 많이 사용하지는 말도록 합니다.
+
+```sql
+SELECT e.name, d.name
+FROM employees e
+LEFT JOIN departments d
+ON e.department_id = d.id;
+```
+
+위는 별칭을 사용한 경우입니다.
+
+```sql
+SELECT users.name, sum(transactions.amount) as sum, count(transactions.id) as count
+FROM users
+LEFT JOIN transactions
+ON users.id = transactions.user_id
+GROUP BY users.id
+ORDER BY sum DESC;
+```
+
+이 경우에는 users가 left에 해당하는 테이블이 됩니다. 즉 모든 users를 선택하게 됩니다. transactions는 오른쪽입니다. 부분선택합니다.
+
+Right Join도 존재합니다. 하지만 굳이 사용할 이유가 없습니다. sqlite는 Right JOIN을 사용을 금지합니다. 사실 left join의 순서만 바꾸면됩니다. 이렇게되면 혼선이 덜 발생할 것입니다.
+
+Full JOIN은 두 테이블의 모든 row를 반환합니다. JOIN은 컬럼단위로 동작하지 않습니다. row 단위로 동작합니다.
+
+LEFT JOIN을 할 때 GROUP BY를 안하면 중복이 발생할 수 있습니다. 엄밀하게 중복은 아니라 SELECT로 만든 테이블의 부분이 중복이 발생하는 것입니다.
+
+JOIN도 여러 JOIN으로 조합할 수 있습니다. 데이터를 JOIN할 때마다 쿼리가 느려질 수 있습니다.
+
+```sql
+SELECT *
+FROM employees
+LEFT JOIN departments
+ON employees.department_id = departments.id
+INNER JOIN regions
+ON departments.region_id = regions.id
+```
+
+위는 여러개의 JOIN을 처리한 경우입니다.
+
+컬럼 이름이 중복할 때 as 키워드로 별칭지정을 자주합니다.
