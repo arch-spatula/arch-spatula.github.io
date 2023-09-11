@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 description: '삽입정렬'
-tags: ['슬라이딩 윈도우', 'sliding window', '문제 풀이 전략']
+tags: ['정렬', 'sort', 'algorithms', 'insert']
 ---
 
 # 삽입정렬

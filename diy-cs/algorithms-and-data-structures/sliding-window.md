@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 3
 description: '슬라이딩 윈도우'
 tags: ['슬라이딩 윈도우', 'sliding window', '문제 풀이 전략']
 ---
