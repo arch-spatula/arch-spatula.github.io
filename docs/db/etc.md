@@ -613,3 +613,510 @@ groot
 https://youtu.be/KBDSJU3cGkc?t=8681
 
 https://www.youtube.com/post/Ugkx2gW-KZJWRZhRmv9U31BPPX5OajCLGJt1
+
+## Ch 6. Structuring
+
+LIMIT 키워드는 자주 사용하는 키워드입니다. 어플리케이션과 데이터 베이스 퀄리 모두 사용합니다. 프로덕션 데이터 베이스는 1000줄 단위입니다.
+
+LIMIT 키워드는 1000줄 쿼리가 나올 거 같을 때 사용합니다.
+
+```sql
+SELECT * FROM products
+    WHERE product_name LIKE '%berry%'
+    LIMIT 50;
+```
+
+처음 50개의 row만 가져오게 됩니다.
+
+데이터 베이스가 있고 모든 레코드를 봐야할 필요는 없습니다. 연결하고 10 ~ 20개 정도 가볍게 쿼리합니다.
+
+LIMIT은 최대만 정합니다. 그 이하로 반환하는 경우도 있습니다.
+
+쿼리를 한번에 너무 많이 하면 처리시간이 길어집니다. 서버가 가져온 데이터가 많고 거기에 가하는 변형이 많기 때문에 주의해야 합니다. 성능부하를 줄이기 위해 사용합니다.
+
+```sql
+SELECT name, price, quantity FROM products
+    ORDER BY price;
+```
+
+ORDER BY는 어센딩 순서 즉 작은 것에서 큰 순서로 나열합니다.
+
+```sql
+SELECT name, price, quantity FROM products
+    ORDER BY price desc;
+```
+
+desc 키워드를 뒤에 붙여서 큰 것에서 작은 순서로 나열합니다.
+
+데이터는 정렬을 먼저하고 그다음에 LIMIT을 걸어야 합니다. 즉 서순이 중요합니다.
+
+```sql
+SELECT * FROM transactions
+WHERE amount BETWEEN 10 AND 80
+ORDER BY amount desc
+LIMIT 4;
+```
+
+위에서 LIMIT과 ORDER BY 서순을 바꾸면 에러가 발생할 것입니다.
+
+## Ch 7. Aggregations
+
+Aggregations은 큰 데이터를 하나로 합하는 것입니다. 즉 집산입니다.
+
+결과를 미리 처리하고 저장하는 것은 별로 권장하지 않습니다. 원본을 저장하고 필요할 때 집산하는 것이 좋습니다.
+
+```sql
+SELECT COUNT(*)
+FROM products
+WHERE quantity = 0;
+```
+
+COUNT 함수가 row의 숫자를 더하기 때문에 이미 집산 함수를 이미 한번 경험해본 것입니다.
+
+row의 수량을 저장하는 것도 전략이지만 나중에 원본을 확인하기 어렵습니다.
+
+최대한 원본에 가깝게 저장하도록 합니다.
+
+```sql
+SELECT SUM(salary)
+FROM employees;
+```
+
+SUM 함수는 해당하는 컬럼의 합산을 구할 수 있습니다.
+
+```sql
+SELECT max(price)
+FROM products
+```
+
+MAX 최댓값을 찾습니다. 직관적입니다.
+
+```sql
+SELECT product_name, min(price)
+from products;
+```
+
+MIN은 MAX의 역입니다. 최솟값을 찾습니다.
+
+```sql
+SELECT album_id, count(song_id)
+FROM songs
+GROUP BY album_id;
+```
+
+GROUP BY 절은 집산 기능이 아닙니다. 다른 집산과 유용한 처리할 때 자주 사용합니다. 그래서 맥락에 유용하기 때문에 알려줍니다.
+
+GROUP BY는 여러개의 집산 결과를 만들 때 유용합니다. 위 예시는 album_id를 기준으로 묶어서 각각의 album_id 별로 수록된 노래의 수량을 출력합니다.
+
+```sql
+SELECT user_id, sum(amount) AS balance
+  FROM transactions
+  GROUP BY user_id;
+```
+
+`AS balance`로 에일리어싱 처리까지 하면 유용하게 새로운 row를 뽑는 것이 가능합니다.
+
+```sql
+select song_name, avg(song_length)
+from songs
+```
+
+sql은 산술 평균을 구하는 AVG 함수도 지원합니다. 참고로 null은 무시합니다.
+
+```sql
+SELECT album_id, count(id) as count
+FROM songs
+GROUP BY album_id
+HAVING count > 5;
+```
+
+having 절은 이해하기 어려울 수 있습니다. where절과 비슷합니다. 집산 이후 처리합니다. where은 쿼리하고 다음에 집산을 처리하고 having으로 처리합니다.
+
+필터링하는 기능이라는 것은 동일합니다. having은 where보다 덜 사용합니다.
+
+처음 공부하는 사람들에게 많은 혼란이 발생할 수 있습니다. 그래서 잘 암기하도록 합니다. where은 쿼리 having은 집산입니다.
+
+```sql
+select song_name, round(avg(song_length), 1) AS song_int
+from songs
+```
+
+ROUND는 집산 함수가 아닙니다. 꽤 집산과 같이 자주 사용합니다. 소수점 버리기 할 때 꽤 유용할 것입니다.
+
+## Ch 8. Subqueries
+
+이부분은 복잡합니다. 일반 쿼리는 잘 이해해야 합니다.
+
+```sql
+SELECT id, song_name, artist_id
+FROM songs
+WHERE artist_id IN (
+    SELECT id
+    FROM artists
+    WHERE artist_name LIKE 'Rick%'
+);
+```
+
+IN 키워드는 이미 사용해봤습니다. IN 키워드 내부에 서브 쿼리를 먼저 실행하고 다음 일반 쿼리를 처리합니다.
+
+```sql
+SELECT * from transactions
+WHERE user_id = (
+  SELECT id
+  FROM users
+  WHERE name = 'David'
+)
+```
+
+= 동등 연산자에서도 서브 쿼리를 같이 사용할 수 있습니다. IN 키워드는 서브쿼리에 받드시 필요한 것은 아닙니다. 지금은 예시는 1명 유저를 찾기 때문에 이렇게 작성했습니다.
+
+서브쿼리는 실행하는 동안에만 테이블이 존재합니다. 성능과 대부분 무관합니다. 중첩된 구조로 쿼리할 수 있는 것입니다.
+
+서브 쿼리는 테이블 전체에서 한번 선택을 하고 일반쿼리로 컬럼을 선택하는 방식으로도 작성합니다.
+
+SQL은 프로그래밍 언어입니다. 도메인 구체적인 언어입니다. 데이터 베이스를 위해 사용하는 언어입니다. SQL을 DB 없이 작성하는 것은 가능합니다.
+
+```sql
+SELECT 5 + 10 as sum;
+```
+
+충격적이게도 15입니다.
+
+```sql
+SELECT * FROM users
+WHERE age_in_days > (
+  SELECT 365 * 40
+)
+```
+
+이런 응용도 가능합니다. 근무일수로 재직기간을 측정했는데 40년 이상 재직자를 쿼리하는 것입니다.
+
+## Ch 9 . Normalization
+
+정규화입니다. 1대1, 1대다, 다대다 대응을 잘하면 잘 맞아떨어집니다.
+
+1대1 대응은 엔티티가 각각 1개와 1개가 대응합니다. 학생과 수능 성적은 1대1로 대응합니다. 이런 경우면 1대1 대응입니다. 필드를 그냥 추가하고 말아도 괜찮습니다. 하지만 기관에 따라 학생 테이블과 성적 테이블을 분리하는 경우도 있습니다. 운영문제가 있으면 이렇게 해결할 수 있습니다. 프라이머리키를 1대1로 테이블을 대응하게 될 것입니다.
+
+1대다 대응은 트위터에서 유저와 트윗관계입니다. 유저는 1개이지만 트윗은 0개에서 n개입니다. 이럴 때는 트윗테이블에 user_id를 foreign로 설정할 것입니다.
+
+다대다도 존재합니다. 가장 복잡한 관계입니다. 유저와 그룹입니다. 유저는 다양한 그룹에 포함될 수 있고 그룹도 다양한 유저가 있을 수 있습니다. foreign 키로 해결할 수 없습니다. 방법은 join table을 만드는 것입니다. 유저와 그룹의 관계를 보여주기 위해 만듭니다. 이런 이유로 유저그룹이라고 부를 것입니다. 제약도 추가합니다. 중복을 허용하지 않게 만듭니다.
+
+| id  | user_name |
+| --- | --------- |
+| 1   | lane      |
+| 2   | allan     |
+| 3   | john      |
+
+| id  | group_name  |
+| --- | ----------- |
+| 1   | gophers     |
+| 2   | pythonistas |
+
+| user_id | group_id |
+| ------- | -------- |
+| 1       | 1        |
+| 1       | 2        |
+
+다대다는 테이블을 하나 만들어서 해결해야 합니다.
+
+```sql
+CREATE TABLE users (
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL,
+  age INTEGER NOT NULL,
+  username TEXT UNIQUE,
+  password TEXT NOT NULL,
+  is_admin BOOLEAN
+);
+
+CREATE TABLE countries(
+  id INTEGER PRIMARY KEY,
+  country_code: TEXT NOT NULL,
+  name: TEXT NOT NULL,
+  user_id: INTEGER,
+  FOREIGN KEY (user_id)
+  REFERENCES users (id)
+);
+```
+
+테이블 관계는 위와 같아집니다.
+
+다대다는 모델링은 번거롭습니다. joining table은 메타 정보가 없는 테이블을 만듭니다. 다른 엔티티와 엔티티의 관계입니다. 식별자만 담고 메타데이터가 없습니다. 모델링만이 책임이기 때문에 그렇습니다.
+
+```sql
+CREATE TABLE product_suppliers (
+  product_id INTEGER,
+  supplier_id INTEGER,
+  UNIQUE(product_id, supplier_id)
+);
+```
+
+UNIQUE는 중복을 방지하는 제약입니다. 같은 관계를 또 만드는 것이 없습니다.
+
+```sql
+CREATE TABLE users (
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL,
+  age INTEGER NOT NULL,
+  username TEXT UNIQUE,
+  password TEXT NOT NULL,
+  is_admin BOOLEAN
+);
+
+CREATE TABLE countries (
+  id INTEGER PRIMARY KEY,
+  country_code TEXT,
+  name TEXT,
+  -- user_id INTEGER,
+  FOREIGN KEY (country_code)
+  REFERENCES users (id)
+);
+
+CREATE TABLE userscountries(
+  user_id: INTEGER,
+  countries_id: INTEGER,
+  UNIQUE(user_id, countries_id)
+);
+```
+
+대학교에서 컴퓨터과학 수업에서 데이터베이스 정규화 과목도 따로 있습니다. 지루합니다. 하지만 지금은 학술적인 정의도 다룰 것입니다. 하지만 데이터 중복을 낮추고 정합성을 챙기는 전략에 지중하기 바랍니다.
+
+정규화가 잘 되어 있을수록 정합성과 중복이 없습니다. 데이터 관련 버그를 발생시킬 가능성이 줄어듭니다.
+
+정규화는 1차, 2차, 3차, Boyce-Codd 정규화 4가지가 있습니다. 정규화가 아래로 내려갈수록 많아집니다.
+
+정화를 할 때마다 기존의 규칙을 추가해야 합니다. 정규화를 많이 하면 정규화 티어처럼 내려갈 것입니다.
+
+1차 정규화의 규칙입니다.
+
+1. 모든 row는 프라이머리 키를 갖고 있어여 합니다.
+
+- 즉 테이블의 중복이 없습니다.
+- id가 고유하기 때문에 모두 중복이 없습니다.
+
+2. 중첩 테이블이 없습니다.
+
+- 프로덕션에서 자주 볼 상황이 없습니다.
+- 대부분 데이터베이스들이 차단합니다.
+
+2차 정규화 규칙입니다.
+
+1. 1차 정규화 규칙을 준수합니다.
+2. 프라이머리 키에 해당하지 않는 모든 컬럼이 반드시 전체 프라이머리키에 의존해야 합니다.
+
+- 기록한 값 자체적으로 프라이머리 키를 만들 수 없습니다. 하지만 2개의 값을 합쳐서 프라이머리 키를 만들 수 있습니다. 프라이머리키 부분이 아니라 전체로 프라이머리키를 만드는 것입니다.
+
+| 주문번호 (OrderID, 기본 키) | 고객번호 (CustomerID) | 주문일자 (OrderDate) | 제품번호 (ProductID, 외래 키) | 제품명 (ProductName) | 가격 (Price) | 주문수량 (Quantity) |
+| --------------------------- | --------------------- | -------------------- | ----------------------------- | -------------------- | ------------ | ------------------- |
+| 1                           | A123                  | 2023-09-08           | 101                           | 제품 A               | 10.99        | 3                   |
+| 2                           | B456                  | 2023-09-09           | 102                           | 제품 B               | 15.99        | 2                   |
+| 3                           | C789                  | 2023-09-10           | 103                           | 제품 C               | 9.99         | 1                   |
+| 4                           | A123                  | 2023-09-10           | 104                           | 제품 D               | 12.49        | 5                   |
+
+> 함수종속성에 따라 테이블을 2개로 나눠서 따라 작성하는게 2차 정규화
+
+| 주문번호 (OrderID, 기본 키) | 고객번호 (CustomerID) | 주문일자 (OrderDate) |
+| --------------------------- | --------------------- | -------------------- |
+| 1                           | A123                  | 2023-09-08           |
+| 2                           | B456                  | 2023-09-09           |
+| 3                           | C789                  | 2023-09-10           |
+| 4                           | A123                  | 2023-09-10           |
+
+| 제품번호 (ProductID, 기본 키) | 제품명 (ProductName) | 가격 (Price) |
+| ----------------------------- | -------------------- | ------------ |
+| 101                           | 제품 A               | 10.99        |
+| 102                           | 제품 B               | 15.99        |
+| 103                           | 제품 C               | 9.99         |
+| 104                           | 제품 D               | 12.49        |
+
+정규화가 중복을 제거하는 이것이 해당합니다.
+
+3차 정규화입니다.
+
+1. 1차 2차 정규화 규칙을 준수합니다.2
+2. 프라이머리 키에 없는 모든 컬럼은 오직 프라이머리키에만 의존합니다.
+
+학술적인의 부분입니다. 2차와 3차의 구분은 실무적으로는 모호합니다.
+
+BC 정규화입니다.
+
+> A colum that is part of the primary key may not be dependent on a colum that is Not part of the primary key
+
+1, 2, 3정규화를 고안한 뒤에 나중에 추가된 개념입니다. 1, 2, 3 정규화를 함에도 불구하고 중복데이터가 들어갈 수 있는 한계가 있습니다.
+
+사람들이 문제된다는 것을 나중에 발견해서 나중에 도입된 것입니다.
+
+프라이머리키로 활용할 수 있는 것이 많을 때 문제가 됩니다.
+
+실무적으로는 학술적 정의에 강박을 갖을 필요는 없습니다. 강박의 방향은 데이터 정합성 즉 데이터 중복을 잘 방지하고 있는지 파악해야 합니다.
+
+미리계산된 값을 저장해야 할 때는 성능 문제 때문입니다. 쿼리가 진짜 느려지고 문제가 될 때부터 대응하기 바랍니다.
+
+데이터 중복은 정부 데이터베이스과 같습니다. 정부 기관마다 각자 다른 데이터베이스를 갖고 있어서 기관마다 신청해야 합니다. 본인 이사가면 법원, 세무청 등... 신고해야 합니다.
+
+이론적으로 정규화 관점에서 학술적으로 1 ~ 여러개 컬럼으로 프라이머리키를 만듭니다. 하지만 sql 데이터 베이스 관점으로는 항상 그렇지 않습니다. 몇개 데이터 베이스는 1개만 허용하거나 어느 데이터베이스는 여러개를 허용하는 경우도 있습니다.
+
+프로덕션에서 id가 없는 경우를 거의 볼일이 없습니다.
+
+join table은 id가 필요없습니다. 오히려 없어야 합니다.
+
+BC 정규화는 자주 언급하지 않습니다.
+
+일반적으로 처음에는 데이터 정합정을 중시합니다. 리팩토링과 중복데이터가 없어서 버그 문제를 방지합니다. 하지만 성능 문제가 발생하면 중복데이터가 만약에 해결한다면 도입을 하기는 하지만 가능한 안 합니다. 캐시 무효화는 어렵습니다.
+
+id는 프라이머리키를 명명하는 국룰입니다. i를 반복문에서 사용하는 것과 비슷한 컨벤션입니다.
+
+데이터 베이스 정규화의 어림잡기 규칙을 내면화하는 것이 가치가 더 큽니다. 물론 이론을 잘 이해는 것도 유용하지만 어림잡기, 간편추론을 우선시해야 합니다.
+
+## Ch 10. Joins
+
+https://youtu.be/KBDSJU3cGkc?t=14145
+
+Joins입니다. 관계형 DB의 강력한 기능입니다. 쿼리를 여러개의 테이블을 동시에 처리하는 것입니다.
+
+모든 row를 찾는 것이 아닙니다. A, B 테이블 2개 동시에 존재하는 것만 찾습니다. 예를들어 어떤 id가 서로 공유하고 있을 것입니다.
+
+```sql
+SELECT *
+FROM employees
+INNER JOIN departments
+ON employees.department_id = departments.id;
+```
+
+employees라는 테이블에서 departments에서 정규화 관계를 찾는 것입니다.
+
+테이블을 Join하면 모든 컬럼을 합치기 때문에 중복이 발생합니다.
+
+네임 스페이스는 프로퍼티의 속성을 접근하는 것과 같습니다. 테이블에서 `.`으로 프로퍼티를 접근합니다. 다른 프로그래밍 언어에서 자주 볼만한 문법입니다.
+
+테이블은 복수형으로 명명하는 것이 좋은 컨벤션입니다.
+
+```sql
+SELECT students.name, classes.name
+FROM students
+INNER JOIN classes on classes.class_id = students.class_id;
+```
+
+SELECT를 네임스페이스로 한 경우입니다.
+
+LEFT JOIN은 왼쪽 테이블의 모든 레코드를 반환하게 만들 수 있습니다. 오른쪽은 왼쪽에 포함된 레코드만 반환하게 됩니다.
+
+테이블 명에 별칭을 지정해서 코드 길이를 줄이는 경우도 있을 것입니다. 쿼리는 여러번 사용하기 때문에 별칭을 너무 많이 사용하지는 말도록 합니다.
+
+```sql
+SELECT e.name, d.name
+FROM employees e
+LEFT JOIN departments d
+ON e.department_id = d.id;
+```
+
+위는 별칭을 사용한 경우입니다.
+
+```sql
+SELECT users.name, sum(transactions.amount) as sum, count(transactions.id) as count
+FROM users
+LEFT JOIN transactions
+ON users.id = transactions.user_id
+GROUP BY users.id
+ORDER BY sum DESC;
+```
+
+이 경우에는 users가 left에 해당하는 테이블이 됩니다. 즉 모든 users를 선택하게 됩니다. transactions는 오른쪽입니다. 부분선택합니다.
+
+Right Join도 존재합니다. 하지만 굳이 사용할 이유가 없습니다. sqlite는 Right JOIN을 사용을 금지합니다. 사실 left join의 순서만 바꾸면됩니다. 이렇게되면 혼선이 덜 발생할 것입니다.
+
+Full JOIN은 두 테이블의 모든 row를 반환합니다. JOIN은 컬럼단위로 동작하지 않습니다. row 단위로 동작합니다.
+
+LEFT JOIN을 할 때 GROUP BY를 안하면 중복이 발생할 수 있습니다. 엄밀하게 중복은 아니라 SELECT로 만든 테이블의 부분이 중복이 발생하는 것입니다.
+
+JOIN도 여러 JOIN으로 조합할 수 있습니다. 데이터를 JOIN할 때마다 쿼리가 느려질 수 있습니다.
+
+```sql
+SELECT *
+FROM employees
+LEFT JOIN departments
+ON employees.department_id = departments.id
+INNER JOIN regions
+ON departments.region_id = regions.id
+```
+
+위는 여러개의 JOIN을 처리한 경우입니다.
+
+컬럼 이름이 중복할 때 as 키워드로 별칭지정을 자주합니다.
+
+## Ch 11. Performance
+
+성능입니다. 성능은 DB에서 가장 마지막에 고려해야할 사항입니다. 성능은 중요합니다. 하지만 데이터를 올바르게 얻는 것이 일반적으로 더 중요합니다. 버그를 덜 만들게 될 것입니다.
+
+성능은 성능 문제가 발생하고 있거나 발생할 예정일 때 생각하기 시작합니다.
+
+성능의 관건은 index입니다. DB의 인메모리 구조입니다. 성능이 좋게 동작하게 해줄 수 있습니다.
+
+자료구조 알고리즘 수업을 들었다면 이진트리는 인기많은 자료구조입니다. 데이터 베이스는 이진트리를 많이 사용합니다. 이진트리는 정렬된 값을 빠르게 찾기 유용합니다. id는 목록으로 찾기 쉽습니다. 이진트리는 리스트에서 효율적으로 찾아낼 수 있습니다. 10_000에서 id로 조회하면 모든 row를 선형탐색할 필요가 없습니다. index만 활용하면 이진으로 바로 찾아낼 수 있습니다. 빅오 표기법으로 $O(logN)$ 입니다.
+
+인덱싱은 lookup을 더 빠르게 해줍니다.
+
+특정 컬럼 뒤에 idx접미어를 붙이는 것이 인덱싱의 컨벤션입니다.
+
+```sql
+CREATE INDEX index_name on table_name (column_name);
+```
+
+위는 일반적인 형식입니다.
+
+```sql
+CREATE INDEX email_idx on users (email);
+```
+
+조금더 현실적으로 볼 수 있는 예시입니다.
+
+10_000개 단위로 생각해야 합니다.
+
+인덱싱을 언제해야 하는가? 빠르게할 수 있는데 항상해야 하는 것이 아닌가?
+
+인덱스를 생성하는 것 자체가 오버해드가 있는 것입니다. 컬럼에 해당하는 인메모리에 컬럼 데이터를 저장합니다. 디스크 저장이 아닙니다. 인덱스는 메모리량을 늘리게됩니다. row를 테이블에 추가할 때마다 이진트리는 삽입 작업을 처리해야 합니다.
+
+데이터베이스가 커지면서 다른 성능 문제도 발견하게 될 것입니다.
+
+성능최적화는 최적화가 필요한 시점에 적용하는 것이 필요합니다.
+
+읽기를 많이 하는 컬럼 위주로 인덱스를 추가하는 것이 좋습니다. 컬럼을 lookup한다는 것은 where 절을 작성한다는 것입니다.
+
+인덱싱은 읽기 속도를 높이지만 쓰기속도를 낮춥니다. 인메모리 이진트리를 갱신해야 하기때문에 그렇습니다.
+
+멀티컬럼 인덱스도 존재합니다. 하나 이상의 컬럼으로 조회해야 할 때 활용합니다.
+
+```sql
+CREATE INDEX first_name_last_name_age_idx
+ON users (first_name, last_name, age);
+```
+
+첫번째 컬럼으로 정렬됩니다. 그래서 성능이유로 순서도 중요합니다. 단일 컬럼 인덱싱만으로의 성능혜택을 모두 받습니다.
+
+쿼리가 where 절을 작성할 때 여러개 컬럼을 동시에 조회하는 경우가 많을 때 유용합니다.
+
+또 대부분의 경우 first_name처럼 첫번째로 작성한 컬럼도 인덱싱을 하기 때문에 중복이 발생하지 않게 인덱싱을 하도록 설계할 수 있습니다. 물론 대부분의 경우이고 데이터베이스마다 내부적으로 구현은 다르기 때문에 주의해야 합니다.
+
+역정규화입니다. 일반적으로 정규화는 좋습니다. 데이터 중복을 제거하고 정합성을 확보해야 합니다. 하지만 비용은 있습니다. 정규화는 성능 문제를 만들 수 있습니다. 가끔은 정규화를 풀어서 해결할 수 밖에 없는 경우들이 있습니다. 즉 중복 데이터로 성능을 개선하는 것입니다. 역정규화는 성능개선말고 거의 사용할 경우가 없습니다.
+
+정규화를 먼저하고 성능문제가 발생하고 고민하기 시작합니다.
+
+왜 중복데이터가 성능을 개선하는가? 데이터를 복사하면 접근하기 쉬워집니다. 문제는 데이터 정합성을 훼손하기 때문에 주의해야 합니다. 즉 버그가 발생할 가능성이 높아집니다.
+
+SQL injection입니다. SQL 보안문제입니다.
+
+```sql
+INSERT INTO students(name) VALUES (?);
+```
+
+만약에 유저가 위 `?`에 마음데로 넣게 허용한다면 대혼란이 발생할 것입니다.
+
+```sql
+INSERT INTO students(name) VALUES ('Robert'); DROP TABLE students;--)
+```
+
+`?`은 `'Robert'); DROP TABLE students;--`으로 삽입하게 됩니다. 이렇게 데이터베이스를 터칠 수 있게 됩니다.
+
+이런 이유로 input을 소독해야 합니다. 하지만 굳이 직접 소독해줄 필요는 없고 라이브러리 설치하면 됩니다. 대부분 DB 라이브러리는 대신 해줄 것입니다. 물론 직접 확인하는 안전은 챙기는 것은 좋습니다.
+
+sql로 가장 흔히 하는 실수는 라이브러리로 안전하게 처리할 수 있는 것을 일반 문자열 concatenation으로 처리하는 사람들이 많습니다. 이렇게하면 곤랍합니다.
