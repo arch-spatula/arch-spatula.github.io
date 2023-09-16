@@ -30,6 +30,13 @@ type Date struct {
 
 ---
 
+## 약어
+
+- SDLC:
+  - 소프트웨어 개발 수명 주기(Software Development Life Cycle, SDLC)
+  - 시스템 엔지니어링, 정보 시스템, 또는 소프트웨어 공학에서 정보 시스템을 계획, 개발, 시험, 채용하는 과정
+  - 약어만 따로보니까 낯설었습니다.
+
 ## 영어 및 영어권 표현
 
 <!-- recipe for disaster: -->
