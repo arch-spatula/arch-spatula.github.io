@@ -3568,3 +3568,255 @@ init은 1번만 호출합니다.
 만약에 import 관계가 순환참조를 하면 build 친절하게 에러를 던져줍니다. 순환참조를 컴파일 차원에서 차단합니다.
 
 패키지 속에서 패키지는 callstack 구조로 순서로 초기화합니다.
+
+## 24 17장 숫자맞추기 게임
+
+내용소개 아닙니다. 복습 과제입니다.
+
+마지막은 웹 프로그램을 만들어볼 것입니다.
+
+사용자가 이진탐색하게 해서 숫자를 만추게합니다. 숫자 범위는 0 ~ 99입니다.
+
+1. 0 ~ 99 랜덤한 숫자 생성
+2. 사용자 숫자 입력
+3. 입력하고 비교 크다 작다 힌트 제공
+4. 맞추면 종료
+5. 틀리면 재시도
+
+이것이 요구사항입니다.
+
+프로그램을 만들 때는 요즘은 별로 작성하지 않습니다. 하지만 순서도를 먼저 작성하면 명확해집니다. 평소 시퀀스 다이어그램을 그려보기를 권장합니다.
+
+랜덤은 알수 없는 숫자를 만드는 것입니다. 사실 컴퓨터와 랜덤은 친한 사이는 아닙니다. 컴퓨터는 무작위적인 것을 만들기 어렵습니다. 컴퓨터는 계산을 잘합니다. 입력, 처리, 출력을 잘합니다. 입력이 같으면 출력이 같습니다. 랜덤하다는 것은 매번 출력이 다르다는 것입니다. 컴퓨터로 난수를 만들기 어렵습니다. 자연에서 인간이 난수를 만드는 것도 어렵습니다.
+
+인간이 만드는 랜덤은 양자역학에 기반합니다. 강의랑 무관합니다. 전자가 어디로 튈지 모릅니다. 고전은 궤도를 갖을 것이라고 생각했지만 사실 구름으로 존재하고 관측할 때마다 위치가 달랐습니다.
+
+컴퓨터는 자연의 물리법칙을 활용할 수 없습니다. 양자 컴퓨터는 가능할지도 모릅니다. 현재 컴퓨터인 폰너이만 컴퓨터는 랜덤을 만들기 어렵습니다.
+
+학술적 의미에서 엄밀한 랜덤이 아니라 유사랜덤을 만드는 것입니다. 입력이 있고 결과를 만듭니다. 랜덤은 사건마다 결과가 다르게 만들기 위해 시퀀스가 있습니다. 요청마다 다르게 만듭니다. 입력이 같아도 결과를 다르게 만듭니다. 하지만 결국에는 시퀀스도 입력 중 하나입니다. 그래서 매번 결국에는 같은 값이 됩니다. 이런 의미에서 유사랜덤입니다.
+
+시퀀스가 같으면 항상 같은 결과가 보여집니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"math/rand"
+)
+
+func main() {
+
+	for i := 0; i < 10; i++ {
+		fmt.Println(rand.Intn(100)) // 0 ~ 99
+	}
+}
+
+// 31
+// 98
+// 20
+// 86
+// 4
+// 79
+// 84
+// 38
+// 94
+// 19
+
+---
+
+// 94
+// 69
+// 50
+// 33
+// 60
+// 73
+// 54
+// 8
+// 46
+// 4
+```
+
+랜덤 시드값이 있습니다. 시드와 시퀀스를 조합해서 매번 새로운 값이 뽑히도록 하는 것입니다.
+
+시드값은 현재 시간을 활용합니다. 현재 시각은 계속 변화합니다. 이 값을 활용합니다. 이 변화하는 값을 활용해서 입력이 바뀌게 만들어서 출력이 바뀌게 만드는 것입니다.
+
+time 패키지를 활용합니다. time.Now()로 현재시간을 접근하고 활용합니다. UnixNano를 활용하면 int64값으로 얻을 수 있습니다. 1970년 1월 1일부터 현재까지 경과한 시간을 나노초 단위로 표현합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
+func main() {
+	t := time.Now()
+	rand.Seed(t.UnixNano())
+	for i := 0; i < 10; i++ {
+		fmt.Println(rand.Intn(100)) // 0 ~ 99
+
+	}
+}
+```
+
+이렇게 바꿀 수 있습니다. 물론 go가 지금은 패키지 내부에서 알아서 시간을 시드값으로 활용하고 있습니다.
+
+time 패키지는 이름처럼 시간과 관련된 기능을 제공합니다.
+
+go에서는 시각 객체가 있는데 형식을 나타내기 위해 고정되어 있습니다. 이것은 time 객체입니다.
+
+시간 즉 어느시점부터 어느시점까지를 나타낼 수 있습니다. 이것은 duration 객체입니다. 두시점의 차를 구하면 됩니다.
+
+```go
+start := time.Now()
+// ... operation that takes 20 milliseconds ...
+t := time.Now()
+elapsed := t.Sub(start)
+```
+
+공식 문서에서 Sub으로 차를 구해서 기간을 나타낼 수 있습니다.
+
+타임존도 제공합니다. 친절한 언어입니다. 타임존에 따라 시각이 바뀌는데 이것도 활용할 수 있습니다.
+
+시간이라는 것은 복잡합니다. 시간을 출력하는 것이 인간이 시간을 사용하는 방식이 다양하기 때문에 그렇습니다.
+
+go는 영어권 특히 미국권이기 때문에 월을 반드시 영어로 작성해야 합니다. 월일년 순으로 작성하기 때문에 미국인은 많이 혼란스러워합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	loc, _ := time.LoadLocation("")
+	const longForm = "Jan 2, 2006 at 3:04pm"
+	t1, _ := time.ParseInLocation(longForm, "Jun 14, 2022 at 12:00pm", loc)
+	fmt.Println(t1)
+	const shortForm = "2006-Jan-02"
+	t2, _ := time.Parse(shortForm, "2022-Jun-14")
+	fmt.Println(t2, t2.Location())
+
+	t3, err := time.Parse("2021-06-01 15:20:21", "2021-06-14 20:04:05")
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(t3)
+}
+// 2022-06-14 12:00:00 +0000 UTC
+// 2022-06-14 00:00:00 +0000 UTC UTC
+// parsing time "2021-06-14 20:04:05" as "2021-06-01 15:20:21": cannot parse "-06-14 20:04:05" as "1"
+// 0001-01-01 00:00:00 +0000 UTC
+```
+
+이렇게 됩니다. 에러메시지를 보면 월과 일 구분할 줄 몰라서 파싱할 수 없다고 출력합니다.
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"math/rand"
+	"os"
+)
+
+func main() {
+	answer := rand.Intn(100)
+	count := 1
+
+	fmt.Println("숫자를 입력하세요")
+
+	stdin := bufio.NewReader(os.Stdin) // Stdin을 의미함
+	var inputNum int
+	stop := 2
+
+	for i := 0; i < stop; i++ {
+		_, err := fmt.Scanln(&inputNum)
+		if err != nil {
+			fmt.Println(err, "숫자를 입력해주세요")
+			stdin.ReadString('\n') // 개행문자까지 버퍼에서 읽기 -> 버퍼를 읽는 행위로 비움
+			break
+		}
+
+		if inputNum > answer {
+			fmt.Println("low  시도횟수:", count)
+			count += 1
+			stop += 1
+		} else if inputNum < answer {
+			fmt.Println("high 시도횟수:", count)
+			count += 1
+			stop += 1
+		} else {
+			fmt.Println("정답을 맞추셨습니다.", answer, "총", count, "번 시도")
+			break
+		}
+	}
+
+}
+```
+
+저는 이렇게 문제를 풀었습니다.
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"math/rand"
+	"os"
+	"time"
+)
+
+var stdin = bufio.NewReader(os.Stdin) // Stdin을 의미함
+func inputInvVal() (int, error) {
+	var n int
+	_, err := fmt.Scanln(&n)
+	if err != nil {
+		stdin.ReadString('\n')
+	}
+	return n, err
+}
+
+func main() {
+	rand.Seed(time.Now().UnixNano())
+	r := rand.Intn(100)
+	count := 1
+
+	fmt.Println("숫자를 입력하세요")
+
+	for {
+		n, err := inputInvVal()
+		if err != nil {
+			fmt.Println(err, "숫자만 입력해주세요")
+		} else {
+			if n > r {
+				fmt.Println("low  시도횟수:", count)
+				count += 1
+			} else if n < r {
+				fmt.Println("high 시도횟수:", count)
+				count += 1
+			} else {
+				fmt.Println("정답을 맞추셨습니다.", r, "총", count, "번 시도")
+				break
+			}
+		}
+	}
+
+}
+
+```
+
+강의는 이렇게 풀었습니다.
+
+버퍼를 안지워주면 남아있는 값을 접근하기 때문에 에러가 반복할 것입니다. 궁금하면 실험해보도록 합니다.
+
+버퍼는 읽는 행위로 비워집니다.
+
+여기까지는 1단계입니다.
