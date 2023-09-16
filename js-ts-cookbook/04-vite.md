@@ -92,13 +92,13 @@ rollup-plugin-visualizer: 추가하기
 
 -->
 
-## rollup-plugin-visualizer
+## rollup plugin visualizer
 
 vite 라이브러리가 아닙니다. 딱잘라 단순합니다.
 
 하지만 굳이 다루는 이유는 vite이 rollup 번들러 기만으로 만들어졌습니다.
 
-[rollup-plugin-visualizer](https://github.com/btd/rollup-plugin-visualizer)
+[rollup plugin visualizer](https://github.com/btd/rollup-plugin-visualizer)
 
 ```sh
 yarn add --dev rollup-plugin-visualizer
@@ -150,3 +150,5 @@ stats.html
 ```
 
 마지막으로 `.gitignore`에 추가해주세요. 개발하는 중간에 누가 새로운 라이브러리를 추가하고 바뀔 수 있습니다. 또 라이브러리에서 import를 더 가져와서 비중이 바뀔 수 있습니다. 특별한 경우가 아니라면 매번 번들 비중의 변경을 기록하는 것은 불필요할 것 같습니다.
+
+참고로 단점도 있습니다. [부정확](https://github.com/btd/rollup-plugin-visualizer/issues/96)합니다. 실제 파일사이즈와 평가하는 파일사이즈가 다릅니다.
