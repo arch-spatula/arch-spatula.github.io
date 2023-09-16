@@ -96,7 +96,7 @@ function solution(citations) {
 }
 ```
 
-모범 답안입니다. 간략한 것도 충격입니다. $ O(N \cdot log(N))$ 으로 풀이한 것이 충격적입니다.
+모범 답안입니다. 간략한 것도 충격입니다. $O(N \cdot log(N))$ 으로 풀이한 것이 충격적입니다.
 
 </div>
 </details>
