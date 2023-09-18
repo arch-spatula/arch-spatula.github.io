@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[82758],{33773:a=>{a.exports=JSON.parse('[{"label":"intro","permalink":"/diy-cs/tags/intro","count":1}]')}}]);
