@@ -1,8 +1,8 @@
 ---
-sidebar_position: 96
+sidebar_position: 1
 description: '자료구조와 알고리즘'
 tags: ['자료구조와 알고리즘', '자료구조', '알고리즘']
-draft: true
+# draft: true
 ---
 
 # 자료구조 & 알고리즘
@@ -28,3 +28,12 @@ draft: true
 ## 탐색
 
 검색이라고 해도 됩니다. 어떤 데이터를 찾기 위한 동작입니다.
+
+<!-- @todo 아래 내용 정리하기 -->
+<!-- ## dfs와 순열과 조합 -->
+
+<!-- https://leejams.github.io/%EC%A1%B0%ED%95%A9/ -->
+
+<!-- https://velog.io/@rlatp1409/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-JS-%EC%88%9C%EC%97%B4%EA%B3%BC-%EC%A1%B0%ED%95%A9-%EA%B5%AC%ED%98%84-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8 -->
+
+<!-- https://velog.io/@devjade/JavaScript%EB%A1%9C-%EC%88%9C%EC%97%B4%EA%B3%BC-%EC%A1%B0%ED%95%A9-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0 -->

@@ -213,6 +213,285 @@ export function EmptyCards({ error, resetErrorBoundary }: EmptyCardsProps) {
 
 :::
 
+## 동작원리
+
+:::note 참고
+
+이부분은 React-Query의 자원공유방식을 다룹니다. data도 공유하지만 API 함수의 통신 상태도 query key로 공유합니다. 즉 에러 또한 전달할 수 있습니다.
+
+2023년 09월에 다시 추가한 내용입니다. React-Query의 동작과 loader가 어떻게 연결된 것인지 의문을 가질 수 있었을 것 같습니다.
+
+:::
+
+```ts title="util/loader.ts"
+import { protectRoutes } from '../protectRoutes';
+import { cardsQuery } from '@/utils';
+import queryClient from '@/libs/queryClient';
+
+export const cardLoader = () => async () => {
+  const protect = protectRoutes('signin');
+  protect();
+
+  const query = cardsQuery();
+  try {
+    return (
+      queryClient.getQueryData<Card[]>(query.queryKey) ??
+      (await queryClient.fetchQuery(query))
+    );
+  } catch (error) {
+    queryClient.invalidateQueries({ queryKey: ['cards'] });
+    return [];
+  }
+};
+```
+
+`cardLoader`라는 loader 함수입니다. 이 loader 함수는 React-Router-DOM에서 클라이언트의 라우팅 전에 실행하고 싶은 로직을 넣을 수 있는 함수입니다.
+
+사실 예전에 [request waterfall 해결](2023-07-03-request-waterfal.md)에서 다룬 내용입니다.
+
+하지만 예외처리가 빠졌습니다. 그래서 지금 시점에 다루는 것이 적절해보입니다.
+
+위 loader에서 에러가 발생하면 loader함수가 에러가 발생한 것입니다.
+
+다음 코드를 봅시다.
+
+```ts title="route.ts"
+const routes = createBrowserRouter([
+  {
+    path: ROUTE_PATHS.WELCOME,
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <Landing />,
+        loader: protectRoutes('cards'),
+      },
+      {
+        path: ROUTE_PATHS.SIGN_IN,
+        element: <SignIn />,
+        loader: protectRoutes('cards'),
+      },
+      {
+        path: ROUTE_PATHS.SIGN_UP,
+        element: <SignUp />,
+        loader: protectRoutes('cards'),
+      },
+      {
+        path: ROUTE_PATHS.CARDS,
+        element: <Cards />,
+        loader: protectRoutes('signin'),
+      },
+      {
+        path: ROUTE_PATHS.DECK,
+        element: <Deck />,
+        loader: protectRoutes('signin'),
+      },
+      {
+        path: ROUTE_PATHS.SETTING,
+        element: <Setting />,
+        loader: protectRoutes('signin'),
+      },
+      {
+        path: '*',
+        element: <NotFound />,
+      },
+    ],
+    errorElement: <ServerError />,
+  },
+]);
+
+function Router() {
+  return <RouterProvider router={routes} />;
+}
+
+export default Router;
+```
+
+위 코드를 보면 `cardLoader`에서 에러가 발생하면 `errorElement`로 지정된 `<ServerError/>` 보여줄 것입니다. 참고로 React-Router-DOM도 내부적으로 Error Boundary를 적용하고 있습니다.
+
+즉 loader 함수차원에서 에러가 발생하면 `errorElement`가 `catch`해주는 것입니다. 문제가 있습니다. 실패는 `cardLoader`가 했는데 유저에게 피드백엔 `<ServerError/>`를 보여주는가? 물론 서버가 실패한 것은 맞지만 페이지 리소스를 전달하는 vercel의 리소스 서버가 실패한 것입니다. 하지만 우리가 작성한 `cardLoader`가 실패한 것은 데이터를 주고 받는 API가 실패한 것입니다.
+
+```ts title="util/loader.ts"
+import { protectRoutes } from '../protectRoutes';
+import { cardsQuery } from '@/utils';
+import queryClient from '@/libs/queryClient';
+
+export const cardLoader = () => async () => {
+  const protect = protectRoutes('signin');
+  protect();
+
+  const query = cardsQuery();
+  try {
+    return (
+      queryClient.getQueryData<Card[]>(query.queryKey) ??
+      (await queryClient.fetchQuery(query))
+    );
+    // highlight-start
+  } catch (error) {
+    queryClient.invalidateQueries({ queryKey: ['cards'] });
+    return [];
+  }
+  // highlight-end
+};
+```
+
+다시 봅시다. catch를 하는 이유는 cardLoader가 실패하면 빈배열을 반환하도록 catch를 하고 `<ServerError/>`가 보이는 것을 방지합니다.
+
+이제 여기서 의문이 들어야 합니다. ~~이미 React-Query의 자원공유 방식을 이해했으면 별로 의문을 가질 필요는 없습니다.~~ 이렇게 작성했는데도 React-Query 어떻게 에러를 알 수 있는가?
+
+React-Query에서 주의할 점 2가지가 있습니다. 하나는 QueryKey, API 함수 2가지를 대입할 때 늘 주의해야 합니다. 이 2가지를 통해서 상태를 공유하기 때문입니다.
+
+```ts
+import axios, { AxiosError } from 'axios';
+import { axiosClient } from '../AxiosClient';
+import { API_URLS } from '@/constant/config';
+// highlight-start
+async function getCardsAPI() {
+  try {
+    const res = await axiosClient.get<{ documents: Card[] }>(API_URLS.CARDS);
+    return res.data.documents;
+  } catch (error) {
+    if (axios.isAxiosError<ErrorResponse>(error)) throw error.response?.data;
+  }
+  return [];
+}
+// highlight-end
+```
+
+```ts
+import { useQuery } from '@tanstack/react-query';
+import { cardLoader, cardsQuery } from '@/utils';
+import { useLoaderData } from 'react-router-dom';
+
+export function useCards() {
+  const loaderCards = useLoaderData() as Awaited<
+    ReturnType<ReturnType<typeof cardLoader>>
+  >;
+
+  const query = cardsQuery();
+  const {
+    data: cards,
+    isLoading,
+    error,
+  } = useQuery<Card[], ErrorResponse>({
+    // highlight-start
+    queryKey: ['cards'],
+    queryFn: getCardsAPI,
+    // highlight-end
+    staleTime: 5000,
+    initialData: loaderCards,
+    useErrorBoundary: true,
+  });
+
+  return { cards, isLoading, error };
+}
+```
+
+위에서 표시한 2의 프로퍼티가 중요합니다.
+
+[tkdodo의 현실적인 리액트 쿼리 시리즈](https://tkdodo.eu/blog/practical-react-query)를 읽으면 상위 컴포넌트든 하위 컴포넌트든 상관 없이 호출하라고 했습니다. API 통신으로 가져온 데이터를 캐싱하고 QueryKey를 통해 동일한 데이터를 접근하기 때문에 여러 곳에서 호출해도 된다고 했습니다. 즉 custom hook 형태로 상용할 것을 권장합니다. 또 만약에 랜더링 속도가 네트워크 요청 속도보다 너무 느리거나 로직을 이상하게 작성해서 나중에 mount 된 자식 컴포넌트가 또 서버 호출 할 것 같은 불상사가 있을 것 같다면 stale time을 (어림잡아 20초 정도) 지정하라고 했습니다.
+
+위는 tkdodo의 일반적인 조언입니다.
+
+즉 캐시를 통해 동일한 상태를 접근하고 getCardsAPI가 data, error에 값을 저장합니다. 성공하면 data에 저장하고 [실패하면 error에 저장](https://tkdodo.eu/blog/react-query-fa-qs#the-fetch-api)합니다.
+
+다시 loader를 봅시다.
+
+```ts title="util/loader.ts"
+import { protectRoutes } from '../protectRoutes';
+import { cardsQuery } from '@/utils';
+import queryClient from '@/libs/queryClient';
+
+export const cardLoader = () => async () => {
+  const protect = protectRoutes('signin');
+  protect();
+
+  const query = cardsQuery();
+  try {
+    return (
+      queryClient.getQueryData<Card[]>(query.queryKey) ??
+      (await queryClient.fetchQuery(query))
+    );
+  } catch (error) {
+    queryClient.invalidateQueries({ queryKey: ['cards'] });
+    // highlight-start
+    return [];
+    // highlight-end
+  }
+};
+```
+
+이렇게 보면 실패하면 그냥 빈 배열을 캐싱하는 것에 불과합니다.
+
+```ts
+import { useQuery } from '@tanstack/react-query';
+import { cardLoader, cardsQuery } from '@/utils';
+import { useLoaderData } from 'react-router-dom';
+
+export function useCards() {
+  const loaderCards = useLoaderData() as Awaited<
+    ReturnType<ReturnType<typeof cardLoader>>
+  >;
+
+  const query = cardsQuery();
+  const {
+    data: cards,
+    isLoading,
+    error,
+  } = useQuery<Card[], ErrorResponse>({
+    queryKey: ['cards'],
+    queryFn: getCardsAPI,
+    staleTime: 5000,
+    // highlight-start
+    initialData: loaderCards,
+    // highlight-end
+    useErrorBoundary: true,
+  });
+
+  return { cards, isLoading, error };
+}
+```
+
+위에서 `useLoaderData`는 loader에서 실행하고 반환값을 접근할 수 있는 React-Router-DOM의 hook입니다.
+
+그래서 실패하면 일단은 빈 배열(`[]`)을 캐싱할 것입니다.
+
+하지만 지금 상황에서 캐싱은 React-Query가 통신을 성공했다고 간주하지 않습니다.
+
+```ts title="util/loader.ts"
+import { protectRoutes } from '../protectRoutes';
+import { cardsQuery } from '@/utils';
+import queryClient from '@/libs/queryClient';
+
+export const cardLoader = () => async () => {
+  const protect = protectRoutes('signin');
+  protect();
+
+  const query = cardsQuery();
+  try {
+    return (
+      queryClient.getQueryData<Card[]>(query.queryKey) ??
+      // highlight-start
+      (await queryClient.fetchQuery({
+        queryKey: ['cards'],
+        queryFn: getCardsAPI,
+        staleTime: 5000,
+      }))
+      // highlight-end
+    );
+  } catch (error) {
+    queryClient.invalidateQueries({ queryKey: ['cards'] });
+    return [];
+  }
+};
+```
+
+성공했다고 간주할 때는 진짜 통신이 성공해야 합니다. 또 반드시 hook 형태일 필요는 없습니다. 같은 provider 인스턴스에서 호출한 메서드에서 알 수 있습니다. `queryClient.fetchQuery`로 서버에서 호출할 때는 hook이 아닙니다. 함수입니다. 그리고 QueryKey와 서버에 요청하는 API 함수가 동일합니다.
+
+여기서 실패하면 다른 QueryKey 동일한 useQuery에서 호출할 때 `error`에 값이 할당 되어 있을 것이고 Error Boundary도 이를 파악할 수 있습니다.
+
+즉 hook이 아닌 함수도 상태 공유가 가능한 것입니다.
+
 ## suspense에 대한 고민
 
 suspense 적용할까 고민했지만 추가 제어가 조금 어려웠습니다.

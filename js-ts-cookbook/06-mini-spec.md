@@ -58,3 +58,114 @@ console.log(b); // 3
 ```js
 console.log(typeof (1 % 0));
 ```
+
+## Date 객체의 난해한 감성
+
+아래 코딩 테스트 문제를 풀어보세요.
+
+두 수 a ,b를 입력받아 2016년 a월 b일이 무슨 요일인지 리턴하는 함수를 완성하세요.
+
+자바스크립트 `Data` 객체의 난해한 감성을 느낄 수 있는 문제입니다.
+
+[2016년 - 프로그래머스](https://school.programmers.co.kr/learn/courses/30/lessons/12901)
+
+```js
+/**
+ * @typedef {"SUN"|"MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT"} DayType
+ * @param {number} a
+ * @param {number} b
+ * @returns {DayType}
+ */
+function solution(a, b) {
+  let result = '';
+  return result;
+}
+```
+
+저의 자체 ts 능력은 무시해주시기 바랍니다.
+
+```js
+import solution from './playground';
+import { test, expect, describe } from 'vitest';
+
+describe('2016년', () => {
+  test('예제 1', () => {
+    expect(solution(5, 24)).toBe('TUE');
+  });
+  test('예제 2', () => {
+    expect(solution(1, 1)).toBe('FRI');
+  });
+  test('예제 3', () => {
+    expect(solution(8, 31)).toBe('WED');
+  });
+  test('예제 4', () => {
+    expect(solution(5, 5)).toBe('THU');
+  });
+  test('예제 5', () => {
+    expect(solution(9, 29)).toBe('THU');
+  });
+  test('9월 1일 수요일', () => {
+    expect(solution(9, 1)).toBe('THU');
+  });
+});
+```
+
+<details>
+<summary>추가 테스트 코드</summary>
+<div markdown="1">
+
+```js
+test('예제 6', () => {
+  expect(solution(1, 2)).toBe('SAT');
+});
+test('예제 7', () => {
+  expect(solution(1, 3)).toBe('SUN');
+});
+test('예제 8', () => {
+  expect(solution(1, 4)).toBe('MON');
+});
+test('예제 9', () => {
+  expect(solution(1, 5)).toBe('TUE');
+});
+test('예제 10', () => {
+  expect(solution(1, 6)).toBe('WED');
+});
+test('예제 11', () => {
+  expect(solution(1, 7)).toBe('THU');
+});
+test('예제 12', () => {
+  expect(solution(1, 8)).toBe('FRI');
+});
+```
+
+</div>
+</details>
+
+<details>
+<summary>정답</summary>
+<div markdown="1">
+
+```js
+/**
+ * @typedef {"SUN"|"MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT"} DayType
+ * @param {number} a
+ * @param {number} b
+ * @returns {DayType}
+ */
+function solution(a, b) {
+  const date = new Date(2016, a - 1, b);
+  const day = date.getDay();
+  /** @type {DayType[]} */
+  const week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  return week[day];
+}
+
+export default solution;
+```
+
+월은 0부터 시작해야 합니다. 그래서 `-1`을 해줘야 합니다. 당황해서 1시간 날렸습니다. ㅂㄷㅂㄷ...
+
+그래도 요일은 고정되어 있습니다.
+
+</div>
+</details>
