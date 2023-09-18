@@ -253,3 +253,121 @@ export default solution;
 
 </div>
 </details>
+
+## 할인 행사
+
+[할인 행사](https://school.programmers.co.kr/learn/courses/30/lessons/131127)
+
+예시 때문에 혼선이 발생할 수 있습니다. 모든 물건을 살 수 있는 날이 **총 며칠**인지 구하는 문제입니다. 가장 빨리 모든 물건을 살 수 있는날이 아닙니다.
+
+```js
+/**
+ * @param {string[]} want
+ * @param {number[]} number
+ * @param {string[]} discount
+ * @returns {number}
+ */
+function solution(want, number, discount) {
+  let result = 0;
+  return result;
+}
+```
+
+```js
+import solution from './playground';
+import { test, expect, describe } from 'vitest';
+
+// want	                                      number	        discount	                                                  result
+// ["banana", "apple", "rice", "pork", "pot"]	[3, 2, 2, 2, 1]	["chicken", "apple", "apple", "banana", "rice", "apple", "pork", "banana", "pork", "rice", "pot", "banana", "apple", "banana"]	3
+// ["apple"]	                                [10]	          ["banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana"]	0
+
+describe('n^2 배열 자르기', () => {
+  test('예제 1', () => {
+    expect(
+      solution(
+        ['banana', 'apple', 'rice', 'pork', 'pot'],
+        [3, 2, 2, 2, 1],
+        [
+          'chicken',
+          'apple',
+          'apple',
+          'banana',
+          'rice',
+          'apple',
+          'pork',
+          'banana',
+          'pork',
+          'rice',
+          'pot',
+          'banana',
+          'apple',
+          'banana',
+        ]
+      )
+    ).toBe(3);
+  });
+  test('예제 2', () => {
+    expect(
+      solution(
+        ['apple'],
+        [10],
+        [
+          'banana',
+          'banana',
+          'banana',
+          'banana',
+          'banana',
+          'banana',
+          'banana',
+          'banana',
+          'banana',
+          'banana',
+        ]
+      )
+    ).toBe(0);
+  });
+});
+```
+
+<details>
+<summary>2023년 09월 12일 풀이</summary>
+<div markdown="1">
+
+```js
+/**
+ * @param {string[]} want
+ * @param {number[]} number
+ * @param {string[]} discount
+ * @returns {number}
+ */
+function solution(want, number, discount) {
+  let result = 0;
+  let flag = false;
+  for (let i = 0; i <= discount.length - 10; i++) {
+    const groceryList = new Map();
+    want.forEach((elem, idx) => {
+      groceryList.set(elem, number[idx]);
+    });
+
+    const window = discount.slice(i, i + 10);
+    for (let j = 0; j < window.length; j++) {
+      if (groceryList.get(window[j]) !== undefined) {
+        groceryList.set(window[j], groceryList.get(window[j]) - 1, i);
+      }
+    }
+
+    if (
+      new Set(groceryList.values()).size === 1 &&
+      new Set(groceryList.values()).has(0)
+    ) {
+      result += 1;
+    }
+  }
+  return result;
+}
+
+export default solution;
+```
+
+</div>
+</details>

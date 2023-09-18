@@ -115,6 +115,209 @@ export default solution;
 </div>
 </details>
 
+### 행렬의 곱셈
+
+[행렬의 곱셈](https://school.programmers.co.kr/learn/courses/30/lessons/12949)
+
+```js
+import solution, { extractCol, extractRow, multiply } from './playground';
+import { test, expect, describe } from 'vitest';
+
+// arr1	arr2	return
+// [[1, 4], [3, 2], [4, 1]]	[[3, 3], [3, 3]]	[[15, 15], [15, 15], [15, 15]]
+// [[2, 3, 2], [4, 2, 4], [3, 1, 4]]	[[5, 4, 3], [2, 4, 1], [3, 1, 1]]	[[22, 22, 11], [36, 28, 18], [29, 20, 14]]
+
+describe('n^2 배열 자르기', () => {
+  test('예제 1', () => {
+    expect(
+      solution(
+        [
+          [1, 4],
+          [3, 2],
+          [4, 1],
+        ],
+        [
+          [3, 3],
+          [3, 3],
+        ]
+      )
+    ).toEqual([
+      [15, 15],
+      [15, 15],
+      [15, 15],
+    ]);
+  });
+  test('예제 2', () => {
+    expect(
+      solution(
+        [
+          [2, 3, 2],
+          [4, 2, 4],
+          [3, 1, 4],
+        ],
+        [
+          [5, 4, 3],
+          [2, 4, 1],
+          [3, 1, 1],
+        ]
+      )
+    ).toEqual([
+      [22, 22, 11],
+      [36, 28, 18],
+      [29, 20, 14],
+    ]);
+  });
+  test('감축', () => {
+    expect(solution([[1, 2]], [[3], [4]])).toEqual([[3 * 1 + 2 * 4]]);
+  });
+  test('확장', () => {
+    expect(solution([[1], [2]], [[3, 4]])).toEqual([
+      [1 * 3, 1 * 4],
+      [2 * 3, 2 * 4],
+    ]);
+  });
+});
+```
+
+<details>
+<summary>활용해볼 수 있는 추가 단위테스트</summary>
+<div markdown="1">
+
+```js
+describe('helper', () => {
+  test('row', () => {
+    expect(
+      extractRow(
+        [
+          [1, 4],
+          [3, 2],
+          [4, 1],
+        ],
+        0
+      )
+    ).toEqual([1, 4]);
+  });
+  test('col', () => {
+    expect(
+      extractCol(
+        [
+          [1, 4],
+          [3, 2],
+          [4, 1],
+        ],
+        0
+      )
+    ).toEqual([1, 3, 4]);
+  });
+  test('multiply', () => {
+    expect(multiply([1, 2, 3], [1, 2, 3])).toBe(1 * 1 + 2 * 2 + 3 * 3);
+  });
+});
+```
+
+</div>
+</details>
+
+---
+
+<details>
+<summary>2023년 09월 14일 풀이</summary>
+<div markdown="1">
+
+```js
+/**
+ * @param {number[][]} arr1
+ * @param {number[][]} arr2
+ * @returns {number[][]}
+ */
+function solution(arr1, arr2) {
+  const result = [];
+
+  for (let i = 0; i < arr1.length; i++) {
+    const row = [];
+    for (let j = 0; j < arr2[0].length; j++) {
+      row.push(multiply(extractRow(arr1, i), extractCol(arr2, j)));
+    }
+    result.push(row);
+  }
+
+  return result;
+}
+
+/**
+ * @param {number[][]} arr
+ * @param {number} idx
+ * @returns {number[]}
+ */
+function extractRow(arr, idx) {
+  return arr[idx];
+}
+
+/**
+ * @param {number[][]} arr
+ * @param {number} idx
+ * @returns {number[]}
+ */
+function extractCol(arr, idx) {
+  const result = [];
+  for (let i = 0; i < arr.length; i++) {
+    result.push(arr[i][idx]);
+  }
+  return result;
+}
+
+/**
+ * @param {number[]} arr1
+ * @param {number[]} arr2
+ * @returns {number}
+ */
+function multiply(arr1, arr2) {
+  let sum = 0;
+  for (let i = 0; i < arr1.length; i++) {
+    sum += arr1[i] * arr2[i];
+  }
+  return sum;
+}
+
+export default solution;
+
+export { extractCol, extractRow, multiply };
+```
+
+</div>
+</details>
+
+- 단위테스트에 추출로 문제를 풀었습니다.
+- 성능이 아주 나쁠 것이라는 생각이 듭니다.
+
+<details>
+<summary>모범답안</summary>
+<div markdown="1">
+
+```js
+function solution(arr1, arr2) {
+  return arr1.map((row) =>
+    arr2[0].map((x, y) => row.reduce((a, b, c) => a + b * arr2[c][y], 0))
+  );
+}
+```
+
+```js
+function productMatrix(A, B) {
+    return A.map(function(row) {
+        return row.map(function(_, i) {
+            return row.reduce(function(sum, cell, j) {
+                return sum + cell * B[j][i];
+            }, 0);
+        });
+    });
+```
+
+</div>
+</details>
+
+이렇게 본질을 보면 이 풀이가 적절합니다.
+
 ## 최소공배수 최대공약수
 
 최소공배수와 최대공약수는 대수적으로 표현하기는 어려운 문제입니다. 알고리즘처럼 풀이하는 절차표현하는 일반적인 문제입니다.
@@ -218,6 +421,153 @@ export default solution;
 ```
 
 정답 코드에 해당합니다.
+
+</div>
+</details>
+
+## 배열 조작
+
+### K번째수
+
+```js
+/**
+ * @param {number[]} array,
+ * @param {[number, number, number][]} commands
+ * @returns {number[]}
+ */
+function solution(array, commands) {
+  var answer = [];
+  return answer;
+}
+export default solution;
+```
+
+```js
+import solution from './playground';
+import { test, expect, describe } from 'vitest';
+
+// array	                commands	                        return
+// [1, 5, 2, 6, 3, 7, 4]	[[2, 5, 3], [4, 4, 1], [1, 7, 3]]	[5, 6, 3]
+
+describe('K번째수', () => {
+  test('예제 1', () => {
+    expect(
+      solution(
+        [1, 5, 2, 6, 3, 7, 4],
+        [
+          [2, 5, 3],
+          [4, 4, 1],
+          [1, 7, 3],
+        ]
+      )
+    ).toBe([5, 6, 3]);
+  });
+});
+```
+
+```js
+/**
+ * @param {number[]} array,
+ * @param {[number, number, number][]} commands
+ * @returns {number[]}
+ */
+function solution(array, commands) {
+  const result = [];
+  commands.forEach((elem) => {
+    const [i, j, k] = elem;
+
+    result.push(array.slice(i - 1, j).sort((a, b) => a - b)[k - 1]);
+  });
+  return result;
+}
+
+export default solution;
+```
+
+## 문자열 조작
+
+문자열 조작은 일상적으로 자주합니다. 또 컴파일러만들 때 기초가 되는 부분입니다.
+
+### 다항식 더하기
+
+```js
+/**
+ * @param {string} polynomial
+ * @returns {string}
+ */
+function solution(polynomial) {
+  var answer = '';
+  return answer;
+}
+
+export default solution;
+```
+
+```js
+import solution from './playground';
+import { test, expect, describe } from 'vitest';
+
+// polynomial	    result
+// "3x + 7 + x"	  "4x + 7"
+// "x + x + x"	  "3x"
+
+describe('다항식 더하기', () => {
+  test('예제 1', () => {
+    expect(solution('3x + 7 + x')).toBe('4x + 7');
+  });
+  test('예제 2', () => {
+    expect(solution('x + x + x')).toBe('3x');
+  });
+  test('예제 3', () => {
+    expect(solution('x')).toBe('x');
+  });
+  test('예제 4', () => {
+    expect(solution('1')).toBe('1');
+  });
+  test('예제 5', () => {
+    expect(solution('1 + x')).toBe('x + 1');
+  });
+});
+```
+
+<details>
+<summary>저의 정답</summary>
+<div markdown="1">
+
+```js
+/**
+ * @param {string} polynomial 정수, 공백, ‘x’, ‘+'
+ * @returns {string}
+ */
+function solution(polynomial) {
+  let x = 0;
+  let num = 0;
+  const parsePolynomial = polynomial.split(' ').filter((char) => char !== '+');
+
+  for (let i = 0; i < parsePolynomial.length; i++) {
+    const char = parsePolynomial[i];
+    if (char.includes('x')) {
+      // 계수
+      const coefficient = char.replace('x', '')
+        ? parseInt(char.replace('x', ''))
+        : 1;
+      x += coefficient;
+    } else {
+      num += parseInt(char);
+    }
+  }
+
+  let result = `${x}x + ${num}`;
+
+  if (x === 1) result = result.slice(1);
+  if (x === 0) result = result.split(' ').slice(2).join('');
+  if (num === 0) result = result.split(' ').slice(0, 1).join('');
+
+  return result;
+}
+
+export default solution;
+```
 
 </div>
 </details>
