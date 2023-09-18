@@ -3820,3 +3820,716 @@ func main() {
 버퍼는 읽는 행위로 비워집니다.
 
 여기까지는 1단계입니다.
+
+## 25 18장 슬라이스 1/2
+
+https://www.youtube.com/watch?v=z-_6o7WYkiE
+
+슬라이스입니다. 가장 많이 사용하는 타입이고 매우 중요합니다. 슬라이스는 간단하게 생각하면 go가 제공하는 동적 배열입니다.
+
+동적배열과 정적배열의 차이입니다. 정적배열은 컴파일 혹은 빌드타임에 코드를 기계어로 변경할 때 정해집니다. 하지만 동적배열은 사이즈가 실행할 때 결정됩니다.
+
+상수와 변수의 차이와 비슷합니다. 상수는 컴파일할 때 결정됩니다. 하지만 변수는 런타임에서 계속 바뀝니다.
+
+동적배열은 배열의 사이즈가 바뀔 수 있습니다. 원래 일반적인 배열은 사이즈가 고정되어야 합니다.
+
+대부분 언어는 동적배열을 제공합니다.
+
+타입입니다.
+
+```go
+var foo []int
+bar := []int{1, 2, 3}
+```
+
+이렇게 정의합니다. int를 받는 동적배열입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var slice []int
+	slice[1] = 10
+	fmt.Println(slice)
+}
+// panic: runtime error: index out of range [1] with length 0
+```
+
+이런 에러가 발생합니다.
+
+아무것도 없는데 2번째 원소에 쓰기를 합니다. 런타임에러입니다. 즉 범위를 벗어났다고 합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice := []int{0, 10, 20, 40}
+	fmt.Println(slice)
+}
+// [0 10 20 40]
+```
+
+이렇게 하면 에러가 발생하지 않습니다. 즉 컴파일할 때 사이즈는 정하지 않고 실행할 때 사이즈가 정해졌습니다.
+
+슬라이스와 배열의 차이는 대괄호(`[]`)에 숫자를 넣고 안 넣고 차이입니다. 넣으면 사이즈가 정해지고 타입이 다른 것입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice := []int{0, 2: 10, 5: 8}
+	fmt.Println(slice)
+}
+// [0 0 10 0 0 8]
+```
+
+make() 내장함수를 활용해서 초기화도 가능합니다. go에서 복합타입을 만들어주는 내장타입입니다. 슬라이스, 맵에 많이 사용합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var slice = make([]int, 3)
+	fmt.Println(slice)
+}
+// [0, 0, 0]
+```
+
+이렇게 선언할 수 있습니다.
+
+슬라이스 순회는 배열과 동일합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var slice = make([]int, 3)
+	for _, v := range slice {
+		fmt.Println(v)
+	}
+}
+// 0
+// 0
+// 0
+```
+
+슬라이스에 동적으로 값을 추가할 때 사용할 수 있는 내장함수가 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var slice = make([]int, 3)
+	fmt.Println(append(slice, 4), slice)
+}
+// [0 0 0 4] [0 0 0]
+```
+
+이렇게 됩니다. 참고로 원본을 변경하지 않습니다. 새로운 메모리 주소에 슬라이스를 저장합니다.
+
+만약에 기존 슬라이스를 의도적으로 변경하고 싶으면 새로운 메모리 주소를 갖고 있는 슬라이스를 할당하면 됩니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var slice = make([]int, 3)
+	slice = append(slice, 4)
+	fmt.Println(slice)
+}
+// [0, 0, 0, 4]
+```
+
+이렇게 작성하면됩니다.
+
+여기까지 슬라이스를 소비하는 관점에서는 간단합니다.
+
+하지만 동작원리를 자세히 알아야 합니다. 원리를 모르면 다양한 문제를 발생시킬 것입니다.
+
+파이썬이 지원하는 슬라이스랑 다릅니다.
+
+```go
+type SliceHeader struct {
+	Data uintptr
+	Len int
+	Cap int
+}
+```
+
+슬라이스가 이렇게 생겼다고 문자열에서 다루었습니다. 슬라이스는 실제 배열을 알려주는 Data는 포인터입니다. Len은 길이를 알려줍니다. Cap이 문자열과 다릅니다. Cap은 최대 수용량(capacity)의 약자입니다. 배열을 몇개까지 사용가능한지 알려주는 정보입니다.
+
+슬라이스는 실제 배열이 따로 있고 그 배열을 가리키는 것입니다.
+
+실제배열이 따로 존재한다는 점과 최대공간이 존재한다는 것을 알고 있는 것이 제일 중요합니다.
+
+슬라이스는 go에서 제공하는 동적배열타입이라고 설명하지만 더 엄밀하게는 go에서 제공하는 배열을 가리키는 포인터타입니다.
+
+Len은 현재 사용공간을 알려줍니다. Cap은 어디까지 확장할지 알려줍니다.
+
+슬라이스라는 단어를 잘 보기바랍니다. 피자가 있습니다. 조각으로 자릅니다. 범위를 자른 것처럼 가리킨다는 측면을 이해하기 바랍니다.
+
+물론 포인터와 배열을 따로 만들어도 됩니다. 하지만 슬라이스는 배열의 길이를 바꿀 수 있습니다. 하지만 배열에 포인터를 사용하면 배열의 사이즈가 고정되어 있습니다. 즉 사용범위와 동적이라는 점이 기능이 확장된 것입니다.
+
+이개념을 잘 이해 못하면 특이한 동작방식에 당황할 수 있습니다.
+
+```go
+var slice = make([]int, 3)
+```
+
+만약에 위처럼 make함수를 사용하면 길이와 최대공간이 3으로 고정됩니다.
+
+```go
+var slice = make([]int, 3, 5)
+```
+
+이렇게 작성하면 길이(len)는 현재 3이지만 최대길이(cap)는 5입니다.
+
+5개의 배열을 만들지만 공간에 쓰기는 3개만합니다. 2개를 나중에 쓰기할 수 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func changeArray(array [5]int) {
+	array[2] = 200
+}
+
+func changeSlice(slice []int) {
+	slice[2] = 200
+}
+
+func main() {
+	array := [5]int{1, 2, 3, 4, 5}
+	slice := []int{1, 2, 3, 4, 5}
+
+	changeArray(array)
+	changeSlice(slice)
+
+	fmt.Println("array", array)
+	fmt.Println("slice", slice)
+
+	// array [1 2 3 4 5]
+	// slice [1 2 200 4 5]
+}
+```
+
+배열을 만들었습니다. 배열은 변화가 없습니다. 하지만 슬라이스는 갱신되었습니다. 배열도 갱신을 예상했을 것입니다.
+
+go의 특징은 일관성입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func changeArray(array *[5]int) {
+	array[2] = 200
+}
+
+func changeSlice(slice []int) {
+	slice[2] = 200
+}
+
+func main() {
+	array := [5]int{1, 2, 3, 4, 5}
+	slice := []int{1, 2, 3, 4, 5}
+
+	changeArray(&array)
+	changeSlice(slice)
+
+	fmt.Println("array", array)
+	fmt.Println("slice", slice)
+}
+// array [1 2 200 4 5]
+// slice [1 2 200 4 5]
+```
+
+이렇게 해야 달라집니다. 즉 포인터를 사용하면 쓰기가 됩니다. 대입은 좌변으로 간주합니다. 그래서 주소를 대입하게 만들어야 쓰기를 합니다. 즉 포인터로 바꾼 것입니다. 스코프 내에서만 새로운 인스턴스에 쓰기만 하고 끝납니다. 원본에 영향이 없습니다. C, C++는 포인터로 대입된다.
+
+슬라이스는 이미 주소라서 포인터를 명시할 필요가 없습니다. 슬라이스도 go의 규칙에 일관되게 적용된다는 느낌이 와야 합니다. 3개의 필드를 갖은 구조체이고 배열을 가리키는 포인터를 함수에 대입하게 되는 것입니다. 변수는 주소를 담는 사이즈입니다. 대입을 해도 포인터가 대입된 것이고 포인터를 함수 내에서 접근해서 쓰기를 한 것입니다. 즉 변수가 바뀐 것이 아니라 변수가 가리키는 배열의 값이 바뀐 것입니다.
+
+배열을 대입할 때 주의해야 합니다. 복사되기 때문입니다. 하지만 슬라이스는 주소가 전달되기 때문에 24바이트 주소만큼만 복사되고 제어하려는 배열은 복사하지 않아서 복사하는 량이 작습니다.
+
+append 동작원리입니다. append 동작원리를 잘 이해해야 합니다. 잘 모르면 많은 버그를 발생시킬 수 있습니다. 본인의 생각과 다를 수 있습니다.
+
+요소를 추가하는 새로운 슬라이스를 반환한다고 아까 정의했습니다.
+
+기존슬라이스가 바뀔 수 있고 안바꿀 수 있습니다. 기존 배열에 동일한 주소에 하나의 원소를 추가하고 반환하게 만들 수 있습니다. 아니면 새로운 메모리 주소에 복사하는 것도 가능합니다.
+
+append는 빈공간이 충분해보이면 빈공간에 추가합니다. 그리고 기존 배열을 반환합니다.
+
+부족하면 기존 배열을 새로운 메모리 주소게 복사하고 저장합니다. 그리고 원소를 추가하고 반환합니다.
+
+빈공간의 정의는 다음과 같습니다.
+
+$$
+\text{남은 빈 공간} = cap - len
+
+
+$$
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice1 := make([]int, 3, 10)
+	slice1 = append(slice1, 4, 5, 6)
+
+	printSlice(slice1)
+}
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+// [0, 0, 0, 4, 5, 6]
+```
+
+append에 대입한 값과 그 반환값을 담을 변수가 같은 경우 위 예시의 slice1처럼 작성해야 새로운 메모리 주소를 사용하지 않고
+
+## 26 18장 슬라이스 2/2
+
+https://www.youtube.com/watch?v=zcUqV5xk-So
+
+슬라이스는 포인터입니다. 변수에 따라 같은 배열을 가리키게 되는 문제가 생길 수 있습니다. 같은 주소의 배열에 쓰기를 해서 다른 참조하는 배열들에 변형이 가해질 수 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice1 := []int{1, 2, 3}
+	slice2 := append(slice1, 4, 5, 6)
+
+	printSlice(slice1)
+	printSlice(slice2)
+}
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+// len=3 cap=3 [1 2 3]
+// len=6 cap=6 [1 2 3 4 5 6]
+```
+
+이렇게 됩니다. 지금 상황에서는 각각 다른 배열을 가리키는 상황입니다. 빈공간이 부족하기 때문에 새로운 배열을 가리키게 만듭니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func pushNum(slice []int) {
+	slice = append(slice, 4)
+}
+
+func main() {
+	slice := []int{1, 2, 3}
+	pushNum(slice)
+
+	printSlice(slice)
+}
+
+// len=3 cap=3 [1 2 3]
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+```
+
+포인터가 맞지만 이렇게 작성했다고 원본에 변형을 가하는 것이 아닙니다. 이유는 주소를 할당하고 또 주소를 할당하기 때문입니다. 그리고 새로운 배열을 복사하고 새롭게 만들어진 매개변수에 해당하는 포인터에 할당하고 함수의 실행이 끝납니다. 기존 배열은 문제가 없습니다.
+
+변경을 하려면 2가지 전략입니다. 하나는 포인터로 대입하는 것입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func pushNum(slice *[]int) {
+	*slice = append(*slice, 4)
+}
+
+func main() {
+	slice := []int{1, 2, 3}
+	pushNum(&slice)
+
+	printSlice(slice)
+}
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+```
+
+이렇게 대입하면 기존 배열이 바뀝니다. 아니면 새로운 슬라이스를 반환하면 됩니다. 어느방식이 더 좋은 가는 취향입니다. 포인터가 더 좋다고 생각할 수 있는 이유는 복사의 크기가 작기 때문입니다. 메모리 주소를 전달하기 때문에 갖을 수 있는 장점입니다. 하지만 일반적으로 반환하는 것이 더 좋습니다.
+
+값으로 대입하는지 포인터로 대입하는지 잘 구분해서 활용하는 것이 go답게 사용하는 것입니다.
+
+iot 디바이스 프로그래밍 하는 상황이 아니면 복사자체가 큰 문제는 아닙니다.
+
+슬라이스 자체는 참조형 타입입니다. 복사 때문에 성능상 심각한 문제를 내기 어렵습니다.
+
+append는 값을 받아서 값을 반환하는 함수입니다. 값을 염두하고 만든 내장함수입니다.
+
+go는 c언어가 아닙니다. 여러개의 반환을 갖는다고 싫어할 필요는 없습니다. 하이레벨 언어입니다.
+
+메모리를 많이 사용하는 타입은 문자열입니다. 문자열도 내부에서 포인터를 갖고 있습니다. 하지만 그렇다고 문자열을 그대로 넘기는 것자체는 문제는 아닙니다.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	// len=0, cap=3 인 슬라이스
+	sliceA := make([]int, 0, 3)
+
+	// 계속 한 요소씩 추가
+	for i := 1; i <= 15; i++ {
+		sliceA = append(sliceA, i)
+		// 슬라이스 길이와 용량 확인
+		fmt.Println(len(sliceA), cap(sliceA))
+	}
+
+	fmt.Println(sliceA) // 1 부터 15 까지 숫자 출력
+}
+// len=1 cap=3 [1]
+// len=2 cap=3 [1 2]
+// len=3 cap=3 [1 2 3]
+// len=4 cap=6 [1 2 3 4]
+// len=5 cap=6 [1 2 3 4 5]
+// len=6 cap=6 [1 2 3 4 5 6]
+// len=7 cap=12 [1 2 3 4 5 6 7]
+// len=8 cap=12 [1 2 3 4 5 6 7 8]
+// len=9 cap=12 [1 2 3 4 5 6 7 8 9]
+// len=10 cap=12 [1 2 3 4 5 6 7 8 9 10]
+// len=11 cap=12 [1 2 3 4 5 6 7 8 9 10 11]
+// len=12 cap=12 [1 2 3 4 5 6 7 8 9 10 11 12]
+// len=13 cap=24 [1 2 3 4 5 6 7 8 9 10 11 12 13]
+// len=14 cap=24 [1 2 3 4 5 6 7 8 9 10 11 12 13 14]
+// len=15 cap=24 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15]
+```
+
+참고로 이렇게 순회하면 슬라이스 초기 cap의 배수 단위로 커집니다.
+
+슬라이싱입니다. 동사이고 자르는 동작입니다. 배열의 일부를 선택하는 기능입니다. 슬라이싱하면 슬라이스를 얻을 수 있습니다. 영어 개념으로 생각하면 당연합니다.
+
+여기서 주의할 점은 자른다는 것이 원본의 데이터에 변형을 가한다는 것이 전혀아닙니다. 부분을 참조한다는 것입니다.
+
+슬라이싱은 슬라이스의 배열의 시작주소부터 끝주소를 선택하는 개념이라고 보면됩니다. 그리고 같은 주소를 선택하기 때문에 슬라이싱을 담은 변수의 부분을 바꾸면 원본도 바뀝니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	// len=0, cap=3 인 슬라이스
+	sliceA := []int{0, 1, 2, 3, 4, 5, 6}
+
+	part := sliceA[1:5]
+	part[1] = 200
+	printSlice(part)
+	printSlice(sliceA)
+	// len=4 cap=6 [1 200 3 4]
+	// len=7 cap=7 [0 1 200 3 4 5 6]
+}
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+```
+
+위를 보면 슬라이싱으로 담은 변수(`part`)에서 1번째 인덱스를 200으로 갱신하면 참조하는 원본도 바뀝니다. 즉 참조의 문제입니다.
+
+지금 예시는 슬라이스를 슬라이싱한 것인데 배열도 당연히 슬라이싱할 수 있습니다.
+
+파이썬은 슬라이싱하면 새로운 메모리주소에 할당합니다. 즉 복사합니다. 장점은 안정성입니다. 단점은 성능입니다. 새로운 값을 메모리에 저장하고 변수에 주소를 할당하기 때문에 슬라이싱한 변수의 데이터를 변형한다고 원본에 변형이 발생하지 않습니다.
+
+go는 슬라이스 끝을 지정할 때는 `len`을 활용해야 합니다. 끝 인덱스를 정확하게 명시해야 합니다. 파이썬은 -1을 지원합니다. go는 정확하게 명시하는 것을 추구합니다.
+
+전체 슬라이스는 지원하기는 합니다. 파이썬은 단순하게 복사입니다.
+
+```py
+array = [1, 2, 3, 4, 5]
+array2 = [::]
+```
+
+파이썬은 이렇게 하면 복사가 됩니다.
+
+```go
+array:= [5]int{0, 1, 2, 3, 4}
+slice:= [:]
+```
+
+go는 데이터 타입이 슬라이스로 바뀌기만 합니다. 하지만 원본을 여전히 참조한다는 단점을 상기해야 합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	array := [20]int{1: 1, 2: 2, 19: 100}
+	slice1 := array[1:10]
+	slice2 := slice1[2:19]
+	fmt.Println(slice1, len(slice1), 10-1)
+	fmt.Println(slice2, len(slice2), 19-2)
+}
+// [1 2 0 0 0 0 0 0 0] 9 9
+// [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 100] 17 17
+```
+
+슬라이싱을 보면 직관과 다르게 동작합니다. slice1의 부분의 부분을 참조해서 원래 길이를 넘어야 할 것이라고 생각이 들었습니다. 하지만 슬라이싱할 때는 그 원본 배열을 찾고 그 찾은 배열에서 직접 자른다는 개념입니다. 즉 slice2는 slice1을 통해서 array가 가리키는 배열을 직접 참조한 것입니다.
+
+슬라이싱의 3번째 인덱스는 cap으로 최대 사이즈를 제어할 수 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	array := [20]int{1: 1, 2: 2, 19: 100}
+	slice := array[2:5:7]
+	fmt.Println(slice2, len(slice))
+}
+```
+
+이렇게 cap 사이즈를 제어할 수 있습니다.
+
+파이썬 슬라이스는 복사를 합니다. 이런 부분은 편리합니다. go는 어떻게 복사할 수 있는가?
+
+하나는 순회하면서 복사하는 방법입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice1 := []int{0, 1, 2, 3, 4}
+	slice2 := make([]int, len(slice1))
+
+	for i, v := range slice1 {
+		slice2[i] = v
+	}
+	slice1[1] = 100
+	fmt.Println(slice1)
+	fmt.Println(slice2)
+}
+```
+
+아주 귀찮은 방법입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice1 := []int{0, 1, 2, 3, 4}
+	slice2 := append([]int{}, slice1...)
+	slice1[1] = 100
+	fmt.Println(slice1)
+	fmt.Println(slice2)
+}
+```
+
+slice1뒤에 점 3개를 했다는 것은 가변인자를 의미합니다. 이렇게 하면 또 복사가 됩니다.
+
+len과 cap이 0인 슬라이스에서 복사를 해서 넣은 것입니다. 반복문으로 만든 것과 동일합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice1 := []int{0, 1, 2, 3, 4}
+	slice2 := make([]int, len(slice1))
+	copy(slice2, slice1)
+
+	slice1[1] = 100
+	fmt.Println(slice1)
+	fmt.Println(slice2)
+}
+```
+
+내장함수 copy를 사용하는 것입니다. copy는 복사를 쓰기할 대상을 첫번째 인자 읽을 인자는 두번째로 대입합니다. 즉 두번째를 첫번째 인자에 반영하는 것입니다.
+
+copy의 장점은 함수이름이 명시적이라는 점입니다. 참고로 반환값은 복사한 개수입니다.
+
+이제 원소 삭제를 다룹니다.
+
+중간에 1개를 삭제는 어떻게 하겠는가?
+
+중간에 삭제 작업의 문제는 여러개를 밀어서 삭제 해야 합니다. 즉 인덱스가 하나씩 땅겨집니다.
+
+단순한 방법은 삭제할 원소 제외하고 양끝 복사하는 것입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice := []int{0, 1, 2, 3, 4}
+	idx := 2
+
+	slice = append(slice[:idx], slice[idx+1:]...)
+	fmt.Println(slice)
+}
+```
+
+2인덱스 이전 이후를 자르고 붙인 것입니다. 역도 이와 비슷합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice := []int{0, 1, 2, 3, 4}
+	idx := 2
+	slice = append(slice[:idx], append([]int{100}, slice[idx:]...)...)
+	fmt.Println(slice)
+}
+
+```
+
+이것이 원소 중간삽입니다. `append([]int{100}, slice[idx:]...)`이 중요합니다. 이것이 임시 버퍼입니다. 중간에 메모리를 한번더 사용해서 효율적이지 못합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice := []int{0, 1, 2, 3, 4}
+	idx := 2
+
+	slice = append(slice, 0)
+	copy(slice[idx+1:], slice[idx:])
+	slice[idx] = 100
+
+	fmt.Println(slice)
+}
+```
+
+이렇게 하면 중간버퍼가 안 생깁니다.
+
+정렬은 패키지를 편하게 활용합시다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sort"
+)
+
+func main() {
+	slice := []int{2, 3, 5, 1, 2, 43, 2, 24, 3, 2, 22, 3}
+	sort.Ints(slice)
+	fmt.Println(slice)
+}
+```
+
+이렇게 하면 알아서 정렬해줍니다.
+
+원시형은 정렬을 패키지에서 지정한 타입별로 알아서 하면 됩니다.
+
+여기서 문제는 구조체는 어떻게 정렬하는가?
+
+인터페이스를 인자로 대입할 수 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sort"
+)
+
+type Student struct {
+	Name string
+	Age  int
+}
+
+type Students []Student
+
+func (s Students) Len() int           { return len(s) }
+func (s Students) Less(i, j int) bool { return s[i].Age < s[j].Age }
+func (s Students) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+
+func main() {
+	slice := []Student{{"jake", 30}, {"fin", 26}, {"PB", 29}}
+	sort.Sort(Students(slice))
+	fmt.Println(slice)
+}
+```
+
+다음 시간을 미리 예습하게된 것입니다. 구조체를 대입할 때는 인터페이스의 구조를 맞춰주면 대입이 가능합니다. `sort`패키지에서 `sort.Sort` 메서드는 Len, Less, Swap 메서를 갖고 있고 메서드를 추가해서 대입하면 대입가능 구조체에 해당하고 구조체를 기준으로 정렬이 가능해집니다.
