@@ -4533,3 +4533,295 @@ func main() {
 ```
 
 다음 시간을 미리 예습하게된 것입니다. 구조체를 대입할 때는 인터페이스의 구조를 맞춰주면 대입이 가능합니다. `sort`패키지에서 `sort.Sort` 메서드는 Len, Less, Swap 메서를 갖고 있고 메서드를 추가해서 대입하면 대입가능 구조체에 해당하고 구조체를 기준으로 정렬이 가능해집니다.
+
+## 27 19장 메서드
+
+https://www.youtube.com/watch?v=-ijeABV8vLU
+
+메서드는 함수입니다. 메서드는 타입에 속한 함수를 의미합니다.
+
+일반적으로 함수는 타입과 독립적입니다. 메서드는 타입에 종속되어 있습니다.
+
+메서드 정의입니다.
+
+```go
+func (r Rabbit) info() int {
+	return r.width * r.height
+}
+```
+
+메서드에서 r Rabbit을 보고 리시버라고 합니다. Rabbit은 구조체일 것입니다. 구조체는 타입입니다. 타입이기 때문에 변수를 만들 수 있습니다. 메서드는 타입이 첫번째 인자로 들어오야 합니다. 메서드 명은 info입니다.
+
+이 리시버는 go의 고유한 개념입니다. go는 클래스가 없습니다.
+
+리시버는 모든 패키지내 지역타입 모두 사용할 수 있습니다. 구조체, 별칭 타입 모두 가능합니다.
+
+사실 메서드는 이것이 전부입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type Account struct {
+	balance int
+}
+
+func withdrawFunction(a *Account, amount int) {
+	a.balance -= amount
+}
+
+func (r *Account) withdrawMethod(amount int) {
+	r.balance -= amount
+}
+
+func main() {
+	fmt.Println()
+}
+```
+
+이렇게 함수로 정의한것과 메서드로 정의한 것과 다릅니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type Account struct {
+	balance int
+}
+
+func withdrawFunction(a *Account, amount int) {
+	a.balance -= amount
+}
+
+func (r *Account) withdrawMethod(amount int) {
+	r.balance -= amount
+}
+
+func main() {
+	account1 := &Account{balance: 100}
+	fmt.Println(account1.balance)
+	withdrawFunction(account1, 20)
+	fmt.Println(account1.balance)
+
+	account2 := &Account{balance: 100}
+	fmt.Println(account2.balance)
+	account2.withdrawMethod(20)
+	fmt.Println(account2.balance)
+}
+// 100
+// 80
+// 100
+// 80
+```
+
+이렇게 출력할 때 주의해야 합니다. 호출하는 과정자체는 내부적으로 동일합니다.
+
+중요한 것은 관심사를 묶어낸다는 점입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type myInt int
+
+func (m myInt) addMethod(a int) myInt {
+	res := int(m) + a
+	return myInt(res)
+}
+
+func addFunction(m myInt, a int) myInt {
+	res := int(m) + a
+	return myInt(res)
+}
+
+func main() {
+	var a myInt
+	fmt.Println(a)
+	fmt.Println(addFunction(a, 20))
+	fmt.Println(a.addMethod(20))
+}
+// 0
+// 20
+// 20
+```
+
+별칭타입예시입니다. 메서드 함수 포인터로 참조 주소로 대입하는지 값으로 대입하는지에 로직은 동일합니다. 위의 예시는 리시버도 포인터에입니다. 지금 아래 예시는 리시버가 값으로 대입됩니다. 이렇게 포인터이고 아니고 값으로 받을지 주소를 받아서 쓰기를 할지 동작은 함수와 동일합니다.
+
+지금은 패키지에서 선언된 지역타입에 메서드를 지정한 것입니다.
+
+참고로 지역타입은 현재 패키지에서 정의해야 하고 구조체이거나 별칭이어야 합니다. `int`처럼 내장타입은 메서드를 지정할 수 없습니다. 지역타입에 해당하지 않습니다.
+
+메서드는 왜 탄생했는가? 왜 타입에 기능을 추가해야 하는가? 데이터와 기능을 묶은 것입니다.
+
+옛날에는 데이터와 기능은 다른 것이라고 생각했습니다. 함수라는 기능은 인자를 받아 동작을 수행하고 데이터는 값입니다. 화학으로 생각하면 연산은 화학 작용이고 데이터는 물질이라고 생각할 수 있습니다.
+
+하지만 문제가 있습니다. 관심사입니다. 메서드는 결합도를 높이는 것이 목적입니다. 묶어놓고 있어서 데이터를 어떻게 계산하고 처리해야 하는지 관심사가 묶였습니다.
+
+절자지향 프로그램에서는 관심사라 분리되어 있어서 관리하기 번거로웠습니다.
+
+객체지향 방법이 소개되고 관계 중심으로 보면서 관리하기 수월해졌습니다.
+
+객체가 데이터와 기능이 합쳐지면서 순서도보단 클래스 다이어그램이 더 중요해졌습니다. 관계 중심에서는 클래스 다이어그램이 중요합니다.
+
+```go
+func (s *Student) EnrollClass (c *Subject) {
+	// ...
+}
+
+func (s *Student) SendReport (p *Professor, r *Report) {
+	// ...
+}
+```
+
+이렇게 객체와 객체간 관계를 정의한 것입니다.
+
+사실 함수로 해도 빌드해도 동일합니다. 단지 프로그래머의 제어관점에서 효율적인 것입니다. 리시버가 매개변수가 메서드 명보다 앞에 온다는 점이 중요하고 포인터로 받는지 값으로 반든지 구분하는 것이 중요합니다.
+
+포인터가 괜히 부담스러우면 메서드가 값을 반환하게 만들면 됩니다.
+
+```go
+func (r Rabbit) info() int {
+	return r.width * r.height
+}
+```
+
+이전에 봤던 예시인데 이렇게 해당합니다. 이렇게 값이 바뀌게 만들 수 있습니다. 정확히 이렇게는 getter의 성격입니다.
+
+```go
+func (r Rabbit) eat(amount int) Rabbit {
+	r.weight += amount
+	return r
+}
+```
+
+이렇게 setter 성격으로 작성할 수 있습니다. 반환값만 해당 변수에 할당하면 됩니다.
+
+이제 값을 활용하고 타입을 활용할지 어떻게 구분하는가?
+
+타입의 성격문제입니다. time 패키지의 Time과 Timer가 다릅니다.
+
+https://pkg.go.dev/time
+
+패키지 문서에서 구분해봅시다.
+
+```go
+// https://pkg.go.dev/time#Time
+type Time struct {
+	// contains filtered or unexported fields
+}
+
+// https://pkg.go.dev/time#Timer
+type Timer struct {
+	C <-chan Time
+	// contains filtered or unexported fields
+}
+```
+
+객체 안에 데이터가 바뀌는데 서로 같은지 다른지에 따라 다릅니다.
+
+해당하는 구조체의 쓰기를 해야 하면 포인터를 사용합니다. 메서드의 개념적인 실체가 쓰기 변경을 해야 할 때 활용합니다.
+
+하지만 개념적 실체가 다르면 값을 활용합니다.
+
+Time은 시각입니다. 각각의 시각마다 다릅니다. 개념적인 실체가 각각 다릅니다.
+
+Timer는 시간입니다. 개념적 실체가 연속됩니다. 해당하는 변수 주소에 계속 쓰기를 합니다.
+
+하지만 사실 정의해진 것은 아닙니다.
+
+일반적으로 필드가 바뀌면 개념이 바뀔 때 값을 쓰고 안 바뀌면 포인터를 씁니다. 학생의 학년을 올리면 학생의 개념은 동일합니다. 그럼 포인터입니다. 10시 라는 시각은 11시라는 시각과 다를 경우 값으로 씁니다.
+
+대부분의 경우 중요한 것은 값인지 포인터인지는 일관된 것이 중요합니다. 일부는 포인터 일부는 값 이렇게 작성하면 혼선이 발생할 수 있습니다.
+
+이런 이유로 대부분의 경우 값을 활용하기 바랍니다.
+
+go는 생성자 소멸자가 없습니다. C, C++는 생성자, 소멸자가 있습니다. Java는 생성자만 있습니다. go는 생성자 소멸자 모두 없습니다.
+
+생성자는 없지만 패키지의 메서드를 활용해서 생성자를 흉내낼 수 있습니다.
+
+임베디드 필드입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type User struct {
+	name string
+	age  int
+}
+
+func (u User) string() string {
+	return fmt.Sprintf("%s, %d", u.name, u.age) // 문자열을 반환
+}
+
+type VIPUser struct {
+	User
+	VIPLevel int
+}
+
+func (v VIPUser) vipLevel() int {
+	return v.VIPLevel
+}
+
+func main() {
+	vip := VIPUser{User{name: "Jake", age: 30}, 5}
+	fmt.Println(vip.string())
+}
+```
+
+포함된 경우에는 임베디드 필드로 구조체가 갖고 있는 메서드도 호출이 가능합니다.
+
+상속을 흉내낸 것처럼 보입니다. 물론 생각은 가능하지만 아닙니다.
+
+go에는 상속이 없습니다. 필드 속에 메서드를 더 편리하게 호출가능하도록 지원해주는 것뿐입니다.
+
+이렇게 상속이 아니라 조합니다. 즉 언어차원에서 상속보다 조합을 추구하도록 하는 것입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type User struct {
+	name string
+	age  int
+}
+
+func (u User) string() string {
+	return fmt.Sprintf("%s, %d", u.name, u.age) // 문자열을 반환
+}
+
+type VIPUser struct {
+	User
+	VIPLevel int
+}
+
+func (v VIPUser) vipLevel() int {
+	return v.VIPLevel
+}
+
+func (v VIPUser) string() string {
+	return fmt.Sprintln("hello")
+}
+
+func main() {
+	vip := VIPUser{User{name: "Jake", age: 30}, 5}
+	fmt.Println(vip.string())
+}
+```
+
+이렇게 보면 메서드 오버라이딩처럼 보이지만 아닙니다. 접근하는 순서가 외부에 있는 것부터 접근하고 실행하기 때문에 `hello`를 출력할 뿐입니다. 하지만 내부를 접근하는 것이 가능합니다.
