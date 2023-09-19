@@ -1,0 +1,8 @@
+{
+  "label": "네트워크",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "이런저런 네트워크로 분류한 CS 지식을 추가합니다."
+  }
+}

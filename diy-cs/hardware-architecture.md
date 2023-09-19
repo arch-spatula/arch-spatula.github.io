@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 description: '하드웨어와 아키텍쳐'
 tags: ['하드웨어', '아키텍쳐']
 draft: true
