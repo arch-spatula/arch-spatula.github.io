@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 1
 description: '운영체제'
 tags: ['운영체제']
 draft: true
