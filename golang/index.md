@@ -4825,3 +4825,215 @@ func main() {
 ```
 
 이렇게 보면 메서드 오버라이딩처럼 보이지만 아닙니다. 접근하는 순서가 외부에 있는 것부터 접근하고 실행하기 때문에 `hello`를 출력할 뿐입니다. 하지만 내부를 접근하는 것이 가능합니다.
+
+## 28 20장 인터페이스 1/2
+
+https://www.youtube.com/watch?v=57Ea64-Nf2U
+
+2장에서는 인터페이스, 슬라이스, 고루틴 & 채널 3가지가 중요합니다.
+
+인터페이스는 상호접점이라고 생각할 수 있습니다. 인터랙션은 상호작용입니다. 인터에서 상호이고 페이스는 API제어할 수 있는 접점이라고 생각해볼 수 있습니다.
+
+관계를 적용할 수 있는 면이라고 볼 수 있습니다. 구체화된 객체라고 볼 수 있습니다.
+
+Concrete Object 즉 구현이 존재하는 객체입니다. 추상화된 상호작용으로 관계를 표현합니다.
+
+메서드가 관계를 표현한다고 했습니다. 메서드는 구현이 포함되어 있습니다. 구체화된 코드가 존재합니다. 관계와 구현 모두 표현합니다.
+
+문서가 클래스 다이어램, 유스케이스 등으로 표현합니다. 현대 프로그래밍에서부터는 관계 중심 프로그래밍을 시작하게 되었습니다.
+
+인터페이스는 오직 관계만 표현합니다. 구현은 없습니다.
+
+```go
+type DuckInterface interface {
+	Fly()
+	Walk(distance int) int
+}
+```
+
+이렇게 선언합니다. 구현이 없는 메서드를 정의합니다. 함수명, 인자, 인자의 타입, 반환값의 타입을 정의합니다.
+
+인터페이스를 구현하려면 2개의 메서드만 정의되어 있으면 됩니다.
+
+타입이기 때문에 변수를 만들 수 있습니다.
+
+메서드는 반드시 이름이 있어야 합니다. 이름은 중복될 수 없습니다. 연산자 오버라이딩을 지원하지 않습니다. 함수의 이름, 인자, 반환 3가지만 표현한 것을 보고 함수 시그니처라고 부릅니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type Stringer interface {
+	String() string
+}
+
+type Student struct {
+	Name string
+	Age  int
+}
+
+func (s Student) String() string {
+	return fmt.Sprintln(s.Name, s.Age)
+}
+
+func main() {
+	student := Student{"Jake", 30}
+	var stringer Stringer
+	stringer = student
+
+  fmt.Println(stringer.String())
+}
+```
+
+정상동작합니다. 해당하는 메서드를 접근해서 실행합니다. stringer의 String는 구조체가 구현하고 있습니다.
+
+Student가 구현하고 Stringer는 인터페이스입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type Stringer interface {
+	String() string
+}
+
+type Student struct {
+	Name string
+	Age  int
+}
+
+func (s Student) String() string {
+	return fmt.Sprintln(s.Name, s.Age)
+}
+
+func (s Student) Second() int {
+	return s.Age
+}
+
+func main() {
+	student := Student{"Jake", 30}
+	var stringer Stringer
+
+	stringer = student
+	fmt.Println(stringer.String(), stringer.Second())
+}
+```
+
+이렇게 구조체가 추가로 구현했지만 인터페이스가 정의하지 않으면 접근할 수 없습니다.
+
+인터페이스는 왜 사용하는가? 왜 간접적으로 제어해서 호출하는가? 왜 틀에 맞춰줘야 하는가?
+
+우리는 커머스 스타트업입니다. 다양한 택배회사가 있습니다. 처음에는 쿠팡이 제공하는 패키지를 사용하고 있었습니다. 하지만 쿠팡이 망해서 컬리로 바꿔야 합니다. 이 문제는 인터페이스로 해결할 수 있습니다.
+
+```go
+package fedex
+
+import "fmt"
+
+// Fedex에서 제공한 패키지 내 전송을 담당하는 구조체입니다.
+type FedexSender struct {
+}
+
+func (f *FedexSender) Send(parcel string) {
+	fmt.Printf("Fedex sends %v parcel\n", parcel)
+}
+
+```
+
+```go
+package main
+
+import "go-prac/ex20.0/fedex"
+
+func sendBooks(name string, sender *fedex.FedexSender) {
+	sender.Send(name)
+}
+
+func main() {
+	sender := &fedex.FedexSender{}
+	sendBooks("foo", sender)
+	sendBooks("bar", sender)
+}
+```
+
+이렇게 작성되어 있습니다. 지금은 Fedex만 이용하는 상황입니다.
+
+택배를 보내는 행위 자체는 동일하지만 다른 패키지를 활용할 것입니다.
+
+```go
+package koreaPost
+
+import "fmt"
+
+// Fedex에서 제공한 패키지 내 전송을 담당하는 구조체입니다.
+type PostSender struct {
+}
+
+func (f *PostSender) Send(parcel string) {
+	fmt.Printf("우체국이 %v 을 보냅니다.\n", parcel)
+}
+
+```
+
+```go
+package main
+
+import "go-prac/ex20.0/koreaPost"
+
+func sendBooks(name string, sender *koreaPost.PostSender) {
+	sender.Send(name)
+}
+
+func main() {
+	sender := &koreaPost.PostSender{}
+	sendBooks("foo", sender)
+	sendBooks("bar", sender)
+}
+
+```
+
+이렇게하면 우체국으로 보낼 수 있습니다. 문제는 구조는 비슷(같은)한데 하드코딩으로 바꿔줘야 합니다. 즉 산탄총 코드입니다. 코드베이스의 여러 부분을 산탄총 수술처럼 바꿔줘야 합니다.
+
+우리는 인터페이스 하나로 통합할 수 있습니다.
+
+```go
+package main
+
+import (
+	"go-prac/ex20.0/fedex"
+	"go-prac/ex20.0/koreaPost"
+)
+
+type Sender interface {
+	Send(parcel string)
+}
+
+func sendBooks(name string, sender Sender) {
+	sender.Send(name)
+}
+
+func main() {
+	var sender1 Sender = &fedex.FedexSender{}
+	var sender2 Sender = &koreaPost.PostSender{}
+	sendBooks("foo", sender1)
+	sendBooks("bar", sender2)
+}
+```
+
+이렇게 하면 사용하는 패키지 무관하게 만들 수 있습니다. 즉 관계만 잘 파악하면 산탄총 수술을 방지할 수 있습니다.
+
+변경사항을 초기화는 변경해야 하지만 사용하는 부분은 안바꿔도 됩니다. 남어지는 알아서 동작하게 만들 수 있습니다. 인터페이스를 이용하면 추상화로 구현을 제거하고 보수하기 쉬워집니다.
+
+외부에서 보기에는 인터페이스만 보면 구현을 처리할 수 있습니다.
+
+추상화란 내부동작을 숨겨서 서비스 제공자와 서비스 사용자에게 자유를 주는 것입니다. 사실 내부 구현을 자세히 알 필요는 없습니다. 서비스 이용자도 제공자도 중요한 것은 비슷한 문제를 풀 수 있는지가 중요합니다. 택배라는 배송하는 행위를 제공하는지 중요합니다. 이렇게 하면 의존성과 결합도를 낮추는 것입니다. 즉 디커플링하는 방법입니다.
+
+이렇게 디커플링하면 프로그램의 변경 여역을 최소화할 수 있습니다.
+
+https://youtu.be/57Ea64-Nf2U?t=2348
