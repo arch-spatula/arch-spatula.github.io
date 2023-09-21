@@ -5036,4 +5036,533 @@ func main() {
 
 이렇게 디커플링하면 프로그램의 변경 여역을 최소화할 수 있습니다.
 
-https://youtu.be/57Ea64-Nf2U?t=2348
+추상계층이라는 말을 합니다. 추상계층이라는 것은 인터페이스입니다. 사용자와 제공자 사이에서 접점의 역할을 합니다. 서비스 전체관점에서도 비슷하다는 것입니다.
+
+백엔드는 서비스 제공자입니다. 여러가지 서비스를 제공합니다. 데이터 베이스에서 데이터를 권한에 맞게 가져옵니다. 웹 프론트엔드는 이 데이터에 해당하는 서비스를 사용합니다. 서비스 제공자인 백엔드와 서비스 사용자인 프론트엔드인 각자에게 맞게 관심사를 분리하고 약속된 접점만 맞추면 됩니다. 이 접점을 보고 추상계층이라고 합니다. API 형식만 알면 됩니다. 어떤 요청에 어떤 응답을 받을 수 있는지 파악하면 됩니다.
+
+이름, 요청, 결과만 파악하면 됩니다. 코드 내부에서는 인터페이스가 존재합니다. 동일한 역할을 합니다. 넓게도 좁게도 모두 동일합니다.
+
+덕타이핑입니다. go와 파이썬은 덕타이핑을 제공합니다. 이것을 잘 파악해야 합니다. 오리처럼 걷고 오리처럼 날고 오리처럼 소리내면 오리라고 간주한다는 의미입니다. 실제로 그 새가 오리인지는 알 수 없습니다. 날기, 걷기, 울기라는 기능이 맞으면 같은 타입이라고 간주하는 것입니다.
+
+인터페이스를 정의하는데 프로그램에서 정의했습니다.
+
+```go
+type Sender interface {
+	Send(parcel string)
+}
+```
+
+이런 인터페이스는 서비스 제공자가 정의하지 않습니다. 서비스 이용자가 정의합니다.
+
+```go
+type Sender interface {
+	Send(parcel string)
+}
+
+type FedexSender struct implements Sender {
+	// ...
+}
+```
+
+다른 언어면 명시해줘여 할 것입니다. go는 명시할 필요가 없습니다.
+
+타입선언할 때 구현하는지 인터페이스를 직접 명시해야 합니다.
+
+하지만 go에서는 사용자 입장에서 봤을 때 인터페이스를 지준으로 판단합니다.
+
+```go
+type Stringer interface {
+	String() string
+}
+
+type Student struct {
+	Name string
+	Age  int
+}
+
+func (s Student) String() string {
+	return fmt.Sprintln(s.Name, s.Age)
+}
+
+func main() {
+	student := Student{"Jake", 30}
+	var stringer Stringer
+
+	stringer = student
+	fmt.Println(stringer.String())
+}
+```
+
+덕타이핑을 했을 때 장점은 사용자 입장에서 선언할 때 인터페이스가 구현되기 때문입니다. 같은 메서드를 포함해도 정의가 없으면 구현도 없는 것입니다.
+
+타입을 그냥 선언하면 됩니다.
+
+대입할 때 타입체크를 합니다. 덕타이핑에 해당하는지 않하는지 기준으로 컴파일 타임에서 검증합니다.
+
+인터페이스에 대입할 때 체크합니다. 런타임 체크가 아니라 빌드에서 체크합니다.
+
+덕타이핑의 장점은 사용자 중심의 프로그래밍이 가능해집니다. 서비스 제공자는 구현이 포함된 구체적인 클래스만 정의하면 사용자는 필요에 맞게 인터페이스를 정의할 수 있습니다. 인터페이스를 제공할 필요가 없어지고 구체클래스만 제공하면 됩니다. 사용자 입장에서는 그냥 사용하면 됩니다.
+
+교체하고 싶을 때 인터페이스를 만들어도 됩니다.
+
+모든 변경을 전부 예상하기 보단 몇가지 가능성 높은 것 위주로 예상하는 것이 좋습니다. 아무리 미래를 잘 예측하고 대비해도 미래에는 예측하기 어려운 것들이 있습니다. 안바뀔 가능성도 있습니다. 시간 낭비가 됩니다. 예상을 못하는 방식으로 바뀔 수 있습니다. 그래서처음에는 구체화된 클래스를 사용하다가 필요한 시점에 인터페이스로 교체하는 것입니다. 덕타이핑을 이렇게 제공하는 것입니다. 예상은 낭비가 발생할 수 있습니다.
+
+인터페이스는 개념적으로 중요합니다. 코드의 추상계층을 제공하는 것으로 의존성을 낮추는 중요한 역할을 합니다.
+
+덕타이핑의 단점도 존재합니다. 구현이 어렵습니다. 덕타이핑 자체의 구현난이도가 높아집니다. 컴파일 타임에서 검증합니다. 런타임에 검증하면 성능 문제가 발생할 수 있습니다. 하지만 go는 컴파일 타임에 검사해서 성능 문제가 없습니다. 빌드타임이 늘 수 있지만 큰 문제는 아닙니다. Java는 인터페이스를 미리 생각해야 합니다. OOP는 설계가 중요하고 클래스의 관계를 잘 설계하는 것이 중요합니다. 구현을 제외하고 관계를 잘 설계해야 합니다. 설계하면 인터페이스 목록이 나오고 이를 구현하는 것입니다. Java는 설계에서 구현으로 이어집니다. 하지만 go는 인터페이스로 미리 선언해줄 필요는 없습니다. go는 설계와 구현이 바뀌는 애자일적인 방식 스크럼 방식에 잘 어울립니다. 좀더 유연함을 염두하고 만든 언어입니다.
+
+먼저 덕타이핑은 편하기는 합니다. 역사적으로 OOP에서 덕타이핑 개념이 없었습니다. 파이썬부터 덕타이핑을 제공하고 go도 반영한 것입니다.
+
+go는 공식문서를 보면서 무슨 함수를 제공하는지만 확인하면 됩니다.
+
+덕타이핑의 단점이 합의가 필요한가? 아마존, 구글, MS에서 모두 클라우드를 제공하는데 인터페이스는 모두 다릅니다. 하지만 회사가 하나의 의원회를 만들어 합의할 필요는 없습니다. 서비스 제공자는 사용자를 묶어놓고 싶습니다. 다른 서비스 이전이 어럽게 만들어야 합니다. 전환비용이 높게 만들어야 다른 서비스 전환이 어렵습니다. 어답터 패턴을 사용해서 서로다룬 부분을 맞춰줘야 합니다. 아마존 S3 데이터 베이스처럼 파일저장 기능을 모두 MS, 구글 서비스를 같이 사용해도 사용가능하게 중간 어답터를 만드는 것입니다. 어답터가 있으면 어느 스토리지를 사용할지만 선택하고 그 내부 구현은 추상화 시켜버리는 것입니다.
+
+설계라는 것은 인터페이스의 집중하는 것입니다. 클래스의 관계만 설정하는 것입니다. 구현은 메서드를 직접 작성하는 것입니다.
+
+소프트웨어 아키텍쳐란 철학적인 질문입니다.
+
+## 29 20장 인터페이스 2/2
+
+https://www.youtube.com/watch?v=IV6zYG3GY5s
+
+```go
+package main
+
+import "fmt"
+
+type Database interface {
+	Get()
+	Set()
+}
+
+type BDatabase struct {
+}
+
+func (b BDatabase) Get() {}
+func (b BDatabase) Set() {}
+
+type CDatabase struct {
+}
+
+func (c CDatabase) Get() {}
+func (c CDatabase) Set() {}
+
+func totalTime(db Database) int {
+	db.Get()
+	db.Set()
+	return 0
+}
+
+func main() {
+	BDB := &BDatabase{}
+	CDB := &CDatabase{}
+
+	if totalTime(BDB) < totalTime(CDB) {
+		fmt.Println("B가 더 빠름")
+	} else if totalTime(BDB) > totalTime(CDB) {
+		fmt.Println("C가	 더 빠름")
+	} else {
+		fmt.Println("같음")
+	}
+}
+```
+
+어답터 패턴을 생각하기 바랍니다. 지금의 경우 매개변수의 타입이 덕타이핑하는 상황입니다. 각각 구현별로 잘 맞추면 됩니다.
+
+인터페이스의 내부구조입니다. 인터페이스는 2개의 필드를 갖습니다. 인스턴스의 메모리주소값, 타입정보 이 2개입니다.
+
+타입정보는 인스턴스의 타입을 파악합니다. 원래는 nil입니다. 인터페이스가 아무것도 가리키는 것이 없으면 nil입니다.
+
+메모리에 구조체를 통해서 인스턴스를 선언해서 만듭니다.
+
+```go
+u := User{}
+stringer = u
+```
+
+이렇게 하면 주소 인스턴스를 할당하는 것입니다.
+
+어답터 코드 예시를 보여주겠습니다.
+
+```go
+package main
+
+type Database interface {
+	Get()
+	Set()
+}
+
+type CDatabase struct{}
+
+func (c CDatabase) GetDatabase() {}
+func (c CDatabase) SetDatabase() {}
+
+func main() {
+
+}
+```
+
+지금은 문제가 됩니다. 메서드 명이 다릅니다. 이럴 때는 wrapper를 사용하는 것입니다. 하지만 코드베이스에 IDE의 의존하고 바꿀 수 있는 상황이 아닙니다. 즉 인터페이스와 구조체의 메서드명은 유지해야 합니다. 하지만 어답터로 여러 데이터베이스 인스턴스를 수용해야 합니다.
+
+```go
+package main
+
+type Database interface {
+	Get()
+	Set()
+}
+
+type CDatabase struct{}
+
+func (c CDatabase) GetDatabase() {}
+func (c CDatabase) SetDatabase() {}
+
+type CDBWrapper struct {
+	cdb CDatabase
+}
+
+func (c CDBWrapper) Get() {
+	c.cdb.GetDatabase()
+}
+func (c CDBWrapper) Set() {
+	c.cdb.SetDatabase()
+}
+
+func main() {
+
+}
+```
+
+여기서 Wrapper 어답터 역할을 해줍니다. 이렇게 하면 내부동작은 안 건드리고 감싸게 됩니다. 그리고 인터페이스를 사용할 수 있게 됩니다.
+
+```go
+package main
+
+import "fmt"
+
+type Database interface {
+	Get()
+	Set()
+}
+
+type CDatabase struct{}
+
+func (c CDatabase) GetDatabase() {}
+func (c CDatabase) SetDatabase() {}
+
+type CDBWrapper struct {
+	cdb CDatabase
+}
+
+func (c CDBWrapper) Get() {
+	c.cdb.GetDatabase()
+}
+func (c CDBWrapper) Set() {
+	c.cdb.SetDatabase()
+}
+
+func main() {
+	var cdatabase CDatabase
+	var database Database
+	database = CDBWrapper{cdatabase}
+
+	fmt.Println(database)
+}
+```
+
+이렇게 소비하는 것도 가능해집니다. CDatabase는 이렇게 접점을 가질 수 있게 됩니다.
+
+포함된 인터페이스, 빈 인터페이스, 인터페이스 기본값 등을 알아봅니다. 또 타입변환까지 알아봅니다.
+
+포함된 인터페이스는 포함된 구조체랑 비슷합니다.
+
+```go
+type Reader interface {
+	Read() (n int, 	err error)
+	Close() error
+}
+
+type Writer interface {
+	Write() (n int, err error)
+	Close() error
+}
+
+type ReadWriter interface {
+	Reader
+	Writer
+}
+```
+
+지금의 경우가 해당합니다.
+
+지금의 경우 ReadWriter는 다른 인터페이스의 메서드 모두를 조합하게 됩니다.
+
+메서드가 없는 인터페이스는 빈인터페이스입니다. 이럴 때는 모든 타입이 가능해집니다. 이 인터페이스가 되기 위해서는 지켜야 할 것이 없습니다.
+
+```go
+package main
+
+import "fmt"
+
+func printVal(v interface{}) {
+	switch t := v.(type) {
+	case int:
+		fmt.Printf("v is int %d\n", int(t))
+	case float64:
+		fmt.Printf("v is int %f\n", float64(t))
+	case string:
+		fmt.Printf("v is int %s\n", string(t))
+	default:
+		fmt.Printf("Not supported type %T:%v\n", t, t)
+	}
+}
+
+type Student struct {
+	Age int
+}
+
+func main() {
+	printVal(10)
+	printVal(3.14)
+	printVal("hello")
+	printVal(Student{30})
+}
+
+// v is int 10
+// v is int 3.140000
+// v is int hello
+// Not supported type main.Student:{30}
+```
+
+이렇게 동작합니다.
+
+https://pkg.go.dev/fmt#Printf
+
+내부적으로 인터페이스를 매개변수로 받게되는 구조를 갖고 있었습니다. 지금 시점에서는 any를 받습니다.
+
+```go
+package main
+
+type Attacker interface {
+	Attack()
+}
+
+func main() {
+	var att Attacker
+	att.Attack()
+}
+// panic: runtime error: invalid memory address or nil pointer dereference
+// [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x1057096]
+```
+
+이렇게 되면 컴파일은 정상적으로 됩니다. 하지만 런타임에러를 발생 시킵니다.
+
+초기값은 nil이기 때문에 발생합니다.
+
+go의 타입 변환입니다.
+
+```go
+var a Interface
+
+t:= a.(ConcreteType)
+```
+
+이런 예시입니다.
+
+인터페이스 타입형변환은 구체화된 타입 변환을 하고 싶을 때 `인터페이스.(타입)`으로 표현하면 됩니다. 해당하는 타입으로 변환하고 반환합니다.
+
+타입변환은 확실히 구체적인 타입일 때 사용할 수 있습니다.
+
+타입변환 컴파일 에러입니다.
+
+```go
+package main
+
+type Stringer interface {
+	String()
+}
+
+type Student struct{}
+
+func main() {
+	var stringer Stringer
+	stringer.(*Student)
+}
+
+```
+
+이렇게 작성하면 빌드타임에 에러가 발생합니다.
+
+불가능한 타입변환을 시도하는 것입니다.
+
+```go
+package main
+
+import "fmt"
+
+type Stringer interface {
+	String() string
+}
+
+type Student struct{}
+
+func (s *Student) String() string {
+	return "Student"
+}
+
+func main() {
+	var stringer Stringer
+	s := stringer.(*Student)
+	fmt.Println(s)
+}
+```
+
+이렇게 하면 빌드는 성공합니다. 하지만 실행할 때 에러가 발생합니다. 형변환 에러가 발생합니다. 형변환은 실행 중에 처리합니다.
+
+문법적으로 가능한 에러와 실행 중 에러는 다릅니다. 실행 중 에러는 nil 포언터 에러가 발생할 수 있습니다.
+
+변환실패를 사전에 알 수 있는 방법이 있는가? 타입변환의 성공여부를 반환하게 만드는 전략을 활용합니다.
+
+```go
+var a Interface
+
+t, ok:= a.(ConcreteType)
+
+```
+
+ok는 변환 성공여부를 알려줍니다. 그리고 성공하면 실행하고 실패하면 무시하게 조건문을 같이 사용하면 됩니다.
+
+<!-- 책에서 예시 추가하기 -->
+
+```go
+if c, ok :=reader.(Closer); ok {
+	c.Close()
+}
+```
+
+이런방법으로 관용적으로 표현합니다.
+
+인터페이스는 메서드 목록을 갖고 구현없이 관계를 정의합니다.
+
+go는 덕타이핑을 지원합니다.
+
+정의와 무관하게 있으면 사용할 수 있게 해줍니다.
+
+인터페이스는 추상 계층을 제공해줍니다.
+
+인터페이스는 메모리주소값과 타입정보만 값고 있어서 16바이트로 고정되어 있습니다. 어떤 인스턴스를 가리켜도 16바이트로 고정됩니다.
+
+형변환으로 구현이 가능합니다.
+
+## 30 21장 함수고급편
+
+https://www.youtube.com/watch?v=qRyHepiTEs8
+
+함수관련된 다른 기능을 다룹니다. 람다가 제일 중요합니다. go는 함수리터럴이라고 부릅니다. 개념적으로 동일합니다.
+
+가변인자 함수입니다.
+
+인자가 여러개 대입하는 것도 가능합니다.
+
+```go
+package main
+
+import "fmt"
+
+func sum(nums ...int) int {
+	sum := 0
+	fmt.Printf("nums: %T\n", nums)
+	for _, v := range nums {
+		sum += v
+	}
+	return sum
+}
+
+func main() {
+	fmt.Println(sum(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+}
+// nums: []int
+// 55
+```
+
+`...`이 여러개의 인자를 대입한다는 표현입니다.
+
+함수 내에서 이렇게 되면 슬라이스에 해당하게 됩니다. 슬라이스라 해당하는 타입의 값을 여러개를 대입할 수 있게 됩니다.
+
+어려개의 인자를 이렇게 대입하는데 그냥 슬라이스를 대입하는 것도 방법입니다.
+
+하지만 여기서는 같은 타임만 대입할 수 있게 되어 있습니다. 하지만 지금의 경우 정수뿐만 아니라 실수도 합하고 싶을 수 있습니다. fmt 패키지의 메서드를 보면 다양한 타입을 수용할 수 있습니다.
+
+```go
+func Println(a ...any) (n int, err error)
+```
+
+이렇게 되어 있습니다. 옛날에는 비어있는 인터페이스를 받아서 any를 만들어냈습니다.
+
+```go
+func Println(args ...interface{}) (n int, err error)
+```
+
+이렇게 구현하고 있었습니다.
+
+defer 키워드는 함수를 지연실행할 수 있습니다. 뒤에 명령을 넣으면 함수 실행 종료 직전에 실행을 보장합니다.
+
+```go
+func add(a ...any) {
+	defer fmt.Println("Hello")
+	fmt.Println("Hi")
+	return "foo"
+}
+
+// Hi
+// Hello
+```
+
+이렇게 사전에 선언하고 종료 직전에 실행하도록 합니다.
+
+주로 OS자원을 반납할 때 자주 사용합니다. 파일 읽고 쓰기할 때 많이 합니다.
+
+1. 프로그램이 OS에 파일 handler 요청
+2. OS는 파일 handler 제공
+3. 작업 완료하면 handler 반환
+
+핸들러를 반환하지 않으면 자원은 프로그램이 가용할 수 있는 자원이 줄어듭니다.
+
+프로그램 종료 전까지는 자원이 반환되지 않습니다.
+
+그래서 반드시 반환해줘야 합니다. 사실 잊을 때가 있거나 복잡한 경우가 있습니다.
+
+프로그램이 OS자원을 먹고 누수 비슷한 현상을 발생시키면 안됩니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	f, err := os.Create("jake.json")
+	if err != nil {
+		fmt.Println("파일 생성 실패")
+		return
+	}
+	defer fmt.Println("111111")
+	defer f.Close()
+	defer fmt.Println("333333")
+
+	fmt.Println("파일 쓰기")
+	fmt.Fprintln(f, `{"hello":20}`)
+
+}
+// 파일 쓰기
+// 333333
+// 111111
+```
+
+이렇게 됩니다. defer는 작성한 키워드의 역순으로 동작합니다.
+
+프로그램의 줄을 stack이라고 생각할 수 있습니다. 줄마다 push하고 defer로 pop하면서 실행합니다.
+
+함수타입 변수입니다.
