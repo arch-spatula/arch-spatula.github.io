@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 8
 description: '블랙 리스트'
 tags: ['블랙리스트', '커리어']
 ---
