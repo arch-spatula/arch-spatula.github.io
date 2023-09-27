@@ -69,3 +69,28 @@ tags: ['intro']
 Java는 1학년 2학기에 가르칠 것이라는 생각도 들었습니다. 2학년 1학기 자료구조 알고리즘이랑 객체지향 프로그래밍을 동시에 같이 배울 것이라는 생각도 들었습니다.
 
 또 알아야 할 점은 본인이 하고자 하는 일에 대해서 확신의 문제도 있는 것 같습니다. 확신이 강하면 커리큘럼이 땅겨질 것 같고 아니라면 느려질 수 있다는 생각도 있습니다. 대학생으로서 사실 넓고 얕게 다양한 경험이 좋을 것입니다. 본인이 하고자 하는 일이 본인에게 맞는지 얕고 다양하게 탐구하고자 하려는 성향도 있을 것입니다.
+
+## 활용하고자 하는 자료
+
+[Computer Science - Crash Course](https://www.youtube.com/playlist?list=PL8dPuuaLjXtNlUrzyH5r6jN9ulIgZBpdo)
+
+미국 고등학교 수준의 컴퓨터과학 수업과정이라고 생각하면 됩니다. 대학교 컴퓨터 과학 개론 과정수준이라고 합니다.
+
+This course is based on introductory college-level material as well as the AP Computer Science Principles guidelines. By the end of this course, you will be able to:
+
+- Outline the history of computers and the design decisions that gave us modern computers
+- Describe the basic elements of programming and software
+- Identify the basic components of computer hardware and what they do
+- Describe how computers are used and how that has evolved over time
+- Appreciate how far computers have come and how far they might take us
+
+[컴퓨터 개론 - 네이버 지식백과](https://terms.naver.com/list.naver?cid=51173&categoryId=51173&so=st4.asc)
+
+- 13년도 발행했습니다. 그래서 오래되었습니다.
+
+> 컴퓨터의 전반적인 개론에 대해 살펴보는 책이다. 간결하면서도 명확한 원리 설명과 사고력을 향상시킬 수 있는 간단한 예제를 수록한다. 풍부한 그림과 이를 바탕으로 컴퓨터 과학에 대한 전반적인 내용을 다루고 있으며, 타 도서에서 쉽게 간과하고 있는 실제 시스템에 대한 내용을 소개하고 있다.
+
+[CS50x 2023 Lectures - 하버드 대학교 CS50](https://www.youtube.com/playlist?list=PLhQjrBD2T380F_inVRXMIHCqLaNUd7bN4)
+
+- 매년 하버드 대학교에서 컴퓨터 과학 개론 수업을 유튜브에 재생목록을 올립니다. ~~내년에 또 나오면 링크를 교체할 것입니다.~~
+- 이미 어느정도 주제를 알고 있는 입장에서는 난이도가 낮아질 수 밖에 없습니다. 하지만 복습할 리소스로 활용하기 바랍니다.
