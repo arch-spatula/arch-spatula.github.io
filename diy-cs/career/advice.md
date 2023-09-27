@@ -1,5 +1,5 @@
 ---
-sidebar_position: 9
+sidebar_position: 1
 description: '조언'
 tags: ['조언', '커리어']
 ---

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 3
 description: '주관적인 랭킹'
 tags: ['주관적인 랭킹', '커리어']
 ---
