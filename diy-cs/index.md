@@ -94,3 +94,11 @@ This course is based on introductory college-level material as well as the AP Co
 
 - 매년 하버드 대학교에서 컴퓨터 과학 개론 수업을 유튜브에 재생목록을 올립니다. ~~내년에 또 나오면 링크를 교체할 것입니다.~~
 - 이미 어느정도 주제를 알고 있는 입장에서는 난이도가 낮아질 수 밖에 없습니다. 하지만 복습할 리소스로 활용하기 바랍니다.
+
+면접질문으로 CS를 공부하기 시작할 것이기 때문에 다른 레포들을 활용할 것입니다.
+
+- [prepare_frontend_interview](https://github.com/junh0328/prepare_frontend_interview)
+- [Interview_Question_for_Beginner](https://github.com/JaeYeopHan/Interview_Question_for_Beginner)
+- [CSE-Summary](https://github.com/Prev/CSE-Summary)
+
+하지만 CS지식은 어느것으로 시작해도 서로 연결되는 성향을 갖습니다. 네트워크를 이해할 때 여러계층에 캐싱한다는 것이 중요한 것처럼 하나의 개념을 알면 다른 개념에서 다시 보는 경우가 많습니다.
