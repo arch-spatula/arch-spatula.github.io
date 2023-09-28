@@ -107,6 +107,14 @@ tags: ['주관적인 랭킹', '커리어']
 
 - 사실 패스트캠퍼스 광고보고 알게되었습니다.
 
+[삼성 SDS](https://www.samsungsds.com/)
+
+[SK C&C](https://www.skcc.co.kr/)
+
+[LG CNS](https://www.lgcns.com/)
+
+[CJ 올리브네트웍스](https://www.cjolivenetworks.co.kr/)
+
 ## 💣
 
 :::danger 경고
