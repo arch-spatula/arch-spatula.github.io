@@ -12,7 +12,7 @@ tags: ['주관적인 랭킹', '커리어']
 
 현재 시점에서는 개발자로 성장하기 좋아보이는 기업 위주로 다루겠습니다. 유명한 기업 위주로 먼저 추가할 것입니다. 모든 기업을 추가하지는 않을 것입니다. ~~유명하다고 무조건 좋은 것은 아닙니다. 유명해져서 지원자수만 많아졌을 가능성도 있습니다.~~
 
-가능하면 개발문화 위주로 보고자 합니다.
+가능하면 개발문화 위주로 보고자 합니다. 그리고 좋은 개발 문화를 갖고 있는지 확인하는 척도로 테크 블로그를 운영하는지 확인합니다.
 
 :::
 
@@ -36,6 +36,8 @@ tags: ['주관적인 랭킹', '커리어']
 
 [당근마켓](https://about.daangn.com/jobs/)
 
+- [유튜브 채널 당근테크](https://www.youtube.com/@daangntech)를 운영하고 있습니다.
+
 [야놀자](https://careers.yanolja.co/)
 
 [토스](https://toss.im/career/jobs)
@@ -51,25 +53,40 @@ tags: ['주관적인 랭킹', '커리어']
 
 샌드버드
 
-인프런
-
-- CTO가 개발바닥 유튜브를 운영합니다. 좋은 개발문화를 알고 현재 적용하고 있어서 좋아보였습니다.
-
 [화해](https://www.hwahae.co.kr/career)
 
 - 예전에 기술블로그 보고 인상이 좋았습니다.
+
+[밀리의 서재](https://www.millie.town/careers/)
+
+[뤼튼](https://wrtn.career.greetinghr.com/)
+
+[리디](https://ridi.career.greetinghr.com/)
+
+[NHN](https://www.nhn.com/)
 
 ## ⭐⭐⭐
 
 [퀀다](https://team.mathpresso.com/)
 
-- 개발팀 내부에 레이드문화가 있다고 합니다.
+- 개발팀 내부에 [레이드문화](https://blog.mathpresso.com/how-qanda-team-solves-problems-together-backend-frontend-team-raid-dev-culture-5a5ba7419cd)가 있다고 합니다.
 - 프론트엔드 팀은 모노레포를 적용했다고 합니다.
 
 [오늘의집](https://www.bucketplace.com/careers/)
 
 - 과거 조은이 합류하고 바로 나갔다고 합니다.
 - 하지만 데이터팀은 좋아보였습니다.
+
+[인프런](https://www.inflearn.com/pages?type=withus)
+
+- CTO가 [개발바닥 유튜브](https://www.youtube.com/@devbadak)를 운영합니다. 좋은 개발문화를 알고 현재 적용하고 있어서 좋아보였습니다.
+- ~~반려생활도 추가해야할까요?~~
+
+[원티드](https://www.wanted.co.kr/company/79)
+
+- IT, 스타트업 종사자 들 중 가장 많이 사용하고 있는 플랫폼 같습니다.
+  - 플랫폼을 사용하고 있는 지원자들이 전반적으로 실력이 좋은 편입니다.
+- 프론트엔드는 모노레포로 일하고 있습니다.
 
 ## ⭐⭐
 
@@ -115,6 +132,14 @@ tags: ['주관적인 랭킹', '커리어']
 
 [CJ 올리브네트웍스](https://www.cjolivenetworks.co.kr/)
 
+11번가
+
+두잇
+
+<!-- 우체국 -->
+
+G마켓
+
 ## 💣
 
 :::danger 경고
@@ -125,7 +150,8 @@ tags: ['주관적인 랭킹', '커리어']
 
 [아이티로그](http://www.it-log.co.kr/main.php?userAgent=PC)
 
-[잡플래닛 1.1](https://www.jobplanet.co.kr/companies/332600/reviews/%EC%95%84%EC%9D%B4%ED%8B%B0%EB%A1%9C%EA%B7%B8)의 전설입니다. 회사 홈페이지는 회원가입, 로그인 지원하는데 http**s**가 아닙니다. 그냥 http입니다. ~~제가 프론트엔드라 기준은 낮지만 이건 정말 곤란해보입니다.~~
+- [잡플래닛 1.1](https://www.jobplanet.co.kr/companies/332600/reviews/%EC%95%84%EC%9D%B4%ED%8B%B0%EB%A1%9C%EA%B7%B8)의 전설입니다. 회사 홈페이지는 회원가입, 로그인 지원하는데 http**s**가 아닙니다. 그냥 http입니다. ~~제가 비전공 프론트엔드라 기준은 낮지만 이건 정말 곤란해보입니다.~~
+- 보안없는 보안회사입니다.
 
 <!--
 
