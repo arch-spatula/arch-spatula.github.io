@@ -5566,3 +5566,244 @@ func main() {
 프로그램의 줄을 stack이라고 생각할 수 있습니다. 줄마다 push하고 defer로 pop하면서 실행합니다.
 
 함수타입 변수입니다.
+
+함수자체를 타입으로 사용할 수 있습니다. 함수타입은 함수를 값으로 갖을 수 있습니다. 함수는 로직을 실행하는 것입니다. 즉 문장인데 어떻게 데이터로 취급하는가?
+
+사실 동작도 결국에는 기계어로 바꿔야 합니다. 함수 call을 goto, jump입니다. 함수 호출할 때 주소로 접프합니다. IP 즉 실행 포인터입니다. 즉 기계어의 특정 주소로 향할 것입니다. 함수의 시작위치도 숫자로 표현하고 종료도 숫자료 결국에는 표현할 것입니다. 함수의 시작위치가 함수의 주소입니다. 즉 메모리의 주소가 존재하게 되는 것입니다. 메모리 공간의 시작을 포인터 변수라고 취급하는 것처럼 함수역시 해당합니다.
+
+함수의 주소는 메모리 주소값인데 메모리 주소값으로 표현하는 이유가 있습니다. go build로 만든 exe파일을 실행하면 메모리에 올려 놓습니다. 그리고 RP 포인트로 올립니다. 실행하면 OS 프로세스가 생성되는 것입니다. 같은 실행파일이지만 다른 프로세스와 상태를 갖게 만들 수 있습니다. 먼저 실행 파일도 함수의 메모리 주소입니다. 하지만 주소값은 변하지 않습니다. 운영체제는 실행파일을 올릴때 같은 위치에 올리는 것처럼 동작하게 만듭니다. 프로그램 내에서는 같은 주소를 사용하는 것처럼 동작하게 해줍니다.
+
+중요한 것은 함수도 숫자료 표현하고 있다는 사실입니다. 공간을 메모리 주소로 표현하기 때문에 함수도 메모리 주소로 표현합니다.
+
+하지만 함수의 문제는 타입 표현입니다.
+
+```go
+func add(a, b int) int {
+	return a + b
+}
+```
+
+함수타입은 함수 시그니쳐로 표현합니다. 함수 이름과 구현을 제외한 함수를 보고 함수 시그니쳐라고 합니다.
+
+```go
+func (int, int) int
+```
+
+위가 함수 시그니쳐에 해당합니다.
+
+```go
+func add(a, b int) int {
+	return a + b
+}
+
+func mul(a, b int) int {
+	return a * b
+}
+
+func getOperator(op string) func(int, int) int {
+	if op == "+" {
+		return add
+	} else if op == "*" {
+		return mul
+	}
+	return nil
+}
+```
+
+이렇게 응용해볼 수 있습니다.
+
+```go
+package main
+
+import "fmt"
+
+func add(a, b int) int {
+	return a + b
+}
+
+func mul(a, b int) int {
+	return a * b
+}
+
+func getOperator(op string) func(int, int) int {
+	if op == "+" {
+		return add
+	} else if op == "*" {
+		return mul
+	}
+	return nil
+}
+
+func main() {
+	var operator func(int, int) int
+	operator = getOperator("+")
+	result := operator(3, 4)
+	fmt.Println(result) // 7
+}
+```
+
+이렇게 사용하는 것이 가능합니다. 반환값에 함수의 시작주소를 할당하는 것으로 이런 동작을 하게 되는 것입니다.
+
+함수타입을 사용할 때는 길어져서 별칭타입을 많이 활용합니다.
+
+```go
+type OpType func(int, int) int
+```
+
+이렇게 사용하면 됩니다.
+
+함수 리터럴도 존재합니다. 문자 그대로 라는 의미입니다. 다른 언어는 람다라고 말합니다.
+
+```go
+B:=3
+
+f:= func(a, b int) int {
+	return a + b
+}
+```
+
+리터럴을 이렇게 표현할 수 있습니다. 선언하는 동안에는 함수에 이름이 없어서 람다입니다. 하지만 선언하고 할당하게 되면 기명함수가 됩니다.
+
+변수에 함수에 대한 메모리 주소를 갖게 되는 것입니다.
+
+```go
+package main
+
+import "fmt"
+
+type OpType func(int, int) int
+
+func getOperator(op string) OpType {
+	if op == "+" {
+		return func(a, b int) int {
+			return a + b
+		}
+	} else if op == "*" {
+		return func(a, b int) int {
+			return a * b
+		}
+	}
+	return nil
+}
+
+func main() {
+	var operator OpType
+	operator = getOperator("+")
+	result := operator(3, 4)
+	fmt.Println(result)
+}
+```
+
+리터럴을 활용하면 이렇게 별도 선언없이 활용하게 됩니다.
+
+함수리터럴은 일반함수랑 다른점이 있습니다. 내부상태를 갖을 수 있습니다. 함수 내부에 상태라고 하는데 이것을 보고 일급함수라고 부르기도 합니다. 함수가 상태를 갖는다는 것입니다. 일반함수는 상태를 갖을 수 없습니다.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	i := 0
+	f := func() {
+		i += 10
+	}
+	f()
+	i++
+	fmt.Println(i) // 11
+}
+```
+
+11이 나옵니다. 함수가 입력값이 없습니다. 리터럴로 외부 스코프 변수를 접근해서 쓰기를 하는 것입니다. 리터럴은 전역변수 스코프에서는 접근할 수 없기 때문에 리터럴이 다릅니다.
+
+리터럴은 외부변수를 캡쳐하고 내부에서 사용할 수 있다는 것입니다. f는 함수의 주소만 가리키는 것에 불과합니다.
+
+주의할점이 있습니다. 캡쳐는 값을 복사하는 것이 아닙니다. 주소를 복사합니다. 즉 위 코드는 포인터를 복사했다고 볼 수 있습니다. 즉 메모리 주소를 변수가 복사하고 그 메모리 주소를 접근해서 값을 갱신한 것입니다. 컴파일러가 대신 동작해서 처리해주는 것입니다.
+
+함수 스코프 내부와 함수 스코프 외부있는 변수에 같은 메모리 공간을 가리키도록 하는 것입니다. 주의할 점이 있습니다.
+
+```go
+package main
+
+import "fmt"
+
+func captureLoop() {
+	f := make([]func(), 3)
+	fmt.Println("value")
+	for i := 0; i < 3; i++ {
+		f[i] = func() {
+			fmt.Println(i)
+		}
+	}
+	for i := 0; i < 3; i++ {
+		f[i]()
+	}
+}
+
+func captureLoop2() {
+	f := make([]func(), 3)
+	fmt.Println("value2")
+	for i := 0; i < 3; i++ {
+		v := i
+		f[v] = func() {
+			fmt.Println(v)
+		}
+	}
+	for i := 0; i < 3; i++ {
+		f[i]()
+	}
+}
+
+func main() {
+	captureLoop()
+	captureLoop2()
+}
+
+// value
+// 3
+// 3
+// 3
+// value2
+// 0
+// 1
+// 2
+```
+
+순회하면서 할당하는데 문제는 값이 아니라 메모리 주소를 할당하기 때문에 발생합니다. 마지막에는 3으로 캡쳐되어 있기 때문에 3을 모두 캡쳐한 것입니다. 하지만 v는 매번 순회하면서 스코프 내부에서 새로운 주소를 할당하기 때문에 0, 1, 2가 됩니다.
+
+즉 개별주소를 가리키는 것과 순회하면서 가산되는 같은 주소의 변수 가리키는 것으로 다르게 됩니다. 3개의 다른 주소 1개의 같은 주소입니다.
+
+GC는 언제 동작하는가 대부분 언어처럼 참조를 하지 않을 때 동작합니다.
+
+고루틴사용할 때 문제가 많이 됩니다. 람다로 값을 캡쳐해서 넘길 수 있습니다. 서로 동시에 읽고 쓰기하면서 예상하지 않은 동작을 할 수 있습니다. 그래서 조심성이 필요합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+type Writer func(string)
+
+func writeHello(writer Writer) {
+	writer("hello world!")
+}
+
+func main() {
+	f, err := os.Create("test.txt")
+	if err != nil {
+		fmt.Println("Failed to create a file")
+		return
+	}
+	defer f.Close()
+	writeHello(func(msg string) {
+		fmt.Fprintln(f, msg)
+	})
+}
+```
+
+`text.txt` 파일에 hello world!가 작성되어 있습니다. 함수를 대입받아서 실행하게 됩니다. 지금은 writeHello에 대입한 함수를 실행하게 되는 것입니다. Fprintln메서드가 파일에 쓰기를 지원합니다. 어떤 함수를 대입하더라도 함수에서 정의한 값을 인자로 대입하게 됩니다.
+
+외부함수에서 로직을 주입하게 되는 구조입니다. 이것을 보고 의존성 주입이라고 합니다. 많이 사용하는 패턴입니다. 로직을 분리할 수 있습니다. 파일처리, 네트워크처리가 간소해집니다.
