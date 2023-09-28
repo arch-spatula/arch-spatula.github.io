@@ -1,0 +1,8 @@
+{
+  "label": "컴퓨터 구조론",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "이런저런 컴퓨터 구조론으로 분류한 CS 지식을 추가합니다."
+  }
+}
