@@ -6,9 +6,9 @@ sidebar_position: 1
 
 :::danger 경고
 
-이 문서는 보통 민족명절에 커밋할 것입니다. 한글날, 제헌절, 추석, 신정, 구정 등... 작성합니다.
+이 문서는 보통 민족명절에 커밋할 것입니다. 한글날, 제헌절, 추석, 신정, 구정, 설날, 광복절, 삼일절, 현충일 등... 작성합니다.
 
-민족적 자부심을 느끼고 싶을 때 커밋할 것입니다.
+Java가 한국의 점유율이 높아서 제2 한국어라고 자주 놀리는 프로그래밍 언어입니다. ~~민족적 자부심을 느끼고 싶을 때 커밋할 것입니다.~~ ~~다시는 한국을 무시하지마라~~
 
 면접관이 되어서 제가 별로 안 좋아하는 지원자 자진 지원취소하게 만들 때 활용할 것입니다. ~~바로 프론트엔드에게 JVM 아키텍쳐를 물어볼 것입니다.~~
 
@@ -35,3 +35,7 @@ sidebar_position: 1
 [점프 투 자바 - 박응용](https://wikidocs.net/book/31)
 
 - 자바 문법만 공부하려면 적당할지도 모릅니다.
+
+<iframe class="codepen" src="https://www.youtube.com/embed/GdzRzWymT4c" title="Java Basics – Crash Course" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+- 저처럼 글보다 영상을 좋아하는 사람들을 위해서 freecodecamp가 제공강의도 있습니다.
