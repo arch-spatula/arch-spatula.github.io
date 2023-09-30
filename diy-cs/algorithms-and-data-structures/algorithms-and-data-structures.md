@@ -65,6 +65,8 @@ tags: ['자료구조와 알고리즘', '자료구조', '알고리즘']
 
 ## 학습자료
 
+### 강의자료
+
 [NeetCode](https://www.youtube.com/@NeetCode)
 
 - 아마존, 구글에서 근무했던 엔지니어입니다.
@@ -77,3 +79,35 @@ tags: ['자료구조와 알고리즘', '자료구조', '알고리즘']
 [Colt Steele의 JavaScript Algorithms and Data Structures Masterclass](https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/)
 
 - 유료강의입니다. 나중에 할인할 때 구매하기 바랍니다.
+
+### 문제자료
+
+[프로그래머스](https://school.programmers.co.kr/learn/challenges)
+
+- 기초를 학습하기 아주 쉽습니다. 비교적 서비스가 좋습니다.
+
+[백준](https://www.acmicpc.net/)
+
+- 문제수가 제일 많습니다.
+- 티어별로 문제를 풀어서 점진적으로 실력을 상승시킬 수 있습니다.
+- 수동으로 티어 정리하기 귀찮으면 [solved.ac](https://solved.ac/)을 이용하면 편합니다.
+
+[SW Expert Academy](https://swexpertacademy.com/main/main.do)
+
+- ssafy에서 자주 사용합니다.
+
+[LeetCode](https://leetcode.com/problemset/all/)
+
+- 미국에서 많이 활용하는 서비스입니다.
+
+[codewars](https://www.codewars.com/)
+
+- LeetCode 대신에 사용할 수 있습니다.
+
+[adventofcode](https://adventofcode.com/)
+
+- 이 문제는 접근이 더 현실적입니다. 실제 코드를 변경을 자주하기 때문에 코드의 유지보수 가능성을 늘리기 좋습니다.
+
+[프로젝트 오일러](https://projecteuler.net/)
+
+- 직접 테스트 코드를 작성해야 하는 단점이 있습니다.

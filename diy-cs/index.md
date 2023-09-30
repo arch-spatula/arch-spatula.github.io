@@ -102,3 +102,7 @@ This course is based on introductory college-level material as well as the AP Co
 - [CSE-Summary](https://github.com/Prev/CSE-Summary)
 
 하지만 CS지식은 어느것으로 시작해도 서로 연결되는 성향을 갖습니다. 네트워크를 이해할 때 여러계층에 캐싱한다는 것이 중요한 것처럼 하나의 개념을 알면 다른 개념에서 다시 보는 경우가 많습니다.
+
+[Computer Science - roadmap](https://roadmap.sh/computer-science)
+
+- roadmap에서 알려주는 CS 지식 학습 순서도입니다.
