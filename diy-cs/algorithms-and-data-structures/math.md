@@ -77,3 +77,100 @@ function solution(n) {
 
 </div>
 </details>
+
+## 소수 만들기
+
+[소수 만들기](https://school.programmers.co.kr/learn/courses/30/lessons/12977)
+
+```js
+/**
+ * @param {number[]} nums
+ * @returns {number}
+ */
+function solution(nums) {
+  let result = -1;
+  return result;
+}
+```
+
+```js
+import solution, { isPrime } from './playground';
+import { test, expect, describe } from 'vitest';
+
+// nums	        result
+// [1,2,3,4]	  1
+// [1,2,7,6,4]	4
+
+describe('소수 만들기', () => {
+  test('예제 1', () => {
+    expect(solution([1, 2, 3, 4])).toBe(1);
+  });
+  test('예제 2', () => {
+    expect(solution([1, 2, 7, 6, 4])).toBe(4);
+  });
+});
+```
+
+<details>
+<summary>2023년 09월 25일 풀이</summary>
+<div markdown="1">
+
+```js
+describe('helper', () => {
+  test('소수 맞음', () => {
+    expect(isPrime(7)).toBe(true);
+  });
+  test('소수 아님', () => {
+    expect(isPrime(6)).toBe(false);
+  });
+});
+```
+
+```js
+/**
+ * @param {number[]} nums
+ * @returns {number}
+ */
+function solution(nums) {
+  let result = 0;
+  // 3개를 뽑는다. ijk
+  for (let i = 0; i < nums.length; i++) {
+    // 첫번째를 뽑는다.
+    const first = nums[i];
+    for (let j = i + 1; j < nums.length; j++) {
+      // 두번째를 뽑는다.
+      const second = nums[j];
+      for (let k = j + 1; k < nums.length; k++) {
+        // 세번째를 뽑는다.
+        const third = nums[k];
+        // 뽑은 숫자 3개를 합하고 소수인지 판별한다.
+        // console.log('first: %d, second: %d, third: %d', first, second, third);
+        if (isPrime(first + second + third)) result += 1;
+        // 소수면 1을 가산한다.
+      }
+    }
+  }
+
+  return result;
+}
+
+/**
+ * @param {number} num
+ * @returns {boolean}
+ */
+function isPrime(num) {
+  let div = 2;
+  while (num > div) {
+    if (num % div === 0) return false;
+    div += 1;
+  }
+  return true;
+}
+
+export default solution;
+
+export { isPrime };
+```
+
+</div>
+</details>
