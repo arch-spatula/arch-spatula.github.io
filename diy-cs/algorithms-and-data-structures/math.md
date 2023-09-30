@@ -174,3 +174,112 @@ export { isPrime };
 
 </div>
 </details>
+
+## 의상
+
+[의상](https://school.programmers.co.kr/learn/courses/30/lessons/42578)
+
+```js
+/**
+ * @param {[string, string][]} clothes
+ * @returns {number}
+ */
+function solution(clothes) {
+  let result = 1;
+  return result;
+}
+```
+
+```js
+import solution from './playground';
+import { test, expect, describe } from 'vitest';
+
+describe('의상', () => {
+  test('예제 1', () => {
+    expect(
+      solution([
+        ['yellow_hat', 'headgear'],
+        ['blue_sunglasses', 'eyewear'],
+        ['green_turban', 'headgear'],
+      ])
+      // 2개 중 1개 + 1개 중 1개 = 2
+      // 1개 중 1개 = 3
+      // 3C1 전체 중 1개 = 3
+      // 2개의 키로 2C1 = 2
+
+      // 2C1 + 1C1 = 3
+      // 2C1 * 1C1 = 2
+    ).toBe(5);
+  });
+  test('예제 2', () => {
+    expect(
+      solution([
+        ['crow_mask', 'face'],
+        ['blue_sunglasses', 'face'],
+        ['smoky_makeup', 'face'],
+      ])
+      // 3개 중 1개 = 3 3C1
+    ).toBe(3);
+  });
+
+  test('예제 3', () => {
+    expect(
+      solution([
+        ['crow_mask', 'foo'],
+        ['blue_sunglasses', 'bar'],
+        ['smoky_makeup', 'baz'],
+      ])
+      // 3개 중 1개 = 3 3C1
+      // 3개 중 2개 = 3 3C2
+      // 3개 중 3개 = 1 3C3
+    ).toBe(7);
+  });
+});
+// AB CD EF
+// A B C D E F
+// AC AD AE AF BC BD BE BF CE CF DE DF
+// ACE ACF ADE ADF BCE BCF BDE BDF
+```
+
+<details>
+<summary>2023년 09월 19일</summary>
+<div markdown="1">
+
+```js
+/**
+ * @param {[string, string][]} clothes
+ * @returns {number}
+ */
+function solution(clothes) {
+  let result = 1;
+  const memo = new Map();
+  clothes.forEach(([name, kind]) => {
+    if (!memo.get(kind)) memo.set(kind, [name]);
+    else memo.set(kind, [...memo.get(kind), name]);
+  });
+  // 아래가 어려웠습니다.
+  for (const item of memo.values()) {
+    result *= item.length + 1;
+  }
+  // 1종류 1개
+  // nC1 + nC1 ...
+  // 2종류 1개
+  // nC1 * nC1 +
+  // 3종류 1개
+  // 4종류 1개 ...
+  return result - 1;
+}
+
+export default solution;
+```
+
+순열과 조합을 표현하지 못했고 또 위 문제를 대수적으로 표현하지 못했습니다.
+
+[해설을 봐도 모르겠습니다.. 누가 설명좀 해주셨으면 감사하겠습니다.](https://school.programmers.co.kr/questions/46417)
+
+해설을 봤습니다.
+
+순열과 조합 경우의 수 문제였습니다.
+
+</div>
+</details>
