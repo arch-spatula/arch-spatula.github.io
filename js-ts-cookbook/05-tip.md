@@ -128,3 +128,46 @@ function fetchVideo() {
     });
 }
 ```
+
+## 자바스크립트 console.log 포멧팅
+
+```js
+console.log('first: %d, second: %d, third: %d', first, second, third);
+```
+
+콘솔로그에 이런 표현도 가능했습니다. 저는 몰랐습니다. ㅂㄷㅂㄷ...
+
+## 실행환경별로 실행
+
+```ts
+if (process.env.NODE_ENV === 'production') {
+  console.log = () => {
+    //
+  };
+  console.error = () => {
+    //
+  };
+  console.warn = () => {
+    //
+  };
+}
+```
+
+process.env.NODE_ENV은 `development`, `production` 중 1개를 선택할 수 있습니다.
+
+## label로 중첩 순회 풀기
+
+```js
+loop1: for (i = 0; i < 3; i++) {
+  //첫번째 for문은 "loop1" 레이블을 붙였다.
+  for (j = 0; j < 3; j++) {
+    //두번째 for문은 "loop2" 레이블을 붙였다.
+    console.log('i = ' + i + ', j = ' + j);
+    if (i === 1 && j === 1) break loop1;
+  }
+}
+```
+
+중쳡순회를 풀 수 있는 방법이 존재하는게 상당히 충격적입니다.
+
+label을 사용하지 않으면 flag를 사용해서 중첩순회를 풀어야 하지만 label을 활용하면 어느 순회문에 `break`에 적용할지 제어할 수 있습니다.
