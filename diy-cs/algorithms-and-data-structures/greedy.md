@@ -365,3 +365,77 @@ export default solution;
 - 프로그래머스 문제가 이제 어려워지기 시작합니다.
 - 백준으로 전환하는 것이 좋을 것 같습니다. 문제를 통해 학습한 인사이트가 없습니다.
 - 파이썬으로 풀어보는 연습이 필요할 것 같습니다.
+
+## 과일 장수
+
+[과일 장수](https://school.programmers.co.kr/learn/courses/30/lessons/135808)
+
+```js
+/**
+ * @param {number} s
+ * @param {number} m
+ * @param {number[]} score
+ * @returns {number}
+ */
+function solution(k, m, score) {
+  let result = 0;
+  return result;
+}
+```
+
+```js
+import solution, { parseTuple, splitNestedTuple } from './playground';
+import { test, expect, describe } from 'vitest';
+
+// k	m	score	result
+// 3	4	[1, 2, 3, 1, 2, 3, 1]	8
+// 4	3	[4, 1, 2, 2, 4, 4, 4, 4, 1, 2, 4, 2]	33
+
+describe('과일 장수', () => {
+  test('예제 1', () => {
+    expect(solution(3, 4, [1, 2, 3, 1, 2, 3, 1])).toEqual(8);
+  });
+
+  test('예제 2', () => {
+    expect(solution(4, 3, [4, 1, 2, 2, 4, 4, 4, 4, 1, 2, 4, 2])).toEqual(33);
+  });
+});
+```
+
+<details>
+<summary>2023년 09월 25일 풀이</summary>
+<div markdown="1">
+
+```js
+/**
+ * @param {number} s
+ * @param {number} m
+ * @param {number[]} score
+ * @returns {number}
+ */
+function solution(k, m, score) {
+  let result = 0;
+  const allBox = [];
+  // 정렬
+  score.sort((a, b) => a - b);
+  const scoreLength = score.length;
+  // 박스에 담기
+  let box = [];
+  for (let i = 0; i < scoreLength; i++) {
+    box.push(score.pop());
+    // 마지막에 새상자
+    if (box.length === m) {
+      allBox.push(box);
+      box = [];
+    }
+  }
+  // 박스 별로 가치구하고 합산하기
+  allBox.forEach((box) => {
+    result += Math.min(...box) * box.length;
+  });
+  return result;
+}
+```
+
+</div>
+</details>
