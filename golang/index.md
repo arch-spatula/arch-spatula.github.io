@@ -6626,6 +6626,8 @@ go는 구조화된 에러처리를 지원하지 않습니다. try, catch, finall
 
 [errors](https://github.com/pkg/errors)에서 지원합니다.
 
+https://pkg.go.dev/github.com/pkg/errors#section-readme
+
 ```go
 _, err := ioutil.ReadAll(r)
 if err != nil {
@@ -6634,3 +6636,1062 @@ if err != nil {
 ```
 
 이렇게 지원합니다. 내부는 동일하지만 더 간결합니다.
+
+## 34 24장 고루틴
+
+https://www.youtube.com/watch?v=tRdODUXV3ik
+
+고루틴 전에 쓰레드를 이해해봅시다.
+
+쓰레드는 실행흐름입니다. 프로그램이 실행하는 과정에서 프로그램이 메모리로 load를 합니다. 명령어에 해당하닌 기계어를 메모리 올리고 CPU는 실행 주체입니다. 모든 명령은 결국에 CPU에서 실행합니다. CPU자체는 단순합니다. 그냥 명령어 즉 연산자와 피연산자를 실행할 명령에 맞게 처리합니다. 하나의 연산에 집중합니다. 프로그램이 실행되면 시작시점이 있습니다. go는 main함수입니다. 명령어를 명령지점을 main함수 시작지점에 맞춥니다. main함수의 줄마다 읽는 줄을 보고 현재 줄에서 더해서 실행합니다.
+
+CPU의 코어가 실행주체입니다. 명령어 다발을 실행합니다. 한줄로 읽어갑니다. 이것을 튜링 머신에서 해당하는 부분이 CPU 코어입니다. 메모라 IP를 가리키면 읽으면서 실행하게 됩니다.
+
+프로그램이 거대해지고 나중에 멀티쓰레드가 탄생합니다. 원도우가 사용컴퓨터로 ui가 나오면서 프로그램을 여러개 실행을 상용적으로 하기 시작했습니다. 옛날에 CPU는 싱글코어였습니다. 코어가 1개인데 어떻게 프로그램이 여러게를 실행하는가? 각각의 쓰레드마다 IP를 갖고 실행하다가 중간중간에 교체하는 방식으로 동작했습니다.
+
+현대컴퓨터에서는 CPU는 가많이 있고 OS 소프트웨어가 명령으로 CPU가 할 작업을 결정합니다. OS가 읽을 쓰레드 스케줄링을 한다는 것입니다. 쓰레드를 번갈아가면서 동시에 동작하는 것처럼 보이게 만드는 것입니다. 코어가 2개면 OS알아서 맞게 스케줄링합니다. CPU 자체는 단순한 계산기입니다. OS는 CPU에 먹일 쓰레드를 제어하게 됩니다.
+
+문제가 있습니다. 바로 성능입니다. 컨텍스트 스위칭 문제입니다. 쓰레드에는 IP 정보를 각각 갖고 있습니다. 또 stack 메모리 문제도 있습니다. heap 메모리는 같은 프로세스면 공유하지만 stack은 쓰레드 안에 있습니다. 각각 존재하게 됩니다. 쓰레드를 바꾸면 이런 정보를 바꿔야 합니다. 이렇게 바꾸서 정보를 제공하는 것을 보고 컨텍스트 스위칭이라고 부릅니다. 쓰레드 전환마다 성능저하 문제가 발생합니다.
+
+만약에 코어가 1개고 쓰레드가 3개면 컨텍스트 스위칭이 자주 발생할 것입니다. 하지만 코어가 3개고 쓰레드도 3개면 각각 코어와 쓰레드가 1대1로 대응하고 컨텍스트 스위칭을 방지할 수 있습니다.
+
+멀티 쓰레드와 멀티 프로세스는 당연히 다릅니다. 프로세스는 프로그램을 실행하면 OS가 메모리에 올립니다. 브라우저를 키면 브라우저 프로세스가 생깁니다. 브라우저는 탭마다 프로세스를 갖고 있습니다. 여러개의 탭을 만들면 실행 인스턴스도 여러개가 됩니다. 이 실행인스턴스 즉 각각의 탭을 각각의 프로세스라고 합니다. 실행주체가 달라 서로 상태도 다르게 됩니다.
+
+멀티 쓰레드는 하나의 프로세스 내부에서 여러개의 실행이 존재할 수 있습니다. 프로그램 내에서 여러개의 쓰레드가 존재할 수 있습니다.
+
+고루틴은 go에서 만든 경량 쓰레드라고 정의합니다. 쓰레드 자체를 가볍게 사용한다는 의미입니다. 쓰레드랑 동일하게 취급하면 됩니다. main함수도 쓰레드입니다. 실행 흐름이 존재할 것입니다. 기본적으로 모은 go로 만든 프로그램은 1개의 고루틴을 가져야 합니다. 새로운 고루틴을 만들고 싶으면 `go 함수명()` 형식으로 호출하면 됩니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func PrintHangul() {
+	hangul := []rune{'가', '나', '다', '라', '마', '바', '사'}
+	for _, v := range hangul {
+		time.Sleep(300 * time.Millisecond)
+		fmt.Printf("%c ", v)
+	}
+}
+
+func PrintNumbers() {
+	for i := 1; i <= 5; i++ {
+		time.Sleep(400 * time.Millisecond)
+		fmt.Printf("%d ", i)
+	}
+}
+
+func main() {
+	go PrintHangul()
+	go PrintNumbers()
+
+	time.Sleep(3 * time.Second)
+}
+
+// 가 1 나 2 다 3 라 마 4 바 5 사
+```
+
+go 키워드를 사용해서 동시에 실행할 수 있게 되었습니다.
+
+지금은 총 3개의 고루틴이 생성됩니다. 메인 고루틴이고 각각 함수마다 고루틴을 갖게 됩니다.
+
+`main` 고루틴이 종료되기 전에 다른 고루틴도 종료되는 것으로 간주합니다. 그래서 `main`을 다른 고루틴이 끝날 때까지 계속 살려야 합니다.
+
+서브 고루틴 종료까지 대기하는 방법이 있습니다.
+
+```go
+var wg Sync.WaitGroup
+
+wg.Add(3) // 작업개수 설정
+wg.Done() // 작업이 완료될 때마다 호출
+wg.Wait() // 모든 작업이 완료될 때까지 대기
+```
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+var wg sync.WaitGroup
+
+func SumAtoB(a, b int) {
+	sum := 0
+	for i := a; i <= b; i++ {
+		sum += i
+	}
+	fmt.Printf("%d ... %d = %d \n", a, b, sum)
+	wg.Done()
+}
+
+func main() {
+	wg.Add(10)
+	for i := 0; i < 10; i++ {
+		go SumAtoB(1, 10)
+	}
+	wg.Wait()
+}
+
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+```
+
+10개의 경량 쓰레드를 만들고 실행한 것입니다. 여기서 주목할 점은 wg.Add, wg.Wait는 반복문 밖에 있다는 것입니다. 다른 main이외 다른 쓰레드에서 알아서 실항하고 있고 대는 main에서 한다는 것입니다. 만약에 안에 있었으면 반복문 내에서 작업을 기다리게 될 것입니다.
+
+이제 동작원리입니다. 쓰레드랑 다릅니다. 다른 언어는 쓰레드를 지원합니다. 하지만 기존 쓰레드랑 무엇이 다른가? 고루틴은 OS 쓰레드를 이용하는 경량 쓰레드입니다. 고루틴과 쓰레드는 다릅니다. 고루틴은 쓰레드를 사용하는 것은 맞습니다. 실제 쓰레드보다 가볍다고 하는데 무엇이 어떻게 가볍다는 것인가? 코어가 1개이고 OS 쓰레드 1개를 만드는 상황이면 고루틴도 1개를 만들어서 서로 매칭시킵니다. OS는 반드시 쓰레드가 존재해야 실행할 수 있게 됩니다. 중간에 OS 쓰레드는 반드시 필요합니다.
+
+코어가 2개고 고루틴도 2개면 OS쓰레드도 2개가 됩니다. 이렇게 되면 서로다른 쓰레드 실행할 수 있습니다. 만약에 여기서 고루틴이 3개라면 어떻게 되는가? 이미 최대 코어에 도달해서 추가 쓰레드를 만들지 않습니다. 이럴 때는 밴치라는 곳에서 고루틴이 대기합니다. OS 쓰레드랑 연결된 고루틴 중 종료되된 고루틴은 대기중 고루틴여 연결하고 기존 연결을 끊습니다. 만약에 대기가 너무 많으면 어떻게 되는가? 프로그램에서 자주 나오는 것 중 하나는 대기상태입니다. 프로그램은 대기가 많습니다. 파일 읽기 쓰기는 대기입니다. 파일을 읽고 쓰는 것은 OS가 처리하는 작업입니다. 이러한 요청 즉 OS에게 요청하는 행위를 보고 시스템 콜이라고 합니다. 시스템 콜이 발생하면 쓰레드, 고루틴은 대기해야 합니다. OS가 작업을 완료하기 전까지는 대기입니다. 또 다른 시스템 콜은 네트워크의 읽기 쓰기도 OS가 처리합니다. 이러한 대기는 자주 일어납니다. 시스템콜로 대기하는 동안에 고루틴은 자리를 교체합니다. 시스템 콜이 완료된 시점에 또 다른 고루틴이 대기할 때 자리를 교체합니다.
+
+실제 쓰레드 수량은 코어수만큼 만듭니다. 그리고 고루틴은 쓰레드가 놀고 있을 때 교체합니다. 하지만 엄청난 장점은 컨텍스트 스위칭이 OS에서 발생하지 않습니다. 고루틴 응용계층에서 발생합니다 고루틴이 교체되는 것이 컨텍스트 스위칭입니다. IP와 스택메모리를 각각 갖고 있는데 OS에서 컨텍스트 스위칭보단 작습니다. 고루틴의 컨텍스트자체가 경량입니다. 고루틴의 스택은 아주 작습니다. 늘릴 수 있지만 처음에 작게 만들어 전환할 컨텍스트 스위칭하기 위해 필요한 작업량이 작습니다. 그래서 고루틴은 편하게 많이 사용해도 아주 큰문제는 없습니다. 멀티쓰레드 언어는 쓰레드 수량을 신경을 많이 쓰고 성능문제를 방지해야 합니다. 하지만 go는 비용이 낮고 추상화가 잘 되어 있어서 과감하게 사용해도 됩니다.
+
+동시성 프로그래밍의 주의점이 있습니다.
+
+여러 실행흐름이 동시에 처리할 때가 문제입니다. 코어와 고루틴이 동시에 작업하면서 문제가 됩니다. 바로 힙메모리는 프로스세 내에서 여러개의 쓰레드가 공유합니다. 같은 메모리 자원을 접근할 때 동시성 문제가 발생합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+type Account struct {
+	Balance int
+}
+
+func main() {
+	var wg sync.WaitGroup
+	account := &Account{0}
+
+	wg.Add(10)
+	for i := 0; i < 10; i++ {
+		go func() {
+			for {
+				DepositAndWithdraw(account)
+			}
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+}
+
+func DepositAndWithdraw(account *Account) {
+	if account.Balance < 0 {
+		panic(fmt.Sprintf("마통 아님 %d", account.Balance))
+	}
+	account.Balance += 1000
+	time.Sleep(time.Millisecond)
+	account.Balance -= 1000
+}
+```
+
+이렇게 되면 무한하게 돈을 넣고 빼고를 반복합니다. 언젠가는 패닉으로 종료될 것입니다. 같은 주소에 읽고 쓰기를 계속하는데 이미 뺀 상태에서 다른 고루틴이 접근해서 또 빼면서 패닉한 것입니다. 즉 자원을 동시에 접근하면서 패닉한 것입니다.
+
+값을 읽을 때 1000인 상태로 읽을 때랑 0인 상태로 읽을 때마다 각각 다르게 됩니다. CPU는 어느 시점에 0인 상태로 읽게 됩니다. 0에서 빼기를 한 것입니다.
+
+변수를 보면 구조체의 메모리를 동시에 접근하기 때문에 생기는 문제입니다. 이것을 차단하는 방법이 있습니다. 하나의 메모리 자원에 여러개의 고루틴이 동시에 접근하는 것을 방지할 수 있습니다. 하나의 고루틴에서는 하나의 자원을 접근해야 합니다. 메모리를 락걸어 놓는 것입니다. 즉 뮤텍스로 잠궈둘 수 있습니다. 뮤텍스는 번역하면 상호배제라고 합나다. 락인 동안 다른 고루틴이 접근할 수 없습니다.
+
+뮤텍스를 통해서 자원에 읽고 쓰기할 수 있는 주체를 1개로 제한한 것입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+// 뮤텍스 정의로 사용할 수 있게 해줍니다.
+var mutex sync.Mutex
+
+type Account struct {
+	Balance int
+}
+
+func main() {
+	var wg sync.WaitGroup
+	account := &Account{0}
+
+	wg.Add(10)
+	for i := 0; i < 10; i++ {
+		go func() {
+			for {
+				DepositAndWithdraw(account)
+			}
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+}
+
+func DepositAndWithdraw(account *Account) {
+	// 아래 두줄로 고루틴에서 동시접근을 방지합니다.
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	if account.Balance < 0 {
+		panic(fmt.Sprintf("마통 아님 %d", account.Balance))
+	}
+	account.Balance += 1000
+	time.Sleep(time.Millisecond)
+	account.Balance -= 1000
+}
+```
+
+이렇게 되면 이제 프로그램이 종료되지 않습니다.
+
+뮤텍스는 문제가 있습니다. 동시성 프로그래밍으로 얻을 수 있는 성능향상을 잃게 됩니다. 여러개의 고루틴은 여러개의 코어를 활용해서 동시에 작업하는 것인데 문제는 하나씩 접근한다는 문제입니다. 각각 실행해서 성능이 좋아져야 하는데 과도한 락으로 성능이 떨어집니다. 접근가능한 고루틴이 1개면 고루틴이 1개만하기 때문에 고루틴으로 처리할 이유가 없어집니다.
+
+락이라는 작업도 $10^{-3}ms$ 작업시간이 걸립니다. 쓰레드 사용량을 늘려도 성능향상이 오히려 떨어질 수 있습니다.
+
+데드락문제가 발생합니다. 고루틴을 완전히 먼추게 만듭니다.
+
+작업을 처리하는데 2개의 자원을 접근해야 하는데 각각 1개 1개를 접근해서 서로 대기하면서 교착상태가 됩니다. 다른 작업에 기아현상이 발생합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"sync"
+	"time"
+)
+
+var mutex sync.Mutex
+
+var wg sync.WaitGroup
+
+func main() {
+	rand.Seed(time.Now().UnixNano())
+	wg.Add(2)
+	fork := &sync.Mutex{}
+	spoon := &sync.Mutex{}
+
+	go diningProblem("A", fork, spoon, "포크", "수저")
+	go diningProblem("B", spoon, fork, "수저", "포크")
+	wg.Wait()
+}
+
+func diningProblem(name string, first, second *sync.Mutex, firstName, secondName string) {
+	for i := 0; i < 100; i++ {
+		fmt.Printf("%s 밥을 먹으려고 합니다\n", name)
+		first.Lock()
+		fmt.Printf("%s %s 획득\n", name, firstName)
+		second.Lock()
+		fmt.Printf("%s %s 획득\n", name, secondName)
+
+		fmt.Printf("%s 밥을 먹습니다.\n", name)
+		time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
+		second.Unlock()
+		first.Unlock()
+	}
+}
+
+// B 밥을 먹으려고 합니다
+// A 밥을 먹으려고 합니다
+// B 수저 획득
+// B 포크 획득
+// B 밥을 먹습니다.
+// B 밥을 먹으려고 합니다
+// B 수저 획득
+// B 포크 획득
+// B 밥을 먹습니다.
+// A 포크 획득
+// A 수저 획득
+// A 밥을 먹습니다.
+// B 밥을 먹으려고 합니다
+// A 밥을 먹으려고 합니다
+// A 포크 획득
+// B 수저 획득
+// fatal error: all goroutines are asleep - deadlock!
+```
+
+go 언어 차원에서 데드락을 감지했습니다. 각각 자원을 얻고 각각 락을 걸어 놓고 교착이 발생합니다. 모든 고루틴이 잠들면 데드락을 감지합니다. 하지만 만약에 살아있는 고루틴이 있으면 데드락을 모릅니다. 자원을 서로 다룬 순서로 가져가게 만들어서 생기는 문제입니다.
+
+실무 코드는 복잡합니다. 여러 계층의 호출구조를 갖게 됩니다. 순서가 엇갈리고 데드락이 걸릴 수 있습니다. 데드락의 문제는 발생여부를 알아낼 수 없다는 것입니다. 또 항상발생하는 것도 아닙니다. 운이 좋으면 혹은 안좋아서 정상동작할지도 모릅니다.
+
+데드락은 프로덕션에서 자주 발생합니다. 개발에서는 파악하기 어럽습니다. 일관되게 발생하지 않아서 버그 재현도 어렵습니다. 그래서 뮤텍스는 조심스럽게 사용해야 합니다. 사용하지 말아야 할 것은 아닙니다. 일반적인 상황에서 자원을 쉽게 보호할 수 있습니다.
+
+다른 자원관리 방법이 있습니다. 영역을 나누거나 역할을 나누는 방법입니다. 메모리에서 각각 읽고 쓰고할 영역을 구분하고 간섭이 발생하지 않게 만드는 것입니다. 이것은 영역나누기 입니다. 역할을 나누는 방법은 채널과 컨텍스트에서 논합니다. 지금은 영역 나누기를 보여주겠습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+type Job interface {
+	Do()
+}
+
+type SquareJob struct {
+	index int
+}
+
+func (j *SquareJob) Do() {
+	fmt.Printf("%d 작업 시작\n", j.index)
+	time.Sleep(1 * time.Second)
+	fmt.Printf("%d 작업 완료 - 결과 %d\n", j.index, j.index*j.index)
+}
+
+func main() {
+	var jobList [10]Job
+	for i := 0; i < 10; i++ {
+		jobList[i] = &SquareJob{i}
+	}
+
+	var wg sync.WaitGroup
+	wg.Add(10)
+
+	for i := 0; i < 10; i++ {
+		job := jobList[i]
+		go func() {
+			job.Do()
+			wg.Done()
+		}()
+	}
+
+	wg.Wait()
+}
+
+// 0 작업 시작
+// 2 작업 시작
+// 5 작업 시작
+// 7 작업 시작
+// 8 작업 시작
+// 9 작업 시작
+// 1 작업 시작
+// 6 작업 시작
+// 4 작업 시작
+// 3 작업 시작
+// 3 작업 완료 - 결과 9
+// 1 작업 완료 - 결과 1
+// 5 작업 완료 - 결과 25
+// 4 작업 완료 - 결과 16
+// 9 작업 완료 - 결과 81
+// 2 작업 완료 - 결과 4
+// 8 작업 완료 - 결과 64
+// 0 작업 완료 - 결과 0
+// 7 작업 완료 - 결과 49
+// 6 작업 완료 - 결과 36
+```
+
+지금 변수별로 작업할 컨텍스트를 각자 넘겨놓고 처리하게 만든 것입니다. 이렇게 하면 뮤텍스에 의존할 필요가 없습니다.
+
+질문들입니다.
+
+고루틴에서 우선순위가 있는가? local run queue로 idle 상태에 쓰레드가 받게 만들 수 있습니다.
+
+OS보다 고루틴이 비용이 저렴한 이유가 무엇인가? 컨텍스트 스위칭의 제일 큰 문제는 스택메모리 교체를 위해 복사하는 행위가 비쌉니다. 고루틴에서는 교체할 것은 없고 IP 만 바꿔주면 됩니다. OS 컨텍스트 스위칭을 방치하고 고루틴 내에서 처리하게 만들어서 성능을 높입니다.
+
+```sh
+go run -race main.go
+```
+
+마지막으로 위 명령으로 동시성 접근 문제가 발생하는지 검증하도록 합니다.
+
+## 35 25장 채널과 컨텍스트
+
+https://www.youtube.com/watch?v=F6T9x-M7GNE
+
+채널과 컨텍스트입니다. 이것은 고루틴과 이어집니다. 동시성 프로그램의 3신기입니다.
+
+채널은 고루틴간의 메시지큐라고 보면 됩니다. 고루틴 끼리 메시지를 전달할 수 있게 해줍니다. 메시지큐로 큐 자료구조 맞습니다. 단지 고루틴끼리 메시지규를 전달합니다. 이것을 보고 고급스럽게 쓰레드 세이프 메시지큐라고 합니다. 멀티 쓰레드 환경에서 락없이 사용할 수 있습니다.
+
+채널을 생성하는 방법입니다.
+
+```go
+var massage chan string = make(chan string)
+```
+
+chan하고 띄어쓰기하거 타입을 작성하면 됩니다. 채널타입과 메시지타입으로 정의하면 됩니다.
+
+사용 전에는 항상 make로 먼저 만들어야 합니다.
+
+enqueue입니다.
+
+```go
+massage <- "This is a massage"
+```
+
+채널 인스턴스로 넣는다는 의미입니다. 뒤에 연산자를 붙여서 넣는다는 의미입니다.
+
+dequeue입니다.
+
+```go
+var msg string = <- massage
+```
+
+채널 인스턴스 앞에 붙이면 데이터를 접근할 수 있습니다. 지금은 접근해서 일반 변수에 할당하는 것입니다.
+
+놀랍게도 이것이 채널의 전부입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	ch := make(chan int)
+
+	wg.Add(1)
+	go square(&wg, ch)
+	ch <- 9
+	wg.Wait()
+}
+
+func square(wg *sync.WaitGroup, ch chan int) {
+	n := <-ch
+	time.Sleep(time.Second)
+	fmt.Printf("Square: %d\n", n*n)
+	wg.Done()
+}
+// Square: 81
+```
+
+ch가 square 아래 enqueue를 했습니다. 이유는 고루틴이 dequeue를 해야 하는데 비어있기 때문입니다. 그래서 고루틴 실행 중에 채널에서 enqueue를 받고 실행합니다.
+
+고루틴끼리 데이터를 주고 받을 때 채널을 사용합니다. 지금은 main에서 square로 넘겨준것입니다.
+
+뮤텍스는 읽고 쓰기 모두 걸어둬야하는데 채널을 사용하면 이런 것에 대해서 추상화되어 있게 됩니다. 채널간 데이터 공유가 수월해집니다. 쓰레드 세이프한 큐라는 것을 파악하는 것이 중요합니다.
+
+채널은 이것이 전부고 단순해보입니다.
+
+이것을 고루틴과 응용하면 엄청나게 많은 문제해결이 가능합니다.
+
+채널의 기본 크기는 0입니다. 받을 데이터가 올때까지 대기합니다.
+
+크기는 make의 3번째 인자로 제어할 수 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	ch := make(chan int)
+
+	ch <- 9
+	fmt.Println("Never print")
+}
+```
+
+이렇게 되면 데드락이 발생합니다. 왜 데드락이 발생하는가? 채널에 값을 넣으면 고루틴이 채널에서 데이터를 받고 처리해야합니다. 하지만 반고 처리할 고루틴이 없으면 무한하게 실행됩니다. 받기 위해 무한하게 대기해서 데드락이라고 간주하게 됩니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	ch := make(chan int, 1) // int 1개의 버퍼
+
+	ch <- 9
+	fmt.Println("Never print")
+}
+```
+
+하지만 받을 데이터(버퍼)의 사이즈를 이렇게 지정해주면 정상적으로 종료합니다. 즉 enqueue하고 버퍼를 모두 안 비우는 것을 허용한 것입니다. 설정한 버퍼 개수 이하가 될 때까지 계속 대기하게 됩니다.
+
+채널에서는 데이터를 여러번 뽑는 것도 가능합니다.
+
+```go
+n := <- ch
+```
+
+위처럼 해야 채널을 뽑는데 비어버릴 때까지 계속 뽑게 만들 수 있습니다.
+
+```go
+for n := range ch {
+	// ...
+}
+```
+
+이렇게 되면 채널에서 계속 데이터를 뽑는 행위를 반복합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	ch := make(chan int)
+
+	wg.Add(1)
+	go square(&wg, ch)
+	for i := 0; i < 10; i++ {
+		ch <- i * 2
+	}
+	wg.Wait()
+}
+
+func square(wg *sync.WaitGroup, ch chan int) {
+	for n := range ch {
+		time.Sleep(time.Second)
+		fmt.Printf("Square: %d\n", n*n)
+	}
+
+	wg.Done()
+}
+```
+
+이렇게 실행하면 정상적으로 실행할 것이라는 생각을 합니다. 하지만 또 데드락이 발생합니다.
+
+main 고루틴은 10번 enqueue를 할 것이라는 것을 알고 있습니다. 하지만 square는 무한하게 데이터를 받으려고 해서 데드락이 발생합니다. 그래서 정지가 발생합니다. 그래서 프로그램이 강제 종료됩니다.
+
+이럴 때 해야 하는 것은 단순합니다. 채널을 닫아주면 됩니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	ch := make(chan int)
+
+	wg.Add(1)
+	go square(&wg, ch)
+	for i := 0; i < 10; i++ {
+		ch <- i * 2
+	}
+	close(ch) // 여기입니다.
+	wg.Wait()
+}
+
+func square(wg *sync.WaitGroup, ch chan int) {
+	for n := range ch {
+		time.Sleep(time.Second)
+		fmt.Printf("Square: %d\n", n*n)
+	}
+
+	wg.Done()
+}
+// Square: 0
+// Square: 4
+// Square: 16
+// Square: 36
+// Square: 64
+// Square: 100
+// Square: 144
+// Square: 196
+// Square: 256
+// Square: 324
+```
+
+close 내장함수에 닫을 채널을 대입하면 고루틴은 더이상 받을 채널이 없는 것을 확인하고 닫고 데드락 혹은 좀비 고루틴이 되는 것을 막을 수 있습니다. 고루틴 메모리 누수가 발생하게 됩니다. 시스템 부하가 발생하고 메모리 낭비가 많아집니다. 계속 늘어나면 문제가 되고 프로그램 성능문제가 됩니다.
+
+채널을 닫는 습관을 들이도록 합니다.
+
+실무에서는 고루틴을 막씁니다. 그래서 채널을 닫기 도와주는 툴들도 있을 정도로 찾기 어렵습니다.
+
+select 문도 존재합니다. 채널의 데이터를 동시에 기다릴 때 사용합니다. 여러 채널에서 데이터를 기다릴 때 사용합니다. switch case 문과 비슷하게 생겼습니다.
+
+여러개의 데이터를 동시에 기다리고 각각 받을 때마다 실행합니다.
+
+```go
+select {
+	case n:= <- ch1 :
+	// ...
+	case n:= <- ch2 :
+	// ...
+	case:
+	// ...
+}
+```
+
+for문은 채널이 닫을 때까지 계속 실행합니다. 하지만 select는 받으면 종료합니다. 보통은 무한 루프를 감싸서 사용합니다.
+
+Tick은 일정 간격으로 신호를 주는 채널을 반환합니다. After는 일정 간격 후에 1번만 채널을 반환합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	ch := make(chan int)
+	quit := make(chan bool)
+
+	wg.Add(1)
+	go square(&wg, ch, quit)
+	for i := 0; i < 10; i++ {
+		ch <- i * 2
+	}
+
+	quit <- true
+	wg.Wait()
+}
+
+func square(wg *sync.WaitGroup, ch chan int, quit chan bool) {
+	for {
+		select {
+		case n := <-ch:
+			time.Sleep(time.Second)
+			fmt.Printf("Square: %d\n", n*n)
+		case <-quit:
+			wg.Done()
+			return
+		}
+	}
+}
+```
+
+이런 응용도 가능합니다. 해당하는 채널을 받고 함수를 반환해서 깨고 고루틴의 종료를 전달합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	ch := make(chan int)
+
+	wg.Add(1)
+	go square(&wg, ch)
+	for i := 0; i < 10; i++ {
+		ch <- i * 2
+	}
+
+	wg.Wait()
+}
+
+func square(wg *sync.WaitGroup, ch chan int) {
+	tick := time.Tick(time.Second)
+	terminate := time.After(10 * time.Second)
+
+	for {
+		select {
+		case <-tick:
+			fmt.Println("똑딱")
+		case <-terminate:
+			fmt.Println("종료!")
+			wg.Done()
+			return
+		case n := <-ch:
+			time.Sleep(time.Second)
+			fmt.Printf("Square: %d\n", n*n)
+		}
+	}
+}
+// Square: 0
+// 똑딱
+// Square: 4
+// 똑딱
+// Square: 16
+// Square: 36
+// Square: 64
+// 똑딱
+// Square: 100
+// Square: 144
+// Square: 196
+// Square: 256
+// Square: 324
+// 똑딱
+// 종료!
+```
+
+10초에 한번 채널을 받으면 종료하게 만듭니다. 하지만 그동안 틱을 받으면 그냥 출력만 하게 만듭니다.
+
+채널을 안 닫고 그냥 고루틴을 종료시키는 방법입니다.
+
+게임분야가 이런 로직을 많이 사용합니다. 게임은 애니메이션과 인풋입니다. 애니메이션은 초당 60초 애니메이션이고 입력을 받으면 캐릭터가 움직이는 애니메이션이라는 생각을 하면 됩니다.
+
+틱마다 화면을 갱신하고 입력이 들어오면 인풋을 처리하게 됩니다.
+
+역할을 나누는 방법을 생산자 소비자 패턴으로 적용합니다.
+
+고루틴 속에 고루틴을 넣고 채널로 데이터를 공유하게 만들 것입니다. 채널을 dequque하는 입장이 소비자이고 채널에 enqueue를 하는 입장이 생산자입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+type Car struct {
+	Body  string
+	Tire  string
+	Color string
+}
+
+var wg sync.WaitGroup
+var startTime = time.Now()
+
+func main() {
+	tireCh := make(chan *Car)
+	paintCh := make(chan *Car)
+
+	fmt.Println("Start Factory")
+
+	wg.Add(3)
+	go MakeBody(tireCh)
+	go InstallTire(tireCh, paintCh)
+	go PaintCar(paintCh)
+
+	wg.Wait()
+	fmt.Println("Close Factory")
+}
+
+func MakeBody(tireCh chan *Car) {
+	tick := time.Tick(time.Second)
+	after := time.After(10 * time.Second)
+	for {
+		select {
+		case <-tick:
+			car := &Car{}
+			car.Body = "유사 자동차"
+			tireCh <- car
+		case <-after:
+			close(tireCh)
+			wg.Done()
+			return
+		}
+	}
+}
+
+func InstallTire(tireCh, paintCh chan *Car) {
+	for car := range tireCh {
+		time.Sleep(time.Second)
+		car.Tire = "Winter tire"
+		paintCh <- car
+	}
+	wg.Done()
+	close(paintCh)
+}
+
+func PaintCar(paintCh chan *Car) {
+	for car := range paintCh {
+		time.Sleep(time.Second)
+		car.Color = "Red"
+		duration := time.Now().Sub(startTime)
+		fmt.Printf("%.2f 완성 Car: %s %s %s\n", duration.Seconds(), car.Body, car.Tire, car.Color)
+	}
+	wg.Done()
+}
+
+// Start Factory
+// 3.00 완성 Car: 유사 자동차 Winter tire Red
+// 4.01 완성 Car: 유사 자동차 Winter tire Red
+// 5.01 완성 Car: 유사 자동차 Winter tire Red
+// 6.01 완성 Car: 유사 자동차 Winter tire Red
+// 7.01 완성 Car: 유사 자동차 Winter tire Red
+// 8.01 완성 Car: 유사 자동차 Winter tire Red
+// 9.01 완성 Car: 유사 자동차 Winter tire Red
+// 10.01 완성 Car: 유사 자동차 Winter tire Red
+// 11.01 완성 Car: 유사 자동차 Winter tire Red
+// 12.01 완성 Car: 유사 자동차 Winter tire Red
+// Close Factory
+
+```
+
+이렇게 채널끼리 넘겨주는 것입니다. enqeueu로 넣을 채널은 close로 닫을 생각하는 것입니다.
+
+채널을 받고 실행하고 완료하면 채널을 넘겨주고 닫는 방식입니다.
+
+컨베어 벨트처럼 1초마다 하나씩 출력하게 됩니다. 첫차는 3초가 됩니다. 그이후부터는 1초마다 1개입니다. 계단처럼 처리할 것이라고 생각하면 됩니다.
+
+고루틴과 채널을 사용하면 응용할 수 있는 패턴이 현란합니다. 동시성 패턴이 우아합니다.
+
+이제 컨텍스트입니다. 컨택스트는 번역하면 맥락입니다. 작업명세서 역할을 합니다. 고루틴을 만들 때 작업 가능 시간, 작업 취소 등 이런 저런 조건을 지시할 수 있습니다. 명세를 주면 거기에 맞게 제어가 가능합니다.
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"sync"
+	"time"
+)
+
+var wg sync.WaitGroup
+
+func main() {
+	wg.Add(1)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	go PrintEverySecond(ctx)
+	time.Sleep(5 * time.Second)
+	cancel()
+
+	wg.Wait()
+}
+
+func PrintEverySecond(ctx context.Context) {
+	tick := time.Tick(time.Second)
+	for {
+		select {
+		case <-ctx.Done():
+			wg.Done()
+		case <-tick:
+			fmt.Println("Tick")
+		}
+	}
+}
+
+// Tick
+// Tick
+// Tick
+// Tick
+// Tick
+```
+
+context 패키지를 사용해서 이렇게 직접 취소할 수 있습니다. 기본 켄텍스트 위에 덮어쓰기 방식으로 되어 있습니다.
+
+채널을 닫는 방법도 있지만 지금은 context로 닫는 방법입니다. 현재 예시에서는 main 고루틴에서 cancel을 실행해서 호출하는 PrintEverySecond에서 시그널로 종료시킵니다. 컨텍스트가 종료 시그널을 받을 수 있습니다.
+
+취소도 가능하고 Done으로 시그널을 전달하는 방법도 있습니다.
+
+```go
+ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+```
+
+위는 3초 후 `ctx.Done()`으로 취급하게 됩니다.
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"sync"
+)
+
+var wg sync.WaitGroup
+
+func main() {
+	wg.Add(1)
+
+	ctx := context.WithValue(context.Background(), "redis", 420)
+	go square(ctx)
+
+	wg.Wait()
+}
+
+func square(ctx context.Context) {
+	if v := ctx.Value("redis"); v != nil {
+		n := v.(int)
+		fmt.Printf("Square: %d\n", n*n)
+	}
+	wg.Done()
+}
+
+// Square: 176400
+
+```
+
+이렇게 컨텍스트에 해당하는 데이터를 넘겨줄 수 있습니다. 작업 시작 전에 데이터를 지정하고 넘겨주는 것이 가능합니다.
+
+컨텍스트는 기본적으로 wrapper입니다.
+
+```go
+ctx, cancel := context.WithCancel(context.Background())
+ctx = context.Value(ctx, "redis", 9)
+ctx = context.Value(ctx, "pg", "hello")
+```
+
+이렇게 연속으로 넘겨주고 감싸서 기능을 추가하고 데이터 더 늘릴 수 있습니다.
+
+채널을 활용하면 발행구독 패턴을 만들 수 있습니다. 옵저버 패턴과 유사합니다. pub, sub 패턴이라고도 부릅니다.
+
+이벤트 프로바이더에 해당하는 주체가 있습니다. 옵저버들이 작업을 완료 혹은 이벤트를 받는 패턴입니다. 자주 사용하는 패턴입니다.
+
+옵저버 패턴은 동기적으로 동작합니다. pub, sub 패턴은 아닙니다. 발행(pub)을 하면 데이터 변화가 발생하면 sub로 듣는 것입니다. 이벤트가 발생하면 브로커가 구독자에게 알려는 방식입니다. 기본적으로 비동기 동작합니다.
+
+```go title="main.go"
+package main
+
+import (
+	"context"
+	"fmt"
+	"sync"
+	"time"
+)
+
+var wg sync.WaitGroup
+
+func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+
+	wg.Add(4)
+	publisher := NewPublisher(ctx)
+	subscriber1 := NewSubscriber("AAA", ctx)
+	subscriber2 := NewSubscriber("BBB", ctx)
+
+	go publisher.Update()
+
+	subscriber1.Subscribe(publisher)
+	subscriber2.Subscribe(publisher)
+
+	go subscriber1.Update()
+	go subscriber2.Update()
+
+	go func() {
+		tick := time.Tick(time.Second * 2)
+		for {
+			select {
+			case <-tick:
+				publisher.Publish("Hello Message")
+			case <-ctx.Done():
+				wg.Done()
+				return
+			}
+		}
+	}()
+
+	fmt.Scanln()
+	cancel()
+
+	wg.Wait()
+}
+```
+
+```go title="publisher.go"
+package main
+
+import "context"
+
+type Publisher struct {
+	ctx         context.Context
+	subscribeCh chan chan<- string
+	publishCh   chan string
+	subscribers []chan<- string
+}
+
+func NewPublisher(ctx context.Context) *Publisher {
+	return &Publisher{
+		ctx:         ctx,
+		subscribeCh: make(chan chan<- string),
+		publishCh:   make(chan string),
+		subscribers: make([]chan<- string, 0),
+	}
+}
+
+func (p *Publisher) Subscribe(sub chan<- string) {
+	p.subscribeCh <- sub
+}
+
+func (p *Publisher) Publish(msg string) {
+	p.publishCh <- msg
+}
+
+func (p *Publisher) Update() {
+	for {
+		select {
+		case sub := <-p.subscribeCh:
+			p.subscribers = append(p.subscribers, sub)
+		case msg := <-p.publishCh:
+			for _, subscriber := range p.subscribers {
+				subscriber <- msg
+			}
+		case <-p.ctx.Done():
+			wg.Done()
+			return
+		}
+	}
+}
+```
+
+```go title="subscriber.go"
+package main
+
+import (
+	"context"
+	"fmt"
+)
+
+type Subscriber struct {
+	ctx   context.Context
+	name  string
+	msgCh chan string
+}
+
+func NewSubscriber(name string, ctx context.Context) *Subscriber {
+	return &Subscriber{
+		ctx:   ctx,
+		name:  name,
+		msgCh: make(chan string),
+	}
+}
+
+func (s *Subscriber) Subscribe(pub *Publisher) {
+	pub.Subscribe(s.msgCh)
+}
+
+func (s *Subscriber) Update() {
+	for {
+		select {
+		case msg := <-s.msgCh:
+			fmt.Printf("%s got Message:%s\n", s.name, msg)
+		case <-s.ctx.Done():
+			wg.Done()
+			return
+		}
+	}
+}
+```
+
+채널은 채널도 받을 수 있습니다. 모든 데이터를 받기 때문에 가능합니다.
+
+```go
+chan (chan <-string)
+chan chan string
+```
+
+이렇게 되어 있으면 쓰기 전용 채널입니다.
+
+채널이 받는 채널도 있습니다.
+
+슬라이스는 쓰레드 세이프하지 않기 때문에 항상 조심해야 합니다.
