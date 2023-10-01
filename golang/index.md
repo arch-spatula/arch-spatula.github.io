@@ -6258,3 +6258,379 @@ map은 사용하기 상당히 편안한 자료구조입니다.
 이렇게 생각하면 hash map이 더 좋아보입니다. 기본적으로 값의 사이즈가 정해집니다. 필요한 메모리량이 큽니다.
 
 공간과 속도사이 트레이드 오프에서 사용하면 됩니다. 정렬된 map은 데이터베이스에서 많이 사용합니다. 공간복잡성이 관심사이기 때문에 그렇습니다.
+
+## 33 23장 에러핸들링
+
+https://www.youtube.com/watch?v=KdKbh19U1ag
+
+에러는 언제 어디서나 발생합니다. 항상 발생합니다. 버그도 오료의 종류입니다. 프로그래머 혹은 기획, 디자인의 논리적인 오류로 만들어지는 오동작을 보고 버그리가 합니다. 왜부 환경이 바뀌는 경우에도 버그가 바뀔 수 있습니다. 맥은 정상동작하는데 윈도우에서 오류가 있을 수 있습니다. 메모리가 부족해지거 하는 문제가 발생할 수 있습니다.
+
+AWS의 CTO를 인용합니다.
+
+> 모든 것은 언젠간 고장납니다.
+
+기계는 늘 고장날 가능성이 있습니다. 오류는 항상 발생한다고 가정하고 프로그래밍에 임합니다.
+
+네트워크 관련된 프로그래밍을 하면 UDP로 통신하면 패킷 손실율이 있습니다. 데이터 중 일부를 잃어버릴 수 있습니다. 어림잡아 7% 유실이 발생합니다.
+
+메모리 가용율 문제도 있습니다. 99.9999% 가용율을 갖고 있으면 몇초는 메모리에 고장날 것입니다. 목표를 아무리 높게 잡아도 고장은 날 것입니다.
+
+페이스북도 1년 중 몇초는 서비스 장애가 발생할 수 있습니다.
+
+에러는 에러자체보다 핸들링이 더 중요합니다.
+
+에러는 2가지 선택지로 대응할 수 있습니다. 프로그램을 죽이는 방법이 있고 프로그램을 계속 살리는 방식이 있습니다. 이것은 에러 성격에 맞게 대응해야 합니다.
+
+파일을 열기를 했는데 없다면 프로그램을 죽일 것인가? 아니면 못찾는다고 하고 계속 가동시킬 것인가? 아니면 만들어줄 것인가?
+
+이것은 개발의 수명주기 문제도 존재합니다. 개발 중에서는 오류를 빠르게 찾을 수록 쉽게 해결할 수 있습니다. 프로그램의 개발이 끝나고 사용자에게 배포가 된 상황인데 오류가 발생하면 프로그램이 죽으면 사용자 경험에 안 좋습니다.
+
+프로그램의 성격마다 다릅니다. 항공 관제 시스템은 오류가 발생했는데 프로그램이 죽어야 하는가? 승객도 죽을 수 있습니다. 오류를 파악하고 죽지 않게 대응해야 합니다. 미션 크리티컬한 상황에서는 죽이지 않는 방법 즉 살리는 방법이 있습니다.
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
+
+func readFile(fileName string) (string, error) {
+	file, err := os.Open(fileName)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	read := bufio.NewReader(file)
+	line, _ := read.ReadString('\n')
+	return line, nil
+}
+
+func writeFile(filename, line string) error {
+	file, err := os.Create(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	_, err = fmt.Fprintln(file, line)
+	return err
+}
+
+const fileName = "data.txt"
+
+func main() {
+	line, err := readFile(fileName)
+	if err != nil {
+		err = writeFile(fileName, "this is created")
+		if err != nil {
+			fmt.Println("파일 생성 실패", err)
+			return
+		}
+		line, err = readFile(fileName)
+		if err != nil {
+			fmt.Println("파일 읽기 실패", err)
+			return
+		}
+		fmt.Println("파일 내용:", line)
+	}
+}
+```
+
+이렇게 에러를 핸들링할 수 있습니다. 없으면 만들고 만들어서 읽기를 시킵니다. 읽고 쓰는 과정에서 에러가 발생하면 가드하고 return으로 실행을 종료합니다.
+
+오류가 발생하면 호출자에게 알려줘서 처리하게 만드는 것입니다. 에러처리를 호출자에게 위임하는 것입니다. 함수를 만들 때 일반적인 처리 위임입니다.
+
+에러를 반환하게 만들 수 있습니다. 에러 객체를 사용하는 방법이 있습니다.
+
+```go
+fmt.Errorf(formatter string, ...interface{}) error
+error.New(text string) error
+```
+
+위 2가지 선택지 중 1가지 활용하면 됩니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+func sqrt(f float64) (float64, error) {
+	if f < 0 {
+		return 0.0, fmt.Errorf("양수를 대입해주세요 f:%g", f)
+	}
+	return math.Sqrt(f), nil
+}
+
+func main() {
+	num1, err := sqrt(-25)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(num1)
+
+	num2, err := sqrt(64)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(num2)
+}
+
+// 양수를 대입해주세요 f:-25
+// 0
+// 8
+```
+
+이렇게 됩니다. `fmt.Errorf`으로 메시지를 넣어서 해당하는 error 객체를 반환합니다. 장점은 포맷팅입니다.
+
+`error.New`를 사용하면 메시지에 포맷팅이 어럽습니다.
+
+에러도 결국에는 인터페이스입니다. 인터페이스라 문자열만 반환하는 Error() 함수만 만들면 무엇이든지 에러로 사용할 수 있습니다.
+
+```go
+type error interface {
+	Error() string
+}
+```
+
+```go
+type PasswordError struct {
+	len int
+	required int
+}
+
+func (p PasswordError) Error() string {
+	return "길이가 짧습니다."
+}
+
+func signIn (id, pw string) error {
+	if len(pw) < 8 {
+			return PasswordError{len: len(pw), required: 8}
+	}
+	return nil
+}
+
+```
+
+메서드에 Error()에 반환할 문자열이 있어서 에러 인터페이스를 충족합니다. 호출자아게 에러 메시지를 전달하고 고유한 에러 핸들링 로직을 구현할 수 있게 됩니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type PasswordError struct {
+	len      int
+	required int
+}
+
+func (p PasswordError) Error() string {
+	return "길이가 짧습니다."
+}
+
+func signIn(id, pw string) error {
+	if len(pw) < 8 {
+		return PasswordError{len: len(pw), required: 8}
+	}
+	return nil
+}
+
+func main() {
+	err := signIn("email", "1234")
+	if err != nil {
+		if errInfo, ok := err.(PasswordError); ok {
+			fmt.Printf("%v Len: %d requiredLen: %d\n", errInfo, errInfo.len, errInfo.required)
+		}
+	}
+}
+// 길이가 짧습니다. Len: 4 requiredLen: 8
+```
+
+이렇게 직접 구조체를 만드는 이유는 필요한 정보를 필드로 넣어서 호출자가 제어하기 쉽게 만듭니다. 인터페이스라 구체적으로 사용하기 쉽습니다.
+
+메시지를 복잡하지 않게 만들 수 있습니다.
+
+에러 랩핑입니다.
+
+```go
+package main
+
+import (
+	"bufio"
+	"errors"
+	"fmt"
+	"strconv"
+	"strings"
+)
+
+func MultipleFromString(str string) (int, error) {
+	// 스캐너는 일정한 규칙으로 읽기를 지원합니다.
+	// 인자로 io.Reader를 받아야 합니다.
+	scanner := bufio.NewScanner(strings.NewReader(str))
+	scanner.Split(bufio.ScanWords)
+	position := 0
+	a, n, err := readNextInt(scanner)
+	if err != nil {
+		// 여기서 에러를 감쌉니다.
+		return 0, fmt.Errorf("Failed to readNextInt(), pos:%d, err:%w", position, err)
+	}
+	position += n + 1
+
+	b, n, err := readNextInt(scanner)
+	if err != nil {
+		// 여기서 에러를 감쌉니다.
+		return 0, fmt.Errorf("Failed to readNextInt(), pos:%d, err:%w", position, err)
+	}
+	return a * b, nil
+}
+
+// 다음 단어를 읽어서 숫자로 변환하여 반환합니다.
+// 변환된 숫자, 읽은 글자수, 에러를 반환합니다.
+func readNextInt(scanner *bufio.Scanner) (int, int, error) {
+	if !scanner.Scan() {
+		return 0, 0, fmt.Errorf("failed to scan")
+	}
+
+	word := scanner.Text()
+	number, err := strconv.Atoi(word) // ❹ 문자열을 숫자로 변환
+	if err != nil {
+		return 0, 0, fmt.Errorf("Failed to convert word to int, word: %s err: %w", word, err)
+	}
+	return number, len(word), nil
+}
+
+func readRq(eq string) {
+	rst, err := MultipleFromString(eq)
+	if err == nil {
+		fmt.Println(rst)
+	} else {
+		fmt.Println(err)
+		var numError *strconv.NumError
+		if errors.As(err, &numError) {
+			fmt.Println("NumberError: ", numError)
+		}
+	}
+}
+
+func main() {
+	readRq("123 3")
+	readRq("123 c")
+}
+
+// 369
+// Failed to readNextInt(), pos:4, err:Failed to convert word to int, word: c err: strconv.Atoi: parsing "c": invalid syntax
+// NumberError:  strconv.Atoi: parsing "c": invalid syntax
+```
+
+꽤 긴 예제입니다. 또 에러메시지도 꽤 그럴싸해보입니다.
+
+지금은 문자열을 숫자로 바꾸는데 숫자로 바꿀 수 없어서 에러가 발생했습니다.
+
+`errors.As`는 타입변환 가능성을 확인합니다. 만약에 해당하는 그 타입으로 변환 가능하면 그 타입을 반환합니다.
+
+지금은 `fmt.Errorf`으로 새로운 에러를 감싸는 상황입니다. 에러를 `readNextInt`에서 1번 `MultipleFromString`에서 1번 해서 2번 감싸게 됩니다. 여러 callstack에 쌓여지면서 pop할 때마다 감싸지게 됩니다. 하위에서 상단으로 올리면서 보다 구체적인 정보를 추가하게 되는 것입니다. 에러가 가장 높은 stack부터 발생할 텐데 안에서 부터 정보를 계속 쌓고 추가하게 되는 것입니다.
+
+`error.As`는 에러 객체를 첫번째 인자 해당하는 에러인지 검증할 두번째 인자로 대입해서 사용합니다. 감싼 에러를 변환하는 것이고 `error.Is`는 해당여부를 파악합니다. 자주 사용하지는 않지만 디버깅할 때 유용합니다.
+
+패닉입니다. 이전 에러는 프로그램을 살리는 방법입니다. 패닉은 처리하기 힘든 에러를 대응하기 위해 프로그램을 종료시키는 것입니다. 오류를 해결하기 위해 사용합니다.
+
+```go
+package main
+
+import "fmt"
+
+func divide(a, b int) {
+	if b == 0 {
+		panic("b는 0일 수 없습니다.")
+	}
+	fmt.Printf("%d / %d = %d\n", a, b, a/b)
+}
+func main() {
+	divide(9, 3)
+	divide(9, 0)
+}
+
+// 9 / 3 = 3
+// panic: b는 0일 수 없습니다.
+
+// goroutine 1 [running]:
+// main.divide(0x9?, 0x3?)
+```
+
+프로그램이 실패하면 어느 지점에서 실패했는지 패키지, 파일, 라인넘버를 알려줍니다.
+
+지금 사례는 에러로 반환해도 됩니다.
+
+문제가 되는 부분을 바로 보여주 알려주기 때문에 디버깅하기가 에러보다 쉽습니다. 종료시키기 때문에 파악하기 쉽습니다.
+
+동작방식을 파악해야 하는데 패닉은 전파됩니다. 패닉을 전파시켜서 프로그램을 종료시킵니다. 프로그램을 개발하는 동안에는 패닉으로 종료 시켜서 안정성을 확보합니다. 하지만 배포될 프로그램은 종료시키지 않고 최대한 프로그램을 살려야 합니다. 프로그램의 패닉이 발생해도 빠르게 복구가 가능해야 합니다. 모든 것을 에러로 바꾸기 어렵습니다.
+
+패닉은 callstack 역순으로 전파됩니다.
+
+복구할 때는 `recover`함수로 합니다. 패닉 객체를 반환합니다. 보통 패닉은 `defer`로 `recover`해서 사용합니다.
+
+```go
+package main
+
+import "fmt"
+
+func f() {
+	fmt.Println("f() 함수시작")
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("panic 복구 - ", r)
+		}
+	}()
+	g()
+	fmt.Println("f() 함수종료")
+}
+
+func g() {
+	fmt.Printf("%d / %d = %d\n", 9, 3, h(9, 3))
+	fmt.Printf("%d / %d = %d\n", 9, 0, h(9, 0))
+}
+
+func h(a, b int) int {
+	if b == 0 {
+		panic("b는 0일 수 없습니다.")
+	}
+	return a / b
+}
+
+func main() {
+	f()
+	fmt.Println("프로그램 계속 실행")
+}
+// f() 함수시작
+// 9 / 3 = 3
+// panic 복구 -  b는 0일 수 없습니다.
+// 프로그램 계속 실행
+```
+
+`f`에서 복구가 성공하고 `main`은 계속 실행할 수 있게 됩니다. 하지만 복구는 덜 사용하는 것이 좋습니다. 주로 배포에서 recover하는 것이 좋습니다. 하지만 그냥 recover하지말고 logging하는 것이 좋습니다. 그냥 실행시키면 오류탐지를 못합니다.
+
+go는 구조화된 에러처리를 지원하지 않습니다. try, catch, finally 문이 없습니다. 왜 지원을 안하는가? SEH는 성능 문제가 있습니다. 오류가 발생하지 않아도 지원하기 위해 성능을 많이 지불해야 합니다. 정상적이라도 프로그램의 성능문제가 됩니다. 에러처리가 까다롭습니다. 에러를 단순하게 먹기만 해서 에러처리를 등한시합니다. try 블록에서 catch를 한번에 먹고 logging하고 끝내면 에러 대응을 등한시하게 됩니다.
+
+에러처리는 귀찮습니다. 하지만 중요합니다. 에러는 숨기는 것이 아닙니다. 에러처리도 코드의 부분으로 여겨야 합니다. 에러처리를 잘 해서 코드를 잘 짜야 합니다. 빈킨지시자로 무시하는 행위를 덜해야 합니다. 에러는 nil로 가드를 잘해서 처리를 잘 해야합니다. 그리고 에러는 감추지말고 드러내야 합니다. 조기에 발견하고 쉽게 대응합니다. 미연의 방지를 잘 해야 합니다. 배포 후 에러는 장애, 취약점으로 이어지기 쉽습니다.
+
+외부툴로 서버를 살리는 행위는 괜찮습니다. 에러는 항상 발생합니다. 프로그램 내부에서 처리가능한 것도 있지만 불가능한 것도 있습니다. 중요한 것은 대비하는 것입니다. 대비는 여러 계층구조를 갖고 대응합니다. 내부에서 부터 대비해야 합니다. 그리고 프로그램 외부에서 대비해야 합니다. 서버 하드웨어 같은 것입니다. forever이라는 실행도구도 있습니다. 서버가 죽으면 다시 살리는 툴입니다. 머신차원에서 대비책입니다. 머신은 IDC, Reck에서도 정전을 대비해서 복구책을 둡니다. 데이터 센터에서도 하드웨어가 죽으면 옆 서버컴퓨터로 옮기 백업하는 것입니다. 또 데이터 센터가 북중러 미사일 폭격을 받으면 폭격받지 않은 데이터 센터가 받아서 복구하는 것입니다.
+
+에러를 감싸는 행위는 `fmt.ErrorF("%w", err)`를 사용해야 합니다. 하지만 유용한 패키지가 있습니다.
+
+[errors](https://github.com/pkg/errors)에서 지원합니다.
+
+```go
+_, err := ioutil.ReadAll(r)
+if err != nil {
+        return errors.Wrap(err, "read failed")
+}
+```
+
+이렇게 지원합니다. 내부는 동일하지만 더 간결합니다.
