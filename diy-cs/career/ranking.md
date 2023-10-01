@@ -98,6 +98,13 @@ tags: ['주관적인 랭킹', '커리어']
 
 ## ⭐
 
+[마플](https://www.marpplecorp.com/recruit)
+
+- 개발팀은 좋지만 회사는 안 좋은 경우입니다.
+  - [FxJS](https://github.com/marpple/FxJS)를 유지보수하고 있습니다.
+- 대표님이 외부에서 정상인 코스프레하지만 회사 내에서는 매일 소리지른다고 합니다. 강약약강의 K-분노조절 장애를 갖고 있다합니다.
+- [마플샵](https://www.marpple.com/kr/) 커머스기업입니다.
+
 ## ❓
 
 :::info 참고
