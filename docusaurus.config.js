@@ -165,6 +165,17 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
+        id: 'vue',
+        path: 'vue',
+        routeBasePath: 'vue',
+        sidebarPath: require.resolve('./sidebars.js'),
+        remarkPlugins: [math],
+        rehypePlugins: [katex],
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
         id: 'design-system-wiki',
         path: 'design-system-wiki',
         routeBasePath: 'design-system-wiki',
