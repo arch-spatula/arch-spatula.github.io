@@ -21,6 +21,8 @@ https://www.youtube.com/watch?v=CIyLurz-Ius
 [Tucker](https://www.youtube.com/@TuckerProgramming)
 
 - 이 유튜버가 학습 리소스입니다.
+- [Tucker의 Go 언어 프로그래밍](https://www.yes24.com/Product/Goods/99108736)을 저술했습니다.
+  - [musthaveGo](https://github.com/tuckersGo/musthaveGo)가 작성된 레포입니다. 동시성도 다루고 있습니다.
 
 [gophercises](https://gophercises.com/)
 
