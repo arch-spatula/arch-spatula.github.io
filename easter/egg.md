@@ -37,7 +37,7 @@ Rust
 
 Ocaml
 
-꼰대가 되기 위한 Java
+[꼰대가 되기 위한 Java](java)
 
 Python
 

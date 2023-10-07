@@ -10,6 +10,8 @@ tags: ['그리디', '알고리즘', '문제 유형']
 
 그리디 알고리즘을 다루는 방법입니다.
 
+## 설명
+
 참고. 부분 최적화를 위해서 **정렬**을 활용하는 경우가 많다는 것을 발견했습니다.
 
 그리디 알고리즘은 매 순간마다 최적의 선택을 하는 알고리즘으로, 현재 상황에서 가장 좋아 보이는 선택을 계속해서 수행하여 최종적으로 전체적으로 최적의 결과를 얻는 것을 목표로 합니다. 이 때문에 그리디 알고리즘은 항상 최적해를 보장하지는 않지만, 많은 문제에서 효과적인 해법을 제공할 수 있습니다.
@@ -29,6 +31,12 @@ tags: ['그리디', '알고리즘', '문제 유형']
 6. **시간 복잡도 분석:** 문제의 크기에 따른 그리디 알고리즘의 시간 복잡도를 분석하고 평가합니다.
 
 그리디 알고리즘은 주로 최적화 문제에서 사용되며, 탐욕적 선택이 지역 최적해(local optimum)를 선택하지만, 이들의 조합이 전역 최적해(global optimum)를 이룰 수 있다는 가정하에 사용됩니다. 그러나 그리디 알고리즘이 항상 최적해를 보장하지 않기 때문에 문제의 성격에 따라 다른 접근 방법도 고려해야 합니다.
+
+### 배낭 문제
+
+배낭 문제(knapsack problem)는 그리디 문제의 하위 분류입니다. 최대 적재을 초과하지 않으면서 이동횟수를 최소화하는 문제입니다. 현실에서 자주 볼 수 있는 문제 유형이 됩니다.
+
+[나무위키](https://namu.wiki/w/%EB%B0%B0%EB%82%AD%20%EB%AC%B8%EC%A0%9C)
 
 ## 두 개 뽑아서 더하기
 
@@ -131,6 +139,8 @@ function solution(numbers) {
 ## 구명보트
 
 [구명보트](https://school.programmers.co.kr/learn/courses/30/lessons/42885)
+
+이 문제는 배낭문제의 전형입니다.
 
 그리디 알고리즘을 적용하라고 합니다. 부분 최적화가 전체 최적화로 이어진다는 개념입니다. 이러한 선입견을 갖고 문제에 임하겠습니다.
 
@@ -365,3 +375,77 @@ export default solution;
 - 프로그래머스 문제가 이제 어려워지기 시작합니다.
 - 백준으로 전환하는 것이 좋을 것 같습니다. 문제를 통해 학습한 인사이트가 없습니다.
 - 파이썬으로 풀어보는 연습이 필요할 것 같습니다.
+
+## 과일 장수
+
+[과일 장수](https://school.programmers.co.kr/learn/courses/30/lessons/135808)
+
+```js
+/**
+ * @param {number} s
+ * @param {number} m
+ * @param {number[]} score
+ * @returns {number}
+ */
+function solution(k, m, score) {
+  let result = 0;
+  return result;
+}
+```
+
+```js
+import solution, { parseTuple, splitNestedTuple } from './playground';
+import { test, expect, describe } from 'vitest';
+
+// k	m	score	result
+// 3	4	[1, 2, 3, 1, 2, 3, 1]	8
+// 4	3	[4, 1, 2, 2, 4, 4, 4, 4, 1, 2, 4, 2]	33
+
+describe('과일 장수', () => {
+  test('예제 1', () => {
+    expect(solution(3, 4, [1, 2, 3, 1, 2, 3, 1])).toEqual(8);
+  });
+
+  test('예제 2', () => {
+    expect(solution(4, 3, [4, 1, 2, 2, 4, 4, 4, 4, 1, 2, 4, 2])).toEqual(33);
+  });
+});
+```
+
+<details>
+<summary>2023년 09월 25일 풀이</summary>
+<div markdown="1">
+
+```js
+/**
+ * @param {number} s
+ * @param {number} m
+ * @param {number[]} score
+ * @returns {number}
+ */
+function solution(k, m, score) {
+  let result = 0;
+  const allBox = [];
+  // 정렬
+  score.sort((a, b) => a - b);
+  const scoreLength = score.length;
+  // 박스에 담기
+  let box = [];
+  for (let i = 0; i < scoreLength; i++) {
+    box.push(score.pop());
+    // 마지막에 새상자
+    if (box.length === m) {
+      allBox.push(box);
+      box = [];
+    }
+  }
+  // 박스 별로 가치구하고 합산하기
+  allBox.forEach((box) => {
+    result += Math.min(...box) * box.length;
+  });
+  return result;
+}
+```
+
+</div>
+</details>

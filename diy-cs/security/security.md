@@ -1,5 +1,5 @@
 ---
-sidebar_position: 97
+sidebar_position: 1
 description: '보안'
 tags: ['보안']
 draft: true
