@@ -8111,3 +8111,249 @@ go는 빠르게 작성할 수 있고 덕타이핑으로 좋은 설계로 전환�
 클린코드배우고, 패턴배우고, 설계를 배우면 사상에 빠져서 패턴쟁이가 될 수 있습니다. 모든 것을 패턴으로 생각하게 되는 경향이 있습니다.
 
 이상이 무조건 옳다는 것이 아닙니다.
+
+## 37 28장 테스트와 벤치마크
+
+https://www.youtube.com/watch?v=2GNZManuDzg
+
+테스트는 중요합니다. go는 테스트코드 작성하기 쉽습니다.
+
+go는 테스트코드를 작성할 때 3가지 규칙만 지키면 됩니다.
+
+파일명이 `_test.go`로 끝나야 합니다.
+
+`testing` 패키지를 `import`해야 합니다.
+
+테스트 코드는 `func TestXxxx(t *testing.T)` 형태로 작성해야 합니다.
+
+```go title="main.go"
+package main
+
+import "fmt"
+
+func square(x int) int {
+	return 81
+}
+
+func main() {
+	fmt.Printf("9 * 9 = %d\n", square(9))
+}
+```
+
+저희는 위 코드를 테스트하고 싶습니다. 예시를 위해 위 파일명이라고 하겠습니다.
+
+```go title="main_testing.go"
+package main
+
+import "testing"
+
+func TestSquare1(t *testing.T) {
+	rst := square(9)
+	if rst != 81 {
+		t.Errorf("square(9) should be 81 but returns %d\n", rst)
+	}
+}
+
+```
+
+GUI 혹은 터미널을 활용해도 됩니다. 그리고 GUI가 안 보이면 `go mod`하면 보일 것입니다.
+
+```sh
+go test
+```
+
+현재 예시에는 정상동작할 것입니다.
+
+```go
+package main
+
+import "testing"
+
+func TestSquare1(t *testing.T) {
+	rst := square(9)
+	if rst != 81 {
+		t.Errorf("square(9) should be 81 but returns %d\n", rst)
+	}
+}
+
+func TestSquare2(t *testing.T) {
+	rst := square(3)
+	if rst != 9 {
+		t.Errorf("square(9) should be 9 but returns %d\n", rst)
+	}
+}
+```
+
+현재 다시 테스트를 하면 두번째 테스트가 실패할 것입니다.
+
+테스트는 프로그램에 필요한 코드가 아니라 개발 중에 필요한 코드입니다.
+
+```go
+package main
+
+import "fmt"
+
+func square(x int) int {
+	return x * x
+}
+
+func main() {
+	fmt.Printf("9 * 9 = %d\n", square(9))
+}
+```
+
+```go
+package main
+
+import "testing"
+
+func TestSquare1(t *testing.T) {
+	rst := square(9)
+	if rst != 81 {
+		t.Errorf("square(9) should be 81 but returns %d\n", rst)
+	}
+}
+
+func TestSquare2(t *testing.T) {
+	rst := square(3)
+	if rst != 9 {
+		t.Errorf("square(9) should be 9 but returns %d\n", rst)
+	}
+}
+```
+
+이렇게 되면 테스트가 통과할 것입니다.
+
+테스트를 더 수월하게 해줄 수 있는 단언을 제공하는 패키지가 있습니다.
+
+```sh
+go mod tidy
+```
+
+코드 작성하고 설치합시다.
+
+```go
+package main
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
+
+func TestSquare1(t *testing.T) {
+	assert.Equal(t, 81, square(9), "square(9) should be 81")
+	assert.Equal(t, 9, square(3), "square(3) should be 9")
+}
+```
+
+이렇게 테스트를 몇줄로 단축할 수 있습니다.
+
+테스트 자체는 여기까지입니다. go는 테스트코드를 작성하기 쉽게 되어 있습니다.
+
+TDD입니다.
+
+테스트 케이스가 부족하거나 형식적인 경우도 많았습니다. 기존에는 코드를 먼저 작성하고 테스트 케이스를 작성하고 버그를 발견하면 코드를 수정하고 테스트하고 소프트웨어를 완성했습니다. 테스트가 부족해질 수 있었습니다. 예상가능한 테스트 케이스 위주로 작성하면서 부실해질 수 있는 것이 많아졌습니다.
+
+테스트 케이스가 촘촘할수록 버그를 방지하기 쉽습니다. 이런 배경에서 나온것이 TDD입니다.
+
+테스트 케이스를 먼저 작성하자는 것입니다.
+
+테스트는 코드가 없어서 무조건 실패할 것입니다. 그래서 실패한 테스틑 통과시킬 코드를 작성합니다. 그리고 리팩토링으로 코드를 개선합니다.
+
+테스트를 실패시키고 통과시켜서 구현하는 방식이 많습니다. 레드 그린 리팩터 순환과정입니다.
+
+초기에는 부분적으로 하드코딩하고 패턴을 발견하고 리팩토링을 하게 됩니다.
+
+여러가지 경우의 수를 고려하고 테스트 케이스를 작성하고 코드를 작성합니다.
+
+TDD 테스트 코드를 먼저 작성해서 테스트 케이스가 늘어납니다.
+
+TDD는 테스트 케이스가 늘어납니다. 회귀 테스트가 가능합니다. 자동 테스트를 하게 됩니다. 테스트가 있어서 리팩토링이 쉽습니다. 리팩토링이 쉽다는 점이 큰 장점입니다. 코드, 설계 개선이 가능합니다. 개선 전코드와 개선 후 코드의 동작은 동일해야 합니다. 하지만 동작을 바꾸는 실수하기 쉽습니다. 이 동일한 동작을 어떻게 보장할 것인가? 이것은 테스트입니다. 테스트 코드가 이미 있으면 테스트 코드가 부분을 이미 검증해줬습니다.
+
+달성가능한 목표를 달성하고 반복합니다. 성취감을 심리적으로 느낄 수 있습니다. 달성가능한 목표를 세우고 달성한다는 것입니다.
+
+코드 커버리지가 늘어납니다. 코드 커버리지 100%로 요구하는 기업도 있습니다.
+
+단점은 당연히 존재합니다. 모듈간 의존성이 높으면 테스트 케이스를 만들기 어럽습니다. 방법은 2가지입니다. 의존성을 분리하는 것입니다. 배보다 배꼽이 더 큽니다. mocking을 하는 방법이 있습니다.
+
+동시성 테스트가 어렵습니다.
+
+진정한 TDD가 아니라 형식적인 테스트가 될 수 있습니다. 테스트 케이스가 촘촘해야 하지만 작업자가 대충할 가능성도 높습니다.
+
+또 모니터링과 테스트에 대한 교육도 필요합니다. 코드 리뷰에 관리해야 하고 코드 커버리지를 툴로 자동화해야 합니다. 정책으로 테스트 케이스를 의무화시킬 수 있습니다.
+
+벤치마크입니다.
+
+테스트랑 2가지 규약은 동일합니다. `func BenchmarkXxxx(b *testing.B)` 형식으로 작성해야 합니다.
+
+피보나치 수열 밴치마킹입니다.
+
+```go title="main.go"
+package main
+
+func square(x int) int {
+	return x * x
+}
+
+func fibonacci1(n int) int {
+	if n < 0 {
+		return 0
+	}
+	if n < 2 {
+		return n
+	}
+	return fibonacci1(n-1) + fibonacci1(n-2)
+}
+
+func fibonacci2(n int) int {
+	if n < 0 {
+		return 0
+	}
+	if n < 2 {
+		return n
+	}
+	one := 1
+	two := 0
+	rst := 0
+	for i := 2; i <= n; i++ {
+		rst = one + two
+		two = one
+		one = rst
+	}
+	return rst
+}
+
+func main() {
+
+}
+
+```
+
+```go title="main_test.go"
+package main
+
+import (
+	"testing"
+)
+
+func BenchmarkFib1(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		fibonacci1(20)
+	}
+}
+func BenchmarkFib2(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		fibonacci2(20)
+	}
+}
+
+// BenchmarkFib1-8            39278             30170 ns/op
+// BenchmarkFib2-8         177983644                6.769 ns/op
+```
+
+```sh
+go test -bench .
+```
+
+이렇게 성능검사가 가능합니다. 반복문이 더 빠르다는 것을 알 수 있습니다.
