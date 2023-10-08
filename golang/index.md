@@ -8357,3 +8357,256 @@ go test -bench .
 ```
 
 이렇게 성능검사가 가능합니다. 반복문이 더 빠르다는 것을 알 수 있습니다.
+
+## Go 1.18 Generic 프로그래밍
+
+https://goldenrabbit.co.kr/2022/01/28/%EC%83%9D%EA%B0%81%ED%95%98%EB%8A%94-go-%EC%96%B8%EC%96%B4-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-go-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9D%98-%EC%9D%B4%ED%95%B4/
+
+https://www.youtube.com/watch?v=LRdiR-TBN1w
+
+go는 제네릭이 없었는데 최근에 추가되었습니다.
+
+제네릭이란 무엇이 왜 필요한가? go는 강타입언어입니다.
+
+```go
+func add(a, b int) int {
+    return a + b
+}
+```
+
+이런 함수가 있습니다.
+
+int만 사용한다면 정상동작할 것입니다. 하지만 int16을 사용한다면 정상동작할 것인가?
+
+go는 타입변환을 함부로 시키지 않습니다. 일부 언어는 자동형변환을 해주지만 go는 아닙니다. 호출자가 형변환을 시켜줘야 합니다.
+
+또 실수도 형변환을 해줘야 하는가? 자리수 탈락은 어떻게 할 것인가?
+
+타입별로 중복된 코드를 작성해야 할 수 있습니다. 다른 언어는 제네릭을 활용해서 해결하고 있었는데 최근에 도입되어 이런 문제를 해결할 수 있게 되었습니다.
+
+```go
+func Print[T any](a, b T) {
+    fmt.Println(a, b)
+}
+```
+
+이렇게 정의합니다. 여기서는 타입 파라미터를 정의합니다. 타입스크립트의 꺽쇠랑 다릅니다. 주로 대문자 T를 많이 사용하고 TUV 순서로 사용합니다. 지금은 any이지만 타입 제안자를 작성할 수 있는 위치입니다. 그렇다면 int, float를 정하듯이 무엇이 가능한지 정할 수 있습니다.
+
+```go
+Print(1, 2)
+Print(3.14, 1.43)
+Print("Hello", "World")
+```
+
+이런식으로 사용할 수 있습니다.
+
+모든 타입은 비어있는 인터페이스에 해당합니다. 즉 any는 interface{}랑 비슷합니다.
+
+하지만 제한사항들도 존재합니다. 바로 연산자 제한입니다.
+
+```go
+func min[T interface{}](a, b T) T {
+	if a < b {
+		return a
+	}
+	return b
+}
+```
+
+비어있는 인터페이스는 대소비교를 지원하지 않아 컴파일이 불가능합니다. 제한자 가능한 티입을 넣으면 사용할 수 있습니다.
+
+```go
+func min[T int | float64 | string ](a, b T) T {
+	if a < b {
+		return a
+	}
+	return b
+}
+```
+
+이렇게 하면 대소비교를 지원하는 연사만 사용하기 때문에 컴파일 가능합니다.
+
+타입 제한자를 별칭타입을 정의하고 처리하는 방법이 있습니다.
+
+```go
+type Intager interface {
+	int | float64 | string
+}
+```
+
+go는 새로운 키워드를 최대한 덜 넣으려고 합니다. 이렇게 정의하고 타입을 소비할 수 있습니다.
+
+```go
+type Intager interface {
+	int | float64 | string
+}
+func min[T Intager ](a, b T) T {
+	if a < b {
+		return a
+	}
+	return b
+}
+```
+
+제네릭을 사용해서 기존 타입스크립트처럼 타입 조합이 가능해집니다.
+
+constraints 패키지를 활용하면 타입을 조금더 자유롭게 다룰 수 있습니다.
+
+```go
+type Integer interface {
+    ~int8 | ~int16 | ~int32 | ~int64 | ~int
+}
+```
+
+이렇게 표시되어 있는데 별칭타입을 포함한다는 의미입니다. 타입의 별칭으로 지정된 타입을 대입해도 기반만 같으면 사용할 수 있게 됩니다.
+
+https://www.youtube.com/watch?v=2ttnkDaSeaU
+
+인터페이스와 타입 제한자는 다른 것입니다.
+
+```go
+type Stringer interface {
+	String() string
+}
+
+type Integer interface {
+    ~int8 | ~int16 | ~int32 | ~int64 | ~int
+}
+```
+
+같은 키워드지만 다릅니다. 인터페이스는 메서드로 타입을 제안합니다. 타입제한자는 사용할 타입을 지정합니다.
+
+목적은 비슷하지만 사용은 다릅니다.
+
+```go
+package main
+
+import (
+    "fmt"
+    "hash/fnv"
+)
+
+type ComparableHasher interface {           // ❶
+    comparable
+    Hash() uint32
+}
+
+type MyString string                           // ❷
+
+func (s MyString) Hash() uint32 {
+    h := fnv.New32a()
+    h.Write([]byte(s))
+    return h.Sum32()
+}
+
+func Equal[T ComparableHasher](a, b T) bool {  // ❸
+    if a == b {
+        return true
+    }
+    return a.Hash() == b.Hash()
+}
+
+func main() {
+    var str1 MyString = "Hello"
+    var str2 MyString = "World"
+    fmt.Println(Equal(str1, str2))
+}
+```
+
+인터페이스가 이제는 이렇게 응용이 가능해집니다.
+
+타입제한자를 인터페이스로 사용할 수 없습니다.
+
+https://www.youtube.com/watch?v=skS0VHO8Cx4
+
+```go
+type Node[T any] struct {
+    val T
+    next *Node[T]
+}
+```
+
+이렇게 링크드리스트에 사용할 노드를 만들 수 있습니다. 값과 포인터를 담는 구조체를 만들 수 있습니다.
+
+```go
+type Node[T any] struct {
+    val  T
+    next *Node[T]
+}
+
+func NewNode[T any](v T) *Node[T] {              // ❶
+    return &Node[T]{val: v}
+}
+
+```
+
+이렇게 인스턴스 생성을 할 수 있는 함수를 만들 수 있습니다.
+
+```go
+type Node[T any] struct {
+    val  T
+    next *Node[T]
+}
+
+func NewNode[T any](v T) *Node[T] {              // ❶
+    return &Node[T]{val: v}
+}
+
+func (n *Node[T]) Push(v T) *Node[T] {        // ❷
+    node := NewNode(v)
+    n.next = node
+    return node
+}
+```
+
+메서드를 이렇게 추가할 수 있습니다. 링크드 리스트에 노드를 추가하는 메서드입니다.
+
+만약 여기서 인터페이스로 사용한다면 문제가 됩니다. 비어있는 인터페이스를 사용하려면 타입 변환을 해줘야 했습니다.
+
+```go
+package main
+
+import "fmt"
+
+type NodeType1 struct {                   // ❶
+    val  interface{}
+    next *NodeType1
+}
+
+type NodeType2[T any] struct {           // ❷
+    val  T
+    next *NodeType2[T]
+}
+
+func main() {
+    node1 := &NodeType1{val: 1}         // ❸
+    node2 := &NodeType2[int]{val: 2}
+
+    var v1 int = node1.val              // ❹ 에러 발생
+    fmt.Println(v1)
+    var v2 int = node2.val              // ➎
+    fmt.Println(v2)
+}
+```
+
+이렇게 작성했을 때 에러가 발생하는 이유는 비어있는 인터페이스 타입이기 때문에 발생합니다.
+
+```go
+var v1 int = node1.val.(int)
+```
+
+이렇게 수정하면 정상동작하게 됩니다. 타입을 변화시켜줘야 하는 번거로움이 있습니다.
+
+제네릭 없이 go 프로그래밍을 했었습니다. 박싱과 언방식으로 해결하고 있었습니다. 어떤 타입을 넣지 그리고 꺼낼지 기억해야 했습니다. 또 성능문제도 존재했습니다. 프로그램 규모가 커진다면 이 타입을 기억해야 한다는 제어관점 문제를 해소할 수 있게 됩니다. 이런점에서 장점음 맞습니다.
+
+문제는 타입을 사용할 때마다 새로운 타입이 생겨나는 것과 비슷한 문제가 발생합니다. 새로운 타입을 새로운 인스턴스마다 만들어야 합니다. 물론 컴파일타임에 만들어지기는 합니다. 컴파일 시점에 해당하는 타입을 만듭니다. 컴파일 시간과 결과물인 실행파일 사이즈가 커집니다. go는 물론 빠른 편이라 걱정할 정도는 아닙니다. 하지만 임베디드 분야에서는 문제가 될 것입니다.
+
+제네릭을 많이 사용하면 가독성이 떨어지는 문제가 발생합니다.
+
+go의 철학은 동작하는 코드에 집중하자는 것입니다. 동작하는 코드를 먼저 작성하는 것이 중요합니다. 나중에 지속적인 리팩토링하는 것이 go의 사용법입니다.
+
+제네릭은 자료구조에서 사용하기 유용합니다.
+
+처음부터 사용하기 위해 노력할 필요는 없습니다.
+
+여러 타입을 사용하는 함수는 제네릭을 사용하기 좋습니다. 효과적으로 코드사이즈를 줄이는데 좋은 점이 있지만 코드 가독성 문제도 있습니다. 사용하지 않아도 괜찮은 곳에 사용할 필요는 없습니다.
