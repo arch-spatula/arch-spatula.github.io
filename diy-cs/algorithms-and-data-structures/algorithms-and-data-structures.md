@@ -111,3 +111,90 @@ tags: ['자료구조와 알고리즘', '자료구조', '알고리즘']
 [프로젝트 오일러](https://projecteuler.net/)
 
 - 직접 테스트 코드를 작성해야 하는 단점이 있습니다.
+
+## 부록: 백준 설정
+
+```
+/(작업폴더)
+  input.txt
+  index.js
+  index.test.js
+```
+
+일반적인 경우에는 아래와 같이 설정하기 바랍니다.
+
+### fs 예시
+
+```js
+const fs = require('fs');
+const filePath =
+  process.platform === 'linux' ? '/dev/stdin' : __dirname + '/input.txt';
+let input = fs.readFileSync(filePath).toString().split('\n');
+```
+
+```js title="index.js"
+const fs = require('fs');
+const filePath =
+  process.platform === 'linux' ? '/dev/stdin' : __dirname + '/input.txt';
+let input = fs.readFileSync(filePath).toString().split('\n').map(String);
+
+/**
+ * @param {string} input
+ * @returns {sting}
+ */
+function solution(input) {
+  // ... 이런저런 풀이과정
+  return '';
+}
+
+console.log(solution(input));
+
+module.exports = {
+  solution,
+};
+```
+
+### readline
+
+```js
+const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let answer = '';
+rl.on('line', (line) => {
+  const input = line.split(' ');
+
+  if (input.length === 2) {
+    const A = parseInt(input[0]);
+    const B = parseInt(input[1]);
+    answer += A + B + '\n';
+  }
+}).on('close', () => {
+  console.log(answer);
+  process.exit();
+});
+```
+
+### test
+
+```js
+import { solution } from './index';
+import { test, expect, describe } from 'vitest';
+
+describe('N 찍기', () => {
+  test('예제 1', () => {
+    expect(solution(1)).toBe(1);
+  });
+});
+```
+
+원하며는 중간에 테스트 코드를 추가하기바랍니다. 하지만 매번 출력을 편집해줘야 합니다.
+
+### 팁
+
+1. 마지막 줄에 줄바꿈을 하고 있는지 주의하기 바랍니다.
+
+2. `input.txt`에 읽는 파일을 `console.log`로 한번 확인하기 바랍니다.
