@@ -23,3 +23,40 @@ sidebar_position: 1
 [Simple Vue](https://simplevue.gitbook.io/intro/)
 
 [Vue Test Utils](https://test-utils.vuejs.org/)
+
+## 최신 방법으로 설치하기(Modern install)
+
+```sh
+pnpm create vite .
+```
+
+작업할 폴더에서 위 명령하기 바랍니다.
+
+1. Select a framework: › Vue
+
+2. Select a variant: › Customize with create-vue ↗
+
+3. Package name: … `알아서 작명`
+
+4. TypeScript? … No / **Yes**
+5. JSX Support? … **No** / Yes
+6. Vue Router for Single Page Application development? … No / **Yes**
+7. Pinia for state management? … No / **Yes**
+8. Vitest for Unit Testing? … No / **Yes**
+9. an End-to-End Testing Solution? › **Cypress**
+10. ESLint for code quality? … No / **Yes**
+11. Prettier for code formatting? … No / **Yes**
+
+위처럼 마법사에서 선택하기 바랍니다.
+
+타입스크립트, `Vue Router`, `Pinia`, `Vitest`, `Cypress`를 기술 스택으로 선택하기 바랍니다. 꽤 안정적이라는 느낌이 드는 강력한 조합입니다. 여기에 `Axios`만 추가로 설치해주면 충분할 것입니다. 조금더 통신에 대한 상태관리를 정교하게 하고 싶으면 `VueQuery`를 추가하면 됩니다.
+
+```sh
+pnpm i axios
+```
+
+```sh
+pnpm i vue-query
+```
+
+Nuxt를 사용하고 있지 않으면 위 설치는 나름 고려해볼 만할 것입니다.
