@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# vue 시작하기
+# Vue 시작하기
 
 개인적으로 회사에 취업에 성공하고 중심 기술 스택이 vue라서 학습하기로 결정했습니다.
 
@@ -19,3 +19,7 @@ sidebar_position: 1
 [Vue Mastery](https://www.vuemastery.com/)
 
 [Vue School](https://vueschool.io/)
+
+[Simple Vue](https://simplevue.gitbook.io/intro/)
+
+[Vue Test Utils](https://test-utils.vuejs.org/)
