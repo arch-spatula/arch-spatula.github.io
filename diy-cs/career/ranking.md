@@ -65,6 +65,31 @@ tags: ['주관적인 랭킹', '커리어']
 
 [NHN](https://www.nhn.com/)
 
+[안랩](https://ahnlab.recruiter.co.kr/appsite/company/index)
+
+- 우리나라 보안회사의 정점에 해당하는 기업입니다. 보안 제품을 만들 수 있으면 다른 웹 애플리케이션은 개발은 쉽습니다.
+
+[한글과 컴퓨터](https://hancomgroup.recruiter.co.kr/appsite/company/index)
+
+[넥슨](https://career.nexon.com/common/main)
+
+[NC 소프트](https://careers.ncsoft.com/)
+
+- 15분 긑태관리 유명합니다.
+  - 15분 이상 컴퓨터에 움직임이 없으면 그때부터 휴식으로 간주합니다.
+
+[삼성 SDS](https://www.samsungsds.com/)
+
+- 우리나라 SI 기업의 정점에 해당합니다.
+
+[SK C&C](https://www.skcc.co.kr/)
+
+[LG CNS](https://www.lgcns.com/)
+
+[CJ 올리브네트웍스](https://www.cjolivenetworks.co.kr/)
+
+- 사실 기술블로그가 좋아보였습니다.
+
 ## ⭐⭐⭐
 
 [퀀다](https://team.mathpresso.com/)
@@ -123,21 +148,10 @@ tags: ['주관적인 랭킹', '커리어']
 
 [크리에이트립](https://career.creatrip.team/)
 
-올리브영
-
-- 사실 기술블로그가 좋아보였습니다.
 
 [베스핀글로벌](https://www.bespinglobal.com/)
 
 - 사실 패스트캠퍼스 광고보고 알게되었습니다.
-
-[삼성 SDS](https://www.samsungsds.com/)
-
-[SK C&C](https://www.skcc.co.kr/)
-
-[LG CNS](https://www.lgcns.com/)
-
-[CJ 올리브네트웍스](https://www.cjolivenetworks.co.kr/)
 
 11번가
 
