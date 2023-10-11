@@ -266,17 +266,17 @@ const config = {
             position: 'left',
           },
           {
+            to: '/vue/intro',
+            label: '뷰 Cook-Book',
+            activeBaseRegex: `/vue/`,
+            position: 'left',
+          },
+          {
             to: '/js-ts-cookbook/intro',
             label: 'JS & TS Cook-Book',
             activeBaseRegex: `/js-ts-cookbook/`,
             position: 'left',
           },
-          // {
-          //   to: '/design-systen-wiki',
-          //   label: '디자인 시스템 위키',
-          //   activeBaseRegex: `/디자인 시스템 위키/`,
-          //   position: 'left',
-          // },
           {
             href: 'https://github.com/arch-spatula/arch-spatula.github.io',
             label: 'GitHub',

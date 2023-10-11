@@ -19,4 +19,3 @@ sidebar_position: 1
 [Vue Mastery](https://www.vuemastery.com/)
 
 [Vue School](https://vueschool.io/)
-
