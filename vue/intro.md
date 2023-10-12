@@ -24,6 +24,8 @@ sidebar_position: 1
 
 [Vue Test Utils](https://test-utils.vuejs.org/)
 
+[VueUse](https://vueuse.org/)
+
 ## 최신 방법으로 설치하기(Modern install)
 
 ```sh
