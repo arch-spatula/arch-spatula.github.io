@@ -6,6 +6,21 @@ tags: ['자료구조', '문제유형', '문자열 조작']
 
 # 문자열 조작
 
+대소문자 조작이 [필요한 경우](https://www.acmicpc.net/problem/2744)들이 있습니다. 다음 함수를 활용하기 바랍니다.
+
+```js
+/**
+ * @param {string} char
+ * @returns {boolean}
+ */
+function isLowerCase(char) {
+  if ('a'.charCodeAt() <= char.charCodeAt()) return true;
+  else return false;
+}
+```
+
+이렇게 아스키코드를 활용해서 풀기 바랍니다.
+
 ## 튜플
 
 [튜플](https://school.programmers.co.kr/learn/courses/30/lessons/64065)

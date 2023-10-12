@@ -283,3 +283,67 @@ export default solution;
 
 </div>
 </details>
+
+## 다음에 올 숫자
+
+[다음에 올 숫자](https://school.programmers.co.kr/learn/courses/30/lessons/120924)
+
+```js
+function solution(common) {
+  var answer = 0;
+  return answer;
+}
+```
+
+```js
+import solution from './playground';
+import { test, expect, describe } from 'vitest';
+
+// common	      result
+// [1, 2, 3, 4]	5
+// [2, 4, 8]	  16
+
+describe('다음에 올 숫자', () => {
+  test('예제 1', () => {
+    expect(solution([1, 2, 3, 4])).toBe(5);
+  });
+  test('예제 2', () => {
+    expect(solution([2, 4, 8])).toBe(16);
+  });
+  test('예제 2', () => {
+    expect(solution([2, -4, 8])).toBe(-16);
+  });
+});
+```
+
+<details>
+<summary>2023년 10월 02일 시도</summary>
+<div markdown="1">
+
+```js
+/**
+ * @param {number[]} common
+ * @returns {number}
+ */
+function solution(common) {
+  let result = null;
+  const [first, second, third] = common;
+  const firstDiff = second - first;
+  const secondDiff = third - second;
+
+  if (firstDiff === secondDiff) {
+    // 등차수열
+    result = first + firstDiff * common.length;
+  } else {
+    // 등비수열
+    result = first * Math.pow(second / first, common.length);
+  }
+
+  return result;
+}
+
+export default solution;
+```
+
+</div>
+</details>
