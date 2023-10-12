@@ -21,6 +21,8 @@ https://www.youtube.com/watch?v=CIyLurz-Ius
 [Tucker](https://www.youtube.com/@TuckerProgramming)
 
 - 이 유튜버가 학습 리소스입니다.
+- [Tucker의 Go 언어 프로그래밍](https://www.yes24.com/Product/Goods/99108736)을 저술했습니다.
+  - [musthaveGo](https://github.com/tuckersGo/musthaveGo)가 작성된 레포입니다. 동시성도 다루고 있습니다.
 
 [gophercises](https://gophercises.com/)
 
@@ -2926,3 +2928,5685 @@ u라는 변수는 스택이 실행되는 동안만 존재하고 삭제됩니다.
 함수의 지역변수는 스택메모리에 저장합니다. 함수가 종료되면 스택에 있는 메모리를 삭제해야 합니다. go는 탈출분석을 합니다. escape analysis를 지원합니다. 컴파일러가 코드를 분석하고 어떤 인스턴스가 함수 밖에 사용되고 있는지 분석합니다. userPointer 변수에 사용되었다는 것을 컴파일러가 보게 됩니다. 컴파일러는 탈출을 분석했으면 스택에 만들지 않고 힙에 저장합니다. 탈출분석으로 함수의 반환값은 GC의 수거대상이 되도록 합니다.
 
 c언어는 불가능한 코드를 go에서는 편안하게 사용할 수 있습니다.
+
+## 22 15장 문자열
+
+https://www.youtube.com/watch?v=9XniMdjQ1a4
+
+문자열이라는 단어는 어디서왔는가? 문자열 배열의 줄임말이 아닌가? 이렇게 생각할 수 있습니다. 문자가 모여있는 것을 문자열 즉집합입니다.
+
+string이라고 하는데 번역하면 실?이라고 부릅니다.
+
+작은 따옴표는 문자를 말하고 큰따옴표는 문자열을 의미합니다.
+
+아스키 문자코드를 이야기했는데 문자 1개를 1바이트로 표현하는데 0 ~ 255까지 표현할 수 있습니다. 문자 255개입니다. 0은 비어있습니다.
+
+영문 대소문자 52개와 숫자 10개와 기호를 추가하니까 부족했습니다. 중국어, 한글, 일본어, 아라비아어 등... 이런 한계를 극복하기 위해 탄생한 것이 유니코드입니다.
+
+utf-8과 utf-16이 있는데 go는 utf-8을 기반으로 합니다. 문자도 결국에는 숫자입니다. 문자 코드에 치환해 숫자를 얻고 그 숫자를 처리하는 것에 불과합니다. a를 65라고 우리는 그냥 약속하는 것에 불과합니다. 65라는 숫자를 읽으면 화면에 어떻게 출력할지 기계와 기계사이 약속에 불과합니다.
+
+문자는 사람에게 의미가 있기 때문에 그렇습니다. 즉 숫자의 배열을 의미합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	poet1 := "이런저런 시\n 저런이런 시\n"
+	poet2 := `이런저런 시
+저런이런 시
+`
+	fmt.Println(poet1, poet2)
+}
+// 이런저런 시
+//  저런이런 시
+//  이런저런 시
+// 저런이런 시
+```
+
+이런차이가 있습니다.
+
+큰따옴표는 개행 문자가 필요합니다. 백틱은 엔터만으로 표현할 수 있습니다.
+
+백틱은 특수문자 이스케이프 캐릭터가 동작하지 않습니다. 그대로 출력됩니다.
+
+utf-8문자코드입니다. go는 utf-8을 사용하는데 문자 1개를 1바이트로 표현합니다.
+
+비트를 읽는데 바이트의 크기를 어떻게 알 수 있는가? 1바이트로 처리해야 하는지 2바이트인지 3바이트인지 어떻게 알 수 있는가?
+
+첫바이트를 읽는데 처음 시작비트를 읽고 바이트 크기를 정합니다. 0으로 시작하면 1바이트라고 간주합니다. 그 다음은 1이 연속된 비트로 파악합니다. 1이 2개면 2바이트 3개는 3바이트로 파악합니다.
+
+UTF-16은 문자 1개를 2바이트로 표현합니다. utf-8은 1~3바이트입니다. utf-8은 최대 4바이트입니다. utf-8이 공간을 더 많이 사용합니다.
+
+utf-8이 더효율적인가? 공간을 사용하려는만큼 사용하기 때문에 효율적입니다. 인터넷 대부분의 데이터는 80%는 아스키코드로 표현가능합니다. utf-16로하면 오히려 공간낭비가 더 큽니다. 비증이 적은 한글은 2 ~ 3바이트로 처리하자는 것입니다.
+
+파레토법칙으로 생각해보면 대부분 utf-8의 1바이트로 처리하고 나머지 20%는 2 ~ 3바이트로 처리합니다.
+
+컴퓨터공학에서 업무 처리할 때 20% 대 80% 법칙을 많이 적용합니다. 20%의 코드가 80% 성능을 좌우한다고 자주 말합니다. 좋은 어림잡기입니다. 즉 20%의 코드 즉 일부만 집중해도 전체적인 성능 개선할 수 있습니다. 프로파일링으로 해당하는 부분을 찾아내고 개선을 자주합니다.
+
+대부분의 문자와 숫자는 1바이트라 utf-8 공간이 더 효율적입니다.
+
+utf-16은 영문, 숫자 무관하게 2바이트입니다. 모든 문자는 변환과정이 필요한데 utf-16은 호환이 안 좋습니다. utf-8은 호환이 잘 됩니다.
+
+utf-8은 go언의 창시자 켄톰슨, 롭파이크가 만들었습니다. go의 기본문자를 utf-8로 선택하게 되었습니다.
+
+문자열 순회입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	str := "hello 세상"
+	for i := 0; i < len(str); i++ {
+		fmt.Printf("타입: %T, 값: %d, 문자값: %c \n", str[i], str[i], str[i])
+	}
+}
+// 타입: uint8, 값: 104, 문자값: h
+// 타입: uint8, 값: 101, 문자값: e
+// 타입: uint8, 값: 108, 문자값: l
+// 타입: uint8, 값: 108, 문자값: l
+// 타입: uint8, 값: 111, 문자값: o
+// 타입: uint8, 값: 32, 문자값:
+// 타입: uint8, 값: 236, 문자값: ì
+// 타입: uint8, 값: 132, 문자값: 
+// 타입: uint8, 값: 184, 문자값: ¸
+// 타입: uint8, 값: 236, 문자값: ì
+// 타입: uint8, 값: 131, 문자값: 
+// 타입: uint8, 값: 129, 문자값: 
+```
+
+타입은 uint8입니다. 즉 1바이트라고 알 수 있습니다. 대문자가 값 자체는 더 작습니다. 참고로 스페이스바도 문자로 간주합니다. 뒷부분 한글은 한 문자를 1바이트로 표현합니다. 한글은 아스키코드 범위를 초과하기 때문에 그렇습니다.
+
+영문은 1바이트에 해당해서 문자는 맞습니다. 하지만 한글의 경우 바이트 개수로 순회합니다. 몇번째 문자가 아니라 몇번째 바이트로 통합니다. 그래서 `str[i]`으로 한글을 읽으면 문자가 아닙니다. 바이트입니다.
+
+이 한계는 rune 슬라이스 타입을 활용하면 극복할 수 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	str := "hello 세상"
+	arr := []rune(str)
+	for i := 0; i < len(arr); i++ {
+		fmt.Printf("타입: %T, 값: %d, 문자값: %c \n", arr[i], arr[i], arr[i])
+	}
+}
+// 타입: int32, 값: 104, 문자값: h
+// 타입: int32, 값: 101, 문자값: e
+// 타입: int32, 값: 108, 문자값: l
+// 타입: int32, 값: 108, 문자값: l
+// 타입: int32, 값: 111, 문자값: o
+// 타입: int32, 값: 32, 문자값:
+// 타입: int32, 값: 49464, 문자값: 세
+// 타입: int32, 값: 49345, 문자값: 상
+```
+
+이렇게 됩니다.
+
+나중에 배우지만 슬라이스는 동적 배열입니다.
+
+rune은 int32의 별칭타입입니다. 4바이트 정수타입으로 문자열을 표현할 수 있는데 rune은 문자열 1개를 표현할 수 있어서 이렇게 사용할 수 있게 되는 것입니다.
+
+rune은 1칸에 4바이트 정수입니다. 그래서 1칸이 4바이트입니다.
+
+문자열을 rune으로 타입변환하면 1칸에 1글자가 들어가고 배열의 길이가 우리에게 익숙한 방식대로 할당하고 출력합니다.
+
+1바이트 단위 순회와 3 ~ 4바이트에 해당하는 순회는 서로 다르기 때문에 rune을 활용해야 합니다.
+
+range로 순회하는 방법도 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	str := "hello 세상"
+	// arr := []rune(str)
+	for _, v := range str {
+		fmt.Printf("타입: %T, 값: %d, 문자값: %c \n", v, v, v)
+	}
+}
+
+// 타입: int32, 값: 104, 문자값: h
+// 타입: int32, 값: 101, 문자값: e
+// 타입: int32, 값: 108, 문자값: l
+// 타입: int32, 값: 108, 문자값: l
+// 타입: int32, 값: 111, 문자값: o
+// 타입: int32, 값: 32, 문자값:
+// 타입: int32, 값: 49464, 문자값: 세
+// 타입: int32, 값: 49345, 문자값: 상
+```
+
+range를 사용하면 배열의 값을 순회합니다. 문자열을 대입하면 문자열의 문자를 하나의 원소로 간주합니다. 바로 rune로 취급하고 순회합니다.
+
+len은 바이트 길이를 반환하기 때문에 이렇게 동작합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	str1 := "Hello"
+	str2 := "World"
+	str3 := str1 + " " + str2
+	fmt.Println(str3)
+
+	str1 += " " + str2
+	fmt.Println(str1)
+}
+// Hello World
+// Hello World
+```
+
+문자열 이어붙이기는 직관적입니다.
+
+복합대입문도 지원하고 문자열에 더하기 연산자로 뒤에 붙이기도 지원합니다.
+
+파이썬은 문자열 곱하기가 가능하지만 golang은 지원하지 않습니다.
+
+문자열은 같다 다르다 비교가 가능합니다. 같다는 것은 한글단위로 모두 일치하는지 확인합니다.
+
+문자열은 대소비교가 가능한데 사전식으로 비교합니다. 첫글자부터 순서대로 비교합니다. 문자코드는 알파벳순서입니다. 모든 글자가 작은지 확인합니다.
+
+대문자가 코드값이 작습니다. 아스키코드를 활용하기 때문에 이렇습니다. 주의하기 바랍니다.
+
+특이한 부분이 있을 것입니다.
+
+go는 타입으로 사이즈를 알 수 있고 사이즈가 동일합니다. int는 8바이트입니다. 문자열은 몇바이트인가? 타입마다 사이즈가 정해져있습니다.
+
+문자열은 사이즈는 고정되어있는데 길이가 어떻게 고정되어 있는가? 문자열의 구조를 이해해야 합니다.
+
+```go
+var str1 string = "hello"
+var str2 string
+str2 = str1
+```
+
+go는 양변의 타입이 같아야 합니다. 공간에 그대로 복사합니다. 같은 사이즈만큼 복사합니다.
+
+문자열의 구조는 문자를 그대로 들고 있지 않습니다.
+
+배열은 포인터 형태로 갖고 있습니다. Hello라는 공간이 있는데 str1이 직접 주소를 할당하는 것이 아니라 포인터를 할당합니다. 메모리 주소 값은 8바이트로 고정되어 있습니다. 즉 변수는 배열 매모리 주소를 담고 있습니다. go 내부에는 uintptr는 접근할 수 없는 포인터입니다. 문자열은 저장되어 있는데 그 주소를 가리킵니다.
+
+string은 구조체입니다.
+
+```go
+type StringHeader struct {
+	Data uintptr
+	Len int
+}
+```
+
+위와 같은 구조고 `Len`이 사이즈를 정합니다. `Data`는 주소를 담습니다.
+
+다시 `str2`에 `str1`을 할당했는데 같은 주소를 할당하게 되는 것입니다. 문자열이 저장된 주소를 저장하기 때문에
+
+문자열의 길이는 항상 8바이트로 고정된 이유는 주소를 참조하기 때문에 고정됩니다.
+
+문자열 구조는 슬라이스구조랑 동일합니다. cat만 추가하면 구조가 동일해집니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"reflect"
+	"unsafe"
+)
+
+func main() {
+	str1 := "hello 월드"
+	str2 := str1
+
+	stringHeader1 := (*reflect.StringHeader)(unsafe.Pointer(&str1))
+	stringHeader2 := (*reflect.StringHeader)(unsafe.Pointer(&str2))
+
+	fmt.Println(stringHeader1, stringHeader2)
+}
+
+// &{17462881 12} &{17462881 12}
+```
+
+str1의 메모리 주소를 unsafe.Pointer로 타입 변환을 하는 것입니다. `*string` 문자열 타입으로 변환하는 것인데 stringheader 구조체로 형변환하는 것입니다.
+
+`17462881`은 메모리 주소와 길이를 나타냅니다. 2개 모두 동일한 메모리 공간과 크기를 갖고 있습니다.
+
+문자열은 실제 메모리 공간을 가리키는(포인터) 구조체입니다. 항상 16바이트라 대입연산이 가능합니다.
+
+패키지 내부가 궁금할 것입니다. `golang 패키지명 메서드명` 으로 패키지 문서를 확인하기 바랍니다.
+
+사실 지금 개념을 소개하기 위한 문법이 복잡해보일 수 있습니다. 단순하게 내부 구현을 직접보기 위한 것에 불과합니다.
+
+문자열은 불변입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var str string = "Hello world"
+	str = "How are you?" // 전체 할당은 가능
+	str[2] = "2" // 에러
+	fmt.Println(str)
+}
+```
+
+golang에서 문자열은 불변성을 보장받습니다. 즉 문자열의 일부만 수정하는 것은 불가능합니다.
+
+불변성이라는 것은 일부만 수정하는 것이 불가능하다는 것입니다. `+=`으로 문자열 뒤에 붙이는 것은 새로운 주소에 할당하는 것입니다.
+
+기준 문자열을 접근해서 부분만 수정하는 것은 불가능합니다. 메모리 주소는 고정되어 있는데 그 주소를 참조하는 다른 변수들 모두 반영되기 때문에 부분만 변경하는 것을 허용하지 않습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var str string = "Hello world"
+	var slice []byte = []byte(str)
+	slice[2] = 'a'
+
+	fmt.Printf("%s\n", slice) // Healo world
+}
+```
+
+쓰기가 이렇게 가능합니다. 슬라이스만 값의 일부를 변경할 수 있습니다. 슬라이스와 문자열은 서로 독립적인 메모리 주소를 갖고 있습니다. 또 슬라이스는 원소의 부분을 바꿀 수 있습니다. 슬라이스에 복사하고 새로운 주소에 할당합니다. 그리고 기존 값은 가져와 복사만하고 변형은 없습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"reflect"
+	"unsafe"
+)
+
+func main() {
+	var str string = "Hello world"
+	var slice []byte = []byte(str)
+	slice[2] = 'a'
+	stringHeader := (*reflect.StringHeader)(unsafe.Pointer(&str))
+	sliceHeader := (*reflect.SliceHeader)(unsafe.Pointer(&slice))
+
+	fmt.Printf("str:\t%x\n", stringHeader.Data)
+	fmt.Printf("slice:\t%x\n", sliceHeader.Data)
+}
+// str:    10a89a9
+// slice:  c000092f08
+```
+
+서로 다른 메모리주소를 직접 확인할 수 있습니다. 값자체가 다른 것이 아니라 메모리 주소가 다르다는 점이 중요합니다. 즉 slice는 지금 문자열을 복사한 것이라는 것을 알아야 합니다. 타입 변환을 할때 문자열이 복사된 것입니다. 다른 공간을 만들어서 복사하는 것입니다.
+
+왜 복사하는가? 문자열의 불변성을 언어차원에서 보장하기 위해 이렇게 복사하도록 합니다.
+
+문자열은 합산할 때마다 새로운 문자열을 생성합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func toUpper(str string) string {
+	var result string
+	for _, char := range str {
+		if char >= 'a' && char <= 'z' {
+			result += string('A' + (char - 'a'))
+		} else {
+			result += string(char)
+		}
+	}
+	return result
+}
+
+func newUpper(str string) string {
+	var builder strings.Builder
+	for _, char := range str {
+		if char >= 'a' && char <= 'z' {
+			builder.WriteRune('A' + (char - 'a'))
+		} else {
+			builder.WriteRune(char)
+		}
+	}
+	return builder.String()
+}
+
+func main() {
+	fmt.Println(toUpper("Jake The Dog"))
+	fmt.Println(newUpper("Jake The Dog"))
+}
+// JAKE THE DOG
+// JAKE THE DOG
+```
+
+하나는 합산을 이용하고 다른 하나는 rune으로 합쳐서 반환합니다. 2개의 함수의 동작 구조는 완전히 다릅니다.
+
+`toUpper`는 새로운 메모리 주소를 확보하고 그 주소를 변수가 바라보게 만듭니다. 메모리에 새로운 주소에 복사를 여러번합니다. 효율이 많이 떨어질 것입니다.
+
+`strings.Builder`를 사용하면 슬라이스를 사용하게 되는 것입니다. 문자열을 중간에 추가해도 공간을 새로할당하지 않습니다. 메모리 공간도 아낄 수 있습니다. 합산 효율이 좋습니다.
+
+합산할 때 불변성을 보장하기 때문에 동작이 다르다는 것을 잘 인지하는 것이 중요합니다.
+
+`strings` 패키지는 문자열 다루기에 유용한 메서드가 많습니다.
+
+왜 문자열은 불변성을 보장하는가? 불변성을 보면 비효율적입니다. 하지만 프로그램의 안정성을 확보할 수 있습니다.
+
+```go
+str1 := "hello"
+str2 := str1
+str3 := str1
+```
+
+모두 동일한 메모리 주소를 참조합니다. 하지만 여기서 불변성을 보장하지 않으면 데이터가 공유됩니다. 역으로 데이터 공유가 안되기 때문에 안정적입니다.
+
+대입할 때는 공유하고 변경할 때는 복사하는 방식으로 해결합니다.
+
+컴퓨터 공학에서 실버 불릿은 없습니다.
+
+컴퓨터 공학에서 큰 문제를 단순하고 완벽하게 해결할 수 있는 방법은 없습니다. 하지만 트레이드 오프는 많습니다. 최선의 선택문제입니다.
+
+불변성을 보장하지 않으면 다른 인스턴스에 영향을 받아 변수마다 갖고 있는 데이터의 일관성을 잃을 수 있습니다. 자바스크립트 경험해봤으면 알아야 합니다.
+
+문자열은 slice의 응용에 불과합니다. Data, Len에서 Cap만 추가하면 같아집니다. 문자열을 잘 이해하면 slice을 쉽게 이해할 수 있습니다. 또 golang에서는 slice를 많이 사용합니다. 그래서 이 개념은 중요합니다.
+
+## 23 16장 모듈과 패키지
+
+https://www.youtube.com/watch?v=Ja-xVdcgo-s
+
+패키지인데 모듈과 패키지가 더 어울리는 것 같습니다. 패키지가 책을 쓰면서 수정한 부분입니다. 책의 내용이 마음에 들지 않습니다. 모듈이 많이 바뀌었습니다.
+
+1.11까지 모듈은 없었습니다. 모듈 전까지는 gopath로 폴더 아래 모든 파일을 보관했어야 합니다. 불만이 많았습니다. go path를 바꿔주는 툴들이 늘고 요구사항이 늘어면서 모듈이 소개된 것입니다.
+
+공식 모듈은 1.11입니다. 하지만 완성은 미완성입니다. 1.13에 기능이 완성되었습니다. 모듈이라는 것이 선택적이었습니다. 지금 도서는 1.15 버전부터 집필을 시작했습니다.
+
+이 도서는 입문 과정입니다. 모듈은 실무 프로젝트에서 파일관리랑 연결되는 개념이라 뒤로 하려고 했습니다.
+
+1.16부터는 기본사양이 되었습니다. 모듈을 끄지 않는 이상 동작합니다.
+
+모듈은 패키지의 모음입니다. 그냥 용어입니다. 하나의 모듈에 여러개의 패키지가 포함될 수 있습니다. 모듈이 프로세스라면 패키지는 쓰레드와 같습니다.
+
+패키지란 go로 패키지 선언부터합니다. 패키지는 코드를 묶는 단위입니다. 모든 코드는 패키지 아래 있어야 합니다.
+
+프로그램이라는 실행파일 관점에서 실행파일과 데이터파일을 묶은 것을 보고 프로그램이라고 합니다. 프로그램은 부속 프로그램도 존재할 수 있습니다. go 언어는 실행파일을 보고 프로그램이라고 부릅니다. 프로그램이란 실행시작 지점을 포함한 패키지를 의미합니다. 패키지를 컴파일해서 build한 것입니다.
+
+그렇다면 프로세스란 무엇인가? 프로그램과 프로세스는 서로 비슷하지만 다릅니다. 프로그램을 더블 클릭하면 디스크에서 읽어서 메모리로 가져옵니다. 즉 이것을 보고 로드라고 합니다. 메모리에서 코드를 실행하는 것입니다. 이 실행 주체를 보고 프로세스라고 합니다. 프로세스는 OS 위에서 실행 인스턴스라고 봅니다. 프로세스는 실행하는 주체라고 합니다. 프로그램을 호출했는데 여러개의 프로세스를 실행하는 것도 가능합니다. 계산기를 여러개 키는 것과 같습니다.
+
+Main이외 패키지는 실행 시점을 포함하지 않는 패키지입니다. 프로그램의 보조 패키지입니다. 프로그램은 반드시 main 패키지가 존재해야 합니다. 매인 패키지에 사용하기 위해 만든 패키지를 보고 Main이외 패키지라고 합니다. 모든 패키지를 갖고 있는 것을 보고 module이라고 합니다.
+
+하나의 모듈 내에 여러개의 Main 패키지가 존재할 수 있습니다.
+
+모듈은 가끔은 외부 모듈도 활용합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"math/rand"
+)
+
+func main() {
+	fmt.Println(rand.Int())
+}
+```
+
+https://pkg.go.dev/math/rand
+
+go는 위에서 rand가 패키지명입니다.
+
+패키지명이 겹치는 경우도 존재합니다.
+
+```go
+package main
+
+import (
+	"text/template"
+	"html/template"
+)
+
+func main() {
+}
+```
+
+이런 경우가 존재할 수 있습니다. 이럴 때 별칭 지정할 수 있습니다.
+
+```go
+import (
+	"text/template"
+	htmltemp "html/template"
+)
+```
+
+이렇게 하면 됩니다.
+
+패키지도 가져오면 사용해야 합니다.
+
+패키지의 부가요소의 초기화를 위해 사용하는 상황들이 있습니다. 빈칸지시자를 사용하면 import하고 안 사용 수 있습니다.
+
+```go
+import (
+	"text/template"
+	_ "html/template"
+)
+```
+
+패키지 초기화 부가효과를 위해 사용하는 경우들이 존재합니다.
+
+go는 폴더이름을 따라합니다. 즉 경로가 중요하고 경로별로 연결하는 관계가 중요합니다. 같은 경로 내에 있으면 같은 패키지로 간주합니다.
+
+경로가 달라지면 패키지가 달라집니다. 파일 속에 피알에 정리하면 다른 패키지로 간주합니다.
+
+```sh
+go mod tidy
+```
+
+위 명령을 하고 go.sum이 생성되면 패키지를 다운로드 받는 것입니다.
+
+```go title="go-prac/usepkg/custompkg/custompkg.go"
+package custompkg
+
+import "fmt"
+
+func PrintCustom() {
+	fmt.Println("this is custom package!")
+}
+```
+
+```go title="go-prac/usepkg/program/usepkg.go"
+package main
+
+import (
+	"fmt"
+	"go-prac/usepkg/custompkg"
+
+	"github.com/guptarohit/asciigraph"
+	"github.com/tuckersGo/musthaveGo/ch16/expkg"
+)
+
+func main() {
+	// custompkg
+	// asciigraph
+	custompkg.PrintCustom()
+	expkg.PrintSample()
+	data := []float64{3, 5, 1, 6, 2, 3, 5, 6, 2}
+	graph := asciigraph.Plot(data)
+
+	fmt.Println(graph)
+	// expkg
+}
+
+// this is custom package!
+// This is Github expkg Sample
+//  6.00 ┤  ╭╮  ╭╮
+//  5.00 ┤╭╮││ ╭╯│
+//  4.00 ┤││││ │ │
+//  3.00 ┼╯│││╭╯ │
+//  2.00 ┤ ││╰╯  ╰
+//  1.00 ┤ ╰╯
+```
+
+자동완성으로 패키지 관계를 연결하려고 시도하기 바랍니다. 다른 폴더로 패키지 분리하고 자동완성에 의존하기 바라고 또 go mod 선언도 확인하기 바랍니다.
+
+모듈명은 폴더를 활용하는 것이 국룰입니다.
+
+```
+/go-prac
+	/usepkg
+		main.go
+	/custompkg
+		custompkg.go
+	go.mod
+	go.sum
+```
+
+이런 폴더 구조가 될 것입니다. build 실행은 main.go 디렉토리가 있는 곳에서 하기바랍니다.
+
+성공적으로 패키지 연결을 했다면 build가 성공할 것입니다. 그리고 출력하면 확인할 수 있을 것입니다.
+
+이렇게 외부 패키지도 다운받으면 됩니다.
+
+패키지에서는 타입, 전역변수, 상수, 함수, 메서드를 사용할 수 있게 공개할 수 있습니다. 공개하는 방법은 단순합니다. 앞글자가 대문자면 공개합니다. 즉 파스칼 케이스는 공개하고 카멜케이스는 숨깁니다. 타입, 전역변수, 상수, 함수, 메서드 모두 동일합니다.
+
+구조체의 필드도 메서드랑 비슷하게 대소문자 구분으로 숨길 수 있습니다.
+
+이런 이유로 한글을 지원하지만 한글을 권장하지 않습니다. 대소문자 구분으로 공개 비공개를 결정하기 때문에 그렇습니다.
+
+패키지가 프로그램에 포함되면 한번 초기화를 합니다. 패키지 내에서 init() 함수가 있으면 초기화할 때 실행할 수 있습니다. 패키지 내 변수 초기화할 때 활용할 수 있습니다.
+
+```go
+package main
+
+import (
+	"go-prac/usepkg/exinit"
+)
+
+func main() {
+	exinit.PrintD()
+}
+// f() 4
+// f() 5
+// init
+// the D 6
+```
+
+```go
+package exinit
+
+import "fmt"
+
+var (
+	a = c + b
+	b = f()
+	c = f()
+	d = 3
+)
+
+func init() {
+	d++
+	fmt.Println("init")
+}
+
+func f() int {
+	d++
+	fmt.Println("f()", d)
+	return d
+}
+
+func PrintD() {
+	fmt.Println("the D", d)
+}
+```
+
+이렇게 작성하고 이렇게 실행됩니다. 실행 서순은 바로 보일 것입니다. 변수 초기화부터 실행하고 그 다음에 init 함수를 실행합니다. 그리고 마지막에 초기화 과정 이후에 패키지의 함수 PrintD를 실행합니다.
+
+```go
+package main
+
+import (
+	"go-prac/usepkg/exinit"
+)
+
+func main() {
+	fmt.Println("first")
+	exinit.PrintD()
+}
+
+// f() 4
+// f() 5
+// init
+// first
+// the D 6
+```
+
+초기화를 한 다음에 main 함수에서 순서대로 실행합니다. 그래서 first 다음에 PrintD를 실행합니다.
+
+init은 1번만 호출합니다.
+
+만약에 import 관계가 순환참조를 하면 build 친절하게 에러를 던져줍니다. 순환참조를 컴파일 차원에서 차단합니다.
+
+패키지 속에서 패키지는 callstack 구조로 순서로 초기화합니다.
+
+## 24 17장 숫자맞추기 게임
+
+내용소개 아닙니다. 복습 과제입니다.
+
+마지막은 웹 프로그램을 만들어볼 것입니다.
+
+사용자가 이진탐색하게 해서 숫자를 만추게합니다. 숫자 범위는 0 ~ 99입니다.
+
+1. 0 ~ 99 랜덤한 숫자 생성
+2. 사용자 숫자 입력
+3. 입력하고 비교 크다 작다 힌트 제공
+4. 맞추면 종료
+5. 틀리면 재시도
+
+이것이 요구사항입니다.
+
+프로그램을 만들 때는 요즘은 별로 작성하지 않습니다. 하지만 순서도를 먼저 작성하면 명확해집니다. 평소 시퀀스 다이어그램을 그려보기를 권장합니다.
+
+랜덤은 알수 없는 숫자를 만드는 것입니다. 사실 컴퓨터와 랜덤은 친한 사이는 아닙니다. 컴퓨터는 무작위적인 것을 만들기 어렵습니다. 컴퓨터는 계산을 잘합니다. 입력, 처리, 출력을 잘합니다. 입력이 같으면 출력이 같습니다. 랜덤하다는 것은 매번 출력이 다르다는 것입니다. 컴퓨터로 난수를 만들기 어렵습니다. 자연에서 인간이 난수를 만드는 것도 어렵습니다.
+
+인간이 만드는 랜덤은 양자역학에 기반합니다. 강의랑 무관합니다. 전자가 어디로 튈지 모릅니다. 고전은 궤도를 갖을 것이라고 생각했지만 사실 구름으로 존재하고 관측할 때마다 위치가 달랐습니다.
+
+컴퓨터는 자연의 물리법칙을 활용할 수 없습니다. 양자 컴퓨터는 가능할지도 모릅니다. 현재 컴퓨터인 폰너이만 컴퓨터는 랜덤을 만들기 어렵습니다.
+
+학술적 의미에서 엄밀한 랜덤이 아니라 유사랜덤을 만드는 것입니다. 입력이 있고 결과를 만듭니다. 랜덤은 사건마다 결과가 다르게 만들기 위해 시퀀스가 있습니다. 요청마다 다르게 만듭니다. 입력이 같아도 결과를 다르게 만듭니다. 하지만 결국에는 시퀀스도 입력 중 하나입니다. 그래서 매번 결국에는 같은 값이 됩니다. 이런 의미에서 유사랜덤입니다.
+
+시퀀스가 같으면 항상 같은 결과가 보여집니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"math/rand"
+)
+
+func main() {
+
+	for i := 0; i < 10; i++ {
+		fmt.Println(rand.Intn(100)) // 0 ~ 99
+	}
+}
+
+// 31
+// 98
+// 20
+// 86
+// 4
+// 79
+// 84
+// 38
+// 94
+// 19
+
+---
+
+// 94
+// 69
+// 50
+// 33
+// 60
+// 73
+// 54
+// 8
+// 46
+// 4
+```
+
+랜덤 시드값이 있습니다. 시드와 시퀀스를 조합해서 매번 새로운 값이 뽑히도록 하는 것입니다.
+
+시드값은 현재 시간을 활용합니다. 현재 시각은 계속 변화합니다. 이 값을 활용합니다. 이 변화하는 값을 활용해서 입력이 바뀌게 만들어서 출력이 바뀌게 만드는 것입니다.
+
+time 패키지를 활용합니다. time.Now()로 현재시간을 접근하고 활용합니다. UnixNano를 활용하면 int64값으로 얻을 수 있습니다. 1970년 1월 1일부터 현재까지 경과한 시간을 나노초 단위로 표현합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
+func main() {
+	t := time.Now()
+	rand.Seed(t.UnixNano())
+	for i := 0; i < 10; i++ {
+		fmt.Println(rand.Intn(100)) // 0 ~ 99
+
+	}
+}
+```
+
+이렇게 바꿀 수 있습니다. 물론 go가 지금은 패키지 내부에서 알아서 시간을 시드값으로 활용하고 있습니다.
+
+time 패키지는 이름처럼 시간과 관련된 기능을 제공합니다.
+
+go에서는 시각 객체가 있는데 형식을 나타내기 위해 고정되어 있습니다. 이것은 time 객체입니다.
+
+시간 즉 어느시점부터 어느시점까지를 나타낼 수 있습니다. 이것은 duration 객체입니다. 두시점의 차를 구하면 됩니다.
+
+```go
+start := time.Now()
+// ... operation that takes 20 milliseconds ...
+t := time.Now()
+elapsed := t.Sub(start)
+```
+
+공식 문서에서 Sub으로 차를 구해서 기간을 나타낼 수 있습니다.
+
+타임존도 제공합니다. 친절한 언어입니다. 타임존에 따라 시각이 바뀌는데 이것도 활용할 수 있습니다.
+
+시간이라는 것은 복잡합니다. 시간을 출력하는 것이 인간이 시간을 사용하는 방식이 다양하기 때문에 그렇습니다.
+
+go는 영어권 특히 미국권이기 때문에 월을 반드시 영어로 작성해야 합니다. 월일년 순으로 작성하기 때문에 미국인은 많이 혼란스러워합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	loc, _ := time.LoadLocation("")
+	const longForm = "Jan 2, 2006 at 3:04pm"
+	t1, _ := time.ParseInLocation(longForm, "Jun 14, 2022 at 12:00pm", loc)
+	fmt.Println(t1)
+	const shortForm = "2006-Jan-02"
+	t2, _ := time.Parse(shortForm, "2022-Jun-14")
+	fmt.Println(t2, t2.Location())
+
+	t3, err := time.Parse("2021-06-01 15:20:21", "2021-06-14 20:04:05")
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(t3)
+}
+// 2022-06-14 12:00:00 +0000 UTC
+// 2022-06-14 00:00:00 +0000 UTC UTC
+// parsing time "2021-06-14 20:04:05" as "2021-06-01 15:20:21": cannot parse "-06-14 20:04:05" as "1"
+// 0001-01-01 00:00:00 +0000 UTC
+```
+
+이렇게 됩니다. 에러메시지를 보면 월과 일 구분할 줄 몰라서 파싱할 수 없다고 출력합니다.
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"math/rand"
+	"os"
+)
+
+func main() {
+	answer := rand.Intn(100)
+	count := 1
+
+	fmt.Println("숫자를 입력하세요")
+
+	stdin := bufio.NewReader(os.Stdin) // Stdin을 의미함
+	var inputNum int
+	stop := 2
+
+	for i := 0; i < stop; i++ {
+		_, err := fmt.Scanln(&inputNum)
+		if err != nil {
+			fmt.Println(err, "숫자를 입력해주세요")
+			stdin.ReadString('\n') // 개행문자까지 버퍼에서 읽기 -> 버퍼를 읽는 행위로 비움
+			break
+		}
+
+		if inputNum > answer {
+			fmt.Println("low  시도횟수:", count)
+			count += 1
+			stop += 1
+		} else if inputNum < answer {
+			fmt.Println("high 시도횟수:", count)
+			count += 1
+			stop += 1
+		} else {
+			fmt.Println("정답을 맞추셨습니다.", answer, "총", count, "번 시도")
+			break
+		}
+	}
+
+}
+```
+
+저는 이렇게 문제를 풀었습니다.
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"math/rand"
+	"os"
+	"time"
+)
+
+var stdin = bufio.NewReader(os.Stdin) // Stdin을 의미함
+func inputInvVal() (int, error) {
+	var n int
+	_, err := fmt.Scanln(&n)
+	if err != nil {
+		stdin.ReadString('\n')
+	}
+	return n, err
+}
+
+func main() {
+	rand.Seed(time.Now().UnixNano())
+	r := rand.Intn(100)
+	count := 1
+
+	fmt.Println("숫자를 입력하세요")
+
+	for {
+		n, err := inputInvVal()
+		if err != nil {
+			fmt.Println(err, "숫자만 입력해주세요")
+		} else {
+			if n > r {
+				fmt.Println("low  시도횟수:", count)
+				count += 1
+			} else if n < r {
+				fmt.Println("high 시도횟수:", count)
+				count += 1
+			} else {
+				fmt.Println("정답을 맞추셨습니다.", r, "총", count, "번 시도")
+				break
+			}
+		}
+	}
+
+}
+
+```
+
+강의는 이렇게 풀었습니다.
+
+버퍼를 안지워주면 남아있는 값을 접근하기 때문에 에러가 반복할 것입니다. 궁금하면 실험해보도록 합니다.
+
+버퍼는 읽는 행위로 비워집니다.
+
+여기까지는 1단계입니다.
+
+## 25 18장 슬라이스 1/2
+
+https://www.youtube.com/watch?v=z-_6o7WYkiE
+
+슬라이스입니다. 가장 많이 사용하는 타입이고 매우 중요합니다. 슬라이스는 간단하게 생각하면 go가 제공하는 동적 배열입니다.
+
+동적배열과 정적배열의 차이입니다. 정적배열은 컴파일 혹은 빌드타임에 코드를 기계어로 변경할 때 정해집니다. 하지만 동적배열은 사이즈가 실행할 때 결정됩니다.
+
+상수와 변수의 차이와 비슷합니다. 상수는 컴파일할 때 결정됩니다. 하지만 변수는 런타임에서 계속 바뀝니다.
+
+동적배열은 배열의 사이즈가 바뀔 수 있습니다. 원래 일반적인 배열은 사이즈가 고정되어야 합니다.
+
+대부분 언어는 동적배열을 제공합니다.
+
+타입입니다.
+
+```go
+var foo []int
+bar := []int{1, 2, 3}
+```
+
+이렇게 정의합니다. int를 받는 동적배열입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var slice []int
+	slice[1] = 10
+	fmt.Println(slice)
+}
+// panic: runtime error: index out of range [1] with length 0
+```
+
+이런 에러가 발생합니다.
+
+아무것도 없는데 2번째 원소에 쓰기를 합니다. 런타임에러입니다. 즉 범위를 벗어났다고 합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice := []int{0, 10, 20, 40}
+	fmt.Println(slice)
+}
+// [0 10 20 40]
+```
+
+이렇게 하면 에러가 발생하지 않습니다. 즉 컴파일할 때 사이즈는 정하지 않고 실행할 때 사이즈가 정해졌습니다.
+
+슬라이스와 배열의 차이는 대괄호(`[]`)에 숫자를 넣고 안 넣고 차이입니다. 넣으면 사이즈가 정해지고 타입이 다른 것입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice := []int{0, 2: 10, 5: 8}
+	fmt.Println(slice)
+}
+// [0 0 10 0 0 8]
+```
+
+make() 내장함수를 활용해서 초기화도 가능합니다. go에서 복합타입을 만들어주는 내장타입입니다. 슬라이스, 맵에 많이 사용합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var slice = make([]int, 3)
+	fmt.Println(slice)
+}
+// [0, 0, 0]
+```
+
+이렇게 선언할 수 있습니다.
+
+슬라이스 순회는 배열과 동일합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var slice = make([]int, 3)
+	for _, v := range slice {
+		fmt.Println(v)
+	}
+}
+// 0
+// 0
+// 0
+```
+
+슬라이스에 동적으로 값을 추가할 때 사용할 수 있는 내장함수가 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var slice = make([]int, 3)
+	fmt.Println(append(slice, 4), slice)
+}
+// [0 0 0 4] [0 0 0]
+```
+
+이렇게 됩니다. 참고로 원본을 변경하지 않습니다. 새로운 메모리 주소에 슬라이스를 저장합니다.
+
+만약에 기존 슬라이스를 의도적으로 변경하고 싶으면 새로운 메모리 주소를 갖고 있는 슬라이스를 할당하면 됩니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var slice = make([]int, 3)
+	slice = append(slice, 4)
+	fmt.Println(slice)
+}
+// [0, 0, 0, 4]
+```
+
+이렇게 작성하면됩니다.
+
+여기까지 슬라이스를 소비하는 관점에서는 간단합니다.
+
+하지만 동작원리를 자세히 알아야 합니다. 원리를 모르면 다양한 문제를 발생시킬 것입니다.
+
+파이썬이 지원하는 슬라이스랑 다릅니다.
+
+```go
+type SliceHeader struct {
+	Data uintptr
+	Len int
+	Cap int
+}
+```
+
+슬라이스가 이렇게 생겼다고 문자열에서 다루었습니다. 슬라이스는 실제 배열을 알려주는 Data는 포인터입니다. Len은 길이를 알려줍니다. Cap이 문자열과 다릅니다. Cap은 최대 수용량(capacity)의 약자입니다. 배열을 몇개까지 사용가능한지 알려주는 정보입니다.
+
+슬라이스는 실제 배열이 따로 있고 그 배열을 가리키는 것입니다.
+
+실제배열이 따로 존재한다는 점과 최대공간이 존재한다는 것을 알고 있는 것이 제일 중요합니다.
+
+슬라이스는 go에서 제공하는 동적배열타입이라고 설명하지만 더 엄밀하게는 go에서 제공하는 배열을 가리키는 포인터타입니다.
+
+Len은 현재 사용공간을 알려줍니다. Cap은 어디까지 확장할지 알려줍니다.
+
+슬라이스라는 단어를 잘 보기바랍니다. 피자가 있습니다. 조각으로 자릅니다. 범위를 자른 것처럼 가리킨다는 측면을 이해하기 바랍니다.
+
+물론 포인터와 배열을 따로 만들어도 됩니다. 하지만 슬라이스는 배열의 길이를 바꿀 수 있습니다. 하지만 배열에 포인터를 사용하면 배열의 사이즈가 고정되어 있습니다. 즉 사용범위와 동적이라는 점이 기능이 확장된 것입니다.
+
+이개념을 잘 이해 못하면 특이한 동작방식에 당황할 수 있습니다.
+
+```go
+var slice = make([]int, 3)
+```
+
+만약에 위처럼 make함수를 사용하면 길이와 최대공간이 3으로 고정됩니다.
+
+```go
+var slice = make([]int, 3, 5)
+```
+
+이렇게 작성하면 길이(len)는 현재 3이지만 최대길이(cap)는 5입니다.
+
+5개의 배열을 만들지만 공간에 쓰기는 3개만합니다. 2개를 나중에 쓰기할 수 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func changeArray(array [5]int) {
+	array[2] = 200
+}
+
+func changeSlice(slice []int) {
+	slice[2] = 200
+}
+
+func main() {
+	array := [5]int{1, 2, 3, 4, 5}
+	slice := []int{1, 2, 3, 4, 5}
+
+	changeArray(array)
+	changeSlice(slice)
+
+	fmt.Println("array", array)
+	fmt.Println("slice", slice)
+
+	// array [1 2 3 4 5]
+	// slice [1 2 200 4 5]
+}
+```
+
+배열을 만들었습니다. 배열은 변화가 없습니다. 하지만 슬라이스는 갱신되었습니다. 배열도 갱신을 예상했을 것입니다.
+
+go의 특징은 일관성입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func changeArray(array *[5]int) {
+	array[2] = 200
+}
+
+func changeSlice(slice []int) {
+	slice[2] = 200
+}
+
+func main() {
+	array := [5]int{1, 2, 3, 4, 5}
+	slice := []int{1, 2, 3, 4, 5}
+
+	changeArray(&array)
+	changeSlice(slice)
+
+	fmt.Println("array", array)
+	fmt.Println("slice", slice)
+}
+// array [1 2 200 4 5]
+// slice [1 2 200 4 5]
+```
+
+이렇게 해야 달라집니다. 즉 포인터를 사용하면 쓰기가 됩니다. 대입은 좌변으로 간주합니다. 그래서 주소를 대입하게 만들어야 쓰기를 합니다. 즉 포인터로 바꾼 것입니다. 스코프 내에서만 새로운 인스턴스에 쓰기만 하고 끝납니다. 원본에 영향이 없습니다. C, C++는 포인터로 대입된다.
+
+슬라이스는 이미 주소라서 포인터를 명시할 필요가 없습니다. 슬라이스도 go의 규칙에 일관되게 적용된다는 느낌이 와야 합니다. 3개의 필드를 갖은 구조체이고 배열을 가리키는 포인터를 함수에 대입하게 되는 것입니다. 변수는 주소를 담는 사이즈입니다. 대입을 해도 포인터가 대입된 것이고 포인터를 함수 내에서 접근해서 쓰기를 한 것입니다. 즉 변수가 바뀐 것이 아니라 변수가 가리키는 배열의 값이 바뀐 것입니다.
+
+배열을 대입할 때 주의해야 합니다. 복사되기 때문입니다. 하지만 슬라이스는 주소가 전달되기 때문에 24바이트 주소만큼만 복사되고 제어하려는 배열은 복사하지 않아서 복사하는 량이 작습니다.
+
+append 동작원리입니다. append 동작원리를 잘 이해해야 합니다. 잘 모르면 많은 버그를 발생시킬 수 있습니다. 본인의 생각과 다를 수 있습니다.
+
+요소를 추가하는 새로운 슬라이스를 반환한다고 아까 정의했습니다.
+
+기존슬라이스가 바뀔 수 있고 안바꿀 수 있습니다. 기존 배열에 동일한 주소에 하나의 원소를 추가하고 반환하게 만들 수 있습니다. 아니면 새로운 메모리 주소에 복사하는 것도 가능합니다.
+
+append는 빈공간이 충분해보이면 빈공간에 추가합니다. 그리고 기존 배열을 반환합니다.
+
+부족하면 기존 배열을 새로운 메모리 주소게 복사하고 저장합니다. 그리고 원소를 추가하고 반환합니다.
+
+빈공간의 정의는 다음과 같습니다.
+
+$$
+\text{남은 빈 공간} = cap - len
+
+
+$$
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice1 := make([]int, 3, 10)
+	slice1 = append(slice1, 4, 5, 6)
+
+	printSlice(slice1)
+}
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+// [0, 0, 0, 4, 5, 6]
+```
+
+append에 대입한 값과 그 반환값을 담을 변수가 같은 경우 위 예시의 slice1처럼 작성해야 새로운 메모리 주소를 사용하지 않고
+
+## 26 18장 슬라이스 2/2
+
+https://www.youtube.com/watch?v=zcUqV5xk-So
+
+슬라이스는 포인터입니다. 변수에 따라 같은 배열을 가리키게 되는 문제가 생길 수 있습니다. 같은 주소의 배열에 쓰기를 해서 다른 참조하는 배열들에 변형이 가해질 수 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice1 := []int{1, 2, 3}
+	slice2 := append(slice1, 4, 5, 6)
+
+	printSlice(slice1)
+	printSlice(slice2)
+}
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+// len=3 cap=3 [1 2 3]
+// len=6 cap=6 [1 2 3 4 5 6]
+```
+
+이렇게 됩니다. 지금 상황에서는 각각 다른 배열을 가리키는 상황입니다. 빈공간이 부족하기 때문에 새로운 배열을 가리키게 만듭니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func pushNum(slice []int) {
+	slice = append(slice, 4)
+}
+
+func main() {
+	slice := []int{1, 2, 3}
+	pushNum(slice)
+
+	printSlice(slice)
+}
+
+// len=3 cap=3 [1 2 3]
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+```
+
+포인터가 맞지만 이렇게 작성했다고 원본에 변형을 가하는 것이 아닙니다. 이유는 주소를 할당하고 또 주소를 할당하기 때문입니다. 그리고 새로운 배열을 복사하고 새롭게 만들어진 매개변수에 해당하는 포인터에 할당하고 함수의 실행이 끝납니다. 기존 배열은 문제가 없습니다.
+
+변경을 하려면 2가지 전략입니다. 하나는 포인터로 대입하는 것입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func pushNum(slice *[]int) {
+	*slice = append(*slice, 4)
+}
+
+func main() {
+	slice := []int{1, 2, 3}
+	pushNum(&slice)
+
+	printSlice(slice)
+}
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+```
+
+이렇게 대입하면 기존 배열이 바뀝니다. 아니면 새로운 슬라이스를 반환하면 됩니다. 어느방식이 더 좋은 가는 취향입니다. 포인터가 더 좋다고 생각할 수 있는 이유는 복사의 크기가 작기 때문입니다. 메모리 주소를 전달하기 때문에 갖을 수 있는 장점입니다. 하지만 일반적으로 반환하는 것이 더 좋습니다.
+
+값으로 대입하는지 포인터로 대입하는지 잘 구분해서 활용하는 것이 go답게 사용하는 것입니다.
+
+iot 디바이스 프로그래밍 하는 상황이 아니면 복사자체가 큰 문제는 아닙니다.
+
+슬라이스 자체는 참조형 타입입니다. 복사 때문에 성능상 심각한 문제를 내기 어렵습니다.
+
+append는 값을 받아서 값을 반환하는 함수입니다. 값을 염두하고 만든 내장함수입니다.
+
+go는 c언어가 아닙니다. 여러개의 반환을 갖는다고 싫어할 필요는 없습니다. 하이레벨 언어입니다.
+
+메모리를 많이 사용하는 타입은 문자열입니다. 문자열도 내부에서 포인터를 갖고 있습니다. 하지만 그렇다고 문자열을 그대로 넘기는 것자체는 문제는 아닙니다.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	// len=0, cap=3 인 슬라이스
+	sliceA := make([]int, 0, 3)
+
+	// 계속 한 요소씩 추가
+	for i := 1; i <= 15; i++ {
+		sliceA = append(sliceA, i)
+		// 슬라이스 길이와 용량 확인
+		fmt.Println(len(sliceA), cap(sliceA))
+	}
+
+	fmt.Println(sliceA) // 1 부터 15 까지 숫자 출력
+}
+// len=1 cap=3 [1]
+// len=2 cap=3 [1 2]
+// len=3 cap=3 [1 2 3]
+// len=4 cap=6 [1 2 3 4]
+// len=5 cap=6 [1 2 3 4 5]
+// len=6 cap=6 [1 2 3 4 5 6]
+// len=7 cap=12 [1 2 3 4 5 6 7]
+// len=8 cap=12 [1 2 3 4 5 6 7 8]
+// len=9 cap=12 [1 2 3 4 5 6 7 8 9]
+// len=10 cap=12 [1 2 3 4 5 6 7 8 9 10]
+// len=11 cap=12 [1 2 3 4 5 6 7 8 9 10 11]
+// len=12 cap=12 [1 2 3 4 5 6 7 8 9 10 11 12]
+// len=13 cap=24 [1 2 3 4 5 6 7 8 9 10 11 12 13]
+// len=14 cap=24 [1 2 3 4 5 6 7 8 9 10 11 12 13 14]
+// len=15 cap=24 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15]
+```
+
+참고로 이렇게 순회하면 슬라이스 초기 cap의 배수 단위로 커집니다.
+
+슬라이싱입니다. 동사이고 자르는 동작입니다. 배열의 일부를 선택하는 기능입니다. 슬라이싱하면 슬라이스를 얻을 수 있습니다. 영어 개념으로 생각하면 당연합니다.
+
+여기서 주의할 점은 자른다는 것이 원본의 데이터에 변형을 가한다는 것이 전혀아닙니다. 부분을 참조한다는 것입니다.
+
+슬라이싱은 슬라이스의 배열의 시작주소부터 끝주소를 선택하는 개념이라고 보면됩니다. 그리고 같은 주소를 선택하기 때문에 슬라이싱을 담은 변수의 부분을 바꾸면 원본도 바뀝니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	// len=0, cap=3 인 슬라이스
+	sliceA := []int{0, 1, 2, 3, 4, 5, 6}
+
+	part := sliceA[1:5]
+	part[1] = 200
+	printSlice(part)
+	printSlice(sliceA)
+	// len=4 cap=6 [1 200 3 4]
+	// len=7 cap=7 [0 1 200 3 4 5 6]
+}
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+```
+
+위를 보면 슬라이싱으로 담은 변수(`part`)에서 1번째 인덱스를 200으로 갱신하면 참조하는 원본도 바뀝니다. 즉 참조의 문제입니다.
+
+지금 예시는 슬라이스를 슬라이싱한 것인데 배열도 당연히 슬라이싱할 수 있습니다.
+
+파이썬은 슬라이싱하면 새로운 메모리주소에 할당합니다. 즉 복사합니다. 장점은 안정성입니다. 단점은 성능입니다. 새로운 값을 메모리에 저장하고 변수에 주소를 할당하기 때문에 슬라이싱한 변수의 데이터를 변형한다고 원본에 변형이 발생하지 않습니다.
+
+go는 슬라이스 끝을 지정할 때는 `len`을 활용해야 합니다. 끝 인덱스를 정확하게 명시해야 합니다. 파이썬은 -1을 지원합니다. go는 정확하게 명시하는 것을 추구합니다.
+
+전체 슬라이스는 지원하기는 합니다. 파이썬은 단순하게 복사입니다.
+
+```py
+array = [1, 2, 3, 4, 5]
+array2 = [::]
+```
+
+파이썬은 이렇게 하면 복사가 됩니다.
+
+```go
+array:= [5]int{0, 1, 2, 3, 4}
+slice:= [:]
+```
+
+go는 데이터 타입이 슬라이스로 바뀌기만 합니다. 하지만 원본을 여전히 참조한다는 단점을 상기해야 합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	array := [20]int{1: 1, 2: 2, 19: 100}
+	slice1 := array[1:10]
+	slice2 := slice1[2:19]
+	fmt.Println(slice1, len(slice1), 10-1)
+	fmt.Println(slice2, len(slice2), 19-2)
+}
+// [1 2 0 0 0 0 0 0 0] 9 9
+// [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 100] 17 17
+```
+
+슬라이싱을 보면 직관과 다르게 동작합니다. slice1의 부분의 부분을 참조해서 원래 길이를 넘어야 할 것이라고 생각이 들었습니다. 하지만 슬라이싱할 때는 그 원본 배열을 찾고 그 찾은 배열에서 직접 자른다는 개념입니다. 즉 slice2는 slice1을 통해서 array가 가리키는 배열을 직접 참조한 것입니다.
+
+슬라이싱의 3번째 인덱스는 cap으로 최대 사이즈를 제어할 수 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	array := [20]int{1: 1, 2: 2, 19: 100}
+	slice := array[2:5:7]
+	fmt.Println(slice2, len(slice))
+}
+```
+
+이렇게 cap 사이즈를 제어할 수 있습니다.
+
+파이썬 슬라이스는 복사를 합니다. 이런 부분은 편리합니다. go는 어떻게 복사할 수 있는가?
+
+하나는 순회하면서 복사하는 방법입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice1 := []int{0, 1, 2, 3, 4}
+	slice2 := make([]int, len(slice1))
+
+	for i, v := range slice1 {
+		slice2[i] = v
+	}
+	slice1[1] = 100
+	fmt.Println(slice1)
+	fmt.Println(slice2)
+}
+```
+
+아주 귀찮은 방법입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice1 := []int{0, 1, 2, 3, 4}
+	slice2 := append([]int{}, slice1...)
+	slice1[1] = 100
+	fmt.Println(slice1)
+	fmt.Println(slice2)
+}
+```
+
+slice1뒤에 점 3개를 했다는 것은 가변인자를 의미합니다. 이렇게 하면 또 복사가 됩니다.
+
+len과 cap이 0인 슬라이스에서 복사를 해서 넣은 것입니다. 반복문으로 만든 것과 동일합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice1 := []int{0, 1, 2, 3, 4}
+	slice2 := make([]int, len(slice1))
+	copy(slice2, slice1)
+
+	slice1[1] = 100
+	fmt.Println(slice1)
+	fmt.Println(slice2)
+}
+```
+
+내장함수 copy를 사용하는 것입니다. copy는 복사를 쓰기할 대상을 첫번째 인자 읽을 인자는 두번째로 대입합니다. 즉 두번째를 첫번째 인자에 반영하는 것입니다.
+
+copy의 장점은 함수이름이 명시적이라는 점입니다. 참고로 반환값은 복사한 개수입니다.
+
+이제 원소 삭제를 다룹니다.
+
+중간에 1개를 삭제는 어떻게 하겠는가?
+
+중간에 삭제 작업의 문제는 여러개를 밀어서 삭제 해야 합니다. 즉 인덱스가 하나씩 땅겨집니다.
+
+단순한 방법은 삭제할 원소 제외하고 양끝 복사하는 것입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice := []int{0, 1, 2, 3, 4}
+	idx := 2
+
+	slice = append(slice[:idx], slice[idx+1:]...)
+	fmt.Println(slice)
+}
+```
+
+2인덱스 이전 이후를 자르고 붙인 것입니다. 역도 이와 비슷합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice := []int{0, 1, 2, 3, 4}
+	idx := 2
+	slice = append(slice[:idx], append([]int{100}, slice[idx:]...)...)
+	fmt.Println(slice)
+}
+
+```
+
+이것이 원소 중간삽입니다. `append([]int{100}, slice[idx:]...)`이 중요합니다. 이것이 임시 버퍼입니다. 중간에 메모리를 한번더 사용해서 효율적이지 못합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	slice := []int{0, 1, 2, 3, 4}
+	idx := 2
+
+	slice = append(slice, 0)
+	copy(slice[idx+1:], slice[idx:])
+	slice[idx] = 100
+
+	fmt.Println(slice)
+}
+```
+
+이렇게 하면 중간버퍼가 안 생깁니다.
+
+정렬은 패키지를 편하게 활용합시다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sort"
+)
+
+func main() {
+	slice := []int{2, 3, 5, 1, 2, 43, 2, 24, 3, 2, 22, 3}
+	sort.Ints(slice)
+	fmt.Println(slice)
+}
+```
+
+이렇게 하면 알아서 정렬해줍니다.
+
+원시형은 정렬을 패키지에서 지정한 타입별로 알아서 하면 됩니다.
+
+여기서 문제는 구조체는 어떻게 정렬하는가?
+
+인터페이스를 인자로 대입할 수 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sort"
+)
+
+type Student struct {
+	Name string
+	Age  int
+}
+
+type Students []Student
+
+func (s Students) Len() int           { return len(s) }
+func (s Students) Less(i, j int) bool { return s[i].Age < s[j].Age }
+func (s Students) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+
+func main() {
+	slice := []Student{{"jake", 30}, {"fin", 26}, {"PB", 29}}
+	sort.Sort(Students(slice))
+	fmt.Println(slice)
+}
+```
+
+다음 시간을 미리 예습하게된 것입니다. 구조체를 대입할 때는 인터페이스의 구조를 맞춰주면 대입이 가능합니다. `sort`패키지에서 `sort.Sort` 메서드는 Len, Less, Swap 메서를 갖고 있고 메서드를 추가해서 대입하면 대입가능 구조체에 해당하고 구조체를 기준으로 정렬이 가능해집니다.
+
+## 27 19장 메서드
+
+https://www.youtube.com/watch?v=-ijeABV8vLU
+
+메서드는 함수입니다. 메서드는 타입에 속한 함수를 의미합니다.
+
+일반적으로 함수는 타입과 독립적입니다. 메서드는 타입에 종속되어 있습니다.
+
+메서드 정의입니다.
+
+```go
+func (r Rabbit) info() int {
+	return r.width * r.height
+}
+```
+
+메서드에서 r Rabbit을 보고 리시버라고 합니다. Rabbit은 구조체일 것입니다. 구조체는 타입입니다. 타입이기 때문에 변수를 만들 수 있습니다. 메서드는 타입이 첫번째 인자로 들어오야 합니다. 메서드 명은 info입니다.
+
+이 리시버는 go의 고유한 개념입니다. go는 클래스가 없습니다.
+
+리시버는 모든 패키지내 지역타입 모두 사용할 수 있습니다. 구조체, 별칭 타입 모두 가능합니다.
+
+사실 메서드는 이것이 전부입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type Account struct {
+	balance int
+}
+
+func withdrawFunction(a *Account, amount int) {
+	a.balance -= amount
+}
+
+func (r *Account) withdrawMethod(amount int) {
+	r.balance -= amount
+}
+
+func main() {
+	fmt.Println()
+}
+```
+
+이렇게 함수로 정의한것과 메서드로 정의한 것과 다릅니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type Account struct {
+	balance int
+}
+
+func withdrawFunction(a *Account, amount int) {
+	a.balance -= amount
+}
+
+func (r *Account) withdrawMethod(amount int) {
+	r.balance -= amount
+}
+
+func main() {
+	account1 := &Account{balance: 100}
+	fmt.Println(account1.balance)
+	withdrawFunction(account1, 20)
+	fmt.Println(account1.balance)
+
+	account2 := &Account{balance: 100}
+	fmt.Println(account2.balance)
+	account2.withdrawMethod(20)
+	fmt.Println(account2.balance)
+}
+// 100
+// 80
+// 100
+// 80
+```
+
+이렇게 출력할 때 주의해야 합니다. 호출하는 과정자체는 내부적으로 동일합니다.
+
+중요한 것은 관심사를 묶어낸다는 점입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type myInt int
+
+func (m myInt) addMethod(a int) myInt {
+	res := int(m) + a
+	return myInt(res)
+}
+
+func addFunction(m myInt, a int) myInt {
+	res := int(m) + a
+	return myInt(res)
+}
+
+func main() {
+	var a myInt
+	fmt.Println(a)
+	fmt.Println(addFunction(a, 20))
+	fmt.Println(a.addMethod(20))
+}
+// 0
+// 20
+// 20
+```
+
+별칭타입예시입니다. 메서드 함수 포인터로 참조 주소로 대입하는지 값으로 대입하는지에 로직은 동일합니다. 위의 예시는 리시버도 포인터에입니다. 지금 아래 예시는 리시버가 값으로 대입됩니다. 이렇게 포인터이고 아니고 값으로 받을지 주소를 받아서 쓰기를 할지 동작은 함수와 동일합니다.
+
+지금은 패키지에서 선언된 지역타입에 메서드를 지정한 것입니다.
+
+참고로 지역타입은 현재 패키지에서 정의해야 하고 구조체이거나 별칭이어야 합니다. `int`처럼 내장타입은 메서드를 지정할 수 없습니다. 지역타입에 해당하지 않습니다.
+
+메서드는 왜 탄생했는가? 왜 타입에 기능을 추가해야 하는가? 데이터와 기능을 묶은 것입니다.
+
+옛날에는 데이터와 기능은 다른 것이라고 생각했습니다. 함수라는 기능은 인자를 받아 동작을 수행하고 데이터는 값입니다. 화학으로 생각하면 연산은 화학 작용이고 데이터는 물질이라고 생각할 수 있습니다.
+
+하지만 문제가 있습니다. 관심사입니다. 메서드는 결합도를 높이는 것이 목적입니다. 묶어놓고 있어서 데이터를 어떻게 계산하고 처리해야 하는지 관심사가 묶였습니다.
+
+절자지향 프로그램에서는 관심사라 분리되어 있어서 관리하기 번거로웠습니다.
+
+객체지향 방법이 소개되고 관계 중심으로 보면서 관리하기 수월해졌습니다.
+
+객체가 데이터와 기능이 합쳐지면서 순서도보단 클래스 다이어그램이 더 중요해졌습니다. 관계 중심에서는 클래스 다이어그램이 중요합니다.
+
+```go
+func (s *Student) EnrollClass (c *Subject) {
+	// ...
+}
+
+func (s *Student) SendReport (p *Professor, r *Report) {
+	// ...
+}
+```
+
+이렇게 객체와 객체간 관계를 정의한 것입니다.
+
+사실 함수로 해도 빌드해도 동일합니다. 단지 프로그래머의 제어관점에서 효율적인 것입니다. 리시버가 매개변수가 메서드 명보다 앞에 온다는 점이 중요하고 포인터로 받는지 값으로 반든지 구분하는 것이 중요합니다.
+
+포인터가 괜히 부담스러우면 메서드가 값을 반환하게 만들면 됩니다.
+
+```go
+func (r Rabbit) info() int {
+	return r.width * r.height
+}
+```
+
+이전에 봤던 예시인데 이렇게 해당합니다. 이렇게 값이 바뀌게 만들 수 있습니다. 정확히 이렇게는 getter의 성격입니다.
+
+```go
+func (r Rabbit) eat(amount int) Rabbit {
+	r.weight += amount
+	return r
+}
+```
+
+이렇게 setter 성격으로 작성할 수 있습니다. 반환값만 해당 변수에 할당하면 됩니다.
+
+이제 값을 활용하고 타입을 활용할지 어떻게 구분하는가?
+
+타입의 성격문제입니다. time 패키지의 Time과 Timer가 다릅니다.
+
+https://pkg.go.dev/time
+
+패키지 문서에서 구분해봅시다.
+
+```go
+// https://pkg.go.dev/time#Time
+type Time struct {
+	// contains filtered or unexported fields
+}
+
+// https://pkg.go.dev/time#Timer
+type Timer struct {
+	C <-chan Time
+	// contains filtered or unexported fields
+}
+```
+
+객체 안에 데이터가 바뀌는데 서로 같은지 다른지에 따라 다릅니다.
+
+해당하는 구조체의 쓰기를 해야 하면 포인터를 사용합니다. 메서드의 개념적인 실체가 쓰기 변경을 해야 할 때 활용합니다.
+
+하지만 개념적 실체가 다르면 값을 활용합니다.
+
+Time은 시각입니다. 각각의 시각마다 다릅니다. 개념적인 실체가 각각 다릅니다.
+
+Timer는 시간입니다. 개념적 실체가 연속됩니다. 해당하는 변수 주소에 계속 쓰기를 합니다.
+
+하지만 사실 정의해진 것은 아닙니다.
+
+일반적으로 필드가 바뀌면 개념이 바뀔 때 값을 쓰고 안 바뀌면 포인터를 씁니다. 학생의 학년을 올리면 학생의 개념은 동일합니다. 그럼 포인터입니다. 10시 라는 시각은 11시라는 시각과 다를 경우 값으로 씁니다.
+
+대부분의 경우 중요한 것은 값인지 포인터인지는 일관된 것이 중요합니다. 일부는 포인터 일부는 값 이렇게 작성하면 혼선이 발생할 수 있습니다.
+
+이런 이유로 대부분의 경우 값을 활용하기 바랍니다.
+
+go는 생성자 소멸자가 없습니다. C, C++는 생성자, 소멸자가 있습니다. Java는 생성자만 있습니다. go는 생성자 소멸자 모두 없습니다.
+
+생성자는 없지만 패키지의 메서드를 활용해서 생성자를 흉내낼 수 있습니다.
+
+임베디드 필드입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type User struct {
+	name string
+	age  int
+}
+
+func (u User) string() string {
+	return fmt.Sprintf("%s, %d", u.name, u.age) // 문자열을 반환
+}
+
+type VIPUser struct {
+	User
+	VIPLevel int
+}
+
+func (v VIPUser) vipLevel() int {
+	return v.VIPLevel
+}
+
+func main() {
+	vip := VIPUser{User{name: "Jake", age: 30}, 5}
+	fmt.Println(vip.string())
+}
+```
+
+포함된 경우에는 임베디드 필드로 구조체가 갖고 있는 메서드도 호출이 가능합니다.
+
+상속을 흉내낸 것처럼 보입니다. 물론 생각은 가능하지만 아닙니다.
+
+go에는 상속이 없습니다. 필드 속에 메서드를 더 편리하게 호출가능하도록 지원해주는 것뿐입니다.
+
+이렇게 상속이 아니라 조합니다. 즉 언어차원에서 상속보다 조합을 추구하도록 하는 것입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type User struct {
+	name string
+	age  int
+}
+
+func (u User) string() string {
+	return fmt.Sprintf("%s, %d", u.name, u.age) // 문자열을 반환
+}
+
+type VIPUser struct {
+	User
+	VIPLevel int
+}
+
+func (v VIPUser) vipLevel() int {
+	return v.VIPLevel
+}
+
+func (v VIPUser) string() string {
+	return fmt.Sprintln("hello")
+}
+
+func main() {
+	vip := VIPUser{User{name: "Jake", age: 30}, 5}
+	fmt.Println(vip.string())
+}
+```
+
+이렇게 보면 메서드 오버라이딩처럼 보이지만 아닙니다. 접근하는 순서가 외부에 있는 것부터 접근하고 실행하기 때문에 `hello`를 출력할 뿐입니다. 하지만 내부를 접근하는 것이 가능합니다.
+
+## 28 20장 인터페이스 1/2
+
+https://www.youtube.com/watch?v=57Ea64-Nf2U
+
+2장에서는 인터페이스, 슬라이스, 고루틴 & 채널 3가지가 중요합니다.
+
+인터페이스는 상호접점이라고 생각할 수 있습니다. 인터랙션은 상호작용입니다. 인터에서 상호이고 페이스는 API제어할 수 있는 접점이라고 생각해볼 수 있습니다.
+
+관계를 적용할 수 있는 면이라고 볼 수 있습니다. 구체화된 객체라고 볼 수 있습니다.
+
+Concrete Object 즉 구현이 존재하는 객체입니다. 추상화된 상호작용으로 관계를 표현합니다.
+
+메서드가 관계를 표현한다고 했습니다. 메서드는 구현이 포함되어 있습니다. 구체화된 코드가 존재합니다. 관계와 구현 모두 표현합니다.
+
+문서가 클래스 다이어램, 유스케이스 등으로 표현합니다. 현대 프로그래밍에서부터는 관계 중심 프로그래밍을 시작하게 되었습니다.
+
+인터페이스는 오직 관계만 표현합니다. 구현은 없습니다.
+
+```go
+type DuckInterface interface {
+	Fly()
+	Walk(distance int) int
+}
+```
+
+이렇게 선언합니다. 구현이 없는 메서드를 정의합니다. 함수명, 인자, 인자의 타입, 반환값의 타입을 정의합니다.
+
+인터페이스를 구현하려면 2개의 메서드만 정의되어 있으면 됩니다.
+
+타입이기 때문에 변수를 만들 수 있습니다.
+
+메서드는 반드시 이름이 있어야 합니다. 이름은 중복될 수 없습니다. 연산자 오버라이딩을 지원하지 않습니다. 함수의 이름, 인자, 반환 3가지만 표현한 것을 보고 함수 시그니처라고 부릅니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type Stringer interface {
+	String() string
+}
+
+type Student struct {
+	Name string
+	Age  int
+}
+
+func (s Student) String() string {
+	return fmt.Sprintln(s.Name, s.Age)
+}
+
+func main() {
+	student := Student{"Jake", 30}
+	var stringer Stringer
+	stringer = student
+
+  fmt.Println(stringer.String())
+}
+```
+
+정상동작합니다. 해당하는 메서드를 접근해서 실행합니다. stringer의 String는 구조체가 구현하고 있습니다.
+
+Student가 구현하고 Stringer는 인터페이스입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type Stringer interface {
+	String() string
+}
+
+type Student struct {
+	Name string
+	Age  int
+}
+
+func (s Student) String() string {
+	return fmt.Sprintln(s.Name, s.Age)
+}
+
+func (s Student) Second() int {
+	return s.Age
+}
+
+func main() {
+	student := Student{"Jake", 30}
+	var stringer Stringer
+
+	stringer = student
+	fmt.Println(stringer.String(), stringer.Second())
+}
+```
+
+이렇게 구조체가 추가로 구현했지만 인터페이스가 정의하지 않으면 접근할 수 없습니다.
+
+인터페이스는 왜 사용하는가? 왜 간접적으로 제어해서 호출하는가? 왜 틀에 맞춰줘야 하는가?
+
+우리는 커머스 스타트업입니다. 다양한 택배회사가 있습니다. 처음에는 쿠팡이 제공하는 패키지를 사용하고 있었습니다. 하지만 쿠팡이 망해서 컬리로 바꿔야 합니다. 이 문제는 인터페이스로 해결할 수 있습니다.
+
+```go
+package fedex
+
+import "fmt"
+
+// Fedex에서 제공한 패키지 내 전송을 담당하는 구조체입니다.
+type FedexSender struct {
+}
+
+func (f *FedexSender) Send(parcel string) {
+	fmt.Printf("Fedex sends %v parcel\n", parcel)
+}
+
+```
+
+```go
+package main
+
+import "go-prac/ex20.0/fedex"
+
+func sendBooks(name string, sender *fedex.FedexSender) {
+	sender.Send(name)
+}
+
+func main() {
+	sender := &fedex.FedexSender{}
+	sendBooks("foo", sender)
+	sendBooks("bar", sender)
+}
+```
+
+이렇게 작성되어 있습니다. 지금은 Fedex만 이용하는 상황입니다.
+
+택배를 보내는 행위 자체는 동일하지만 다른 패키지를 활용할 것입니다.
+
+```go
+package koreaPost
+
+import "fmt"
+
+// Fedex에서 제공한 패키지 내 전송을 담당하는 구조체입니다.
+type PostSender struct {
+}
+
+func (f *PostSender) Send(parcel string) {
+	fmt.Printf("우체국이 %v 을 보냅니다.\n", parcel)
+}
+
+```
+
+```go
+package main
+
+import "go-prac/ex20.0/koreaPost"
+
+func sendBooks(name string, sender *koreaPost.PostSender) {
+	sender.Send(name)
+}
+
+func main() {
+	sender := &koreaPost.PostSender{}
+	sendBooks("foo", sender)
+	sendBooks("bar", sender)
+}
+
+```
+
+이렇게하면 우체국으로 보낼 수 있습니다. 문제는 구조는 비슷(같은)한데 하드코딩으로 바꿔줘야 합니다. 즉 산탄총 코드입니다. 코드베이스의 여러 부분을 산탄총 수술처럼 바꿔줘야 합니다.
+
+우리는 인터페이스 하나로 통합할 수 있습니다.
+
+```go
+package main
+
+import (
+	"go-prac/ex20.0/fedex"
+	"go-prac/ex20.0/koreaPost"
+)
+
+type Sender interface {
+	Send(parcel string)
+}
+
+func sendBooks(name string, sender Sender) {
+	sender.Send(name)
+}
+
+func main() {
+	var sender1 Sender = &fedex.FedexSender{}
+	var sender2 Sender = &koreaPost.PostSender{}
+	sendBooks("foo", sender1)
+	sendBooks("bar", sender2)
+}
+```
+
+이렇게 하면 사용하는 패키지 무관하게 만들 수 있습니다. 즉 관계만 잘 파악하면 산탄총 수술을 방지할 수 있습니다.
+
+변경사항을 초기화는 변경해야 하지만 사용하는 부분은 안바꿔도 됩니다. 남어지는 알아서 동작하게 만들 수 있습니다. 인터페이스를 이용하면 추상화로 구현을 제거하고 보수하기 쉬워집니다.
+
+외부에서 보기에는 인터페이스만 보면 구현을 처리할 수 있습니다.
+
+추상화란 내부동작을 숨겨서 서비스 제공자와 서비스 사용자에게 자유를 주는 것입니다. 사실 내부 구현을 자세히 알 필요는 없습니다. 서비스 이용자도 제공자도 중요한 것은 비슷한 문제를 풀 수 있는지가 중요합니다. 택배라는 배송하는 행위를 제공하는지 중요합니다. 이렇게 하면 의존성과 결합도를 낮추는 것입니다. 즉 디커플링하는 방법입니다.
+
+이렇게 디커플링하면 프로그램의 변경 여역을 최소화할 수 있습니다.
+
+추상계층이라는 말을 합니다. 추상계층이라는 것은 인터페이스입니다. 사용자와 제공자 사이에서 접점의 역할을 합니다. 서비스 전체관점에서도 비슷하다는 것입니다.
+
+백엔드는 서비스 제공자입니다. 여러가지 서비스를 제공합니다. 데이터 베이스에서 데이터를 권한에 맞게 가져옵니다. 웹 프론트엔드는 이 데이터에 해당하는 서비스를 사용합니다. 서비스 제공자인 백엔드와 서비스 사용자인 프론트엔드인 각자에게 맞게 관심사를 분리하고 약속된 접점만 맞추면 됩니다. 이 접점을 보고 추상계층이라고 합니다. API 형식만 알면 됩니다. 어떤 요청에 어떤 응답을 받을 수 있는지 파악하면 됩니다.
+
+이름, 요청, 결과만 파악하면 됩니다. 코드 내부에서는 인터페이스가 존재합니다. 동일한 역할을 합니다. 넓게도 좁게도 모두 동일합니다.
+
+덕타이핑입니다. go와 파이썬은 덕타이핑을 제공합니다. 이것을 잘 파악해야 합니다. 오리처럼 걷고 오리처럼 날고 오리처럼 소리내면 오리라고 간주한다는 의미입니다. 실제로 그 새가 오리인지는 알 수 없습니다. 날기, 걷기, 울기라는 기능이 맞으면 같은 타입이라고 간주하는 것입니다.
+
+인터페이스를 정의하는데 프로그램에서 정의했습니다.
+
+```go
+type Sender interface {
+	Send(parcel string)
+}
+```
+
+이런 인터페이스는 서비스 제공자가 정의하지 않습니다. 서비스 이용자가 정의합니다.
+
+```go
+type Sender interface {
+	Send(parcel string)
+}
+
+type FedexSender struct implements Sender {
+	// ...
+}
+```
+
+다른 언어면 명시해줘여 할 것입니다. go는 명시할 필요가 없습니다.
+
+타입선언할 때 구현하는지 인터페이스를 직접 명시해야 합니다.
+
+하지만 go에서는 사용자 입장에서 봤을 때 인터페이스를 지준으로 판단합니다.
+
+```go
+type Stringer interface {
+	String() string
+}
+
+type Student struct {
+	Name string
+	Age  int
+}
+
+func (s Student) String() string {
+	return fmt.Sprintln(s.Name, s.Age)
+}
+
+func main() {
+	student := Student{"Jake", 30}
+	var stringer Stringer
+
+	stringer = student
+	fmt.Println(stringer.String())
+}
+```
+
+덕타이핑을 했을 때 장점은 사용자 입장에서 선언할 때 인터페이스가 구현되기 때문입니다. 같은 메서드를 포함해도 정의가 없으면 구현도 없는 것입니다.
+
+타입을 그냥 선언하면 됩니다.
+
+대입할 때 타입체크를 합니다. 덕타이핑에 해당하는지 않하는지 기준으로 컴파일 타임에서 검증합니다.
+
+인터페이스에 대입할 때 체크합니다. 런타임 체크가 아니라 빌드에서 체크합니다.
+
+덕타이핑의 장점은 사용자 중심의 프로그래밍이 가능해집니다. 서비스 제공자는 구현이 포함된 구체적인 클래스만 정의하면 사용자는 필요에 맞게 인터페이스를 정의할 수 있습니다. 인터페이스를 제공할 필요가 없어지고 구체클래스만 제공하면 됩니다. 사용자 입장에서는 그냥 사용하면 됩니다.
+
+교체하고 싶을 때 인터페이스를 만들어도 됩니다.
+
+모든 변경을 전부 예상하기 보단 몇가지 가능성 높은 것 위주로 예상하는 것이 좋습니다. 아무리 미래를 잘 예측하고 대비해도 미래에는 예측하기 어려운 것들이 있습니다. 안바뀔 가능성도 있습니다. 시간 낭비가 됩니다. 예상을 못하는 방식으로 바뀔 수 있습니다. 그래서처음에는 구체화된 클래스를 사용하다가 필요한 시점에 인터페이스로 교체하는 것입니다. 덕타이핑을 이렇게 제공하는 것입니다. 예상은 낭비가 발생할 수 있습니다.
+
+인터페이스는 개념적으로 중요합니다. 코드의 추상계층을 제공하는 것으로 의존성을 낮추는 중요한 역할을 합니다.
+
+덕타이핑의 단점도 존재합니다. 구현이 어렵습니다. 덕타이핑 자체의 구현난이도가 높아집니다. 컴파일 타임에서 검증합니다. 런타임에 검증하면 성능 문제가 발생할 수 있습니다. 하지만 go는 컴파일 타임에 검사해서 성능 문제가 없습니다. 빌드타임이 늘 수 있지만 큰 문제는 아닙니다. Java는 인터페이스를 미리 생각해야 합니다. OOP는 설계가 중요하고 클래스의 관계를 잘 설계하는 것이 중요합니다. 구현을 제외하고 관계를 잘 설계해야 합니다. 설계하면 인터페이스 목록이 나오고 이를 구현하는 것입니다. Java는 설계에서 구현으로 이어집니다. 하지만 go는 인터페이스로 미리 선언해줄 필요는 없습니다. go는 설계와 구현이 바뀌는 애자일적인 방식 스크럼 방식에 잘 어울립니다. 좀더 유연함을 염두하고 만든 언어입니다.
+
+먼저 덕타이핑은 편하기는 합니다. 역사적으로 OOP에서 덕타이핑 개념이 없었습니다. 파이썬부터 덕타이핑을 제공하고 go도 반영한 것입니다.
+
+go는 공식문서를 보면서 무슨 함수를 제공하는지만 확인하면 됩니다.
+
+덕타이핑의 단점이 합의가 필요한가? 아마존, 구글, MS에서 모두 클라우드를 제공하는데 인터페이스는 모두 다릅니다. 하지만 회사가 하나의 의원회를 만들어 합의할 필요는 없습니다. 서비스 제공자는 사용자를 묶어놓고 싶습니다. 다른 서비스 이전이 어럽게 만들어야 합니다. 전환비용이 높게 만들어야 다른 서비스 전환이 어렵습니다. 어답터 패턴을 사용해서 서로다룬 부분을 맞춰줘야 합니다. 아마존 S3 데이터 베이스처럼 파일저장 기능을 모두 MS, 구글 서비스를 같이 사용해도 사용가능하게 중간 어답터를 만드는 것입니다. 어답터가 있으면 어느 스토리지를 사용할지만 선택하고 그 내부 구현은 추상화 시켜버리는 것입니다.
+
+설계라는 것은 인터페이스의 집중하는 것입니다. 클래스의 관계만 설정하는 것입니다. 구현은 메서드를 직접 작성하는 것입니다.
+
+소프트웨어 아키텍쳐란 철학적인 질문입니다.
+
+## 29 20장 인터페이스 2/2
+
+https://www.youtube.com/watch?v=IV6zYG3GY5s
+
+```go
+package main
+
+import "fmt"
+
+type Database interface {
+	Get()
+	Set()
+}
+
+type BDatabase struct {
+}
+
+func (b BDatabase) Get() {}
+func (b BDatabase) Set() {}
+
+type CDatabase struct {
+}
+
+func (c CDatabase) Get() {}
+func (c CDatabase) Set() {}
+
+func totalTime(db Database) int {
+	db.Get()
+	db.Set()
+	return 0
+}
+
+func main() {
+	BDB := &BDatabase{}
+	CDB := &CDatabase{}
+
+	if totalTime(BDB) < totalTime(CDB) {
+		fmt.Println("B가 더 빠름")
+	} else if totalTime(BDB) > totalTime(CDB) {
+		fmt.Println("C가	 더 빠름")
+	} else {
+		fmt.Println("같음")
+	}
+}
+```
+
+어답터 패턴을 생각하기 바랍니다. 지금의 경우 매개변수의 타입이 덕타이핑하는 상황입니다. 각각 구현별로 잘 맞추면 됩니다.
+
+인터페이스의 내부구조입니다. 인터페이스는 2개의 필드를 갖습니다. 인스턴스의 메모리주소값, 타입정보 이 2개입니다.
+
+타입정보는 인스턴스의 타입을 파악합니다. 원래는 nil입니다. 인터페이스가 아무것도 가리키는 것이 없으면 nil입니다.
+
+메모리에 구조체를 통해서 인스턴스를 선언해서 만듭니다.
+
+```go
+u := User{}
+stringer = u
+```
+
+이렇게 하면 주소 인스턴스를 할당하는 것입니다.
+
+어답터 코드 예시를 보여주겠습니다.
+
+```go
+package main
+
+type Database interface {
+	Get()
+	Set()
+}
+
+type CDatabase struct{}
+
+func (c CDatabase) GetDatabase() {}
+func (c CDatabase) SetDatabase() {}
+
+func main() {
+
+}
+```
+
+지금은 문제가 됩니다. 메서드 명이 다릅니다. 이럴 때는 wrapper를 사용하는 것입니다. 하지만 코드베이스에 IDE의 의존하고 바꿀 수 있는 상황이 아닙니다. 즉 인터페이스와 구조체의 메서드명은 유지해야 합니다. 하지만 어답터로 여러 데이터베이스 인스턴스를 수용해야 합니다.
+
+```go
+package main
+
+type Database interface {
+	Get()
+	Set()
+}
+
+type CDatabase struct{}
+
+func (c CDatabase) GetDatabase() {}
+func (c CDatabase) SetDatabase() {}
+
+type CDBWrapper struct {
+	cdb CDatabase
+}
+
+func (c CDBWrapper) Get() {
+	c.cdb.GetDatabase()
+}
+func (c CDBWrapper) Set() {
+	c.cdb.SetDatabase()
+}
+
+func main() {
+
+}
+```
+
+여기서 Wrapper 어답터 역할을 해줍니다. 이렇게 하면 내부동작은 안 건드리고 감싸게 됩니다. 그리고 인터페이스를 사용할 수 있게 됩니다.
+
+```go
+package main
+
+import "fmt"
+
+type Database interface {
+	Get()
+	Set()
+}
+
+type CDatabase struct{}
+
+func (c CDatabase) GetDatabase() {}
+func (c CDatabase) SetDatabase() {}
+
+type CDBWrapper struct {
+	cdb CDatabase
+}
+
+func (c CDBWrapper) Get() {
+	c.cdb.GetDatabase()
+}
+func (c CDBWrapper) Set() {
+	c.cdb.SetDatabase()
+}
+
+func main() {
+	var cdatabase CDatabase
+	var database Database
+	database = CDBWrapper{cdatabase}
+
+	fmt.Println(database)
+}
+```
+
+이렇게 소비하는 것도 가능해집니다. CDatabase는 이렇게 접점을 가질 수 있게 됩니다.
+
+포함된 인터페이스, 빈 인터페이스, 인터페이스 기본값 등을 알아봅니다. 또 타입변환까지 알아봅니다.
+
+포함된 인터페이스는 포함된 구조체랑 비슷합니다.
+
+```go
+type Reader interface {
+	Read() (n int, 	err error)
+	Close() error
+}
+
+type Writer interface {
+	Write() (n int, err error)
+	Close() error
+}
+
+type ReadWriter interface {
+	Reader
+	Writer
+}
+```
+
+지금의 경우가 해당합니다.
+
+지금의 경우 ReadWriter는 다른 인터페이스의 메서드 모두를 조합하게 됩니다.
+
+메서드가 없는 인터페이스는 빈인터페이스입니다. 이럴 때는 모든 타입이 가능해집니다. 이 인터페이스가 되기 위해서는 지켜야 할 것이 없습니다.
+
+```go
+package main
+
+import "fmt"
+
+func printVal(v interface{}) {
+	switch t := v.(type) {
+	case int:
+		fmt.Printf("v is int %d\n", int(t))
+	case float64:
+		fmt.Printf("v is int %f\n", float64(t))
+	case string:
+		fmt.Printf("v is int %s\n", string(t))
+	default:
+		fmt.Printf("Not supported type %T:%v\n", t, t)
+	}
+}
+
+type Student struct {
+	Age int
+}
+
+func main() {
+	printVal(10)
+	printVal(3.14)
+	printVal("hello")
+	printVal(Student{30})
+}
+
+// v is int 10
+// v is int 3.140000
+// v is int hello
+// Not supported type main.Student:{30}
+```
+
+이렇게 동작합니다.
+
+https://pkg.go.dev/fmt#Printf
+
+내부적으로 인터페이스를 매개변수로 받게되는 구조를 갖고 있었습니다. 지금 시점에서는 any를 받습니다.
+
+```go
+package main
+
+type Attacker interface {
+	Attack()
+}
+
+func main() {
+	var att Attacker
+	att.Attack()
+}
+// panic: runtime error: invalid memory address or nil pointer dereference
+// [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x1057096]
+```
+
+이렇게 되면 컴파일은 정상적으로 됩니다. 하지만 런타임에러를 발생 시킵니다.
+
+초기값은 nil이기 때문에 발생합니다.
+
+go의 타입 변환입니다.
+
+```go
+var a Interface
+
+t:= a.(ConcreteType)
+```
+
+이런 예시입니다.
+
+인터페이스 타입형변환은 구체화된 타입 변환을 하고 싶을 때 `인터페이스.(타입)`으로 표현하면 됩니다. 해당하는 타입으로 변환하고 반환합니다.
+
+타입변환은 확실히 구체적인 타입일 때 사용할 수 있습니다.
+
+타입변환 컴파일 에러입니다.
+
+```go
+package main
+
+type Stringer interface {
+	String()
+}
+
+type Student struct{}
+
+func main() {
+	var stringer Stringer
+	stringer.(*Student)
+}
+
+```
+
+이렇게 작성하면 빌드타임에 에러가 발생합니다.
+
+불가능한 타입변환을 시도하는 것입니다.
+
+```go
+package main
+
+import "fmt"
+
+type Stringer interface {
+	String() string
+}
+
+type Student struct{}
+
+func (s *Student) String() string {
+	return "Student"
+}
+
+func main() {
+	var stringer Stringer
+	s := stringer.(*Student)
+	fmt.Println(s)
+}
+```
+
+이렇게 하면 빌드는 성공합니다. 하지만 실행할 때 에러가 발생합니다. 형변환 에러가 발생합니다. 형변환은 실행 중에 처리합니다.
+
+문법적으로 가능한 에러와 실행 중 에러는 다릅니다. 실행 중 에러는 nil 포언터 에러가 발생할 수 있습니다.
+
+변환실패를 사전에 알 수 있는 방법이 있는가? 타입변환의 성공여부를 반환하게 만드는 전략을 활용합니다.
+
+```go
+var a Interface
+
+t, ok:= a.(ConcreteType)
+
+```
+
+ok는 변환 성공여부를 알려줍니다. 그리고 성공하면 실행하고 실패하면 무시하게 조건문을 같이 사용하면 됩니다.
+
+<!-- 책에서 예시 추가하기 -->
+
+```go
+if c, ok :=reader.(Closer); ok {
+	c.Close()
+}
+```
+
+이런방법으로 관용적으로 표현합니다.
+
+인터페이스는 메서드 목록을 갖고 구현없이 관계를 정의합니다.
+
+go는 덕타이핑을 지원합니다.
+
+정의와 무관하게 있으면 사용할 수 있게 해줍니다.
+
+인터페이스는 추상 계층을 제공해줍니다.
+
+인터페이스는 메모리주소값과 타입정보만 값고 있어서 16바이트로 고정되어 있습니다. 어떤 인스턴스를 가리켜도 16바이트로 고정됩니다.
+
+형변환으로 구현이 가능합니다.
+
+## 30 21장 함수고급편
+
+https://www.youtube.com/watch?v=qRyHepiTEs8
+
+함수관련된 다른 기능을 다룹니다. 람다가 제일 중요합니다. go는 함수리터럴이라고 부릅니다. 개념적으로 동일합니다.
+
+가변인자 함수입니다.
+
+인자가 여러개 대입하는 것도 가능합니다.
+
+```go
+package main
+
+import "fmt"
+
+func sum(nums ...int) int {
+	sum := 0
+	fmt.Printf("nums: %T\n", nums)
+	for _, v := range nums {
+		sum += v
+	}
+	return sum
+}
+
+func main() {
+	fmt.Println(sum(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+}
+// nums: []int
+// 55
+```
+
+`...`이 여러개의 인자를 대입한다는 표현입니다.
+
+함수 내에서 이렇게 되면 슬라이스에 해당하게 됩니다. 슬라이스라 해당하는 타입의 값을 여러개를 대입할 수 있게 됩니다.
+
+어려개의 인자를 이렇게 대입하는데 그냥 슬라이스를 대입하는 것도 방법입니다.
+
+하지만 여기서는 같은 타임만 대입할 수 있게 되어 있습니다. 하지만 지금의 경우 정수뿐만 아니라 실수도 합하고 싶을 수 있습니다. fmt 패키지의 메서드를 보면 다양한 타입을 수용할 수 있습니다.
+
+```go
+func Println(a ...any) (n int, err error)
+```
+
+이렇게 되어 있습니다. 옛날에는 비어있는 인터페이스를 받아서 any를 만들어냈습니다.
+
+```go
+func Println(args ...interface{}) (n int, err error)
+```
+
+이렇게 구현하고 있었습니다.
+
+defer 키워드는 함수를 지연실행할 수 있습니다. 뒤에 명령을 넣으면 함수 실행 종료 직전에 실행을 보장합니다.
+
+```go
+func add(a ...any) {
+	defer fmt.Println("Hello")
+	fmt.Println("Hi")
+	return "foo"
+}
+
+// Hi
+// Hello
+```
+
+이렇게 사전에 선언하고 종료 직전에 실행하도록 합니다.
+
+주로 OS자원을 반납할 때 자주 사용합니다. 파일 읽고 쓰기할 때 많이 합니다.
+
+1. 프로그램이 OS에 파일 handler 요청
+2. OS는 파일 handler 제공
+3. 작업 완료하면 handler 반환
+
+핸들러를 반환하지 않으면 자원은 프로그램이 가용할 수 있는 자원이 줄어듭니다.
+
+프로그램 종료 전까지는 자원이 반환되지 않습니다.
+
+그래서 반드시 반환해줘야 합니다. 사실 잊을 때가 있거나 복잡한 경우가 있습니다.
+
+프로그램이 OS자원을 먹고 누수 비슷한 현상을 발생시키면 안됩니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	f, err := os.Create("jake.json")
+	if err != nil {
+		fmt.Println("파일 생성 실패")
+		return
+	}
+	defer fmt.Println("111111")
+	defer f.Close()
+	defer fmt.Println("333333")
+
+	fmt.Println("파일 쓰기")
+	fmt.Fprintln(f, `{"hello":20}`)
+
+}
+// 파일 쓰기
+// 333333
+// 111111
+```
+
+이렇게 됩니다. defer는 작성한 키워드의 역순으로 동작합니다.
+
+프로그램의 줄을 stack이라고 생각할 수 있습니다. 줄마다 push하고 defer로 pop하면서 실행합니다.
+
+함수타입 변수입니다.
+
+함수자체를 타입으로 사용할 수 있습니다. 함수타입은 함수를 값으로 갖을 수 있습니다. 함수는 로직을 실행하는 것입니다. 즉 문장인데 어떻게 데이터로 취급하는가?
+
+사실 동작도 결국에는 기계어로 바꿔야 합니다. 함수 call을 goto, jump입니다. 함수 호출할 때 주소로 접프합니다. IP 즉 실행 포인터입니다. 즉 기계어의 특정 주소로 향할 것입니다. 함수의 시작위치도 숫자로 표현하고 종료도 숫자료 결국에는 표현할 것입니다. 함수의 시작위치가 함수의 주소입니다. 즉 메모리의 주소가 존재하게 되는 것입니다. 메모리 공간의 시작을 포인터 변수라고 취급하는 것처럼 함수역시 해당합니다.
+
+함수의 주소는 메모리 주소값인데 메모리 주소값으로 표현하는 이유가 있습니다. go build로 만든 exe파일을 실행하면 메모리에 올려 놓습니다. 그리고 RP 포인트로 올립니다. 실행하면 OS 프로세스가 생성되는 것입니다. 같은 실행파일이지만 다른 프로세스와 상태를 갖게 만들 수 있습니다. 먼저 실행 파일도 함수의 메모리 주소입니다. 하지만 주소값은 변하지 않습니다. 운영체제는 실행파일을 올릴때 같은 위치에 올리는 것처럼 동작하게 만듭니다. 프로그램 내에서는 같은 주소를 사용하는 것처럼 동작하게 해줍니다.
+
+중요한 것은 함수도 숫자료 표현하고 있다는 사실입니다. 공간을 메모리 주소로 표현하기 때문에 함수도 메모리 주소로 표현합니다.
+
+하지만 함수의 문제는 타입 표현입니다.
+
+```go
+func add(a, b int) int {
+	return a + b
+}
+```
+
+함수타입은 함수 시그니쳐로 표현합니다. 함수 이름과 구현을 제외한 함수를 보고 함수 시그니쳐라고 합니다.
+
+```go
+func (int, int) int
+```
+
+위가 함수 시그니쳐에 해당합니다.
+
+```go
+func add(a, b int) int {
+	return a + b
+}
+
+func mul(a, b int) int {
+	return a * b
+}
+
+func getOperator(op string) func(int, int) int {
+	if op == "+" {
+		return add
+	} else if op == "*" {
+		return mul
+	}
+	return nil
+}
+```
+
+이렇게 응용해볼 수 있습니다.
+
+```go
+package main
+
+import "fmt"
+
+func add(a, b int) int {
+	return a + b
+}
+
+func mul(a, b int) int {
+	return a * b
+}
+
+func getOperator(op string) func(int, int) int {
+	if op == "+" {
+		return add
+	} else if op == "*" {
+		return mul
+	}
+	return nil
+}
+
+func main() {
+	var operator func(int, int) int
+	operator = getOperator("+")
+	result := operator(3, 4)
+	fmt.Println(result) // 7
+}
+```
+
+이렇게 사용하는 것이 가능합니다. 반환값에 함수의 시작주소를 할당하는 것으로 이런 동작을 하게 되는 것입니다.
+
+함수타입을 사용할 때는 길어져서 별칭타입을 많이 활용합니다.
+
+```go
+type OpType func(int, int) int
+```
+
+이렇게 사용하면 됩니다.
+
+함수 리터럴도 존재합니다. 문자 그대로 라는 의미입니다. 다른 언어는 람다라고 말합니다.
+
+```go
+B:=3
+
+f:= func(a, b int) int {
+	return a + b
+}
+```
+
+리터럴을 이렇게 표현할 수 있습니다. 선언하는 동안에는 함수에 이름이 없어서 람다입니다. 하지만 선언하고 할당하게 되면 기명함수가 됩니다.
+
+변수에 함수에 대한 메모리 주소를 갖게 되는 것입니다.
+
+```go
+package main
+
+import "fmt"
+
+type OpType func(int, int) int
+
+func getOperator(op string) OpType {
+	if op == "+" {
+		return func(a, b int) int {
+			return a + b
+		}
+	} else if op == "*" {
+		return func(a, b int) int {
+			return a * b
+		}
+	}
+	return nil
+}
+
+func main() {
+	var operator OpType
+	operator = getOperator("+")
+	result := operator(3, 4)
+	fmt.Println(result)
+}
+```
+
+리터럴을 활용하면 이렇게 별도 선언없이 활용하게 됩니다.
+
+함수리터럴은 일반함수랑 다른점이 있습니다. 내부상태를 갖을 수 있습니다. 함수 내부에 상태라고 하는데 이것을 보고 일급함수라고 부르기도 합니다. 함수가 상태를 갖는다는 것입니다. 일반함수는 상태를 갖을 수 없습니다.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	i := 0
+	f := func() {
+		i += 10
+	}
+	f()
+	i++
+	fmt.Println(i) // 11
+}
+```
+
+11이 나옵니다. 함수가 입력값이 없습니다. 리터럴로 외부 스코프 변수를 접근해서 쓰기를 하는 것입니다. 리터럴은 전역변수 스코프에서는 접근할 수 없기 때문에 리터럴이 다릅니다.
+
+리터럴은 외부변수를 캡쳐하고 내부에서 사용할 수 있다는 것입니다. f는 함수의 주소만 가리키는 것에 불과합니다.
+
+주의할점이 있습니다. 캡쳐는 값을 복사하는 것이 아닙니다. 주소를 복사합니다. 즉 위 코드는 포인터를 복사했다고 볼 수 있습니다. 즉 메모리 주소를 변수가 복사하고 그 메모리 주소를 접근해서 값을 갱신한 것입니다. 컴파일러가 대신 동작해서 처리해주는 것입니다.
+
+함수 스코프 내부와 함수 스코프 외부있는 변수에 같은 메모리 공간을 가리키도록 하는 것입니다. 주의할 점이 있습니다.
+
+```go
+package main
+
+import "fmt"
+
+func captureLoop() {
+	f := make([]func(), 3)
+	fmt.Println("value")
+	for i := 0; i < 3; i++ {
+		f[i] = func() {
+			fmt.Println(i)
+		}
+	}
+	for i := 0; i < 3; i++ {
+		f[i]()
+	}
+}
+
+func captureLoop2() {
+	f := make([]func(), 3)
+	fmt.Println("value2")
+	for i := 0; i < 3; i++ {
+		v := i
+		f[v] = func() {
+			fmt.Println(v)
+		}
+	}
+	for i := 0; i < 3; i++ {
+		f[i]()
+	}
+}
+
+func main() {
+	captureLoop()
+	captureLoop2()
+}
+
+// value
+// 3
+// 3
+// 3
+// value2
+// 0
+// 1
+// 2
+```
+
+순회하면서 할당하는데 문제는 값이 아니라 메모리 주소를 할당하기 때문에 발생합니다. 마지막에는 3으로 캡쳐되어 있기 때문에 3을 모두 캡쳐한 것입니다. 하지만 v는 매번 순회하면서 스코프 내부에서 새로운 주소를 할당하기 때문에 0, 1, 2가 됩니다.
+
+즉 개별주소를 가리키는 것과 순회하면서 가산되는 같은 주소의 변수 가리키는 것으로 다르게 됩니다. 3개의 다른 주소 1개의 같은 주소입니다.
+
+GC는 언제 동작하는가 대부분 언어처럼 참조를 하지 않을 때 동작합니다.
+
+고루틴사용할 때 문제가 많이 됩니다. 람다로 값을 캡쳐해서 넘길 수 있습니다. 서로 동시에 읽고 쓰기하면서 예상하지 않은 동작을 할 수 있습니다. 그래서 조심성이 필요합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+type Writer func(string)
+
+func writeHello(writer Writer) {
+	writer("hello world!")
+}
+
+func main() {
+	f, err := os.Create("test.txt")
+	if err != nil {
+		fmt.Println("Failed to create a file")
+		return
+	}
+	defer f.Close()
+	writeHello(func(msg string) {
+		fmt.Fprintln(f, msg)
+	})
+}
+```
+
+`text.txt` 파일에 hello world!가 작성되어 있습니다. 함수를 대입받아서 실행하게 됩니다. 지금은 writeHello에 대입한 함수를 실행하게 되는 것입니다. Fprintln메서드가 파일에 쓰기를 지원합니다. 어떤 함수를 대입하더라도 함수에서 정의한 값을 인자로 대입하게 됩니다.
+
+외부함수에서 로직을 주입하게 되는 구조입니다. 이것을 보고 의존성 주입이라고 합니다. 많이 사용하는 패턴입니다. 로직을 분리할 수 있습니다. 파일처리, 네트워크처리가 간소해집니다.
+
+## 31 22장 자료구조 1/2
+
+https://www.youtube.com/watch?v=r_oVchBrQkc
+
+자료구조입니다. data structure입니다. data는 값입니다. 배열, 리스트, 트리, 맵이 크게 있습니다. 자료를 어떻게 저장하는가? 이 문제가 있습니다.
+
+예전에 배열과 리스트는 이미 배웠습니다. 배열은 메모리 공간이 연속되어 있어서 상수시간복잡성으로 읽습니다.
+
+링크드 리스트는 슬라이스입니다. 여러개의 포인터를 활용해서 읽기가 선형시간복잡성을 갖습니다. 메모리공간에 동적으로 증가해야 합니다. 메모리의 주소를 값으로 갖는 포인터와 값 2개의 정보를 담는 각 항목을 Node라고 합니다. 하지만 장점은 push, pop 쓰기시간이 상수시간복잡성을 갖을 수 있습니다. 또 동적으로 사이즈가 변화하기 때문에 더 유연하게 프로그램을 작성할 수 있습니다. 불연속 메모리공간을 활용합니다.
+
+배열과 리스트를 보고 선형자료구조라고 합니다. 선형은 하나의 데이터가 다음데이터랑 연결된 것을 말합니다.
+
+비선형 데이터구조는 무엇이 있는가? 트리가 해당합니다.
+
+폴더가 대표적인 트리구조입니다. 루트가 디스크의 드라이버로 시작합니다.
+
+container 패키지에서 리스트를 제공하기도 합니다. 양방향(더블) 링크드리스트를 제공합니다.
+
+```go
+type Element struct {
+  Value interface {}
+	Next *Element
+	Prev *Element
+}
+```
+
+Next, Prev가 포인터라는 것을 주목하면 됩니다. 없으면 nil을 가리키게 될 것입니다.
+
+```go
+package main
+
+import (
+	"container/list"
+	"fmt"
+)
+
+func main() {
+	v := list.New()
+	e4 := v.PushBack(4)
+	fmt.Println(e4)
+}
+// &{0xc00007e180 0xc00007e180 0xc00007e180 4}
+```
+
+포인터를 반환한다는 것을 알 수 있습니다. 이전 이후 값을 담을 것을 확인할 수 있습니다.
+
+```go
+package main
+
+import (
+	"container/list"
+	"fmt"
+)
+
+func main() {
+	v := list.New()
+	e4 := v.PushBack(4)
+	e1 := v.PushFront(1)
+	v.InsertBefore(3, e4)
+	v.InsertAfter(2, e1)
+	for e := v.Front(); e != nil; e = e.Next() {
+		fmt.Print(e.Value, " ")
+	}
+	fmt.Print("\n")
+	for e := v.Back(); e != nil; e = e.Prev() {
+		fmt.Print(e.Value, " ")
+	}
+	fmt.Print("\n")
+	fmt.Println(v)
+}
+
+// 1 2 3 4
+// 4 3 2 1
+// &{{0xc00007e1e0 0xc00007e1b0 <nil> <nil>} 4}
+```
+
+링크드 리스트를 이렇게 순회할 수 있습니다.
+
+https://pkg.go.dev/container/list
+
+공식문서에서 상세 스펙을 확인할 수 있습니다.
+
+빅오표기법은 알고리즘의 효율성을 표현하는 방법입니다. 효율은 2가지 시간과 공간입니다. 보통공간과 시간은 반비례한다고 합니다. 항상은 아니고 일반적으로 같는 경향입니다.
+
+빅오표기법은 상한선으로 가장 오래걸리는 시간을 표현하는 것입니다.
+
+일반적인 순회는 선형시간복잡성을 갖습니다.
+
+만약에 배열에서 각 원소를 3배하면 선형시간복잡성을 갖습니다. 읽기에 상수시간과 쓰기하는 횟수에 선형적인 작업입니다. 만약에 링크드 리스트였다면 제곱시간복잡성을 갖을 것입니다. 읽기하는 방식에 따라 다릅니다. next로 읽기하면 선형시간복잡성이지만 인덱스로 읽으면 제곱시간복잡성을 갖게 될 것입니다. 내부에서 인덱스로 접근하는 행위자체가 선형탐색이기 때문입니다.
+
+이중 for문은 제곱시간복잡성을 갖습니다.
+
+최저선은 사실 관심은 별로 없습니다. 대부분의 최악의 경우를 잘 대응해야 합니다.
+
+배열과 리스트 비교는 중요한 개념입니다. 배열 앞에 추가하면 선형쓰기 시간을 갖습니다. 리스트는 삽입이 상수시간입니다. 단방향의 경우 삽입 위치가 중요합니다. 하지만 양방향이면 삽입 위치는 별로 안 중요합니다. 노드만 바꾸는 작업이기 때문에 동작횟수가 정해져있습니다. 다른 포인터에 영향을 주지 않습니다. 하지만 배열은 다른 인덱스에 영향을 주게 됩니다.
+
+배열에서는 인덱스는 연속된 주소라 바로 접근할 수 있습니다. 배열 시작주소 + (인덱스 \* 타입 사이즈)로 동작횟수가 정해져있습니다. 즉 상수시간으로 읽습니다. 하지만 접근하는 횟수로 접근하기 때문에 선형시간복잡성을 갖습니다. 그래서 읽기가 많은지 쓰기가 많은지 기준으로 정하도록 합니다.
+
+하지만 이것이 전부는 아닙니다. 데이터 지역성이라는 문제가 있습니다. 데이터가 인접할 수록 캐시 히트 가능성이 높아집니다. 그래서 성능이 좋아집니다. CPU는 메모리에서 읽을 때 덩어리로 가져와서 필요한 계산을 처리합니다. 그리고 가져온 덩어리에 다음 계산에 필요할 데이터도 가져왔을지도 모릅니다. 캐시 히트가 되면 바로 갖고 있는데 데이터로 계산을 처리합니다. 하지만 미스가 발생하면 메모리에서 또 가져오는 동작을 취해야 합니다.
+
+배열은 연속된 메모리 공간을 갖습니다. 캐시히트 가능성이 높습니다. 하지만 리스트는 불연속메모리라 캐시미스 가능성이 높습니다. 원소수가 적을 때 배열이 리스트보다 빠릅니다. 어느정도까지인가? 1_000개는 무난합니다. 10_000개는 고민해야 합니다. 프로파일링으로 성능비교를 해야합니다. 랜덤 접근이 많으면 배열을 활용합니다. 삽입삭제도 요소개수가 많을 때 리스트를 사용하도록 합니다. 캐시 지역성 때문에 배열이 더 빠를 가능성도 있게 됩니다.
+
+```go
+package main
+
+import (
+	"container/list"
+	"fmt"
+)
+
+type Queue struct {
+	v *list.List
+}
+
+func (q *Queue) enqueue(val interface{}) {
+	q.v.PushBack(val)
+}
+
+func (q *Queue) dequeue() interface{} {
+	front := q.v.Front()
+	if front != nil {
+		return q.v.Remove(front)
+	}
+	return nil
+}
+
+func newQueue() *Queue {
+	return &Queue{list.New()}
+}
+
+func main() {
+	queue := newQueue()
+	queue.enqueue(1)
+	queue.enqueue(2)
+	queue.enqueue(3)
+	queue.enqueue(4)
+	fmt.Println(queue.dequeue())
+	fmt.Println(queue.dequeue())
+	fmt.Println(queue.dequeue())
+	fmt.Println(queue.dequeue())
+	fmt.Println(queue.dequeue())
+}
+```
+
+보통 대기를 표현할 때 많이 활용합니다. 유저의 요청을 순서대로 처리해야 하면 Queue를 활용하게 됩니다.
+
+Stack은 Queue랑 비슷하지만 최근의 넣었던 것을 접근합니다.
+
+```go
+package main
+
+import (
+	"container/list"
+	"fmt"
+)
+
+type Stack struct {
+	v *list.List
+}
+
+func (s *Stack) push(val interface{}) {
+	s.v.PushBack(val)
+}
+
+func (s *Stack) pop() interface{} {
+	peek := s.v.Back()
+	if peek != nil {
+		return s.v.Remove(peek)
+	}
+	return nil
+}
+
+func newStack() *Stack {
+	return &Stack{list.New()}
+}
+
+func main() {
+	stack := newStack()
+	stack.push(1)
+	stack.push(2)
+	stack.push(3)
+	stack.push(4)
+	fmt.Println(stack.pop())
+	fmt.Println(stack.pop())
+	fmt.Println(stack.pop())
+	fmt.Println(stack.pop())
+	fmt.Println(stack.pop())
+}
+```
+
+stack도 간단하게 구현할 수 있습니다.
+
+어떤 언어의 내부적으로 call stack을 구현할 때 stack을 활용합니다.
+
+링은 링크드리스트랑 같은데 마지막요소와 첫요소가 서로 연결된 것입니다.
+
+환형버퍼라고 말하기도 합니다.
+
+```go
+package main
+
+import (
+	"container/ring"
+	"fmt"
+)
+
+func main() {
+	r := ring.New(5)
+	n := r.Len()
+
+	for i := 0; i < n; i++ {
+		r.Value = 'A' + i
+		r = r.Next()
+	}
+
+	for i := 0; i < n; i++ {
+		fmt.Printf("%c", r.Value)
+		r = r.Next()
+	}
+
+	fmt.Println()
+	for i := 0; i < n; i++ {
+		fmt.Printf("%c", r.Value)
+		r = r.Prev()
+	}
+}
+// ABCDE
+// AEDCB
+```
+
+이렇게 됩니다.
+
+링은 일정한 개수만 사용하고 오래되면 삭제해도 괜찮은 경우 사용합니다. 실행취소 같은 경우에 사용합니다. 뒤로가기도 무한한 것이 아니라 한계를 둡니다.
+
+고정된 크기의 메모리 버퍼에 많이 사용합니다. 사이즈를 초과하면 처음 위치에 새로쓰기 때문에 사이즈를 고정시킬 수 있습니다. 물론 배열로 해결해도 됩니다.
+
+리플레이 기능도 많이 사용합니다. 10초 전으로 돌릴 때 사용하는 것처럼 사용합니다.
+
+자료구조는 중요합니다. 면접질문 단골입니다. 자료구조 알고리즘이라고 하는데 면접에 자주 언급합니다. 그중에 자료구조를 더 자주 언급합니다.
+
+팁은 말을 멈추지마세요. 코딩도 말을 멈추지말고 작성하세요. 마음속으로 말을 하고 사고전개과정을 표현하도록 합니다.
+
+그리고 면접에서 코딩부터 바로하지 않습니다. 문제를 받고 문제를 분석하고 논하는 시간을 갖도록 합니다. 프로그래밍을 완료했다고 바로 실행부터 하지는 않습니다. 프로그래밍을 끝냈으면 검토를 해야 합니다. 그리고 에러가 발생하면 검토를 올바르게 못한 것입니다. 검토는 예외처리도 해야 합니다. 이상한 값들도 들어올 수 있습니다. 예외케이스는 바운더리 케이스, 코너 케이스를 검토해야 합니다. null 포인터 케이스도 검토해야 합니다.
+
+실무에서는 알고리즘이 라이브러리로 구현되어 있는 많습니다. 하지만 취업과 이직을 위해서는 반드시 해야 합니다. 국사를 공무원하기 위해 배우기 위한 것처럼 알고리즘도 배워야 합니다. 실력을 검증할 때 유용한 정보를 많이 제공하기 때문에 그렇습니다. 책을 먼저 읽고 LeetCode 쉬움, 보통 300 문제 풀면 취업 가능성이 열립니다.
+
+## 32 22장 자료구조 2/2 (맵)
+
+https://www.youtube.com/watch?v=x0ChnQJx5K4
+
+맵을 다룹니다. 지도라는 뜻보다는 딕셔너리가 더 어울립니다. 맵은 키와 값으로 데이터를 저장하는 자료구조입니다. 키를 넣으면 값을 얻을 수 있습니다.
+
+언어에 따라서 각각 다르게 부릅니다.
+
+사전을 보면 찾고 싶은 단어를 넣으면 그 뜻을 얻을 수 있습니다. 단어는 키가 되고 값은 뜻이란 멘탈모델을 활용할 수 있습니다.
+
+맵은 go가 제공하는 기본 타입이 있습니다. 아주 많이 사용합니다.
+
+```go
+map[key]value
+```
+
+key와 value각각 타입을 정의해야 합니다.
+
+맵은 make를 사용해야 합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	m := make(map[string]string)
+	m["Jake"] = "The Dog"
+	fmt.Println(m)
+}
+```
+
+이렇게 정의하고 사용합니다.
+
+키를 통해 읽기와 쓰기를 접근할 수 있습니다.
+
+맵을 순회하기 단순합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type Product struct {
+	name  string
+	price int
+}
+
+func main() {
+	m := make(map[int]Product)
+	m[30] = Product{"ㅇㅇ", 1000}
+	m[40] = Product{"ㅂㅂ", 2000}
+	m[50] = Product{"ㅈㅈ", 3000}
+	for k, v := range m {
+		fmt.Println(k, v)
+	}
+}
+// 30 {ㅇㅇ 1000}
+// 40 {ㅂㅂ 2000}
+// 50 {ㅈㅈ 3000}
+```
+
+이렇게 순회하면됩니다. range로 키와 값을 접근할 수 있습니다. 참고로 할당한 순서대로 출력되지 않습니다. golang은 순서르 보장하지 않습니다.
+
+해쉬맵과 정렬된 맵 2가지가 있습니다. 정렬된 맵은 키가 정렬됩니다. 해쉬맵은 정렬되지 않습니다. 어느 순서로 나올지 모릅니다. golang은 해쉬맵을 사용하고 있습니다.
+
+요소삭제와 존재여부를 파악할 수 있습니다.
+
+```go
+delete(m, key) // m은 맵 인스턴스입니다.
+
+v, ok := m[3] // 두번째 반환값이 부울리안 값이고 존재여부를 판단합니다.
+```
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type Product struct {
+	name  string
+	price int
+}
+
+func main() {
+	m := make(map[int]int)
+	m[1] = 0
+	m[2] = 2
+	m[3] = 3
+	delete(m, 3)
+	delete(m, 4)
+	fmt.Println(m[3])
+	fmt.Println(m[1])
+}
+// 0
+// 0
+```
+
+삭제한 상태에서 접근하면 기본값을 접근하게 됩니다. 그래서 없어서 0인지 있어서 0인지 구분하기 어려울 수 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type Product struct {
+	name  string
+	price int
+}
+
+func main() {
+	m := make(map[int]int)
+	m[1] = 0
+	m[2] = 2
+	m[3] = 3
+	delete(m, 3)
+	delete(m, 4)
+	v, ok := m[3]
+	fmt.Println(v, ok)
+	v2, ok := m[1]
+	fmt.Println(v2, ok)
+}
+// 0 false
+// 0 true
+```
+
+이렇게 파악할 수 있습니다.
+
+맵의 경우 읽고 쓰기 속도가 상수시간입니다. 키로 접근하기 때문에 그렇습니다. 단점이 있는데 키로만 접근이 가능해서 문제입니다. 순회할 때 순서보장을 받을 수 없다는 점입니다. 또 공간적으로 더 사용합니다.
+
+맵은 사용법보다 원리를 이해하는 것이 더 중요합니다.
+
+맵은 면접의 단골질문입니다. 특히 해쉬함수의 동작을 잘 이해해야 합니다. 해쉬함수는 많이 사용됩니다. 해쉬는 잘게 부순다는 의미를 갖고 있습니다. 해쉬브라운이 해당합니다.
+
+입력값의 범위는 무한대입니다. 순수함수입니다. 입력이 같으면 출력도 같아야 합니다.
+
+sin함수도 해쉬로 사용할 수 있습니다. sin은 해쉬함수로 보통활용하지 않습니다. 이차함수라 성능문제가 있습니다. 또 실수범위입니다. 소수단위가 너올 수 있습니다. 일반적으로 나머지 연산을 활용합니다. 같은 값을 보장하면서 선형시간복잡성을 갖습니다. 결과가 정수라는 점이 장점입니다.
+
+해쉬함수로 맵을 만들어볼 것입니다.
+
+```go
+type Product struct {
+	name  string
+	price int
+}
+
+const M = 10
+
+func hash(d int) int {
+	return d % M
+}
+
+func main() {
+	m := [M]string{}
+	m[hash(23)] = "Jake The Dog"
+	m[hash(259)] = "Finn"
+	m[hash(11)] = "PB"
+	fmt.Println(m)
+}
+```
+
+키와 값으로 지정하게 된 것입니다. 해쉬의 계산 시간이 상수입니다.
+
+지금은 배열로 정한 것입니다. 배열의 사이즈로 정해버립니다.
+
+하지만 문제가 있습니다. 바로 해쉬 충돌입니다. 23, 33 2개의 키를 사용하면 3을 덮어씁니다. 이것을 해결하려면 리스트로 넣는 방법이 있습니다. 하지만 이렇게 하면 리스트를 순회하기 때문에 시간복잡성이 높다고 할 수 있습니다. 하지만 전체 순회를 하지 않아 이것으로도 성능이 좋습니다.
+
+해쉬는 중요합니다.
+
+보통 파일 checksum에 많이 사용합니다. 파일을 hash에 넣으면 얻을 수 있는 값의 바이트 사이즈가 다릅니다. 이 얻은 사이즈가 checksum입니다. 다른 파일을 넣으면 다른 값 같으면 같은 값을 얻을 수 있습니다. 파일의 변조여부를 파악할 때 사용할 수 있습니다. 프로그램이 실행될 때 checksum을 확인하고 다름을 확인할 수 있습니다. 게임분야에서 해킹방지에 활용합니다. 최초 checksum을 알면 다름을 비교해서 알아낼 수 있습니다.
+
+네트워크에서도 사용합니다. 데이터를 보내기 전에 데이터의 checksum을 먼저 보냅니다. 그럼 checksum을 받고 데이터를 모두 받고 같은 해쉬함수를 실행해서 checksum을 비교하고 다르면 변조, 손실을 파악할 수 있습니다.
+
+해쉬는 실제로는 내부 구현이 상당히 복잡합니다. 그리고 해쉬 전략도 다양합니다. 기본이 나머지입니다.
+
+암호학에서도 많이 사용합니다. 비밀번호를 해쉬해서 DB에 저장합니다. 비밀번호를 서버로 보내면 http면 그대로 노출됩니다. https는 패킷을 해쉬를 해서 보냅니다. DB는 해쉬를 받아 비교합니다. 해커가 해쉬를 가로채도 또 해쉬 스펙을 알아도 복호화가 어렵습니다.
+
+해쉬의 특징은 단방향 함수입니다. 일방함수입니다. 즉 역함수가 존재하지 않습니다. 나머지연산자를 사용해서 원래의 값을 알아낼 수 있는가? 13, 23, 33을 10으로 나누면 3이 나올 숫자게 할 수 있는 숫자는 엄청 많습니다. 나머지 연산자는 역을 구할 수 없습니다.
+
+해쉬는 우연으로 맞추는 경우도 존재합니다. 하지만 횟수제한을 둬서 차단할 수 있습니다.
+
+옛날에는 비밀번호를 평문으로 저장했습니다. 비번찾기하면 그대로 알려줬던 경우가 많습니다. 하지만 지금은 서버도 비밀번호를 모르게 저장합니다. DB가 탈취되어도 해쉬값만 갖고 있어서 여전히 안전합니다.
+
+해쉬는 암호화화폐에서도 사용합니다. 암호화 화폐는 역 해쉬 시도가 어렵다는 점을 이용하는 것입니다. 채굴이라는 것은 이 역해쉬를 시도하는 것입니다. 암호화 화폐에서 거래하면 역해쉬를 시도하고 성공해야 거래가 성사될 수 있습니다. 가능한 모든 케이스를 사용해서 CPU 자원을 많이 사용하는데 이 CPU 연산에 도와주는 것을 채굴이라고 합니다. 거래가 성사되면 코인들 받는 것입니다. 암호화 화폐의 기반은 해쉬입니다.
+
+공개키 방식도 해쉬가 기본입니다.
+
+map은 사용하기 상당히 편안한 자료구조입니다.
+
+해쉬를 사용한 map과 정렬된 map 2가지 중 무엇이 더 좋은가? 속도차이가 있습니다. 해쉬맵은 상수시간을 갖고 정렬된 map은 $O(log_{2}N)$ 을 갖습니다. 자료의 사이즈에 따라 성능이 떨어지지만 그래도 좋은 편입니다.
+
+모든 키값으로 정렬을 해놓기 때문에 사입시간도 정렬을 유지합니다. 이 탐색시간이 $O(log_{2}N)$ 입니다.
+
+이렇게 생각하면 hash map이 더 좋아보입니다. 기본적으로 값의 사이즈가 정해집니다. 필요한 메모리량이 큽니다.
+
+공간과 속도사이 트레이드 오프에서 사용하면 됩니다. 정렬된 map은 데이터베이스에서 많이 사용합니다. 공간복잡성이 관심사이기 때문에 그렇습니다.
+
+## 33 23장 에러핸들링
+
+https://www.youtube.com/watch?v=KdKbh19U1ag
+
+에러는 언제 어디서나 발생합니다. 항상 발생합니다. 버그도 오료의 종류입니다. 프로그래머 혹은 기획, 디자인의 논리적인 오류로 만들어지는 오동작을 보고 버그리가 합니다. 왜부 환경이 바뀌는 경우에도 버그가 바뀔 수 있습니다. 맥은 정상동작하는데 윈도우에서 오류가 있을 수 있습니다. 메모리가 부족해지거 하는 문제가 발생할 수 있습니다.
+
+AWS의 CTO를 인용합니다.
+
+> 모든 것은 언젠간 고장납니다.
+
+기계는 늘 고장날 가능성이 있습니다. 오류는 항상 발생한다고 가정하고 프로그래밍에 임합니다.
+
+네트워크 관련된 프로그래밍을 하면 UDP로 통신하면 패킷 손실율이 있습니다. 데이터 중 일부를 잃어버릴 수 있습니다. 어림잡아 7% 유실이 발생합니다.
+
+메모리 가용율 문제도 있습니다. 99.9999% 가용율을 갖고 있으면 몇초는 메모리에 고장날 것입니다. 목표를 아무리 높게 잡아도 고장은 날 것입니다.
+
+페이스북도 1년 중 몇초는 서비스 장애가 발생할 수 있습니다.
+
+에러는 에러자체보다 핸들링이 더 중요합니다.
+
+에러는 2가지 선택지로 대응할 수 있습니다. 프로그램을 죽이는 방법이 있고 프로그램을 계속 살리는 방식이 있습니다. 이것은 에러 성격에 맞게 대응해야 합니다.
+
+파일을 열기를 했는데 없다면 프로그램을 죽일 것인가? 아니면 못찾는다고 하고 계속 가동시킬 것인가? 아니면 만들어줄 것인가?
+
+이것은 개발의 수명주기 문제도 존재합니다. 개발 중에서는 오류를 빠르게 찾을 수록 쉽게 해결할 수 있습니다. 프로그램의 개발이 끝나고 사용자에게 배포가 된 상황인데 오류가 발생하면 프로그램이 죽으면 사용자 경험에 안 좋습니다.
+
+프로그램의 성격마다 다릅니다. 항공 관제 시스템은 오류가 발생했는데 프로그램이 죽어야 하는가? 승객도 죽을 수 있습니다. 오류를 파악하고 죽지 않게 대응해야 합니다. 미션 크리티컬한 상황에서는 죽이지 않는 방법 즉 살리는 방법이 있습니다.
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
+
+func readFile(fileName string) (string, error) {
+	file, err := os.Open(fileName)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	read := bufio.NewReader(file)
+	line, _ := read.ReadString('\n')
+	return line, nil
+}
+
+func writeFile(filename, line string) error {
+	file, err := os.Create(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	_, err = fmt.Fprintln(file, line)
+	return err
+}
+
+const fileName = "data.txt"
+
+func main() {
+	line, err := readFile(fileName)
+	if err != nil {
+		err = writeFile(fileName, "this is created")
+		if err != nil {
+			fmt.Println("파일 생성 실패", err)
+			return
+		}
+		line, err = readFile(fileName)
+		if err != nil {
+			fmt.Println("파일 읽기 실패", err)
+			return
+		}
+		fmt.Println("파일 내용:", line)
+	}
+}
+```
+
+이렇게 에러를 핸들링할 수 있습니다. 없으면 만들고 만들어서 읽기를 시킵니다. 읽고 쓰는 과정에서 에러가 발생하면 가드하고 return으로 실행을 종료합니다.
+
+오류가 발생하면 호출자에게 알려줘서 처리하게 만드는 것입니다. 에러처리를 호출자에게 위임하는 것입니다. 함수를 만들 때 일반적인 처리 위임입니다.
+
+에러를 반환하게 만들 수 있습니다. 에러 객체를 사용하는 방법이 있습니다.
+
+```go
+fmt.Errorf(formatter string, ...interface{}) error
+error.New(text string) error
+```
+
+위 2가지 선택지 중 1가지 활용하면 됩니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+func sqrt(f float64) (float64, error) {
+	if f < 0 {
+		return 0.0, fmt.Errorf("양수를 대입해주세요 f:%g", f)
+	}
+	return math.Sqrt(f), nil
+}
+
+func main() {
+	num1, err := sqrt(-25)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(num1)
+
+	num2, err := sqrt(64)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(num2)
+}
+
+// 양수를 대입해주세요 f:-25
+// 0
+// 8
+```
+
+이렇게 됩니다. `fmt.Errorf`으로 메시지를 넣어서 해당하는 error 객체를 반환합니다. 장점은 포맷팅입니다.
+
+`error.New`를 사용하면 메시지에 포맷팅이 어럽습니다.
+
+에러도 결국에는 인터페이스입니다. 인터페이스라 문자열만 반환하는 Error() 함수만 만들면 무엇이든지 에러로 사용할 수 있습니다.
+
+```go
+type error interface {
+	Error() string
+}
+```
+
+```go
+type PasswordError struct {
+	len int
+	required int
+}
+
+func (p PasswordError) Error() string {
+	return "길이가 짧습니다."
+}
+
+func signIn (id, pw string) error {
+	if len(pw) < 8 {
+			return PasswordError{len: len(pw), required: 8}
+	}
+	return nil
+}
+
+```
+
+메서드에 Error()에 반환할 문자열이 있어서 에러 인터페이스를 충족합니다. 호출자아게 에러 메시지를 전달하고 고유한 에러 핸들링 로직을 구현할 수 있게 됩니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type PasswordError struct {
+	len      int
+	required int
+}
+
+func (p PasswordError) Error() string {
+	return "길이가 짧습니다."
+}
+
+func signIn(id, pw string) error {
+	if len(pw) < 8 {
+		return PasswordError{len: len(pw), required: 8}
+	}
+	return nil
+}
+
+func main() {
+	err := signIn("email", "1234")
+	if err != nil {
+		if errInfo, ok := err.(PasswordError); ok {
+			fmt.Printf("%v Len: %d requiredLen: %d\n", errInfo, errInfo.len, errInfo.required)
+		}
+	}
+}
+// 길이가 짧습니다. Len: 4 requiredLen: 8
+```
+
+이렇게 직접 구조체를 만드는 이유는 필요한 정보를 필드로 넣어서 호출자가 제어하기 쉽게 만듭니다. 인터페이스라 구체적으로 사용하기 쉽습니다.
+
+메시지를 복잡하지 않게 만들 수 있습니다.
+
+에러 랩핑입니다.
+
+```go
+package main
+
+import (
+	"bufio"
+	"errors"
+	"fmt"
+	"strconv"
+	"strings"
+)
+
+func MultipleFromString(str string) (int, error) {
+	// 스캐너는 일정한 규칙으로 읽기를 지원합니다.
+	// 인자로 io.Reader를 받아야 합니다.
+	scanner := bufio.NewScanner(strings.NewReader(str))
+	scanner.Split(bufio.ScanWords)
+	position := 0
+	a, n, err := readNextInt(scanner)
+	if err != nil {
+		// 여기서 에러를 감쌉니다.
+		return 0, fmt.Errorf("Failed to readNextInt(), pos:%d, err:%w", position, err)
+	}
+	position += n + 1
+
+	b, n, err := readNextInt(scanner)
+	if err != nil {
+		// 여기서 에러를 감쌉니다.
+		return 0, fmt.Errorf("Failed to readNextInt(), pos:%d, err:%w", position, err)
+	}
+	return a * b, nil
+}
+
+// 다음 단어를 읽어서 숫자로 변환하여 반환합니다.
+// 변환된 숫자, 읽은 글자수, 에러를 반환합니다.
+func readNextInt(scanner *bufio.Scanner) (int, int, error) {
+	if !scanner.Scan() {
+		return 0, 0, fmt.Errorf("failed to scan")
+	}
+
+	word := scanner.Text()
+	number, err := strconv.Atoi(word) // ❹ 문자열을 숫자로 변환
+	if err != nil {
+		return 0, 0, fmt.Errorf("Failed to convert word to int, word: %s err: %w", word, err)
+	}
+	return number, len(word), nil
+}
+
+func readRq(eq string) {
+	rst, err := MultipleFromString(eq)
+	if err == nil {
+		fmt.Println(rst)
+	} else {
+		fmt.Println(err)
+		var numError *strconv.NumError
+		if errors.As(err, &numError) {
+			fmt.Println("NumberError: ", numError)
+		}
+	}
+}
+
+func main() {
+	readRq("123 3")
+	readRq("123 c")
+}
+
+// 369
+// Failed to readNextInt(), pos:4, err:Failed to convert word to int, word: c err: strconv.Atoi: parsing "c": invalid syntax
+// NumberError:  strconv.Atoi: parsing "c": invalid syntax
+```
+
+꽤 긴 예제입니다. 또 에러메시지도 꽤 그럴싸해보입니다.
+
+지금은 문자열을 숫자로 바꾸는데 숫자로 바꿀 수 없어서 에러가 발생했습니다.
+
+`errors.As`는 타입변환 가능성을 확인합니다. 만약에 해당하는 그 타입으로 변환 가능하면 그 타입을 반환합니다.
+
+지금은 `fmt.Errorf`으로 새로운 에러를 감싸는 상황입니다. 에러를 `readNextInt`에서 1번 `MultipleFromString`에서 1번 해서 2번 감싸게 됩니다. 여러 callstack에 쌓여지면서 pop할 때마다 감싸지게 됩니다. 하위에서 상단으로 올리면서 보다 구체적인 정보를 추가하게 되는 것입니다. 에러가 가장 높은 stack부터 발생할 텐데 안에서 부터 정보를 계속 쌓고 추가하게 되는 것입니다.
+
+`error.As`는 에러 객체를 첫번째 인자 해당하는 에러인지 검증할 두번째 인자로 대입해서 사용합니다. 감싼 에러를 변환하는 것이고 `error.Is`는 해당여부를 파악합니다. 자주 사용하지는 않지만 디버깅할 때 유용합니다.
+
+패닉입니다. 이전 에러는 프로그램을 살리는 방법입니다. 패닉은 처리하기 힘든 에러를 대응하기 위해 프로그램을 종료시키는 것입니다. 오류를 해결하기 위해 사용합니다.
+
+```go
+package main
+
+import "fmt"
+
+func divide(a, b int) {
+	if b == 0 {
+		panic("b는 0일 수 없습니다.")
+	}
+	fmt.Printf("%d / %d = %d\n", a, b, a/b)
+}
+func main() {
+	divide(9, 3)
+	divide(9, 0)
+}
+
+// 9 / 3 = 3
+// panic: b는 0일 수 없습니다.
+
+// goroutine 1 [running]:
+// main.divide(0x9?, 0x3?)
+```
+
+프로그램이 실패하면 어느 지점에서 실패했는지 패키지, 파일, 라인넘버를 알려줍니다.
+
+지금 사례는 에러로 반환해도 됩니다.
+
+문제가 되는 부분을 바로 보여주 알려주기 때문에 디버깅하기가 에러보다 쉽습니다. 종료시키기 때문에 파악하기 쉽습니다.
+
+동작방식을 파악해야 하는데 패닉은 전파됩니다. 패닉을 전파시켜서 프로그램을 종료시킵니다. 프로그램을 개발하는 동안에는 패닉으로 종료 시켜서 안정성을 확보합니다. 하지만 배포될 프로그램은 종료시키지 않고 최대한 프로그램을 살려야 합니다. 프로그램의 패닉이 발생해도 빠르게 복구가 가능해야 합니다. 모든 것을 에러로 바꾸기 어렵습니다.
+
+패닉은 callstack 역순으로 전파됩니다.
+
+복구할 때는 `recover`함수로 합니다. 패닉 객체를 반환합니다. 보통 패닉은 `defer`로 `recover`해서 사용합니다.
+
+```go
+package main
+
+import "fmt"
+
+func f() {
+	fmt.Println("f() 함수시작")
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("panic 복구 - ", r)
+		}
+	}()
+	g()
+	fmt.Println("f() 함수종료")
+}
+
+func g() {
+	fmt.Printf("%d / %d = %d\n", 9, 3, h(9, 3))
+	fmt.Printf("%d / %d = %d\n", 9, 0, h(9, 0))
+}
+
+func h(a, b int) int {
+	if b == 0 {
+		panic("b는 0일 수 없습니다.")
+	}
+	return a / b
+}
+
+func main() {
+	f()
+	fmt.Println("프로그램 계속 실행")
+}
+// f() 함수시작
+// 9 / 3 = 3
+// panic 복구 -  b는 0일 수 없습니다.
+// 프로그램 계속 실행
+```
+
+`f`에서 복구가 성공하고 `main`은 계속 실행할 수 있게 됩니다. 하지만 복구는 덜 사용하는 것이 좋습니다. 주로 배포에서 recover하는 것이 좋습니다. 하지만 그냥 recover하지말고 logging하는 것이 좋습니다. 그냥 실행시키면 오류탐지를 못합니다.
+
+go는 구조화된 에러처리를 지원하지 않습니다. try, catch, finally 문이 없습니다. 왜 지원을 안하는가? SEH는 성능 문제가 있습니다. 오류가 발생하지 않아도 지원하기 위해 성능을 많이 지불해야 합니다. 정상적이라도 프로그램의 성능문제가 됩니다. 에러처리가 까다롭습니다. 에러를 단순하게 먹기만 해서 에러처리를 등한시합니다. try 블록에서 catch를 한번에 먹고 logging하고 끝내면 에러 대응을 등한시하게 됩니다.
+
+에러처리는 귀찮습니다. 하지만 중요합니다. 에러는 숨기는 것이 아닙니다. 에러처리도 코드의 부분으로 여겨야 합니다. 에러처리를 잘 해서 코드를 잘 짜야 합니다. 빈킨지시자로 무시하는 행위를 덜해야 합니다. 에러는 nil로 가드를 잘해서 처리를 잘 해야합니다. 그리고 에러는 감추지말고 드러내야 합니다. 조기에 발견하고 쉽게 대응합니다. 미연의 방지를 잘 해야 합니다. 배포 후 에러는 장애, 취약점으로 이어지기 쉽습니다.
+
+외부툴로 서버를 살리는 행위는 괜찮습니다. 에러는 항상 발생합니다. 프로그램 내부에서 처리가능한 것도 있지만 불가능한 것도 있습니다. 중요한 것은 대비하는 것입니다. 대비는 여러 계층구조를 갖고 대응합니다. 내부에서 부터 대비해야 합니다. 그리고 프로그램 외부에서 대비해야 합니다. 서버 하드웨어 같은 것입니다. forever이라는 실행도구도 있습니다. 서버가 죽으면 다시 살리는 툴입니다. 머신차원에서 대비책입니다. 머신은 IDC, Reck에서도 정전을 대비해서 복구책을 둡니다. 데이터 센터에서도 하드웨어가 죽으면 옆 서버컴퓨터로 옮기 백업하는 것입니다. 또 데이터 센터가 북중러 미사일 폭격을 받으면 폭격받지 않은 데이터 센터가 받아서 복구하는 것입니다.
+
+에러를 감싸는 행위는 `fmt.ErrorF("%w", err)`를 사용해야 합니다. 하지만 유용한 패키지가 있습니다.
+
+[errors](https://github.com/pkg/errors)에서 지원합니다.
+
+https://pkg.go.dev/github.com/pkg/errors#section-readme
+
+```go
+_, err := ioutil.ReadAll(r)
+if err != nil {
+        return errors.Wrap(err, "read failed")
+}
+```
+
+이렇게 지원합니다. 내부는 동일하지만 더 간결합니다.
+
+## 34 24장 고루틴
+
+https://www.youtube.com/watch?v=tRdODUXV3ik
+
+고루틴 전에 쓰레드를 이해해봅시다.
+
+쓰레드는 실행흐름입니다. 프로그램이 실행하는 과정에서 프로그램이 메모리로 load를 합니다. 명령어에 해당하닌 기계어를 메모리 올리고 CPU는 실행 주체입니다. 모든 명령은 결국에 CPU에서 실행합니다. CPU자체는 단순합니다. 그냥 명령어 즉 연산자와 피연산자를 실행할 명령에 맞게 처리합니다. 하나의 연산에 집중합니다. 프로그램이 실행되면 시작시점이 있습니다. go는 main함수입니다. 명령어를 명령지점을 main함수 시작지점에 맞춥니다. main함수의 줄마다 읽는 줄을 보고 현재 줄에서 더해서 실행합니다.
+
+CPU의 코어가 실행주체입니다. 명령어 다발을 실행합니다. 한줄로 읽어갑니다. 이것을 튜링 머신에서 해당하는 부분이 CPU 코어입니다. 메모라 IP를 가리키면 읽으면서 실행하게 됩니다.
+
+프로그램이 거대해지고 나중에 멀티쓰레드가 탄생합니다. 원도우가 사용컴퓨터로 ui가 나오면서 프로그램을 여러개 실행을 상용적으로 하기 시작했습니다. 옛날에 CPU는 싱글코어였습니다. 코어가 1개인데 어떻게 프로그램이 여러게를 실행하는가? 각각의 쓰레드마다 IP를 갖고 실행하다가 중간중간에 교체하는 방식으로 동작했습니다.
+
+현대컴퓨터에서는 CPU는 가많이 있고 OS 소프트웨어가 명령으로 CPU가 할 작업을 결정합니다. OS가 읽을 쓰레드 스케줄링을 한다는 것입니다. 쓰레드를 번갈아가면서 동시에 동작하는 것처럼 보이게 만드는 것입니다. 코어가 2개면 OS알아서 맞게 스케줄링합니다. CPU 자체는 단순한 계산기입니다. OS는 CPU에 먹일 쓰레드를 제어하게 됩니다.
+
+문제가 있습니다. 바로 성능입니다. 컨텍스트 스위칭 문제입니다. 쓰레드에는 IP 정보를 각각 갖고 있습니다. 또 stack 메모리 문제도 있습니다. heap 메모리는 같은 프로세스면 공유하지만 stack은 쓰레드 안에 있습니다. 각각 존재하게 됩니다. 쓰레드를 바꾸면 이런 정보를 바꿔야 합니다. 이렇게 바꾸서 정보를 제공하는 것을 보고 컨텍스트 스위칭이라고 부릅니다. 쓰레드 전환마다 성능저하 문제가 발생합니다.
+
+만약에 코어가 1개고 쓰레드가 3개면 컨텍스트 스위칭이 자주 발생할 것입니다. 하지만 코어가 3개고 쓰레드도 3개면 각각 코어와 쓰레드가 1대1로 대응하고 컨텍스트 스위칭을 방지할 수 있습니다.
+
+멀티 쓰레드와 멀티 프로세스는 당연히 다릅니다. 프로세스는 프로그램을 실행하면 OS가 메모리에 올립니다. 브라우저를 키면 브라우저 프로세스가 생깁니다. 브라우저는 탭마다 프로세스를 갖고 있습니다. 여러개의 탭을 만들면 실행 인스턴스도 여러개가 됩니다. 이 실행인스턴스 즉 각각의 탭을 각각의 프로세스라고 합니다. 실행주체가 달라 서로 상태도 다르게 됩니다.
+
+멀티 쓰레드는 하나의 프로세스 내부에서 여러개의 실행이 존재할 수 있습니다. 프로그램 내에서 여러개의 쓰레드가 존재할 수 있습니다.
+
+고루틴은 go에서 만든 경량 쓰레드라고 정의합니다. 쓰레드 자체를 가볍게 사용한다는 의미입니다. 쓰레드랑 동일하게 취급하면 됩니다. main함수도 쓰레드입니다. 실행 흐름이 존재할 것입니다. 기본적으로 모은 go로 만든 프로그램은 1개의 고루틴을 가져야 합니다. 새로운 고루틴을 만들고 싶으면 `go 함수명()` 형식으로 호출하면 됩니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func PrintHangul() {
+	hangul := []rune{'가', '나', '다', '라', '마', '바', '사'}
+	for _, v := range hangul {
+		time.Sleep(300 * time.Millisecond)
+		fmt.Printf("%c ", v)
+	}
+}
+
+func PrintNumbers() {
+	for i := 1; i <= 5; i++ {
+		time.Sleep(400 * time.Millisecond)
+		fmt.Printf("%d ", i)
+	}
+}
+
+func main() {
+	go PrintHangul()
+	go PrintNumbers()
+
+	time.Sleep(3 * time.Second)
+}
+
+// 가 1 나 2 다 3 라 마 4 바 5 사
+```
+
+go 키워드를 사용해서 동시에 실행할 수 있게 되었습니다.
+
+지금은 총 3개의 고루틴이 생성됩니다. 메인 고루틴이고 각각 함수마다 고루틴을 갖게 됩니다.
+
+`main` 고루틴이 종료되기 전에 다른 고루틴도 종료되는 것으로 간주합니다. 그래서 `main`을 다른 고루틴이 끝날 때까지 계속 살려야 합니다.
+
+서브 고루틴 종료까지 대기하는 방법이 있습니다.
+
+```go
+var wg Sync.WaitGroup
+
+wg.Add(3) // 작업개수 설정
+wg.Done() // 작업이 완료될 때마다 호출
+wg.Wait() // 모든 작업이 완료될 때까지 대기
+```
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+var wg sync.WaitGroup
+
+func SumAtoB(a, b int) {
+	sum := 0
+	for i := a; i <= b; i++ {
+		sum += i
+	}
+	fmt.Printf("%d ... %d = %d \n", a, b, sum)
+	wg.Done()
+}
+
+func main() {
+	wg.Add(10)
+	for i := 0; i < 10; i++ {
+		go SumAtoB(1, 10)
+	}
+	wg.Wait()
+}
+
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+// 1 ... 10 = 55
+```
+
+10개의 경량 쓰레드를 만들고 실행한 것입니다. 여기서 주목할 점은 wg.Add, wg.Wait는 반복문 밖에 있다는 것입니다. 다른 main이외 다른 쓰레드에서 알아서 실항하고 있고 대는 main에서 한다는 것입니다. 만약에 안에 있었으면 반복문 내에서 작업을 기다리게 될 것입니다.
+
+이제 동작원리입니다. 쓰레드랑 다릅니다. 다른 언어는 쓰레드를 지원합니다. 하지만 기존 쓰레드랑 무엇이 다른가? 고루틴은 OS 쓰레드를 이용하는 경량 쓰레드입니다. 고루틴과 쓰레드는 다릅니다. 고루틴은 쓰레드를 사용하는 것은 맞습니다. 실제 쓰레드보다 가볍다고 하는데 무엇이 어떻게 가볍다는 것인가? 코어가 1개이고 OS 쓰레드 1개를 만드는 상황이면 고루틴도 1개를 만들어서 서로 매칭시킵니다. OS는 반드시 쓰레드가 존재해야 실행할 수 있게 됩니다. 중간에 OS 쓰레드는 반드시 필요합니다.
+
+코어가 2개고 고루틴도 2개면 OS쓰레드도 2개가 됩니다. 이렇게 되면 서로다른 쓰레드 실행할 수 있습니다. 만약에 여기서 고루틴이 3개라면 어떻게 되는가? 이미 최대 코어에 도달해서 추가 쓰레드를 만들지 않습니다. 이럴 때는 밴치라는 곳에서 고루틴이 대기합니다. OS 쓰레드랑 연결된 고루틴 중 종료되된 고루틴은 대기중 고루틴여 연결하고 기존 연결을 끊습니다. 만약에 대기가 너무 많으면 어떻게 되는가? 프로그램에서 자주 나오는 것 중 하나는 대기상태입니다. 프로그램은 대기가 많습니다. 파일 읽기 쓰기는 대기입니다. 파일을 읽고 쓰는 것은 OS가 처리하는 작업입니다. 이러한 요청 즉 OS에게 요청하는 행위를 보고 시스템 콜이라고 합니다. 시스템 콜이 발생하면 쓰레드, 고루틴은 대기해야 합니다. OS가 작업을 완료하기 전까지는 대기입니다. 또 다른 시스템 콜은 네트워크의 읽기 쓰기도 OS가 처리합니다. 이러한 대기는 자주 일어납니다. 시스템콜로 대기하는 동안에 고루틴은 자리를 교체합니다. 시스템 콜이 완료된 시점에 또 다른 고루틴이 대기할 때 자리를 교체합니다.
+
+실제 쓰레드 수량은 코어수만큼 만듭니다. 그리고 고루틴은 쓰레드가 놀고 있을 때 교체합니다. 하지만 엄청난 장점은 컨텍스트 스위칭이 OS에서 발생하지 않습니다. 고루틴 응용계층에서 발생합니다 고루틴이 교체되는 것이 컨텍스트 스위칭입니다. IP와 스택메모리를 각각 갖고 있는데 OS에서 컨텍스트 스위칭보단 작습니다. 고루틴의 컨텍스트자체가 경량입니다. 고루틴의 스택은 아주 작습니다. 늘릴 수 있지만 처음에 작게 만들어 전환할 컨텍스트 스위칭하기 위해 필요한 작업량이 작습니다. 그래서 고루틴은 편하게 많이 사용해도 아주 큰문제는 없습니다. 멀티쓰레드 언어는 쓰레드 수량을 신경을 많이 쓰고 성능문제를 방지해야 합니다. 하지만 go는 비용이 낮고 추상화가 잘 되어 있어서 과감하게 사용해도 됩니다.
+
+동시성 프로그래밍의 주의점이 있습니다.
+
+여러 실행흐름이 동시에 처리할 때가 문제입니다. 코어와 고루틴이 동시에 작업하면서 문제가 됩니다. 바로 힙메모리는 프로스세 내에서 여러개의 쓰레드가 공유합니다. 같은 메모리 자원을 접근할 때 동시성 문제가 발생합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+type Account struct {
+	Balance int
+}
+
+func main() {
+	var wg sync.WaitGroup
+	account := &Account{0}
+
+	wg.Add(10)
+	for i := 0; i < 10; i++ {
+		go func() {
+			for {
+				DepositAndWithdraw(account)
+			}
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+}
+
+func DepositAndWithdraw(account *Account) {
+	if account.Balance < 0 {
+		panic(fmt.Sprintf("마통 아님 %d", account.Balance))
+	}
+	account.Balance += 1000
+	time.Sleep(time.Millisecond)
+	account.Balance -= 1000
+}
+```
+
+이렇게 되면 무한하게 돈을 넣고 빼고를 반복합니다. 언젠가는 패닉으로 종료될 것입니다. 같은 주소에 읽고 쓰기를 계속하는데 이미 뺀 상태에서 다른 고루틴이 접근해서 또 빼면서 패닉한 것입니다. 즉 자원을 동시에 접근하면서 패닉한 것입니다.
+
+값을 읽을 때 1000인 상태로 읽을 때랑 0인 상태로 읽을 때마다 각각 다르게 됩니다. CPU는 어느 시점에 0인 상태로 읽게 됩니다. 0에서 빼기를 한 것입니다.
+
+변수를 보면 구조체의 메모리를 동시에 접근하기 때문에 생기는 문제입니다. 이것을 차단하는 방법이 있습니다. 하나의 메모리 자원에 여러개의 고루틴이 동시에 접근하는 것을 방지할 수 있습니다. 하나의 고루틴에서는 하나의 자원을 접근해야 합니다. 메모리를 락걸어 놓는 것입니다. 즉 뮤텍스로 잠궈둘 수 있습니다. 뮤텍스는 번역하면 상호배제라고 합나다. 락인 동안 다른 고루틴이 접근할 수 없습니다.
+
+뮤텍스를 통해서 자원에 읽고 쓰기할 수 있는 주체를 1개로 제한한 것입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+// 뮤텍스 정의로 사용할 수 있게 해줍니다.
+var mutex sync.Mutex
+
+type Account struct {
+	Balance int
+}
+
+func main() {
+	var wg sync.WaitGroup
+	account := &Account{0}
+
+	wg.Add(10)
+	for i := 0; i < 10; i++ {
+		go func() {
+			for {
+				DepositAndWithdraw(account)
+			}
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+}
+
+func DepositAndWithdraw(account *Account) {
+	// 아래 두줄로 고루틴에서 동시접근을 방지합니다.
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	if account.Balance < 0 {
+		panic(fmt.Sprintf("마통 아님 %d", account.Balance))
+	}
+	account.Balance += 1000
+	time.Sleep(time.Millisecond)
+	account.Balance -= 1000
+}
+```
+
+이렇게 되면 이제 프로그램이 종료되지 않습니다.
+
+뮤텍스는 문제가 있습니다. 동시성 프로그래밍으로 얻을 수 있는 성능향상을 잃게 됩니다. 여러개의 고루틴은 여러개의 코어를 활용해서 동시에 작업하는 것인데 문제는 하나씩 접근한다는 문제입니다. 각각 실행해서 성능이 좋아져야 하는데 과도한 락으로 성능이 떨어집니다. 접근가능한 고루틴이 1개면 고루틴이 1개만하기 때문에 고루틴으로 처리할 이유가 없어집니다.
+
+락이라는 작업도 $10^{-3}ms$ 작업시간이 걸립니다. 쓰레드 사용량을 늘려도 성능향상이 오히려 떨어질 수 있습니다.
+
+데드락문제가 발생합니다. 고루틴을 완전히 먼추게 만듭니다.
+
+작업을 처리하는데 2개의 자원을 접근해야 하는데 각각 1개 1개를 접근해서 서로 대기하면서 교착상태가 됩니다. 다른 작업에 기아현상이 발생합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"sync"
+	"time"
+)
+
+var mutex sync.Mutex
+
+var wg sync.WaitGroup
+
+func main() {
+	rand.Seed(time.Now().UnixNano())
+	wg.Add(2)
+	fork := &sync.Mutex{}
+	spoon := &sync.Mutex{}
+
+	go diningProblem("A", fork, spoon, "포크", "수저")
+	go diningProblem("B", spoon, fork, "수저", "포크")
+	wg.Wait()
+}
+
+func diningProblem(name string, first, second *sync.Mutex, firstName, secondName string) {
+	for i := 0; i < 100; i++ {
+		fmt.Printf("%s 밥을 먹으려고 합니다\n", name)
+		first.Lock()
+		fmt.Printf("%s %s 획득\n", name, firstName)
+		second.Lock()
+		fmt.Printf("%s %s 획득\n", name, secondName)
+
+		fmt.Printf("%s 밥을 먹습니다.\n", name)
+		time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
+		second.Unlock()
+		first.Unlock()
+	}
+}
+
+// B 밥을 먹으려고 합니다
+// A 밥을 먹으려고 합니다
+// B 수저 획득
+// B 포크 획득
+// B 밥을 먹습니다.
+// B 밥을 먹으려고 합니다
+// B 수저 획득
+// B 포크 획득
+// B 밥을 먹습니다.
+// A 포크 획득
+// A 수저 획득
+// A 밥을 먹습니다.
+// B 밥을 먹으려고 합니다
+// A 밥을 먹으려고 합니다
+// A 포크 획득
+// B 수저 획득
+// fatal error: all goroutines are asleep - deadlock!
+```
+
+go 언어 차원에서 데드락을 감지했습니다. 각각 자원을 얻고 각각 락을 걸어 놓고 교착이 발생합니다. 모든 고루틴이 잠들면 데드락을 감지합니다. 하지만 만약에 살아있는 고루틴이 있으면 데드락을 모릅니다. 자원을 서로 다룬 순서로 가져가게 만들어서 생기는 문제입니다.
+
+실무 코드는 복잡합니다. 여러 계층의 호출구조를 갖게 됩니다. 순서가 엇갈리고 데드락이 걸릴 수 있습니다. 데드락의 문제는 발생여부를 알아낼 수 없다는 것입니다. 또 항상발생하는 것도 아닙니다. 운이 좋으면 혹은 안좋아서 정상동작할지도 모릅니다.
+
+데드락은 프로덕션에서 자주 발생합니다. 개발에서는 파악하기 어럽습니다. 일관되게 발생하지 않아서 버그 재현도 어렵습니다. 그래서 뮤텍스는 조심스럽게 사용해야 합니다. 사용하지 말아야 할 것은 아닙니다. 일반적인 상황에서 자원을 쉽게 보호할 수 있습니다.
+
+다른 자원관리 방법이 있습니다. 영역을 나누거나 역할을 나누는 방법입니다. 메모리에서 각각 읽고 쓰고할 영역을 구분하고 간섭이 발생하지 않게 만드는 것입니다. 이것은 영역나누기 입니다. 역할을 나누는 방법은 채널과 컨텍스트에서 논합니다. 지금은 영역 나누기를 보여주겠습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+type Job interface {
+	Do()
+}
+
+type SquareJob struct {
+	index int
+}
+
+func (j *SquareJob) Do() {
+	fmt.Printf("%d 작업 시작\n", j.index)
+	time.Sleep(1 * time.Second)
+	fmt.Printf("%d 작업 완료 - 결과 %d\n", j.index, j.index*j.index)
+}
+
+func main() {
+	var jobList [10]Job
+	for i := 0; i < 10; i++ {
+		jobList[i] = &SquareJob{i}
+	}
+
+	var wg sync.WaitGroup
+	wg.Add(10)
+
+	for i := 0; i < 10; i++ {
+		job := jobList[i]
+		go func() {
+			job.Do()
+			wg.Done()
+		}()
+	}
+
+	wg.Wait()
+}
+
+// 0 작업 시작
+// 2 작업 시작
+// 5 작업 시작
+// 7 작업 시작
+// 8 작업 시작
+// 9 작업 시작
+// 1 작업 시작
+// 6 작업 시작
+// 4 작업 시작
+// 3 작업 시작
+// 3 작업 완료 - 결과 9
+// 1 작업 완료 - 결과 1
+// 5 작업 완료 - 결과 25
+// 4 작업 완료 - 결과 16
+// 9 작업 완료 - 결과 81
+// 2 작업 완료 - 결과 4
+// 8 작업 완료 - 결과 64
+// 0 작업 완료 - 결과 0
+// 7 작업 완료 - 결과 49
+// 6 작업 완료 - 결과 36
+```
+
+지금 변수별로 작업할 컨텍스트를 각자 넘겨놓고 처리하게 만든 것입니다. 이렇게 하면 뮤텍스에 의존할 필요가 없습니다.
+
+질문들입니다.
+
+고루틴에서 우선순위가 있는가? local run queue로 idle 상태에 쓰레드가 받게 만들 수 있습니다.
+
+OS보다 고루틴이 비용이 저렴한 이유가 무엇인가? 컨텍스트 스위칭의 제일 큰 문제는 스택메모리 교체를 위해 복사하는 행위가 비쌉니다. 고루틴에서는 교체할 것은 없고 IP 만 바꿔주면 됩니다. OS 컨텍스트 스위칭을 방치하고 고루틴 내에서 처리하게 만들어서 성능을 높입니다.
+
+```sh
+go run -race main.go
+```
+
+마지막으로 위 명령으로 동시성 접근 문제가 발생하는지 검증하도록 합니다.
+
+## 35 25장 채널과 컨텍스트
+
+https://www.youtube.com/watch?v=F6T9x-M7GNE
+
+채널과 컨텍스트입니다. 이것은 고루틴과 이어집니다. 동시성 프로그램의 3신기입니다.
+
+채널은 고루틴간의 메시지큐라고 보면 됩니다. 고루틴 끼리 메시지를 전달할 수 있게 해줍니다. 메시지큐로 큐 자료구조 맞습니다. 단지 고루틴끼리 메시지규를 전달합니다. 이것을 보고 고급스럽게 쓰레드 세이프 메시지큐라고 합니다. 멀티 쓰레드 환경에서 락없이 사용할 수 있습니다.
+
+채널을 생성하는 방법입니다.
+
+```go
+var massage chan string = make(chan string)
+```
+
+chan하고 띄어쓰기하거 타입을 작성하면 됩니다. 채널타입과 메시지타입으로 정의하면 됩니다.
+
+사용 전에는 항상 make로 먼저 만들어야 합니다.
+
+enqueue입니다.
+
+```go
+massage <- "This is a massage"
+```
+
+채널 인스턴스로 넣는다는 의미입니다. 뒤에 연산자를 붙여서 넣는다는 의미입니다.
+
+dequeue입니다.
+
+```go
+var msg string = <- massage
+```
+
+채널 인스턴스 앞에 붙이면 데이터를 접근할 수 있습니다. 지금은 접근해서 일반 변수에 할당하는 것입니다.
+
+놀랍게도 이것이 채널의 전부입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	ch := make(chan int)
+
+	wg.Add(1)
+	go square(&wg, ch)
+	ch <- 9
+	wg.Wait()
+}
+
+func square(wg *sync.WaitGroup, ch chan int) {
+	n := <-ch
+	time.Sleep(time.Second)
+	fmt.Printf("Square: %d\n", n*n)
+	wg.Done()
+}
+// Square: 81
+```
+
+ch가 square 아래 enqueue를 했습니다. 이유는 고루틴이 dequeue를 해야 하는데 비어있기 때문입니다. 그래서 고루틴 실행 중에 채널에서 enqueue를 받고 실행합니다.
+
+고루틴끼리 데이터를 주고 받을 때 채널을 사용합니다. 지금은 main에서 square로 넘겨준것입니다.
+
+뮤텍스는 읽고 쓰기 모두 걸어둬야하는데 채널을 사용하면 이런 것에 대해서 추상화되어 있게 됩니다. 채널간 데이터 공유가 수월해집니다. 쓰레드 세이프한 큐라는 것을 파악하는 것이 중요합니다.
+
+채널은 이것이 전부고 단순해보입니다.
+
+이것을 고루틴과 응용하면 엄청나게 많은 문제해결이 가능합니다.
+
+채널의 기본 크기는 0입니다. 받을 데이터가 올때까지 대기합니다.
+
+크기는 make의 3번째 인자로 제어할 수 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	ch := make(chan int)
+
+	ch <- 9
+	fmt.Println("Never print")
+}
+```
+
+이렇게 되면 데드락이 발생합니다. 왜 데드락이 발생하는가? 채널에 값을 넣으면 고루틴이 채널에서 데이터를 받고 처리해야합니다. 하지만 반고 처리할 고루틴이 없으면 무한하게 실행됩니다. 받기 위해 무한하게 대기해서 데드락이라고 간주하게 됩니다.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	ch := make(chan int, 1) // int 1개의 버퍼
+
+	ch <- 9
+	fmt.Println("Never print")
+}
+```
+
+하지만 받을 데이터(버퍼)의 사이즈를 이렇게 지정해주면 정상적으로 종료합니다. 즉 enqueue하고 버퍼를 모두 안 비우는 것을 허용한 것입니다. 설정한 버퍼 개수 이하가 될 때까지 계속 대기하게 됩니다.
+
+채널에서는 데이터를 여러번 뽑는 것도 가능합니다.
+
+```go
+n := <- ch
+```
+
+위처럼 해야 채널을 뽑는데 비어버릴 때까지 계속 뽑게 만들 수 있습니다.
+
+```go
+for n := range ch {
+	// ...
+}
+```
+
+이렇게 되면 채널에서 계속 데이터를 뽑는 행위를 반복합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	ch := make(chan int)
+
+	wg.Add(1)
+	go square(&wg, ch)
+	for i := 0; i < 10; i++ {
+		ch <- i * 2
+	}
+	wg.Wait()
+}
+
+func square(wg *sync.WaitGroup, ch chan int) {
+	for n := range ch {
+		time.Sleep(time.Second)
+		fmt.Printf("Square: %d\n", n*n)
+	}
+
+	wg.Done()
+}
+```
+
+이렇게 실행하면 정상적으로 실행할 것이라는 생각을 합니다. 하지만 또 데드락이 발생합니다.
+
+main 고루틴은 10번 enqueue를 할 것이라는 것을 알고 있습니다. 하지만 square는 무한하게 데이터를 받으려고 해서 데드락이 발생합니다. 그래서 정지가 발생합니다. 그래서 프로그램이 강제 종료됩니다.
+
+이럴 때 해야 하는 것은 단순합니다. 채널을 닫아주면 됩니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	ch := make(chan int)
+
+	wg.Add(1)
+	go square(&wg, ch)
+	for i := 0; i < 10; i++ {
+		ch <- i * 2
+	}
+	close(ch) // 여기입니다.
+	wg.Wait()
+}
+
+func square(wg *sync.WaitGroup, ch chan int) {
+	for n := range ch {
+		time.Sleep(time.Second)
+		fmt.Printf("Square: %d\n", n*n)
+	}
+
+	wg.Done()
+}
+// Square: 0
+// Square: 4
+// Square: 16
+// Square: 36
+// Square: 64
+// Square: 100
+// Square: 144
+// Square: 196
+// Square: 256
+// Square: 324
+```
+
+close 내장함수에 닫을 채널을 대입하면 고루틴은 더이상 받을 채널이 없는 것을 확인하고 닫고 데드락 혹은 좀비 고루틴이 되는 것을 막을 수 있습니다. 고루틴 메모리 누수가 발생하게 됩니다. 시스템 부하가 발생하고 메모리 낭비가 많아집니다. 계속 늘어나면 문제가 되고 프로그램 성능문제가 됩니다.
+
+채널을 닫는 습관을 들이도록 합니다.
+
+실무에서는 고루틴을 막씁니다. 그래서 채널을 닫기 도와주는 툴들도 있을 정도로 찾기 어렵습니다.
+
+select 문도 존재합니다. 채널의 데이터를 동시에 기다릴 때 사용합니다. 여러 채널에서 데이터를 기다릴 때 사용합니다. switch case 문과 비슷하게 생겼습니다.
+
+여러개의 데이터를 동시에 기다리고 각각 받을 때마다 실행합니다.
+
+```go
+select {
+	case n:= <- ch1 :
+	// ...
+	case n:= <- ch2 :
+	// ...
+	case:
+	// ...
+}
+```
+
+for문은 채널이 닫을 때까지 계속 실행합니다. 하지만 select는 받으면 종료합니다. 보통은 무한 루프를 감싸서 사용합니다.
+
+Tick은 일정 간격으로 신호를 주는 채널을 반환합니다. After는 일정 간격 후에 1번만 채널을 반환합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	ch := make(chan int)
+	quit := make(chan bool)
+
+	wg.Add(1)
+	go square(&wg, ch, quit)
+	for i := 0; i < 10; i++ {
+		ch <- i * 2
+	}
+
+	quit <- true
+	wg.Wait()
+}
+
+func square(wg *sync.WaitGroup, ch chan int, quit chan bool) {
+	for {
+		select {
+		case n := <-ch:
+			time.Sleep(time.Second)
+			fmt.Printf("Square: %d\n", n*n)
+		case <-quit:
+			wg.Done()
+			return
+		}
+	}
+}
+```
+
+이런 응용도 가능합니다. 해당하는 채널을 받고 함수를 반환해서 깨고 고루틴의 종료를 전달합니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	ch := make(chan int)
+
+	wg.Add(1)
+	go square(&wg, ch)
+	for i := 0; i < 10; i++ {
+		ch <- i * 2
+	}
+
+	wg.Wait()
+}
+
+func square(wg *sync.WaitGroup, ch chan int) {
+	tick := time.Tick(time.Second)
+	terminate := time.After(10 * time.Second)
+
+	for {
+		select {
+		case <-tick:
+			fmt.Println("똑딱")
+		case <-terminate:
+			fmt.Println("종료!")
+			wg.Done()
+			return
+		case n := <-ch:
+			time.Sleep(time.Second)
+			fmt.Printf("Square: %d\n", n*n)
+		}
+	}
+}
+// Square: 0
+// 똑딱
+// Square: 4
+// 똑딱
+// Square: 16
+// Square: 36
+// Square: 64
+// 똑딱
+// Square: 100
+// Square: 144
+// Square: 196
+// Square: 256
+// Square: 324
+// 똑딱
+// 종료!
+```
+
+10초에 한번 채널을 받으면 종료하게 만듭니다. 하지만 그동안 틱을 받으면 그냥 출력만 하게 만듭니다.
+
+채널을 안 닫고 그냥 고루틴을 종료시키는 방법입니다.
+
+게임분야가 이런 로직을 많이 사용합니다. 게임은 애니메이션과 인풋입니다. 애니메이션은 초당 60초 애니메이션이고 입력을 받으면 캐릭터가 움직이는 애니메이션이라는 생각을 하면 됩니다.
+
+틱마다 화면을 갱신하고 입력이 들어오면 인풋을 처리하게 됩니다.
+
+역할을 나누는 방법을 생산자 소비자 패턴으로 적용합니다.
+
+고루틴 속에 고루틴을 넣고 채널로 데이터를 공유하게 만들 것입니다. 채널을 dequque하는 입장이 소비자이고 채널에 enqueue를 하는 입장이 생산자입니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+type Car struct {
+	Body  string
+	Tire  string
+	Color string
+}
+
+var wg sync.WaitGroup
+var startTime = time.Now()
+
+func main() {
+	tireCh := make(chan *Car)
+	paintCh := make(chan *Car)
+
+	fmt.Println("Start Factory")
+
+	wg.Add(3)
+	go MakeBody(tireCh)
+	go InstallTire(tireCh, paintCh)
+	go PaintCar(paintCh)
+
+	wg.Wait()
+	fmt.Println("Close Factory")
+}
+
+func MakeBody(tireCh chan *Car) {
+	tick := time.Tick(time.Second)
+	after := time.After(10 * time.Second)
+	for {
+		select {
+		case <-tick:
+			car := &Car{}
+			car.Body = "유사 자동차"
+			tireCh <- car
+		case <-after:
+			close(tireCh)
+			wg.Done()
+			return
+		}
+	}
+}
+
+func InstallTire(tireCh, paintCh chan *Car) {
+	for car := range tireCh {
+		time.Sleep(time.Second)
+		car.Tire = "Winter tire"
+		paintCh <- car
+	}
+	wg.Done()
+	close(paintCh)
+}
+
+func PaintCar(paintCh chan *Car) {
+	for car := range paintCh {
+		time.Sleep(time.Second)
+		car.Color = "Red"
+		duration := time.Now().Sub(startTime)
+		fmt.Printf("%.2f 완성 Car: %s %s %s\n", duration.Seconds(), car.Body, car.Tire, car.Color)
+	}
+	wg.Done()
+}
+
+// Start Factory
+// 3.00 완성 Car: 유사 자동차 Winter tire Red
+// 4.01 완성 Car: 유사 자동차 Winter tire Red
+// 5.01 완성 Car: 유사 자동차 Winter tire Red
+// 6.01 완성 Car: 유사 자동차 Winter tire Red
+// 7.01 완성 Car: 유사 자동차 Winter tire Red
+// 8.01 완성 Car: 유사 자동차 Winter tire Red
+// 9.01 완성 Car: 유사 자동차 Winter tire Red
+// 10.01 완성 Car: 유사 자동차 Winter tire Red
+// 11.01 완성 Car: 유사 자동차 Winter tire Red
+// 12.01 완성 Car: 유사 자동차 Winter tire Red
+// Close Factory
+
+```
+
+이렇게 채널끼리 넘겨주는 것입니다. enqeueu로 넣을 채널은 close로 닫을 생각하는 것입니다.
+
+채널을 받고 실행하고 완료하면 채널을 넘겨주고 닫는 방식입니다.
+
+컨베어 벨트처럼 1초마다 하나씩 출력하게 됩니다. 첫차는 3초가 됩니다. 그이후부터는 1초마다 1개입니다. 계단처럼 처리할 것이라고 생각하면 됩니다.
+
+고루틴과 채널을 사용하면 응용할 수 있는 패턴이 현란합니다. 동시성 패턴이 우아합니다.
+
+이제 컨텍스트입니다. 컨택스트는 번역하면 맥락입니다. 작업명세서 역할을 합니다. 고루틴을 만들 때 작업 가능 시간, 작업 취소 등 이런 저런 조건을 지시할 수 있습니다. 명세를 주면 거기에 맞게 제어가 가능합니다.
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"sync"
+	"time"
+)
+
+var wg sync.WaitGroup
+
+func main() {
+	wg.Add(1)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	go PrintEverySecond(ctx)
+	time.Sleep(5 * time.Second)
+	cancel()
+
+	wg.Wait()
+}
+
+func PrintEverySecond(ctx context.Context) {
+	tick := time.Tick(time.Second)
+	for {
+		select {
+		case <-ctx.Done():
+			wg.Done()
+		case <-tick:
+			fmt.Println("Tick")
+		}
+	}
+}
+
+// Tick
+// Tick
+// Tick
+// Tick
+// Tick
+```
+
+context 패키지를 사용해서 이렇게 직접 취소할 수 있습니다. 기본 켄텍스트 위에 덮어쓰기 방식으로 되어 있습니다.
+
+채널을 닫는 방법도 있지만 지금은 context로 닫는 방법입니다. 현재 예시에서는 main 고루틴에서 cancel을 실행해서 호출하는 PrintEverySecond에서 시그널로 종료시킵니다. 컨텍스트가 종료 시그널을 받을 수 있습니다.
+
+취소도 가능하고 Done으로 시그널을 전달하는 방법도 있습니다.
+
+```go
+ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+```
+
+위는 3초 후 `ctx.Done()`으로 취급하게 됩니다.
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"sync"
+)
+
+var wg sync.WaitGroup
+
+func main() {
+	wg.Add(1)
+
+	ctx := context.WithValue(context.Background(), "redis", 420)
+	go square(ctx)
+
+	wg.Wait()
+}
+
+func square(ctx context.Context) {
+	if v := ctx.Value("redis"); v != nil {
+		n := v.(int)
+		fmt.Printf("Square: %d\n", n*n)
+	}
+	wg.Done()
+}
+
+// Square: 176400
+
+```
+
+이렇게 컨텍스트에 해당하는 데이터를 넘겨줄 수 있습니다. 작업 시작 전에 데이터를 지정하고 넘겨주는 것이 가능합니다.
+
+컨텍스트는 기본적으로 wrapper입니다.
+
+```go
+ctx, cancel := context.WithCancel(context.Background())
+ctx = context.Value(ctx, "redis", 9)
+ctx = context.Value(ctx, "pg", "hello")
+```
+
+이렇게 연속으로 넘겨주고 감싸서 기능을 추가하고 데이터 더 늘릴 수 있습니다.
+
+채널을 활용하면 발행구독 패턴을 만들 수 있습니다. 옵저버 패턴과 유사합니다. pub, sub 패턴이라고도 부릅니다.
+
+이벤트 프로바이더에 해당하는 주체가 있습니다. 옵저버들이 작업을 완료 혹은 이벤트를 받는 패턴입니다. 자주 사용하는 패턴입니다.
+
+옵저버 패턴은 동기적으로 동작합니다. pub, sub 패턴은 아닙니다. 발행(pub)을 하면 데이터 변화가 발생하면 sub로 듣는 것입니다. 이벤트가 발생하면 브로커가 구독자에게 알려는 방식입니다. 기본적으로 비동기 동작합니다.
+
+```go title="main.go"
+package main
+
+import (
+	"context"
+	"fmt"
+	"sync"
+	"time"
+)
+
+var wg sync.WaitGroup
+
+func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+
+	wg.Add(4)
+	publisher := NewPublisher(ctx)
+	subscriber1 := NewSubscriber("AAA", ctx)
+	subscriber2 := NewSubscriber("BBB", ctx)
+
+	go publisher.Update()
+
+	subscriber1.Subscribe(publisher)
+	subscriber2.Subscribe(publisher)
+
+	go subscriber1.Update()
+	go subscriber2.Update()
+
+	go func() {
+		tick := time.Tick(time.Second * 2)
+		for {
+			select {
+			case <-tick:
+				publisher.Publish("Hello Message")
+			case <-ctx.Done():
+				wg.Done()
+				return
+			}
+		}
+	}()
+
+	fmt.Scanln()
+	cancel()
+
+	wg.Wait()
+}
+```
+
+```go title="publisher.go"
+package main
+
+import "context"
+
+type Publisher struct {
+	ctx         context.Context
+	subscribeCh chan chan<- string
+	publishCh   chan string
+	subscribers []chan<- string
+}
+
+func NewPublisher(ctx context.Context) *Publisher {
+	return &Publisher{
+		ctx:         ctx,
+		subscribeCh: make(chan chan<- string),
+		publishCh:   make(chan string),
+		subscribers: make([]chan<- string, 0),
+	}
+}
+
+func (p *Publisher) Subscribe(sub chan<- string) {
+	p.subscribeCh <- sub
+}
+
+func (p *Publisher) Publish(msg string) {
+	p.publishCh <- msg
+}
+
+func (p *Publisher) Update() {
+	for {
+		select {
+		case sub := <-p.subscribeCh:
+			p.subscribers = append(p.subscribers, sub)
+		case msg := <-p.publishCh:
+			for _, subscriber := range p.subscribers {
+				subscriber <- msg
+			}
+		case <-p.ctx.Done():
+			wg.Done()
+			return
+		}
+	}
+}
+```
+
+```go title="subscriber.go"
+package main
+
+import (
+	"context"
+	"fmt"
+)
+
+type Subscriber struct {
+	ctx   context.Context
+	name  string
+	msgCh chan string
+}
+
+func NewSubscriber(name string, ctx context.Context) *Subscriber {
+	return &Subscriber{
+		ctx:   ctx,
+		name:  name,
+		msgCh: make(chan string),
+	}
+}
+
+func (s *Subscriber) Subscribe(pub *Publisher) {
+	pub.Subscribe(s.msgCh)
+}
+
+func (s *Subscriber) Update() {
+	for {
+		select {
+		case msg := <-s.msgCh:
+			fmt.Printf("%s got Message:%s\n", s.name, msg)
+		case <-s.ctx.Done():
+			wg.Done()
+			return
+		}
+	}
+}
+```
+
+채널은 채널도 받을 수 있습니다. 모든 데이터를 받기 때문에 가능합니다.
+
+```go
+chan (chan <-string)
+chan chan string
+```
+
+이렇게 되어 있으면 쓰기 전용 채널입니다.
+
+채널이 받는 채널도 있습니다.
+
+슬라이스는 쓰레드 세이프하지 않기 때문에 항상 조심해야 합니다.
+
+## 36 27장 SOLID 객체 중심 설계 원칙
+
+https://www.youtube.com/watch?v=1y3hTrwSZoQ
+
+객체지향 설계의 5가지 원칙입니다.
+
+SRP 단일책임원칙
+OCP 개방패쇄원칙
+LSP 리스코프 치환원칙
+ISP 인터페이스 분리원칙
+DIP 제어역전원칙
+
+1명이 만든 것이 아닙니다. 컴퓨터과학자들이 논한 것으로 정의한 것입니다. OOP로 좋은 설계를 하기 위해서는 위 원칙을 지켜야 합니다.
+
+중요한 프로그래밍 개념입니다. go 문법과 관련은 없습니다. 프로그래밍하면서 go언어를 잘 사용하기 위해 알아야 합니다.
+
+OOP는 객체지향원칙의 약자입니다. 객체지향적이란 무엇인가? 대부분 공학서적은 일본어 번역서를 한국어로 번역한 경우가 많고 영어원서를 직접 번역하는 경우는 덜합니다. 컴퓨터공학도 동일합니다. 객체지향이라는 번역도 1대1로 매칭해야 합니다.
+
+우리가 지향이라는 말은 무엇을 추구한다는 의미입니다. 현재의 시점에서 어느방향으로 가고자한다는 의미입니다. 현재는 객체가 아닌데 객체에 해당하는 프로그래밍을 하겠다는 것입니다. 하지만 사실 이미 객체입니다. 이미 객체중심 프로그래밍이 가능합니다.
+
+Oriented가 과연 지향이라는 말로 번역하는 것이 맞는가? 객체를 지향이라기보단 객체를 중심에 둔 프로그래밍이라고 번역하는 것이 더 어울릴 것입니다.
+
+객체를 중심에 두기위한 원칙을 SOLID라고 보게 되는 것입니다. OOP를 정의하는 툴과 원칙을 지키는 것은 다릅니다. 툴은 그져 도와줄 뿐입니다. SOLID는 그져 방향을 제시해줄 것입니다.
+
+번역을 올바르게 한다면 SOLID를 지향해야 하는 것입니다. SOLID는 목표이고 프로그래머로서 코드를 작성했을 때 코드가 갖고 있어야 하는 것들입니다. 하지만 목표는 맞지만 달성할 수 없는 추상적인 목표입니다. 세계평화와 같습니다. SOLID를 모두 지킬 수 있는 것은 아니고 또 지킨다고 좋은 것은 아닌 경우도 존재합니다.
+
+현실의 제약은 꽤 많습니다. 시간과 사람의 문제가 존재합니다. 사람은 생각과 실력이 다르기 때문에 SOLID를 추구하기 어려운 점들이 존재합니다.
+
+좋은 설계 전에 나쁜 설계를 보겠습니다. 나쁜 설계로부터 방어하는 것이라고 봅시다.
+
+1. 경지성: 코드가 복잡해서 안정적으로 전체를 바꾸기 어려운 경우입니다.
+2. 부서지기 쉬움: 코드의 부분이 분리되어 있다고 생각하는 것이 사실 아니고 연결되어 있어서 버그, 의도하지 않거나 에러가 자주 발생하는 경우입니다.
+3. 부동성: 이미 만든 기능을 호출할 수 없고 그때그때 새로 만들어야 하는 경우입니다.
+
+응집도가 낮고 결합도가 높은 경우를 문제가 된다고 합니다. 연관된 부분을 모으고 처리를 위해 변경이 필요할 부분을 최대한 분리해야 합니다.
+
+위반사례입니다.
+
+```go
+type FinanceReport struct {
+	report string
+}
+func (r *FinanceReport) SendReport(email string){
+	//
+}
+```
+
+```go
+type MarketingReport struct {
+	report string
+}
+func (r *FinanceReport) SendReport(email string){
+	//
+}
+```
+
+타입이 달라서 매번 또 메서드를 만드는 경우가 해당합니다.
+
+전송과 보고서를 분리해야 합니다. 2가지 기능을 분리해야 합니다. 보고하는 것과 전송하는 것을 분리해야 합니다.
+
+```go
+// 레포트 객체
+type Report struct {
+	Report() string
+}
+
+type FinanceReport struct {
+	report string
+}
+
+func (r *FinanceReport) Report() string {
+	return r.report
+}
+
+// 전송객체
+type ReportSender struct {
+
+}
+
+func (r *ReportSender) SendReport(report Report){
+	//
+}
+```
+
+이렇게 하면 원칙이 지켜진 것입니다. 보고 기능과 전송기능을 분리할 수 있게 됩니다. 이렇게 되면 다른 종류의 레포트가 생겨나도 대응할 수 있게 됩니다.
+
+구체화된 객체 끼리는 의존관계를 갖을 필요가 없습니다. 어느정도 의존성은 존재할 수 있지만 추상적인과 구체적인 관계로 의존성을 갖는 것이 제어히기 쉽습니다.
+
+개방패쇄원칙입니다.
+
+확장에는 열려있고 변경에는 닫혀있는 것입니다. 확장은 새로운 기능 추가를 쉽게 할 수 있고 변경은 기존 코드 변경을 안한다는 것입니다. 기존 코드 변경 없이 기능 추가가 가능해야 합니다.
+
+```go
+func SendRport(r *Report, method SendType, receiver string) {
+	switch method {
+	case Email:
+		//...
+	case Fax:
+		//...
+	case PDF:
+		//...
+	case Printer:
+		//...
+	}
+}
+```
+
+실무에서 꽤 자주볼 코드입니다. 나중에는 레포트를 전송하는 기능이 추가 될 것입니다. 이 함수자체는 기존 구현입니다. 추가할 때마다 계속 바뀌어야 하는 문제가 발생할 것입니다. 나중에는 부서지기 쉬운 원인 제공을하게 될 것입니다.
+
+SOLID는 하나가 위반되면 나머지도 위반되는 경우가 많습니다.
+
+```go
+type ReportSender interface {
+	Send(r *Report)
+}
+
+type EmailSender struct {
+
+}
+
+func (e *EmailSender) Send(r *Report) {
+	//
+}
+
+type FaxSender struct {
+
+}
+
+func (f *FaxSender) Send(r *Report) {
+	//
+}
+```
+
+OCP는 기존코드를 전혀 수정없는 것이 아니라 최소화하고 신기능 추가를 의미합니다. 팩토리 메서드에 해당하는 경우입니다.
+
+타입에 따라 객체를 생성해주는 패턴 혹은 메서드입니다.
+
+하지만 이렇게 되면 코드 변경이 필요한 면적이 많이 줄어듭니다.
+
+나중에는 의존성으로 주입하는 경우도 존재합니다.
+
+프로그래밍에서 switch case는 만악의 근원이라고 합니다. 같은 값에 따라 1개만 존재해야 한다는 원칙이 있습니다.
+
+팩토리 내부에서는 switch case 1번만 사용하는 것이 좋은 조언입니다.
+
+리스코프 치환 원칙 LSP입니다.
+
+리스코프는 사람이름입니다. CS에서 유명합니다. 여자이고 1세대입니다.
+
+> $q(x)$ 를 타입 $T$ 의 객체 $x$에 대해서 증명할 수 있는 속성이라 하자. 그렇다면 $S$ 가 $T$ 의 하위 타입이라면 $q(y)$ 는 타입 $S$ 의 객체 $y$에 대해 증명할 수 있어야 한다.
+
+상위타입에서 동작하면 하위타입에서도 동작해야 합니다. 이렇게 설명하면 당연해보입니다.
+
+당연해 보이는 이유는 OOP가 없던 시대에 이 말을 언급했습니다.
+
+지금 시대에서는 OOP 차원에서 그리고 언어차원에서 지원하게 만듭니다.
+
+하지만 실무적으로 안지켜지는 경우가 있습니다. 안 지켜지는 경우는 언제인가?
+
+LSP 위반 사례입니다.
+
+```java
+class Rectangle {
+	width int
+	height int
+	setWidth(w int) { width = w}
+	setHeight(w int) { height = w}
+}
+
+class Squere extends Rectangle {
+	@override
+	setWidth(w int) {width = w; height = w; }
+	@override
+	setHeight(h int) {width = h; height = h; }
+}
+```
+
+꽤 자주보게 될 예제입니다.
+
+```go
+func FillScreeWidth(screenSize, Rectangle, imageSize *Rectangle) {
+	if imageSize.width < screenSize.width {
+		imageSize.setWidth(screenSize.width)
+	}
+}
+```
+
+만약에 위 인스턴스를 사용한다면 문제가 발생할 것입니다.
+
+g(x : T), q(y : S)
+
+서로 타입이 같아야 한다는 것인데 지금은 위반한다는 점입니다.
+
+LSP 위반문제는 상속 때문에 자주 발생합니다. 하지만 go는 상속을 지원하지 않기 때문에 상속을 지원하지 않습니다.
+
+```go
+type Report interface {
+	Report() string
+}
+
+type MarketingReport {
+	//
+}
+
+func (m *MarketingReport) Report() string {
+	//
+}
+
+// ...
+
+func SendReport(r Report) {
+	if _, ok r.(*MarketingReport); ok {
+		panic("실패")
+	}
+}
+
+var report = &MarketingReport{}
+SendReport(report) // 패닉!
+```
+
+인터페이스 타입 변환을 자제합시다. 인터페이스 타입을 구체적인 클래스로 바꿔서 다른 동작을 하게 하는 코드를 최대한 자제하자는 것입니다.
+
+물론 안하기는 어렵습니다.
+
+리스코프 치환 원칙을 준수하지 않으면 추상화가 잘 안되어 있어서 매번 호출할 때마다 자세히 확인해야 합니다.
+
+완벽하게 지키기 어려운 원칙입니다.
+
+인터페이스 분리원칙입니다.
+
+클라이언트는 자신이 이용하지 않는 메서드에 의존하지 않아야 합니다.
+
+```go
+type Report interface {
+	Report() string
+	Pages() int
+	Author() string
+	WrittenDate() time.Time
+}
+
+func SendReport(r Report) {
+	send(r.Report())
+}
+```
+
+자신이 의존하지 않는 메서드는 호출할 때 4개를 모두 정의해야 하는 번거로움이 존재합니다.
+
+이럴 때는 분리하면 됩니다.
+
+```go
+type Report interface {
+	Report() string
+}
+
+type WrittenInfo interface {
+	Pages() int
+	Author() string
+	WrittenDate() time.Time
+}
+
+func SendReport(r Report) {
+	send(r.Report())
+}
+```
+
+이런경우가 해당합니다.
+
+이렇게 분리하면 SendReport를 이용할 때 1개의 메서드만으로 해결할 수 있게 됩니다.
+
+인터페이스를 분리해야 제어가 자유롭습니다.
+
+의존성 역전원칙입니다.
+
+의존성을 역전한다는 것입니다.
+
+> 상위 계층이 하위 계층에 의존하는 전통적인 의존 관계를 반전(역전)시킴으로써 상위 계층이 하위 계층의 구현으로부터 독립되게 할 수 있다.
+
+말은 어렵습니다.
+
+상위 모듈을 하위 모듈에 의존하지 말아야 합니다. 모두 추상 모듈에 의존해야 합니다.
+
+구체적인 모듈은 추상적인 모듈에 의존해야 합니다. 추상모듈은 구체화된 모듈에 의존하면 안됩니다.
+
+추상모듈을 만들고 전송이라는 상위객체는 구체적인 객체에 의존하지말고 추상모듈에 의존하고 하위 모듈을 구현만 합니다.
+
+이렇게 되면 장점이 있습니다. 확장이 쉽습니다. 늘어나도 상위는 변경해야하는 것이 별로 없습니다. OCP, SIP도 준수하게 되는 것입니다.
+
+```go
+type Mail struct {
+	alarm Alarm
+}
+
+type Alarm struct {
+	//
+}
+func (m *Mail) OnRecv() {
+	m.alarm.Alarm()
+}
+```
+
+지금은 메일이 알람을 소유하고 있다는 의미로 강한 결합도를 갖는 경우입니다.
+
+구체화된 모듈이 서로 의존하고 있습니다. 이럴 때 역전시켜야 합니다.
+
+의존성을 역전시키면 좋지만 go는 덕타이핑을 지원해서 사실 괜찮기는 합니다.
+
+```go
+package main
+
+import "fmt"
+
+type Event interface {
+	Register(EventListener)
+}
+
+type EventListener interface {
+	OnFire()
+}
+
+type Mail struct {
+	listener EventListener
+}
+
+func (m *Mail) Register(listener EventListener) {
+	m.listener = listener
+}
+
+func (m *Mail) OnRecv() {
+	m.listener.OnFire()
+}
+
+type Alarm struct {
+	// ...
+}
+
+func (a *Alarm) OnFire() {
+	fmt.Println("메일이 왔습니다")
+}
+
+func main() {
+	var mail = &Mail{}
+	var listener EventListener
+
+	listener = &Alarm{}
+
+	mail.Register(listener)
+	mail.OnRecv()
+}
+```
+
+이런 경우가 해당합니다.
+
+이런 역전관계는 이벤트를 계속 늘리기 유리하기 때문에 추구합니다.
+
+지금 패턴이 옵저버 패턴입니다.
+
+디자인 패턴은 SOLID 원칙에 입각해서 만드는 것들입니다. 문제 상황에 대응해서 만드는 것입니다.
+
+B노트 추가적인 생각을 담았습니다.
+
+QnA입니다.
+
+하위타입은 상속 생각하면 됩니다. 포함관계가 아닙니다.
+
+go는 상속이 없습니다. 제거한 이유는 좋은점도 있지만 문제를 만드는 점도 많습니다.
+
+프로그래밍의 길은 지식을 습득하고 숙달해야 합니다. 항상 해야 합니다. 지식을 습득한다는 것은 도서, 강좌로 합니다. 하지만 숙달로 이어져야 합니다. 프로그래밍은 학습과 기술의 합입니다. 손을 사용하는 기술입니다. 어떻게 해야하는 가를 먼저 배웁니다. 그리고 적용합니다.
+
+그래서 무슨 코드가 좋은 코드인지 고민해야 합니다. 클린코드의 모든 내용을 동의할 필요는 없지만 고민을 해보기 좋습니다. 실무에서 적용하기 어려운 이야기를 합니다. 지향해야 한다는 것이라 모두 무조건적으로 지키려는 것은 무리가 있습니다.
+
+프로그래밍할 때 가장 중요하다고 생각하는 것은 무엇인가? 이 코드가 여기에 있어야 하는 것이 맞는가? 이 생각을 자주합니다.
+
+묘하게 지식이면서 경험이 필요한 학계같습니다. 공학 분야는 실무와 이론이 함께갑니다. 실무를 위해 이론을 잘 배워야 합니다. 본인만의 스타일은 체화하는 과정이 필요합니다. 그래서 많이 코드를 작성해봐야 합니다.
+
+ISP 분리가 중요하다고 합니다. 하지만 분리하는 기준은 무엇인가? SOLID를 지향해야 합니다. 하지만 도달했다고 좋은 것은 아닐 수 있습니다. 실무적인 문제가 있습니다. 바로 시간입니다. 모두 준수하기는 어렵습니다. 또 좋은 코드라고 보기 어려울 수 있습니다. 인터페이스가 너무 많아져서 가독성이 떨여질 수 있고 또 존재여부를 모를 수 있습이다. 많은 부분을 파악해야 할 수 있습니다.
+
+프로그래밍은 사람이 합니다. 실무와 이론 사이 균형을 추구해야 합니다.
+
+구체화된 클래스를 먼저 만들어야 합니다. 추상클래스를 만들면 좋지만 먼저 동작을 위해 구체화된 클래스를 먼저 만듭니다. 나중에 기능 확장이 필요해지는 컨텍스트에 리팩토링을 하고 기능을 확장해도 됩니다. 기존 코드를 고쳐야 할 부분이 너무 많을 것입니다.
+
+필요한 시점에 인터페이스를 추가해도 늦지 않습니다.
+
+go 언어는 덕타이핑 덕분에 가능합니다. 문제는 필요하다는 것을 아는 것입니다. 리팩토링을 또 어떻게 할 것인가? 이것도 문제입니다. 클린코드, SOLID도 지식을 갖고 있지만 필요한 시점에 처리해도 늦지 않습니다.
+
+안티 OOP라는 논의도 있습니다. 번잡하고 코드 작성시간이 오래걸립니다.
+
+처음부터 100% 모두 만들고 런칭하는 것이 아니라 MVP로 핵심만 빨리 뽑고 추가 기능을 만들자는 것입니다. 만들고 부분을 빠르게 버릴 수 있는 방법이 필요합니다.
+
+go는 빠르게 작성할 수 있고 덕타이핑으로 좋은 설계로 전환하기 좋은 언어입니다.
+
+패턴 공부는 패턴 자체를 공부하는 것보다 적용하면서 지식을 얻는 경우가 많습니다.
+
+코드 스멜을 감지하고 어떻게 개선할 것인가? 문제는 어떻게 코드 스멜을 정의하는가? 문제입니다. 사람마다 코드스멜을 맡을 줄알고 모르고 다릅니다. 좋은 코드를 모르면 개선할 수 없습니다. 코드 스멜을 맡아도 개선하는 것도 문제입니다. 잘못개선하면 오히려 더 많은 문제를 만들 수 있습니다. 어떻게 개선을 잘 할 것인가? 학습과 연습이 바탕이 되어야 합니다.
+
+패턴을 먼저 공부해야 코드 스멜을 탐지하게 되기 때문에 먼저 학습해야 합니다.
+
+물론 100% 학습은 못하고 순환적입니다. 프로그래밍은 계속적인 학습이 필요합니다. 연습도 필요합니다.
+
+잘 돌아가는 코드 건드리지 말자는 이야기도 있습니다. 코드 스멜은 인정할 수 있습니다. 하지만 굳이 건드리지 말자입니다.
+
+리팩토링은 필요할 때 하면 됩니다. 중요한 것은 미리 생각해야 합니다.
+
+예제를 통해 이해하는 것이 좋습니다. 이런 이유로 Head first Pattern을 추천합니다.
+
+학자, 이론가가 아닙니다. 현실에 있습니다. 투입되는 인원, 시간, 예산 제약이 존재합니다.
+
+금칠입니다. 벽을 칠하는데 황금색으로 칠하고 싶습니다. 그래서 황금으로 칠하는 경우가 있습니다. 이것이 좋은가? 돈과 시간이 너무 많이 듭니다. 좋지 못합니다. 클라이언트의 니즈는 황금색입니다. 하지만 개발자는 3억을 들여서 청구하게 되면 안됩니다.
+
+금칠을 경계해야 합니다.
+
+클린코드배우고, 패턴배우고, 설계를 배우면 사상에 빠져서 패턴쟁이가 될 수 있습니다. 모든 것을 패턴으로 생각하게 되는 경향이 있습니다.
+
+이상이 무조건 옳다는 것이 아닙니다.
+
+## 37 28장 테스트와 벤치마크
+
+https://www.youtube.com/watch?v=2GNZManuDzg
+
+테스트는 중요합니다. go는 테스트코드 작성하기 쉽습니다.
+
+go는 테스트코드를 작성할 때 3가지 규칙만 지키면 됩니다.
+
+파일명이 `_test.go`로 끝나야 합니다.
+
+`testing` 패키지를 `import`해야 합니다.
+
+테스트 코드는 `func TestXxxx(t *testing.T)` 형태로 작성해야 합니다.
+
+```go title="main.go"
+package main
+
+import "fmt"
+
+func square(x int) int {
+	return 81
+}
+
+func main() {
+	fmt.Printf("9 * 9 = %d\n", square(9))
+}
+```
+
+저희는 위 코드를 테스트하고 싶습니다. 예시를 위해 위 파일명이라고 하겠습니다.
+
+```go title="main_testing.go"
+package main
+
+import "testing"
+
+func TestSquare1(t *testing.T) {
+	rst := square(9)
+	if rst != 81 {
+		t.Errorf("square(9) should be 81 but returns %d\n", rst)
+	}
+}
+
+```
+
+GUI 혹은 터미널을 활용해도 됩니다. 그리고 GUI가 안 보이면 `go mod`하면 보일 것입니다.
+
+```sh
+go test
+```
+
+현재 예시에는 정상동작할 것입니다.
+
+```go
+package main
+
+import "testing"
+
+func TestSquare1(t *testing.T) {
+	rst := square(9)
+	if rst != 81 {
+		t.Errorf("square(9) should be 81 but returns %d\n", rst)
+	}
+}
+
+func TestSquare2(t *testing.T) {
+	rst := square(3)
+	if rst != 9 {
+		t.Errorf("square(9) should be 9 but returns %d\n", rst)
+	}
+}
+```
+
+현재 다시 테스트를 하면 두번째 테스트가 실패할 것입니다.
+
+테스트는 프로그램에 필요한 코드가 아니라 개발 중에 필요한 코드입니다.
+
+```go
+package main
+
+import "fmt"
+
+func square(x int) int {
+	return x * x
+}
+
+func main() {
+	fmt.Printf("9 * 9 = %d\n", square(9))
+}
+```
+
+```go
+package main
+
+import "testing"
+
+func TestSquare1(t *testing.T) {
+	rst := square(9)
+	if rst != 81 {
+		t.Errorf("square(9) should be 81 but returns %d\n", rst)
+	}
+}
+
+func TestSquare2(t *testing.T) {
+	rst := square(3)
+	if rst != 9 {
+		t.Errorf("square(9) should be 9 but returns %d\n", rst)
+	}
+}
+```
+
+이렇게 되면 테스트가 통과할 것입니다.
+
+테스트를 더 수월하게 해줄 수 있는 단언을 제공하는 패키지가 있습니다.
+
+```sh
+go mod tidy
+```
+
+코드 작성하고 설치합시다.
+
+```go
+package main
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
+
+func TestSquare1(t *testing.T) {
+	assert.Equal(t, 81, square(9), "square(9) should be 81")
+	assert.Equal(t, 9, square(3), "square(3) should be 9")
+}
+```
+
+이렇게 테스트를 몇줄로 단축할 수 있습니다.
+
+테스트 자체는 여기까지입니다. go는 테스트코드를 작성하기 쉽게 되어 있습니다.
+
+TDD입니다.
+
+테스트 케이스가 부족하거나 형식적인 경우도 많았습니다. 기존에는 코드를 먼저 작성하고 테스트 케이스를 작성하고 버그를 발견하면 코드를 수정하고 테스트하고 소프트웨어를 완성했습니다. 테스트가 부족해질 수 있었습니다. 예상가능한 테스트 케이스 위주로 작성하면서 부실해질 수 있는 것이 많아졌습니다.
+
+테스트 케이스가 촘촘할수록 버그를 방지하기 쉽습니다. 이런 배경에서 나온것이 TDD입니다.
+
+테스트 케이스를 먼저 작성하자는 것입니다.
+
+테스트는 코드가 없어서 무조건 실패할 것입니다. 그래서 실패한 테스틑 통과시킬 코드를 작성합니다. 그리고 리팩토링으로 코드를 개선합니다.
+
+테스트를 실패시키고 통과시켜서 구현하는 방식이 많습니다. 레드 그린 리팩터 순환과정입니다.
+
+초기에는 부분적으로 하드코딩하고 패턴을 발견하고 리팩토링을 하게 됩니다.
+
+여러가지 경우의 수를 고려하고 테스트 케이스를 작성하고 코드를 작성합니다.
+
+TDD 테스트 코드를 먼저 작성해서 테스트 케이스가 늘어납니다.
+
+TDD는 테스트 케이스가 늘어납니다. 회귀 테스트가 가능합니다. 자동 테스트를 하게 됩니다. 테스트가 있어서 리팩토링이 쉽습니다. 리팩토링이 쉽다는 점이 큰 장점입니다. 코드, 설계 개선이 가능합니다. 개선 전코드와 개선 후 코드의 동작은 동일해야 합니다. 하지만 동작을 바꾸는 실수하기 쉽습니다. 이 동일한 동작을 어떻게 보장할 것인가? 이것은 테스트입니다. 테스트 코드가 이미 있으면 테스트 코드가 부분을 이미 검증해줬습니다.
+
+달성가능한 목표를 달성하고 반복합니다. 성취감을 심리적으로 느낄 수 있습니다. 달성가능한 목표를 세우고 달성한다는 것입니다.
+
+코드 커버리지가 늘어납니다. 코드 커버리지 100%로 요구하는 기업도 있습니다.
+
+단점은 당연히 존재합니다. 모듈간 의존성이 높으면 테스트 케이스를 만들기 어럽습니다. 방법은 2가지입니다. 의존성을 분리하는 것입니다. 배보다 배꼽이 더 큽니다. mocking을 하는 방법이 있습니다.
+
+동시성 테스트가 어렵습니다.
+
+진정한 TDD가 아니라 형식적인 테스트가 될 수 있습니다. 테스트 케이스가 촘촘해야 하지만 작업자가 대충할 가능성도 높습니다.
+
+또 모니터링과 테스트에 대한 교육도 필요합니다. 코드 리뷰에 관리해야 하고 코드 커버리지를 툴로 자동화해야 합니다. 정책으로 테스트 케이스를 의무화시킬 수 있습니다.
+
+벤치마크입니다.
+
+테스트랑 2가지 규약은 동일합니다. `func BenchmarkXxxx(b *testing.B)` 형식으로 작성해야 합니다.
+
+피보나치 수열 밴치마킹입니다.
+
+```go title="main.go"
+package main
+
+func square(x int) int {
+	return x * x
+}
+
+func fibonacci1(n int) int {
+	if n < 0 {
+		return 0
+	}
+	if n < 2 {
+		return n
+	}
+	return fibonacci1(n-1) + fibonacci1(n-2)
+}
+
+func fibonacci2(n int) int {
+	if n < 0 {
+		return 0
+	}
+	if n < 2 {
+		return n
+	}
+	one := 1
+	two := 0
+	rst := 0
+	for i := 2; i <= n; i++ {
+		rst = one + two
+		two = one
+		one = rst
+	}
+	return rst
+}
+
+func main() {
+
+}
+
+```
+
+```go title="main_test.go"
+package main
+
+import (
+	"testing"
+)
+
+func BenchmarkFib1(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		fibonacci1(20)
+	}
+}
+func BenchmarkFib2(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		fibonacci2(20)
+	}
+}
+
+// BenchmarkFib1-8            39278             30170 ns/op
+// BenchmarkFib2-8         177983644                6.769 ns/op
+```
+
+```sh
+go test -bench .
+```
+
+이렇게 성능검사가 가능합니다. 반복문이 더 빠르다는 것을 알 수 있습니다.
+
+## Go 1.18 Generic 프로그래밍
+
+https://goldenrabbit.co.kr/2022/01/28/%EC%83%9D%EA%B0%81%ED%95%98%EB%8A%94-go-%EC%96%B8%EC%96%B4-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-go-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9D%98-%EC%9D%B4%ED%95%B4/
+
+https://www.youtube.com/watch?v=LRdiR-TBN1w
+
+go는 제네릭이 없었는데 최근에 추가되었습니다.
+
+제네릭이란 무엇이 왜 필요한가? go는 강타입언어입니다.
+
+```go
+func add(a, b int) int {
+    return a + b
+}
+```
+
+이런 함수가 있습니다.
+
+int만 사용한다면 정상동작할 것입니다. 하지만 int16을 사용한다면 정상동작할 것인가?
+
+go는 타입변환을 함부로 시키지 않습니다. 일부 언어는 자동형변환을 해주지만 go는 아닙니다. 호출자가 형변환을 시켜줘야 합니다.
+
+또 실수도 형변환을 해줘야 하는가? 자리수 탈락은 어떻게 할 것인가?
+
+타입별로 중복된 코드를 작성해야 할 수 있습니다. 다른 언어는 제네릭을 활용해서 해결하고 있었는데 최근에 도입되어 이런 문제를 해결할 수 있게 되었습니다.
+
+```go
+func Print[T any](a, b T) {
+    fmt.Println(a, b)
+}
+```
+
+이렇게 정의합니다. 여기서는 타입 파라미터를 정의합니다. 타입스크립트의 꺽쇠랑 다릅니다. 주로 대문자 T를 많이 사용하고 TUV 순서로 사용합니다. 지금은 any이지만 타입 제안자를 작성할 수 있는 위치입니다. 그렇다면 int, float를 정하듯이 무엇이 가능한지 정할 수 있습니다.
+
+```go
+Print(1, 2)
+Print(3.14, 1.43)
+Print("Hello", "World")
+```
+
+이런식으로 사용할 수 있습니다.
+
+모든 타입은 비어있는 인터페이스에 해당합니다. 즉 any는 interface{}랑 비슷합니다.
+
+하지만 제한사항들도 존재합니다. 바로 연산자 제한입니다.
+
+```go
+func min[T interface{}](a, b T) T {
+	if a < b {
+		return a
+	}
+	return b
+}
+```
+
+비어있는 인터페이스는 대소비교를 지원하지 않아 컴파일이 불가능합니다. 제한자 가능한 티입을 넣으면 사용할 수 있습니다.
+
+```go
+func min[T int | float64 | string ](a, b T) T {
+	if a < b {
+		return a
+	}
+	return b
+}
+```
+
+이렇게 하면 대소비교를 지원하는 연사만 사용하기 때문에 컴파일 가능합니다.
+
+타입 제한자를 별칭타입을 정의하고 처리하는 방법이 있습니다.
+
+```go
+type Intager interface {
+	int | float64 | string
+}
+```
+
+go는 새로운 키워드를 최대한 덜 넣으려고 합니다. 이렇게 정의하고 타입을 소비할 수 있습니다.
+
+```go
+type Intager interface {
+	int | float64 | string
+}
+func min[T Intager ](a, b T) T {
+	if a < b {
+		return a
+	}
+	return b
+}
+```
+
+제네릭을 사용해서 기존 타입스크립트처럼 타입 조합이 가능해집니다.
+
+constraints 패키지를 활용하면 타입을 조금더 자유롭게 다룰 수 있습니다.
+
+```go
+type Integer interface {
+    ~int8 | ~int16 | ~int32 | ~int64 | ~int
+}
+```
+
+이렇게 표시되어 있는데 별칭타입을 포함한다는 의미입니다. 타입의 별칭으로 지정된 타입을 대입해도 기반만 같으면 사용할 수 있게 됩니다.
+
+https://www.youtube.com/watch?v=2ttnkDaSeaU
+
+인터페이스와 타입 제한자는 다른 것입니다.
+
+```go
+type Stringer interface {
+	String() string
+}
+
+type Integer interface {
+    ~int8 | ~int16 | ~int32 | ~int64 | ~int
+}
+```
+
+같은 키워드지만 다릅니다. 인터페이스는 메서드로 타입을 제안합니다. 타입제한자는 사용할 타입을 지정합니다.
+
+목적은 비슷하지만 사용은 다릅니다.
+
+```go
+package main
+
+import (
+    "fmt"
+    "hash/fnv"
+)
+
+type ComparableHasher interface {           // ❶
+    comparable
+    Hash() uint32
+}
+
+type MyString string                           // ❷
+
+func (s MyString) Hash() uint32 {
+    h := fnv.New32a()
+    h.Write([]byte(s))
+    return h.Sum32()
+}
+
+func Equal[T ComparableHasher](a, b T) bool {  // ❸
+    if a == b {
+        return true
+    }
+    return a.Hash() == b.Hash()
+}
+
+func main() {
+    var str1 MyString = "Hello"
+    var str2 MyString = "World"
+    fmt.Println(Equal(str1, str2))
+}
+```
+
+인터페이스가 이제는 이렇게 응용이 가능해집니다.
+
+타입제한자를 인터페이스로 사용할 수 없습니다.
+
+https://www.youtube.com/watch?v=skS0VHO8Cx4
+
+```go
+type Node[T any] struct {
+    val T
+    next *Node[T]
+}
+```
+
+이렇게 링크드리스트에 사용할 노드를 만들 수 있습니다. 값과 포인터를 담는 구조체를 만들 수 있습니다.
+
+```go
+type Node[T any] struct {
+    val  T
+    next *Node[T]
+}
+
+func NewNode[T any](v T) *Node[T] {              // ❶
+    return &Node[T]{val: v}
+}
+
+```
+
+이렇게 인스턴스 생성을 할 수 있는 함수를 만들 수 있습니다.
+
+```go
+type Node[T any] struct {
+    val  T
+    next *Node[T]
+}
+
+func NewNode[T any](v T) *Node[T] {              // ❶
+    return &Node[T]{val: v}
+}
+
+func (n *Node[T]) Push(v T) *Node[T] {        // ❷
+    node := NewNode(v)
+    n.next = node
+    return node
+}
+```
+
+메서드를 이렇게 추가할 수 있습니다. 링크드 리스트에 노드를 추가하는 메서드입니다.
+
+만약 여기서 인터페이스로 사용한다면 문제가 됩니다. 비어있는 인터페이스를 사용하려면 타입 변환을 해줘야 했습니다.
+
+```go
+package main
+
+import "fmt"
+
+type NodeType1 struct {                   // ❶
+    val  interface{}
+    next *NodeType1
+}
+
+type NodeType2[T any] struct {           // ❷
+    val  T
+    next *NodeType2[T]
+}
+
+func main() {
+    node1 := &NodeType1{val: 1}         // ❸
+    node2 := &NodeType2[int]{val: 2}
+
+    var v1 int = node1.val              // ❹ 에러 발생
+    fmt.Println(v1)
+    var v2 int = node2.val              // ➎
+    fmt.Println(v2)
+}
+```
+
+이렇게 작성했을 때 에러가 발생하는 이유는 비어있는 인터페이스 타입이기 때문에 발생합니다.
+
+```go
+var v1 int = node1.val.(int)
+```
+
+이렇게 수정하면 정상동작하게 됩니다. 타입을 변화시켜줘야 하는 번거로움이 있습니다.
+
+제네릭 없이 go 프로그래밍을 했었습니다. 박싱과 언방식으로 해결하고 있었습니다. 어떤 타입을 넣지 그리고 꺼낼지 기억해야 했습니다. 또 성능문제도 존재했습니다. 프로그램 규모가 커진다면 이 타입을 기억해야 한다는 제어관점 문제를 해소할 수 있게 됩니다. 이런점에서 장점음 맞습니다.
+
+문제는 타입을 사용할 때마다 새로운 타입이 생겨나는 것과 비슷한 문제가 발생합니다. 새로운 타입을 새로운 인스턴스마다 만들어야 합니다. 물론 컴파일타임에 만들어지기는 합니다. 컴파일 시점에 해당하는 타입을 만듭니다. 컴파일 시간과 결과물인 실행파일 사이즈가 커집니다. go는 물론 빠른 편이라 걱정할 정도는 아닙니다. 하지만 임베디드 분야에서는 문제가 될 것입니다.
+
+제네릭을 많이 사용하면 가독성이 떨어지는 문제가 발생합니다.
+
+go의 철학은 동작하는 코드에 집중하자는 것입니다. 동작하는 코드를 먼저 작성하는 것이 중요합니다. 나중에 지속적인 리팩토링하는 것이 go의 사용법입니다.
+
+제네릭은 자료구조에서 사용하기 유용합니다.
+
+처음부터 사용하기 위해 노력할 필요는 없습니다.
+
+여러 타입을 사용하는 함수는 제네릭을 사용하기 좋습니다. 효과적으로 코드사이즈를 줄이는데 좋은 점이 있지만 코드 가독성 문제도 있습니다. 사용하지 않아도 괜찮은 곳에 사용할 필요는 없습니다.
