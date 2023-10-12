@@ -135,3 +135,5 @@ SI에서 막장으로 짜놓은 코드도 Java일 가능성이 높고 네카라�
 [오브젝트](https://www.yes24.com/Product/Goods/74219491)
 
 - 놀랍게도 한국 저술입니다. 객체지향을 잘 다루는 도서입니다.
+
+<iframe class="codepen" src="https://www.youtube.com/embed/GdzRzWymT4c" title="Java Basics – Crash Course" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
