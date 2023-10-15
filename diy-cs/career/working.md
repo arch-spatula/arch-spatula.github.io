@@ -88,3 +88,19 @@ PM 혹은 디자이너가 정책의 일부를 놓치면 놓친부분을 매꿔�
 <!-- ## 성과포장
 
 본인의 성과를 어느정도 포장하도록 합니다. 본인의 업무가 정량화된 비즈니스 임펙트로 어떻게 연결되는지 최대한 정리하도록 합니다. -->
+
+## 몰입하기
+
+<iframe class="codepen" src="https://www.youtube.com/embed/0rIjFCNay2Q" title="How to enter flow state" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+Get into a flow:
+
+1. Do activities where u are intrinsically motivated.
+2. Do things u want to do
+3. Balance skill vs. challenging
+4. Have clear goals and allow to have assessments/feedback along the way
+5. Set a conducive environment
+6. Break tasks into smaller parts
+7. Set clear end goals
+8. Set additional parameters to up the stakes
+9. Don't focus on reaching flow entirely
