@@ -80,6 +80,10 @@ tags: ['자료구조와 알고리즘', '자료구조', '알고리즘']
 
 - 유료강의입니다. 나중에 할인할 때 구매하기 바랍니다.
 
+#### 권장 도서들
+
+[자료구조, 알고리즘 그리고 코딩 테스트와 관련된 추천 책(교재)](https://www.sangkon.com/about_ds_book_2003/)
+
 ### 문제자료
 
 [프로그래머스](https://school.programmers.co.kr/learn/challenges)
