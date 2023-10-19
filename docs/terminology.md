@@ -50,7 +50,9 @@ type Date struct {
 - school of thought: 유파, 학파
 - Miscellaneous: 여러 가지 잡다한
 - 개밥먹기(dogfooding): 본인 스스로가 사용할 제품 및 서비스를 본인이 만드는 행위(the practice of using one's own products or services).[^2]
+- jump the shark: 창작물이나 창작자가 본질을 소모해 원래 목적을 과장하거나 취지에 부합한 소재를 이용하는 행위를 가리키는 영어 관용구이다.[^4]
 
 [^1]: [Out of the box (feature) - wikipedia](<https://en.wikipedia.org/wiki/Out_of_the_box_(feature)>)
 [^2]: [Eating your own dog food - wikipedia](https://en.wikipedia.org/wiki/Eating_your_own_dog_food)
 [^3]: [레코드 - 컴퓨터 과학](<https://ko.wikipedia.org/wiki/%EB%A0%88%EC%BD%94%EB%93%9C_(%EC%BB%B4%ED%93%A8%ED%84%B0_%EA%B3%BC%ED%95%99)>)
+[^4]: [상어를 뛰다 - wikipedia](https://ko.wikipedia.org/wiki/%EC%83%81%EC%96%B4%EB%A5%BC_%EB%9B%B0%EB%8B%A4)
