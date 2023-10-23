@@ -4,10 +4,20 @@
         <title>Arch-Spatula의 레시피 Blog</title>
         <link>https://arch-spatula.github.io/meme</link>
         <description>Arch-Spatula의 레시피 Blog</description>
-        <lastBuildDate>Mon, 20 Jan 1000 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 21 Jan 1000 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>ko</language>
+        <item>
+            <title><![CDATA[개발자 채용이 까다로운 이유]]></title>
+            <link>https://arch-spatula.github.io/meme/21-hire</link>
+            <guid>https://arch-spatula.github.io/meme/21-hire</guid>
+            <pubDate>Tue, 21 Jan 1000 00:00:00 GMT</pubDate>
+            <description><![CDATA[개발자 채용이 까다로운 이유]]></description>
+            <content:encoded><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/9tOlTDS10gI" title="Stallions of Pied Piper - Silicon Valley" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>]]></content:encoded>
+            <category>dev meme</category>
+            <category>tech hire</category>
+        </item>
         <item>
             <title><![CDATA[QA하는 법]]></title>
             <link>https://arch-spatula.github.io/meme/20-QA</link>

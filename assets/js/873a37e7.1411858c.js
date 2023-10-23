@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[45724],{76471:a=>{a.exports=JSON.parse('{"label":"try-catch error type","permalink":"/blog/tags/try-catch-error-type","allTagsPath":"/blog/tags","count":1}')}}]);

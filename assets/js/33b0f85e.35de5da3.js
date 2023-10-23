@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[24208],{16865:a=>{a.exports=JSON.parse('{"label":"Jest Mocking","permalink":"/blog/tags/jest-mocking","allTagsPath":"/blog/tags","count":1}')}}]);

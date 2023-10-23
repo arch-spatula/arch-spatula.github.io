@@ -2,11 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://arch-spatula.github.io/meme</id>
     <title>Arch-Spatula의 레시피 Blog</title>
-    <updated>1000-01-20T00:00:00.000Z</updated>
+    <updated>1000-01-21T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://arch-spatula.github.io/meme"/>
     <subtitle>Arch-Spatula의 레시피 Blog</subtitle>
     <icon>https://arch-spatula.github.io/img/logo.svg</icon>
+    <entry>
+        <title type="html"><![CDATA[개발자 채용이 까다로운 이유]]></title>
+        <id>https://arch-spatula.github.io/meme/21-hire</id>
+        <link href="https://arch-spatula.github.io/meme/21-hire"/>
+        <updated>1000-01-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[개발자 채용이 까다로운 이유]]></summary>
+        <content type="html"><![CDATA[<iframe class="codepen" src="https://www.youtube.com/embed/9tOlTDS10gI" title="Stallions of Pied Piper - Silicon Valley" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>]]></content>
+        <category label="dev meme" term="dev meme"/>
+        <category label="tech hire" term="tech hire"/>
+    </entry>
     <entry>
         <title type="html"><![CDATA[QA하는 법]]></title>
         <id>https://arch-spatula.github.io/meme/20-QA</id>

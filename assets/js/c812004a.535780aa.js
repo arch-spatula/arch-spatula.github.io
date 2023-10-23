@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[22810],{93333:t=>{t.exports=JSON.parse('{"label":"Cannot use import statement outside a module","permalink":"/blog/tags/cannot-use-import-statement-outside-a-module","allTagsPath":"/blog/tags","count":1}')}}]);
