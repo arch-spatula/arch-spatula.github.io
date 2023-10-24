@@ -65,6 +65,15 @@ PM 혹은 디자이너가 정책의 일부를 놓치면 놓친부분을 매꿔�
 
 만약에 생각이 복잡하다먼 모든 것을 쓰도록 합니다. 보통 미괄식으로 어떤 결론을 작성하게 되는 경우가 있을 것입니다. 거기서 편집 1번만으로 두괄식으로 끌어올려주면 됩니다. 지금은 예시를 생략하겠습니다.
 
+<!-- ### 문서화
+
+> 문서화는 코드와 비슷합니다. 늘 탈고라는 리팩토링이 필요합니다.
+
+1. 사내 라이브러리
+2. 컨벤션(커밋, 코드 스타일링 기준)
+3. 현재 작업 진행 방식
+4. 코드 문서화 -->
+
 ## 경청
 
 <iframe class="codepen" src="https://www.youtube.com/embed/i3ku5nx4tMU" title="4 things all great listeners know" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -93,14 +102,66 @@ PM 혹은 디자이너가 정책의 일부를 놓치면 놓친부분을 매꿔�
 
 <iframe class="codepen" src="https://www.youtube.com/embed/0rIjFCNay2Q" title="How to enter flow state" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-Get into a flow:
+몰입하는 방법 요약:
 
-1. Do activities where u are intrinsically motivated.
-2. Do things u want to do
-3. Balance skill vs. challenging
-4. Have clear goals and allow to have assessments/feedback along the way
-5. Set a conducive environment
-6. Break tasks into smaller parts
-7. Set clear end goals
-8. Set additional parameters to up the stakes
-9. Don't focus on reaching flow entirely
+1. 내적으로 하고 싶은 활동을 합니다(where u are intrinsically motivated).
+2. 하고 싶은 활동을 합니다(Do things u want to do).
+3. 능력과 도전 사이를 잘 찾습니다(Balance skill vs. challenging).
+4. 분명한 목표를 갖고 평가와 피드백을 중간 중간 받도록 합니다(Have clear goals and allow to have assessments/feedback along the way).
+5. 도움되는 환경을 만듭니다(Set a conducive environment).
+6. 과제를 작게 쪼갭니다(Break tasks into smaller parts).
+7. 분명한 최종 목표를 갖습니다(Set clear end goals).
+8. 더 높은 수준의 도전을 위해 추가적인 조건을 설정합니다(Set additional parameters to up the stakes).
+9. 몰입 자체를 너무 의식하지 마세요(Don't focus on reaching flow entirely).
+
+## 코드 퀄리티
+
+> 개발의 성장은 비즈니스의 가치가 높아질때 발생을 하게 됩니다.
+
+회사의 개발팀에게는 코드 퀄리티가 중요하지만 회사 전체와 소비자 입장에서는 별로 안 중요합니다. 중요한 것은 코드 퀄리티가 떨어져서 비즈니스에 방해되는 것을 막는 것입니다.[^1]
+
+1. 구현을 잘하는 것
+2. 코드 품질을 유지하는 것
+3. 비즈니스를 잘 아는 것
+
+### 코드의 가치
+
+코드의 가치는 그 코드 그 자체가 아니라 코드가 비즈니스적으로 생산하는 가치가 것이 결정합니다. 코드가 비즈니스적으로 가치를 창출할 때 코드가 가치있는 코드입니다.
+
+유저는 jQuery와 PHP로 만들어진 사이트라고 안 쓰는 것은 아닙니다. 대부분의 유저는 그런거에 관심 없습니다.
+
+심지어 개발자도 라이브러리를 선택할 때 라이브러리의 코드 퀄리티를 기준으로 선택하지 않습니다.
+
+외주 활동을 하면 코드 퀄리티가 단가를 정하 않습니다. 발주자에게 얼마나 중요하고 많은 비즈니스 문제를 해결하는가가 가격을 정하게 될 것입니다. 기술이 같고 코드도 비슷해도 가격이 달라질 수 있습니다.
+
+### 개발자가 아닌 사람이 개발자를 평가
+
+> 가치 있는 코드란, **적절한 코드 품질을 유지하려고 하면서도 더 큰 가치를 만들 수 있는 좋은 요구 사항를 찾아 구현을 하고 주어진 일정을 지키고자 할때 만들어진다** 라는 것을 알게되었습니다.
+
+어떻게는 개발자들이 신경씁니다. PM과 디자이너는 무엇을 만들었느지 신경씁니다.
+
+우리는 전체 개발자를 뉴스에서 봤다면 어려운 기술을 다루는 개발자입니다. 마틴파울러, 켄트백, 로버트 C. 마틴을 생각하지 않고 컴퓨터를 만든 앨런 튜링을 생각합니다. 즉 중요한 것은 얼마나 큰 가치를 만드는가가 더 중요합니다.
+
+특별한 경우가 아니라면 코드 퀄리티를 신경쓰는 시간과 추가 기능 개발하는 시간이 있다면 추가 기능이 더 가치있을 수 있습니다.
+
+1. 코드가 만들어내고 있는 가치를 만들고 있는 사람
+2. 좋은 코드를 만들어내려고 노력을 해야 되는 사람
+
+### `좋은` 코드의 가치
+
+> 코드의 품질이 중요해지는 것은 규모가 커지고 복잡도가 높아졌을 때
+
+코드의 복잡성이 높아서 비즈니스 가치를 저해하면 코드의 가치도 떨어뜨리는 것입니다. 코드의 복잡성이 높아서 성능 문제, 휴먼 에러와 버그를 발생시키고 프로그램의 구현과 안정성이 떨어지면 비즈니스 가치를 떨어뜨립니다.
+
+코드가 창출하는 비즈니스 가치를 유지하기 위해 코드 퀄리티를 유지보수 해야 합니다.
+
+코드 퀄리티와 비즈니스의 성장은 상호 베타적인 관계가 아닙니다. 비즈니스가 성장하고 프로덕트가 성장하고 코드의 복잡성이 높아지면 개발자는 이것을 해결하기 위해 성장합니다.
+
+<!-- ### 비즈니스 가치와 코드 퀄리티 사이 균형 -->
+
+<!-- ## PR -->
+
+<!-- ## 문해력 -->
+
+[^1]: [협업을 잘하는 개발자가 되어보자 - 프로그래머가 아니라 문제 해결사가 되자!](https://velog.io/@teo/collaboration)
+[^2]: [코드 리뷰어를 하며 저지른 실수 7가지](https://yozm.wishket.com/magazine/detail/2095/)
