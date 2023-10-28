@@ -165,3 +165,4 @@ PM 혹은 디자이너가 정책의 일부를 놓치면 놓친부분을 매꿔�
 
 [^1]: [협업을 잘하는 개발자가 되어보자 - 프로그래머가 아니라 문제 해결사가 되자!](https://velog.io/@teo/collaboration)
 [^2]: [코드 리뷰어를 하며 저지른 실수 7가지](https://yozm.wishket.com/magazine/detail/2095/)
+[^3]: [How to Be a 10x Software Engineer - 원문](https://medium.com/@_michaellin/how-to-be-a-10x-engineer-fdac2a5a1bd5) [10X 개발자와 주니어 개발자의 3가지 차이점 - 번역](https://velog.io/@eddy_song/10X-engineer)
