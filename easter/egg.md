@@ -23,6 +23,8 @@ date: 1453-5-29
 
 <!-- @todo: 시니어가 되면 Spring 따라하는 NestJS라고 수정하기 -->
 
+[DB 줍줍](db)
+
 [디자인 시스템 위키](design-system-wiki)
 
 [HTML & CSS](html-css)
