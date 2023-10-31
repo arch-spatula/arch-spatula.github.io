@@ -153,7 +153,11 @@ console.log(new Date().toISOString().split('T')[0]); // 2023-10-26
 </div>
 </details>
 
-<!-- ## 대문자 변환
+## 대문자 변환
+
+[CAPS](https://www.acmicpc.net/problem/15000)
+
+이런 문제는 곧 삭제할지도 모릅니다.
 
 ```js
 const fs = require('fs');
@@ -170,4 +174,4 @@ function solution(input) {
 }
 
 console.log(solution(input));
-``` -->
+```
