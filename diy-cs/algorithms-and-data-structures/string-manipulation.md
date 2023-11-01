@@ -6,6 +6,10 @@ tags: ['자료구조', '문제유형', '문자열 조작']
 
 # 문자열 조작
 
+일상 생활에서 자주 표현하는 형식들이 있습니다. 이 형석을 맞출 때 유용한 메서드가 존재합니다.
+
+`toLocaleString`입니다. `Number`의 동적 메서드입니다. 문자의 콤마(`,`) 표시 등 유용합니다.
+
 대소문자 조작이 [필요한 경우](https://www.acmicpc.net/problem/2744)들이 있습니다. 다음 함수를 활용하기 바랍니다.
 
 ```js
@@ -133,3 +137,41 @@ function solution(s) {
 
 </div>
 </details>
+
+## 오늘 날짜
+
+[오늘 날짜](https://www.acmicpc.net/problem/10699)
+
+<details>
+<summary>2023년 10월 26일</summary>
+<div markdown="1">
+
+```js
+console.log(new Date().toISOString().split('T')[0]); // 2023-10-26
+```
+
+</div>
+</details>
+
+## 대문자 변환
+
+[CAPS](https://www.acmicpc.net/problem/15000)
+
+이런 문제는 곧 삭제할지도 모릅니다.
+
+```js
+const fs = require('fs');
+const filePath =
+  process.platform === 'linux' ? '/dev/stdin' : __dirname + '/input.txt';
+const [input] = fs.readFileSync(filePath).toString().split('\n');
+
+/**
+ * @param {string} input
+ * @returns {string}
+ */
+function solution(input) {
+  return input.toLocaleUpperCase();
+}
+
+console.log(solution(input));
+```
