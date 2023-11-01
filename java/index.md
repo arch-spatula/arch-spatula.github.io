@@ -48,6 +48,12 @@ SI에서 막장으로 짜놓은 코드도 Java일 가능성이 높고 네카라�
 
 천상계와 심해계 모두 Java가 많습니다. 아주 잘하는 언어가 되거나 아주 막나가는 언어가 될 것입니다.
 
+### 제임스 고슬링
+
+![](https://user-images.githubusercontent.com/84452145/273433111-ea9ffc80-db2b-4902-a428-7a583ec2d60e.png)
+
+~~[제임스 고슬링(James Arthur Gosling, 1955년 5월 19일 ~ )](https://ko.wikipedia.org/wiki/%EC%A0%9C%EC%9E%84%EC%8A%A4_%EA%B3%A0%EC%8A%AC%EB%A7%81)은 한국 개발자들에게 마치 세종대왕과 같은 존재입니다.~~
+
 ## 학습 리소스
 
 [Java의 정석 - 남궁성](https://www.yes24.com/Product/Goods/24259565)
@@ -91,3 +97,43 @@ SI에서 막장으로 짜놓은 코드도 Java일 가능성이 높고 네카라�
 
 - 좀더 수월하게 학습할 수 있는 Java 로드맵입니다.
 
+[이팩티브 자바](https://www.yes24.com/Product/Goods/65551284)
+
+- Java를 쓸 줄 아는 것과 Java를 **잘** 쓸 줄 아는 것은 다릅니다. 이 책은 잘을 다룹니다.
+
+### Java로 작성된 유명 도서
+
+다음 도서 혹은 자료들은 Java를 학습하고 다른 개념들을 학습하기 수월하게 해주는 것들입니다.
+
+[cracking the coding interview](https://www.yes24.com/Product/Goods/44305533)
+
+- 미국은 기술면접 중에 라이브 코딩을 시키는 기업이 많습니다. 어떻게 기술면접을 합격할 수 있는지 알려주는 도서입니다.
+- 기술면접을 보기 전에 이력서를 제출하는 것도 미국과 한국 동일합니다. 그리고 이력서가 합격이면 코테를 주는데 코테를 푸는 방법을 알려줍니다.
+
+<details>
+<summary>how programmers overprepare for job interviews</summary>
+<div markdown="1">
+
+<iframe class="codepen" src="https://www.youtube.com/embed/5bId3N7QZec" title="how programmers overprepare for job interviews" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+이런 곳에서도 언급되는 고전에 해당합니다.
+
+</div>
+</details>
+
+[클린코드](https://www.yes24.com/Product/Goods/11681152)
+
+- 클린코드는 코드를 잘 정리하자는 유명한 고전 중 하나입니다. 모든 부분을 강박적으로 따르기 보단 유용한 개념을 줍줍하고 적용하려고 하면 좋습니다.
+- 많은 경우 비전공 신입개발자가 취업하자마자 회사 기술스택, 컨벤션을 익히고 난 뒤에 학습하는 도서입니다.
+
+[헤드 퍼스트 디자인 패턴](https://www.yes24.com/Product/Goods/108192370)
+
+- 디자인 패턴을 다루는 고전 도서입니다.
+- GoF가 정의한 디자인 패턴을 다룹니다.
+- 디자인 패턴을 적용하려는 강박은 갖지 말도록 합니다. 하지만 어느정도 지식이 있고 코드를 잘 정리하는데 유용한 도서입니다.
+
+[오브젝트](https://www.yes24.com/Product/Goods/74219491)
+
+- 놀랍게도 한국 저술입니다. 객체지향을 잘 다루는 도서입니다.
+
+<iframe class="codepen" src="https://www.youtube.com/embed/GdzRzWymT4c" title="Java Basics – Crash Course" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
