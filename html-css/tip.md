@@ -145,24 +145,28 @@ a {
 }
 ```
 
-### 최소 초기화
+### 최소 초기화(CSS RESET)
 
 ```css
-/*css 초기화*/
-
+/* CSS RESET */
 * {
   padding: 0;
   border: 0;
   margin: 0;
 }
-
 a {
   text-decoration: none;
 }
-
 li {
   list-style: none;
 }
+input {
+  appearance: none;
+  outline: none;
+}
+table {
+  border-collapse: collapse;
+} /*CSS초기화의 부분*/
 ```
 
 ### clearFix
@@ -174,6 +178,32 @@ item::after {
   clear: both;
 }
 ```
+
+### button
+
+<iframe class="codepen" src="https://www.youtube.com/embed/pMoL2URoqhI" title="Everything you didn't know you need to know about buttons" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+```css
+.my-btn {
+  all: unset;
+}
+
+.my-btn:focus {
+  /* 이런 저런 로직 */
+}
+```
+
+CSS는 이렇게 설정하기 바랍니다.
+
+```html
+<button type="button">button</button>
+```
+
+```html
+<a href="이런저런 링크">button</a>
+```
+
+조건부 태그 로직은 알아서 작성하기 바랍니다.
 
 ## html input의 type color
 
