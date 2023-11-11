@@ -69,8 +69,6 @@ sidebar_position: 1
 
 <!-- @TODO: BAM 네이밍 컨벤션 추가하기 -->
 
-<!-- @TODO: 컨테이너 쿼리 추가하기 -->
-
 ## 개발환경
 
 [codepen](https://codepen.io/)
