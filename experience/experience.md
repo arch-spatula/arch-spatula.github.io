@@ -27,9 +27,9 @@ date: 1453-5-29
 - html & css
   - [x] flex로 div 중앙 정렬
   - [x] position으로 정렬
-  - [ ] gird 활용
+  - [x] gird 활용
   - [ ] Masonry Layout 구현
-  - [ ] container query 활용
+  - [x] container query 활용
   - [ ] 순수 css 활용으로 캐러셀 구현
   - [ ] repaint 최적화
   - [ ] reflow 최적화
@@ -58,7 +58,7 @@ date: 1453-5-29
   - [ ] until 타입 활용
     - [x] Pick & Omit
     - [x] ReturnType
-    - [ ] Record
+    - [x] Record
   - [ ] 데코레이터 활용
   - [ ] Satisfies
   - 디자인 패턴
@@ -218,10 +218,13 @@ date: 1453-5-29
     - [ ] [<Clean Code 클린 코드> - 로버트 C. 마틴](https://www.yes24.com/Product/Goods/11681152)
     - [ ] [<단위 테스트> - 블라디미르 코리코프](https://www.yes24.com/Product/Goods/104084175)
   - CS 이론
-    - [ ] [<한 권으로 읽는 컴퓨터 구조와 프로그래밍> - 조너선 스타인하트](https://www.yes24.com/Product/Goods/98997716)
+    - 컴퓨터 구조론
+      - [ ] [<한 권으로 읽는 컴퓨터 구조와 프로그래밍> - 조너선 스타인하트](https://www.yes24.com/Product/Goods/98997716)
     - [ ] [<HTTP 완벽 가이드> - 데이빗 고울리, 브라이언 토티, 마조리 세이어, 세일루 레디, 안슈 아가왈](https://www.yes24.com/Product/Goods/15381085)
-    - [ ] [<운영체제> - Abraham Silberschatz, Peter Baer Galvin, Greg Gagne ](https://www.yes24.com/Product/Goods/89496122)
-    - [ ] [이산수학(Rosen의)](https://www.yes24.com/Product/Goods/78519939)
+    - 운영체제
+      - [ ] [<운영체제> - Abraham Silberschatz, Peter Baer Galvin, Greg Gagne ](https://www.yes24.com/Product/Goods/89496122)
+    - 이산수학
+      - [ ] [이산수학(Rosen의)](https://www.yes24.com/Product/Goods/78519939)
   - 자바스크립트
     - [x] [<코어 자바스크립트> - 정재남](https://www.yes24.com/Product/Goods/78586788)
     - [ ] [<자바스크립트로 배우는 SICP> - 해럴드 에이블슨, 제럴드 제이 서스먼, 마틴 헨즈, 토비아스 브릭스타드, 줄리 서스먼 ](https://www.yes24.com/Product/Goods/116469364)
@@ -230,7 +233,7 @@ date: 1453-5-29
   - 자기개발
     - [x] [<업무 시각화> - 도미니카 드그란디스](https://www.yes24.com/Product/Goods/86627323)
     - [x] [<IT에 몸담은 이들을 위한 지적 생산 기술> - 니시오 히로카즈](https://www.yes24.com/Product/Goods/79652283)
-    - [ ] [<이펙티브 엔지니어> - 에드먼드 라우](https://www.yes24.com/Product/Goods/110243880)
+    - [x] [<이펙티브 엔지니어> - 에드먼드 라우](https://www.yes24.com/Product/Goods/110243880)
     - [ ] [<코딩을 지탱하는 기술> - 니시오 히로카즈](https://www.yes24.com/Product/Goods/11101558)
     - [ ] [<소프트웨어 장인 정신 이야기> - 로버트 C. 마틴](https://www.yes24.com/Product/Goods/117713965)
     - [ ] [<일본전산 이야기> - 김성호](https://www.yes24.com/Product/Goods/117934216)
@@ -251,4 +254,3 @@ date: 1453-5-29
 - [ ] 스마트팜 직접 프로그래밍하고 운영하기
 - [ ] 온프레미스 홈서버 만들고 배포하기
   - [ ] 라즈베리 파이로도 시도해보기
-
