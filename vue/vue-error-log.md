@@ -10,6 +10,10 @@ sidebar_position: 3
 
 [Teleport 공식 문서](https://vuejs.org/guide/built-ins/teleport.html#basic-usage)를 참고하기 바랍니다.
 
+```
+
+```
+
 2. Vue에서는 props를 주석처리할 수 없습니다.
 
 ```
@@ -35,3 +39,55 @@ sidebar_position: 3
 ```
 
 위처럼 작성하면 숫자로 인식합니다. `:속성명="값"`의 형태라는 것을 잊지 말기바랍니다. 일반 속성은 문자열로 간주합니다.
+
+4. pinia 테스트 코드를 어떻게 설정하는가?
+
+```ts
+import { describe, it, expect, beforeEach } from 'vitest';
+
+describe('테스트 이름', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia());
+  });
+
+  test('개별 테스트 이름', () => {
+    const foo = useFooStore();
+
+    foo.run();
+
+    expect(foo.value).toBe('???');
+  });
+});
+```
+
+위는 개별테스트에 적용합니다. 하지만 pinia는 전역으로 적용하고 컴포넌트를 테스트하고 다른 상황에서도 적용이 필요합니다. 모든 테스트 컨텍스트 내에서 적용되어야 합니다.
+
+```ts title="main.ts"
+import './assets/main.css';
+
+import { createApp } from 'vue';
+import { createPinia, setActivePinia } from 'pinia';
+
+import App from './App.vue';
+import router from './router';
+import { beforeEach } from 'vitest';
+
+const app = createApp(App);
+
+// highlight-start
+beforeEach(() => {
+  const pinia = createPinia();
+  app.use(pinia);
+  setActivePinia(pinia);
+});
+// highlight-end
+
+app.use(createPinia());
+app.use(router);
+
+app.mount('#app');
+```
+
+위처럼 설정해주면 테스트가 전역으로 설정됩니다.
+
+[pinia testing 방법 공식 문서](https://pinia.vuejs.org/cookbook/testing.html#Unit-testing-a-store)
