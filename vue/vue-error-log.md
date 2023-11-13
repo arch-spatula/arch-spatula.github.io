@@ -10,13 +10,49 @@ sidebar_position: 3
 
 [Teleport 공식 문서](https://vuejs.org/guide/built-ins/teleport.html#basic-usage)를 참고하기 바랍니다.
 
+```html title="view/ExamplePage.vue"
+<Teleport v-if="refVal" to="body">
+  <Component />
+</Teleport>
 ```
 
+```html title="ModalComponent.vue"
+<template>
+  <div class="teleport-container">
+    <div class="modal-container">hello</div>
+    <div class="overlay"></div>
+  </div>
+</template>
+
+<script setup lang="ts"></script>
+
+<style>
+  .teleport-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  .modal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .overlay {
+    height: 100vh;
+    width: 100vw;
+    background-color: #00000040;
+  }
+</style>
 ```
+
+위처럼 작성하는 것이 일반적일 것 같습니다.
 
 2. Vue에서는 props를 주석처리할 수 없습니다.
 
-```
+```txt
 <input
   :value="text"
   <!-- @input="onInput" -->
@@ -28,13 +64,13 @@ sidebar_position: 3
 
 3. 숫자로 넣었는데 문자로 계속 판단하고 있습니다.
 
-```vue
+```html
 <input value="24" />
 ```
 
 보통 이렇게 작성하는 실수를 할 것입니다.
 
-```vue
+```html
 <input :value="24" />
 ```
 

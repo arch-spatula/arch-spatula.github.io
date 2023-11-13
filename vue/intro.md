@@ -62,3 +62,7 @@ pnpm i vue-query
 ```
 
 Nuxt를 사용하고 있지 않으면 위 설치는 나름 고려해볼 만할 것입니다.
+
+<!-- @todo: provider 더 구체적으로 작성하기 자식이 부모에게 실행할 메서드 주입하는 예시 보여주기 -->
+
+<!-- @todo: vue dom testing 예시 추가하기 -->
