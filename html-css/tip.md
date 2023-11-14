@@ -145,24 +145,28 @@ a {
 }
 ```
 
-### 최소 초기화
+### 최소 초기화(CSS RESET)
 
 ```css
-/*css 초기화*/
-
+/* CSS RESET */
 * {
   padding: 0;
   border: 0;
   margin: 0;
 }
-
 a {
   text-decoration: none;
 }
-
 li {
   list-style: none;
 }
+input {
+  appearance: none;
+  outline: none;
+}
+table {
+  border-collapse: collapse;
+} /*CSS초기화의 부분*/
 ```
 
 ### clearFix
@@ -175,6 +179,32 @@ item::after {
 }
 ```
 
+### button
+
+<iframe class="codepen" src="https://www.youtube.com/embed/pMoL2URoqhI" title="Everything you didn't know you need to know about buttons" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+```css
+.my-btn {
+  all: unset;
+}
+
+.my-btn:focus {
+  /* 이런 저런 로직 */
+}
+```
+
+CSS는 이렇게 설정하기 바랍니다.
+
+```html
+<button type="button">button</button>
+```
+
+```html
+<a href="이런저런 링크">button</a>
+```
+
+조건부 태그 로직은 알아서 작성하기 바랍니다.
+
 ## html input의 type color
 
 ```html
@@ -182,3 +212,37 @@ item::after {
 ```
 
 input은 이런것도 지원합니다. 이런것도 있는게 신기합니다.
+
+## 컨테이너 쿼리
+
+반응형 디자인을 적용해야 할 때 컴포넌트 독립적으로 반응하게 만들기 어려웠습니다. view port 전체를 기준으로 작성하기 때문입니다. 부분적으로 독립적으로 적용해야 편합니다.
+
+놀랍게도 현재 vue도 컨테이너 쿼리를 지원합니다.
+
+```css
+.foo {
+  /* 컨테이너 쿼리 설정 */
+  container-name: foo-container;
+  container-type: inline-size;
+
+  /* 기본 스타일링 */
+  font-size: 1.5em;
+}
+
+@container foo-container (min-width: 700px) {
+  .foo {
+    /* 덮어 쓰기 스타일링 */
+    font-size: 2em;
+  }
+}
+```
+
+참고한 블로그가 있습니다.[^1]
+
+위 예시를 잘 파악하기 바랍니다. 적용할 컴포넌트 태그에 해당하는 클래스를 넣기 바랍니다. 보통 컴포넌트의 루트 태그에 넣을 것입니다.
+
+너비가 `700px`이 되면 `.foo` 클래스가 덮어쓰기가 됩니다.
+
+1가지 중요한 것이 있습니다. `container-type`을 반드시 선언해야 적용이 가능해집니다. 저는 `container-name`만으로 적용가능할 것이라고 착각했습니다.
+
+[^1]: 출처: https://inpa.tistory.com/entry/🌟-css-container-사용법 [Inpa Dev 👨‍💻:티스토리]
