@@ -88,3 +88,16 @@ WAN
 - 지역 인터넷 회사가 관리합니다.
 - 망을 통제하는 것은 국가 혹은 회사가 WAN 단위로 통제할 수 있습니다.
   - 이런 이유로 다른나라의 망을 통신할 수 없습니다.
+
+왕복 시간(Round Trip Time, RTT)
+
+- [왕복 시간 MDN](https://developer.mozilla.org/ko/docs/Glossary/Round_Trip_Time)
+- 패킷을 주고 받는데 걸리는 시간입니다.
+
+```sh
+ping www.naver.com
+```
+
+위 명령으로 IP 패킷 전송 후 응답 등을 알아 낼 수 있습니다.
+
+<!-- 이더넷 -->
