@@ -1,18 +1,18 @@
 ---
-sidebar_position: 2
-tags: ["firebase", "error log"]
+sidebar_position: 1
+tags: ['firebase', 'error log']
 ---
 
 # 본인 Post 요청하기
 
 ```js
-import { authService, dbService } from "./firebase.js";
+import { authService, dbService } from './firebase.js';
 import {
   query,
   getDocs,
   collection,
   where,
-} from "https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js";
+} from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js';
 
 export const readMyPost = async () => {
   authService.onAuthStateChanged(async (user) => {
@@ -20,9 +20,9 @@ export const readMyPost = async () => {
 
     // 본인 고유 id랑 일치는 쿼리만 요청합니다. 쿼리 자체는 하나의 클래스입니다.
     const getMyPost = query(
-      collection(dbService, "posts"),
+      collection(dbService, 'posts'),
       // 첫번째 인자는 요청할 대상이고 두번째 인자는 요청하는 방식입니다. 요청하는 방식은 현재 접속한 유저의 uid랑 일치하는 것만 요청합니다. ???
-      where("userId", `==`, user.uid)
+      where('userId', `==`, user.uid)
     );
     const querySnapshot = await getDocs(getMyPost);
 
