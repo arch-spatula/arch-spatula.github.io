@@ -28,3 +28,5 @@ vim distro를 실제로 받아서 사용하기 전에 개인에게 맞는 vim �
 <iframe class="codepen" src="https://www.youtube.com/embed/w7i4amO_zaE" title="0 to LSP : Neovim RC From Scratch" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 [Dreams of Code의 Neovim 시리즈](https://www.youtube.com/playlist?list=PL05iK6gnYad1sb4iQyqsim_Jc_peZdNXf)
+
+<!-- ## 추천 플러그 -->
