@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Vue Error log
 
-1. React의 Portal처럼 vue는 Modal을 위한 외부 컨택스트는 무엇으로 구현하는가?
+## 1. React의 Portal처럼 vue는 Modal을 위한 외부 컨택스트는 무엇으로 구현하는가?
 
 `Teleport`로 구현합니다.
 
@@ -50,7 +50,7 @@ sidebar_position: 3
 
 위처럼 작성하는 것이 일반적일 것 같습니다.
 
-2. Vue에서는 props를 주석처리할 수 없습니다.
+## 2. Vue에서는 props를 주석처리할 수 없습니다.
 
 ```txt
 <input
@@ -62,7 +62,7 @@ sidebar_position: 3
 
 위와 같은 행위를 리액트처럼 할 수 없습니다.
 
-3. 숫자로 넣었는데 문자로 계속 판단하고 있습니다.
+## 3. 숫자로 넣었는데 문자로 계속 판단하고 있습니다.
 
 ```html
 <input value="24" />
@@ -76,7 +76,7 @@ sidebar_position: 3
 
 위처럼 작성하면 숫자로 인식합니다. `:속성명="값"`의 형태라는 것을 잊지 말기바랍니다. 일반 속성은 문자열로 간주합니다.
 
-4. pinia 테스트 코드를 어떻게 설정하는가?
+## 4. pinia 테스트 코드를 어떻게 설정하는가?
 
 ```ts
 import { describe, it, expect, beforeEach } from 'vitest';
@@ -127,3 +127,54 @@ app.mount('#app');
 위처럼 설정해주면 테스트가 전역으로 설정됩니다.
 
 [pinia testing 방법 공식 문서](https://pinia.vuejs.org/cookbook/testing.html#Unit-testing-a-store)
+
+## 5. JSDom을 설정해줘야 node.js가 테스트 환경에서 DOM을 재현할 수 있습니다.
+
+웹 API에 해당하는 함수들이 존재합니다. `alert`는 일반적으로 브라우저에서만 사용하는데 테스트 코드가 실행하는 경우가 존재합니다. 이경우 테스트 코드가 에러를 던져줄 것입니다.
+
+```sh
+npm install -D vitest happy-dom @testing-library/vue
+```
+
+위는 [공식 문서](https://vuejs.org/guide/scaling-up/testing.html#recipes)에서 `@testing-library/vue`를 사용하는 경우를 보여줍니다.
+
+```sh
+npm install -D vitest jsdom @vue/test-utils
+```
+
+위는 `@vue/test-utils`으로 설치할 때는 `JSDom`으로 설정해줘야 합니다.
+
+```ts title="vite.config.ts"
+import { fileURLToPath, URL } from 'node:url';
+
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
+});
+```
+
+```ts title="vitest.config.ts"
+import { fileURLToPath } from 'node:url';
+import { mergeConfig, defineConfig, configDefaults } from 'vitest/config';
+import viteConfig from './vite.config';
+
+export default mergeConfig(
+  viteConfig,
+  defineConfig({
+    test: {
+      // highlight-next-line
+      environment: 'jsdom', // @vue/test-utils을 설정할 때는 JSDom 설정이 중요합니다.
+      exclude: [...configDefaults.exclude, 'e2e/*'],
+      root: fileURLToPath(new URL('./', import.meta.url)),
+    },
+  })
+);
+```
