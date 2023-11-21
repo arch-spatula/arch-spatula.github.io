@@ -21,3 +21,11 @@
   align-items: center;
   justify-content: center;
 }
+
+/* [href='/easter'].footer__link-item {
+  color: var(--ifm-footer-background-color);
+} */
+
+[href='/easter'] {
+  color: var(--ifm-footer-background-color);
+}

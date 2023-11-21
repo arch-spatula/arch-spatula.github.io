@@ -328,6 +328,10 @@ const config = {
                 label: 'JS & TS Cook-Book',
                 to: '/js-ts-cookbook/intro',
               },
+              {
+                label: 'easter',
+                to: '/easter',
+              },
             ],
           },
           {
