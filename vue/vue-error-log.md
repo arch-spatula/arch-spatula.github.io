@@ -200,6 +200,10 @@ export default mergeConfig(
 
 `input` 이벤트는 위처럼 타입지정하면 됩니다.
 
+<iframe class="codepen" src="https://codesandbox.io/p/devbox/peaceful-chatelet-nlrlsd?embed=1&file=%2Fsrc%2FApp.vue"
+     title="vue input 이벤트 타입은 Event와 단언"
+   ></iframe>
+
 ## 6. watch는 얕은 비교만 가능합니다.
 
 공식 문서에서는 [deep watch 문제](https://vuejs.org/guide/essentials/watchers.html#deep-watchers)라고 알려줍니다.
@@ -228,6 +232,10 @@ export default mergeConfig(
   });
 </script>
 ```
+
+<iframe class="codepen" src="https://codesandbox.io/p/devbox/danin-7lpk2h?file=%2Fsrc%2FApp.vue&embed=1"
+title="원시형 문자열에 ref input"
+></iframe>
 
 위는 단일 문자열을 구독하는 대표적인 예시입니다. 이런 경우에는 별로 문제가 없습니다.
 
@@ -278,6 +286,10 @@ export default mergeConfig(
   });
 </script>
 ```
+
+<iframe class="codepen" src="https://codesandbox.io/p/devbox/youthful-goodall-td929g?embed=1&file=%2Fsrc%2FApp.vue"
+title="reactive는 말안드뤄"
+   ></iframe>
 
 위처럼 작성하면 문제가 됩니다. `oldInput`, `newInput` 값이 차이가 발생하지 않습니다. 구독하는 동작은 맞지만 동작 전후 차이를 통해 어떤 로직을 실행해야 하는데 못하게 됩니다.
 
@@ -330,8 +342,14 @@ export default mergeConfig(
 </script>
 ```
 
+<iframe class="codepen" src="https://codesandbox.io/p/devbox/busy-haze-46kq4v?embed=1&file=%2Fsrc%2FApp.vue"
+  title="reactive는 말잘드뤄"
+></iframe>
+
 콜백함수의 반환 값(`() => [inputReactive.input1, inputReactive.input2, inputReactive.input3]`)으로 `reactive`를 분할해서 대입하도록 합니다.
 
 이렇게 하면 old, new 비교를 통해 실행해야 할 때 활용할 수 있습니다.
 
-<!-- ## 7. codepen.io로 vue 예시 만들기 -->
+## 7. codepen.io로 vue 예시 만들기
+
+마음 편하게 codesnadbox 사용하세요.
