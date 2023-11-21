@@ -178,3 +178,160 @@ export default mergeConfig(
   })
 );
 ```
+
+## 5. 이벤트 타입은 어느정도 단언을 해야 합니다.
+
+[What is the type for an event in Vue TypeScript project?](https://stackoverflow.com/questions/55140448/what-is-the-type-for-an-event-in-vue-typescript-project)
+
+```html
+<template>
+  <input @input="handleInput" />
+</template>
+
+<script setup lang="ts">
+  import { ref, watch } from 'vue';
+
+  const handleInput = (e: Event) => {
+    const input = e.target as HTMLInputElement;
+    console.log(input.value);
+  };
+</script>
+```
+
+`input` 이벤트는 위처럼 타입지정하면 됩니다.
+
+## 6. watch는 얕은 비교만 가능합니다.
+
+공식 문서에서는 [deep watch 문제](https://vuejs.org/guide/essentials/watchers.html#deep-watchers)라고 알려줍니다.
+
+정확히는 현상만 보여주고 방지하는 방법만 알려줍니다. 하지만 실제 동작원리를 정확히 이해하는 것이 시작입니다. 나중에 동작 원리를 추가하겠습니다.
+
+```html
+<template>
+  <h1>test watch</h1>
+  <input @input="handleInput" :value="inputRef" />
+</template>
+
+<script setup lang="ts">
+  import { ref, watch } from 'vue';
+
+  const inputRef = ref<string>('');
+
+  const handleInput = (e: Event) => {
+    const input = e.target as HTMLInputElement;
+
+    inputRef.value = input.value;
+  };
+
+  watch(inputRef, () => {
+    console.log('inputRef의 변화를 구독', inputRef.value);
+  });
+</script>
+```
+
+위는 단일 문자열을 구독하는 대표적인 예시입니다. 이런 경우에는 별로 문제가 없습니다.
+
+하지만 만약에 form처럼 여러개의 문자열을 하나의 객체로 묶어야 하는 상황이 생길 수 있습니다.
+
+먼저 객체에 `ref`를 담아야 할때는 `reactive`를 활용해야 합니다.
+
+```html
+<template>
+  <h1>test watch</h1>
+  <input @input="handleInput1" :value="inputReactive.input1" />
+  <input @input="handleInput2" :value="inputReactive.input2" />
+  <input @input="handleInput3" :value="inputReactive.input3" />
+</template>
+
+<script setup lang="ts">
+  import { reactive, watch } from 'vue';
+
+  const inputReactive = reactive<{
+    input1: string;
+    input2: string;
+    input3: string;
+  }>({
+    input1: '',
+    input2: '',
+    input3: '',
+  });
+
+  const handleInput1 = (e: Event) => {
+    const input = e.target as HTMLInputElement;
+    inputReactive.input1 = input.value;
+  };
+
+  const handleInput2 = (e: Event) => {
+    const input = e.target as HTMLInputElement;
+    inputReactive.input2 = input.value;
+  };
+
+  const handleInput3 = (e: Event) => {
+    const input = e.target as HTMLInputElement;
+    inputReactive.input3 = input.value;
+  };
+
+  watch(inputReactive, (oldInput, newInput) => {
+    console.log('input1', oldInput.input1, newInput.input1);
+    console.log('input2', oldInput.input2, newInput.input2);
+    console.log('input3', oldInput.input3, newInput.input3);
+  });
+</script>
+```
+
+위처럼 작성하면 문제가 됩니다. `oldInput`, `newInput` 값이 차이가 발생하지 않습니다. 구독하는 동작은 맞지만 동작 전후 차이를 통해 어떤 로직을 실행해야 하는데 못하게 됩니다.
+
+```html
+<template>
+  <h1>test watch</h1>
+  <input @input="handleInput1" :value="inputReactive.input1" />
+  <input @input="handleInput2" :value="inputReactive.input2" />
+  <input @input="handleInput3" :value="inputReactive.input3" />
+</template>
+
+<script setup lang="ts">
+  import { reactive, watch } from 'vue';
+
+  const inputReactive = reactive<{
+    input1: string;
+    input2: string;
+    input3: string;
+  }>({
+    input1: '',
+    input2: '',
+    input3: '',
+  });
+
+  const handleInput1 = (e: Event) => {
+    const input = e.target as HTMLInputElement;
+    inputReactive.input1 = input.value;
+  };
+
+  const handleInput2 = (e: Event) => {
+    const input = e.target as HTMLInputElement;
+    inputReactive.input2 = input.value;
+  };
+
+  const handleInput3 = (e: Event) => {
+    const input = e.target as HTMLInputElement;
+    inputReactive.input3 = input.value;
+  };
+
+  // highlight-start
+  watch(
+    () => [inputReactive.input1, inputReactive.input2, inputReactive.input3],
+    ([oldInput1, oldInput2, oldInput3], [newInput1, newInput2, newInput3]) => {
+      console.log('input1', oldInput1, newInput1);
+      console.log('input2', oldInput2, newInput2);
+      console.log('input3', oldInput3, newInput3);
+    }
+  );
+  // highlight-end
+</script>
+```
+
+콜백함수의 반환 값(`() => [inputReactive.input1, inputReactive.input2, inputReactive.input3]`)으로 `reactive`를 분할해서 대입하도록 합니다.
+
+이렇게 하면 old, new 비교를 통해 실행해야 할 때 활용할 수 있습니다.
+
+<!-- ## 7. codepen.io로 vue 예시 만들기 -->
