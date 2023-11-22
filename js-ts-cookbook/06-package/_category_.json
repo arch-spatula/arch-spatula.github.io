@@ -1,0 +1,8 @@
+{
+  "label": "패키지 관리",
+  "position": 6,
+  "link": {
+    "type": "generated-index",
+    "description": "이런저런 패키지 관리 방법"
+  }
+}
