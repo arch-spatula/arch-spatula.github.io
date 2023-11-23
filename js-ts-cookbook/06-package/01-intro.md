@@ -270,12 +270,12 @@ pnpm i lodash
 
 이제 shared까지 설치했습니다.
 
-```json title="package.json"
+```json title="package/shared/package.json"
 {
   "name": "@pnpm-monorepo/shared",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {},
   "keywords": [],
   "author": "",
@@ -305,7 +305,6 @@ pnpm add -w -D eslint
   "name": "pnpm-monorepo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {},
   "keywords": [],
   "author": "",
@@ -324,7 +323,6 @@ pnpm add -w -D eslint
   "name": "pnpm-monorepo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "shared": "pnpm -F @pnpm-monorepo/shared",
     "frontend": "pnpm -F @pnpm-monorepo/frontend",
@@ -351,10 +349,139 @@ type type = {
 };
 ```
 
-<!-- @todo: ### 유틸함수 공유 -->
-<!--
+### 공통 컴포넌트 및 함수 공유
+
+프론트엔드 제품이 여러개면 디자인 시스템을 만들고 공유하게 만드는 경우도 존재할 것입니다.
+
+위 예시랑 이어집니다.
+
 ```sh
 pnpm frontend add @pnpm-monorepo/shared
-pnpm backed add @pnpm-monorepo/shared
+pnpm backend add @pnpm-monorepo/shared
 pnpm admin add @pnpm-monorepo/shared
-``` -->
+```
+
+먼저 패키지를 주입합니다.
+
+```sh
+pnpm install
+```
+
+그리고 설치를 시도합니다.
+
+주입을 받으면 주입받은 패키지마다 `package.json`을 확인해보면 `dependencies`에 `"@pnpm-monorepo/shared": "workspace:^",`이 추가된 것을 확인할 수 있을 것입니다.
+
+```json title="package/admin/package.json"
+{
+  "name": "@pnpm-monorepo/admin",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "format": "prettier --write src/"
+  },
+  "dependencies": {
+    // highlight-next-line
+    "@pnpm-monorepo/shared": "workspace:^",
+    "pinia": "^2.1.7",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.3.3",
+    "@tsconfig/node18": "^18.2.2",
+    "@types/node": "^18.18.5",
+    "@vitejs/plugin-vue": "^4.4.0",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "@vue/eslint-config-typescript": "^12.0.0",
+    "@vue/tsconfig": "^0.4.0",
+    "eslint": "^8.49.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "npm-run-all2": "^6.1.1",
+    "prettier": "^3.0.3",
+    "typescript": "~5.2.0",
+    "vite": "^4.4.11",
+    "vue-tsc": "^1.8.19"
+  }
+}
+```
+
+표시된 부분이 추가된 것이 중요합니다.
+
+주의할 점들이 있습니다. 주고 받는 `package.json`에 작성되어 있는 패키지 이름이 맞는지 아는 것이 중요합니다.
+
+또 주입하려는 패키지 이름도 주의하기 바랍니다.
+
+```json
+{
+  "name": "pnpm-monorepo",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    // highlight-start
+    "shared": "pnpm -F @pnpm-monorepo/shared",
+    "frontend": "pnpm -F @pnpm-monorepo/frontend",
+    "backend": "pnpm -F @pnpm-monorepo/backend",
+    "admin": "pnpm -F @pnpm-monorepo/admin"
+    // highlight-end
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.54.0",
+    "zod": "^3.22.4"
+  }
+}
+```
+
+workspace에 설정했을 때 `package.json`의 이름하고 잘 대응되는지 확인하기 바랍니다.
+
+또 shared에 공유용 함수와 상수를 만들 었는데 패키지는 공유했지만 import가 안되는 경우도 볼 것입니다.
+
+```json title="package/shared/package.json"
+{
+  "name": "@pnpm-monorepo/shared",
+  "version": "1.0.0",
+  "description": "",
+  // highlight-next-line
+  "main": "main.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@pnpm-monorepo/shared": "workspace:^",
+    "lodash": "^4.17.21"
+  }
+}
+```
+
+`main`에 값에 해당하는 파일을 잘 확인하기 바랍니다. export로 모두 만나게 할 경로를 설정할 수 없으면 shared를 공유받아도 import할 수 없습니다.
+
+```
+├── node_modules/
+│   └── 여기는 미스테리로 두겠습니다.
+├── packages/
+│   ├── admin/
+│   ├── backend/
+│   ├── frontend/
+│   └── shared/
+│       ├── node_modules
+// highlight-next-line
+│       ├── main.ts
+│       └── package.json
+├── pnpm-lock.yaml
+└── pnpm-workspace.yaml
+```
+
+위처럼 일치를 확인하기 바랍니다. 저는 한참 혜맸습니다.
+
+<!-- @todo: ### 유틸함수 공유 -->
