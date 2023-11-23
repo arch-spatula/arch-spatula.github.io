@@ -351,6 +351,8 @@ type type = {
 
 ### 공통 컴포넌트 및 함수 공유
 
+[Building a Monorepo with pnpm Workspace](https://dev.to/soom/building-a-monorepo-with-pnpm-workspace-1544)를 참고했습니다.
+
 프론트엔드 제품이 여러개면 디자인 시스템을 만들고 공유하게 만드는 경우도 존재할 것입니다.
 
 위 예시랑 이어집니다.
@@ -483,5 +485,3 @@ workspace에 설정했을 때 `package.json`의 이름하고 잘 대응되는지
 ```
 
 위처럼 일치를 확인하기 바랍니다. 저는 한참 혜맸습니다.
-
-<!-- @todo: ### 유틸함수 공유 -->
