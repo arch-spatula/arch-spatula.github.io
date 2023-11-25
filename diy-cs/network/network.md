@@ -17,6 +17,15 @@ http는 사실 따로 다뤄야 하지만 나중에 하겠습니다.
 
 인터넷은 누구의 것인가? 모두의 것입니다. 인터넷을 규제할 수 있는 것은 그 망을 지리적으로 통제할 수 있는 그 국가의 주권문제입니다. 중국의 경우 미국의 일부 서비스를 금지하고 검열하고 있습니다. 국가는 검열하고 차단만 할 수 있습니다. 만약에 중국인이 유학을 가게 되면 검열로 차단했던 서비스를 접근할 수 있게 됩니다.
 
+<!--
+## 네트워크의 종류
+
+https://www.youtube.com/watch?v=Vc-PGeu94c4
+
+https://www.youtube.com/watch?v=P6SZLcGE4us
+
+Top 8 Most Popular Network Protocols Explained -->
+
 <!-- ## 비행기모드
 
 [What happens if you don’t put your phone in airplane mode? - Lindsay DeMarchi](https://www.youtube.com/watch?v=iKYHf22qVdM) -->
