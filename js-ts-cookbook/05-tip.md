@@ -137,6 +137,25 @@ console.log('first: %d, second: %d, third: %d', first, second, third);
 
 콘솔로그에 이런 표현도 가능했습니다. 저는 몰랐습니다. ㅂㄷㅂㄷ...
 
+### console.log 컬러 입히기
+
+[스택 오버플로우](https://stackoverflow.com/questions/7505623/colors-in-javascript-console)에서는 컬러 추가도 가능하다고 알려줍니다.
+
+```js
+console.log('%c Oh my heavens! ', 'background: #222; color: #bada55');
+```
+
+<!--
+https://github.com/arch-spatula/Hyper-Modern-JavaScript-Cook-Book/blob/dev/draft/console.md
+
+```js
+console.groupEnd('array loop');
+console.time();
+console.timeEnd();
+console.table();
+console.trace();
+``` -->
+
 ## 실행환경별로 실행
 
 ```ts
