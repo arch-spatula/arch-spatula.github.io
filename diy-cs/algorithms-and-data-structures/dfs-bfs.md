@@ -92,17 +92,25 @@ const graph = {
 /**
  * @param {Record<string, string[]>} graph
  * @param {string} startingNode
+ * @returns {string[]}
  */
-function dfs(graph, startingNode) {}
+function dfs(graph, startingNode) {
+  const result = [];
+  return result;
+}
 
 /**
  * @param {Record<string, string[]>} graph
  * @param {string} startingNode
+ * @returns {string[]}
  */
-function bfs(graph, startingNode) {}
+function bfs(graph, startingNode) {
+  const result = [];
+  return result;
+}
 ```
 
-여기까지 시그니쳐만 정의합시다. 그리고 여기에 맞는 테스트 코드는 다음과 같습니다.
+여기까지 시그니쳐보다 약간 더 정의합시다. 그리고 여기에 맞는 테스트 코드는 다음과 같습니다.
 
 ```js
 import { describe, test, expect } from 'vitest';
@@ -153,6 +161,10 @@ describe('BFS', () => {
 
 먼저 성능과 무관하게 단순탐색만 하겠습니다.
 
+<details>
+<summary>정답</summary>
+<div markdown="1">
+
 ```js
 /**
  * @param {Record<string, string[]>} graph
@@ -196,5 +208,8 @@ function bfs(graph, startingNode) {
 방문여부를 계속 기록하고 방문할 노드를 순서대로 확인하는 방식으로 동작합니다. 최대한 단순하고 몇줄의 코드로 이해하게 만들고자 작성했습니다.
 
 여기에서 실제로 성능 개선할 부분들이 존재합니다.
+
+</div>
+</details>
 
 <!-- @todo: 성능을 개선해보겠습니다. -->
