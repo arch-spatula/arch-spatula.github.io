@@ -14,6 +14,8 @@ date: 1453-5-29
   - [ ] rebase merge
   - [x] git amend로 커밋 내역 수정
   - [x] git squash
+  - [x] git prune
+  - [ ] git bisect
   - [ ] git tag 활용
   - [x] github 프로젝트 활용
   - github actions 활용
@@ -186,9 +188,9 @@ date: 1453-5-29
     - [x] CSS-in-JS 활용
     - [ ] SSR hydration
 - vue
-  - [ ] UI 테스팅
-  - [ ] vitest로 통신 mocking
-  - [ ] nust.js 활용
+  - [x] UI 테스팅
+  - [x] vitest로 통신 mocking
+  - [ ] nuxt.js 활용
 - [ ] 데이터 시각화
   - [ ] D3.js
   - [ ] React Chart
@@ -220,7 +222,9 @@ date: 1453-5-29
   - CS 이론
     - 컴퓨터 구조론
       - [ ] [<한 권으로 읽는 컴퓨터 구조와 프로그래밍> - 조너선 스타인하트](https://www.yes24.com/Product/Goods/98997716)
-    - [ ] [<HTTP 완벽 가이드> - 데이빗 고울리, 브라이언 토티, 마조리 세이어, 세일루 레디, 안슈 아가왈](https://www.yes24.com/Product/Goods/15381085)
+      - [ ] [로우레벨로 생각하고 하이레벨로 코딩하기](https://www.yes24.com/Product/Goods/105606757)
+    - 네트워크
+      - [ ] [<HTTP 완벽 가이드> - 데이빗 고울리, 브라이언 토티, 마조리 세이어, 세일루 레디, 안슈 아가왈](https://www.yes24.com/Product/Goods/15381085)
     - 운영체제
       - [ ] [<운영체제> - Abraham Silberschatz, Peter Baer Galvin, Greg Gagne ](https://www.yes24.com/Product/Goods/89496122)
     - 이산수학
