@@ -13,6 +13,8 @@ draft: true
 
 [개발자가 알아두면 좋은 기술 블로그 운영 팁 5가지](https://yozm.wishket.com/magazine/detail/2134/)
 
+[면접관 관점에서 본 좋은 개발자 블로그](https://f-lab.kr/blog/developer-blog-tips?utm_source=oneoneone)
+
 ## 왜 개발자는 글을 써야 하는가?
 
 조금더 포괄적인 질문을 의도적으로 했습니다.
