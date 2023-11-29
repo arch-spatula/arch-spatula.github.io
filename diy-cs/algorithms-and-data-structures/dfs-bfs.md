@@ -162,7 +162,7 @@ describe('BFS', () => {
 먼저 성능과 무관하게 단순탐색만 하겠습니다.
 
 <details>
-<summary>정답</summary>
+<summary>DFS Stack 정답</summary>
 <div markdown="1">
 
 ```js
@@ -184,7 +184,16 @@ function dfs(graph, startingNode) {
   }
   return result;
 }
+```
 
+</div>
+</details>
+
+<details>
+<summary>BFS Queue 정답</summary>
+<div markdown="1">
+
+```js
 /**
  * @param {Record<string, string[]>} graph
  * @param {string} startingNode
@@ -211,5 +220,40 @@ function bfs(graph, startingNode) {
 
 </div>
 </details>
+
+위 정답을 확인하면 DFS, BFS에서 각각 Stack, Queue에 따라 다르게 동작한다는 것을 파악하는 것이 핵심입니다. DFS의 경우 Stack을 사용할 수 있고 재귀함수를 사용할 수 있는 경우도 존재합니다. 때로는 코드상 재귀함수가 더 직관적인 상황들도 있습니다. 재귀함수를 사용할 수 있는 이유는 결국 대부분의 프로그램은 콜스택이기 때문입니다.
+
+<details>
+<summary>DFS 재귀함수 정답</summary>
+<div markdown="1">
+
+```js
+/**
+ * @param {Record<string, string[]>} graph
+ * @param {string} startingNode
+ */
+export function dfs(graph, startingNode) {
+  const visited = new Set();
+  const result = [];
+
+  (function stack(currentNode) {
+    if (visited.has(currentNode)) return;
+    visited.add(currentNode);
+    result.push(currentNode);
+    graph[currentNode].reverse().forEach((nextNode) => {
+      stack(nextNode);
+    });
+  })(startingNode);
+
+  return result;
+}
+```
+
+참고를 함수를 사용하면 방문하는 순서가 달라서 중간에 `reverse` 하나만 두면 테스트 케이스를 모두 통과합니다.
+
+</div>
+</details>
+
+즉시실행 재귀함수를 활용해서 이렇게 풀 수 있습니다.
 
 <!-- @todo: 성능을 개선해보겠습니다. -->
