@@ -500,6 +500,222 @@ export function permutations(arr, n) {
 </div>
 </details>
 
+### 조합
+
+아래는 조합(Combination)입니다.
+
+$$
+
+_nC_k = \frac{n!}{r!(n-r)!}
+
+
+$$
+
+조합은 순열과 다르게 뽑는다는 행위가 더 중요합니다. 순열은 나열한다는 행위가 더 중요합니다.
+
+몇가지 파악할 특징들이 있습니다. 첫째는 배열의 인덱스를 기준으로 검색해야 합니다. 배열에서 원소는 중복할 수 있어도 인덱스는 중복할 수 없습니다. 적어도 인덱스를 기준으로 뽑을 때 중복이 발생하지 않고 충족할 수 있기 때문입니다.
+
+먼저 테스트 케이스부터 짜겠습니다. 테스트 케이스를 보면 이해가 더 잘 될 것입니다.
+
+```js
+describe('permutations', () => {
+  test('pick 1', () => {
+    const given = Array.from({ length: 5 }, (_, idx) => idx + 1);
+
+    const result = combination(given, 1);
+
+    expect(result.length).toBe(5);
+    expect(result).toEqual([[1], [2], [3], [4], [5]]);
+  });
+  test('pick 2', () => {
+    const given = Array.from({ length: 5 }, (_, idx) => idx + 1);
+
+    const result = combination(given, 2);
+
+    expect(result.length).toBe(10);
+    expect(result).toEqual([
+      [1, 2],
+      [1, 3],
+      [1, 4],
+      [1, 5],
+      [2, 3],
+      [2, 4],
+      [2, 5],
+      [3, 4],
+      [3, 5],
+      [4, 5],
+    ]);
+  });
+  test('pick 3', () => {
+    const given = Array.from({ length: 5 }, (_, idx) => idx + 1);
+
+    const result = combination(given, 3);
+
+    expect(result.length).toBe(10);
+    expect(result).toEqual([
+      [1, 2, 3],
+      [1, 2, 4],
+      [1, 2, 5],
+      [1, 3, 4],
+      [1, 3, 5],
+      [1, 4, 5],
+      [2, 3, 4],
+      [2, 3, 5],
+      [2, 4, 5],
+      [3, 4, 5],
+    ]);
+  });
+});
+```
+
+순열도 재귀함수로 접근해야 하는 부분들이 있습니다. 현재 노드를 방문하고 다음 방문 할 노드를 분할 정복하는 전략입다. 그리고 슬라이딩 윈도우 패턴도 같이 사용하면 됩니다. 도식을 보면 바로 이해될 것입니다.
+
+![](https://private-user-images.githubusercontent.com/84452145/286907995-3cc06e0d-5496-4acf-a54d-5ec30e5ab349.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MDEzNDczNzEsIm5iZiI6MTcwMTM0NzA3MSwicGF0aCI6Ii84NDQ1MjE0NS8yODY5MDc5OTUtM2NjMDZlMGQtNTQ5Ni00YWNmLWE1NGQtNWVjMzBlNWFiMzQ5LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFJV05KWUFYNENTVkVINTNBJTJGMjAyMzExMzAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjMxMTMwVDEyMjQzMVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTVkYzhhM2QzYjczNTBmNmI1MzA5MWMzMTRkYzMyYjFmNjgxNjM4ODYyYTJiODFlMmMwNTU3NzQxMjc5N2ZkNGEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.Nw-XhgErIM5jKxrmqL8HmIo3gns6QVXx8QUYgXtnERA)
+
+![](https://private-user-images.githubusercontent.com/84452145/286908076-04dcb8cf-8a1f-4329-9ace-ff36694b7a8a.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MDEzNDczNzEsIm5iZiI6MTcwMTM0NzA3MSwicGF0aCI6Ii84NDQ1MjE0NS8yODY5MDgwNzYtMDRkY2I4Y2YtOGExZi00MzI5LTlhY2UtZmYzNjY5NGI3YThhLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFJV05KWUFYNENTVkVINTNBJTJGMjAyMzExMzAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjMxMTMwVDEyMjQzMVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTExMzZhODBjMjFkN2Q0YWFlMjA2ZmEwMGFhYzMzMzk1OWQwNjIxMTRmNGZlM2ZlMGNjNmM0MjNlZWMxNDMzMWEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.ohBLQFjBP--iMPHzrl_X-zTx2Y5xy05WIJwKDuWppNk)
+
+![](https://private-user-images.githubusercontent.com/84452145/286908112-e0665ef7-17d2-46af-a6de-d9ca97b81863.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MDEzNDczNzEsIm5iZiI6MTcwMTM0NzA3MSwicGF0aCI6Ii84NDQ1MjE0NS8yODY5MDgxMTItZTA2NjVlZjctMTdkMi00NmFmLWE2ZGUtZDljYTk3YjgxODYzLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFJV05KWUFYNENTVkVINTNBJTJGMjAyMzExMzAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjMxMTMwVDEyMjQzMVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTY5YzdkYjViZTU0MWY1NDAwNDQyMjc1YmNmYzVmZGJiYjc1ZjM4YjI4MjE2M2Y1MmM4N2VkMmUzMDAxNzYwMDkmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.RA1NcbKMMxABLsEF5Oqh8z40QkcMWPiGgWWEr7Zl8RE)
+
+현재 노드와 남은 노드를 계속 분할 정복하면 됩니다. 재귀함수의 대입할 인자로 분할 해서 각각 대입하면 됩니다.
+
+<details>
+<summary>정답</summary>
+<div markdown="1">
+
+```js
+/**
+ * @param {number[]} arr
+ * @param {number} n
+ * @returns {number[][]}
+ */
+export function combination(arr, n) {
+  const result = [];
+  (function graph(visited, remaining) {
+    if (visited.length === n) {
+      result.push(visited);
+      return;
+    }
+    for (let i = 0; i < remaining.length; i++) {
+      const current = visited.concat(remaining.slice(i, i + 1));
+      const nextRemaining = remaining.slice(i + 1);
+      graph(current, nextRemaining);
+    }
+  })([], arr);
+  return result;
+}
+```
+
+</div>
+</details>
+
+제일 먼저할 부분은 함수 시그니처를 정의하겠습니다.
+
+<details>
+<summary>풀이</summary>
+<div markdown="1">
+
+```js
+/**
+ * @param {number[]} arr
+ * @param {number} n
+ * @returns {number[][]}
+ */
+export function combination(arr, n) {
+  const result = [];
+  return result;
+}
+```
+
+여기서 시작합니다. 이제 재귀함수와 베이스 케이스를 작성하겠습니다.
+
+```js
+/**
+ * @param {number[]} arr
+ * @param {number} n
+ * @returns {number[][]}
+ */
+export function combination(arr, n) {
+  const result = [];
+  (function graph(visited, remaining) {})([], arr);
+  return result;
+}
+```
+
+여기까지 재귀함수입니다. 즉시실행함수에 처음 대입할 것은 비어있는 배열(`[]`)입니다. 모든 것을 탐색해야 하기 때문에 아무것도 없는 상태에서 시작합니다. 그리고 `arr`는 모든 것을 탐색해야 하기 때문에 넣고 시작합니다.
+
+```js
+/**
+ * @param {number[]} arr
+ * @param {number} n
+ * @returns {number[][]}
+ */
+export function combination(arr, n) {
+  const result = [];
+  (function graph(visited, remaining) {
+    if (visited.length === n) {
+      result.push(visited);
+      return;
+    }
+  })([], arr);
+  return result;
+}
+```
+
+여기까지는 베이스케이입니다. 뽑는 수량을 달성하면 탐색에 성공한 것입니다.
+
+```js
+/**
+ * @param {number[]} arr
+ * @param {number} n
+ * @returns {number[][]}
+ */
+export function combination(arr, n) {
+  const result = [];
+  (function graph(visited, remaining) {
+    if (visited.length === n) {
+      result.push(visited);
+      return;
+    }
+    for (let i = 0; i < remaining.length; i++) {
+      const current = visited.concat(remaining.slice(i, i + 1));
+      const nextRemaining = remaining.slice(i + 1);
+      console.log(current, nextRemaining);
+    }
+  })([], arr);
+  return result;
+}
+```
+
+여기서 로그를 확인했을 때 현재 노드와 다음으로 탐색할 노드들을 확인했으면 이제 재귀함수를 호출하면 됩니다. 현재 방문하고 있는 부분과 방문하게 될 부분을 분할하는 것을 확인하는 것이 중요합니다. 방문한 노드를 늘리고 방문할 노드를 줄여갈 것이라는 것만 파악하면 됩니다.
+
+```js
+/**
+ * @param {number[]} arr
+ * @param {number} n
+ * @returns {number[][]}
+ */
+export function combination(arr, n) {
+  const result = [];
+  (function graph(visited, remaining) {
+    if (visited.length === n) {
+      result.push(visited);
+      return;
+    }
+    for (let i = 0; i < remaining.length; i++) {
+      const current = visited.concat(remaining.slice(i, i + 1));
+      const nextRemaining = remaining.slice(i + 1);
+      graph(current, nextRemaining);
+    }
+  })([], arr);
+  return result;
+}
+```
+
+그래서 이게 정답코드가 됩니다.
+
+</div>
+</details>
+
 ## 피로도
 
 [피로도](https://school.programmers.co.kr/learn/courses/30/lessons/87946)
