@@ -25,6 +25,10 @@ function isLowerCase(char) {
 
 이렇게 아스키코드를 활용해서 풀기 바랍니다.
 
+<!-- @todo:
+- KMP 알고리즘 다루기
+ -->
+
 ## 튜플
 
 [튜플](https://school.programmers.co.kr/learn/courses/30/lessons/64065)

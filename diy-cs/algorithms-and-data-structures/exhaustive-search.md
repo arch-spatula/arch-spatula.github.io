@@ -11,18 +11,7 @@ draft: true
 
 경우의 수 지식에 의존성을 갖고 있습니다.
 
-<!-- @todo 아래 내용 정리하기 -->
-<!-- ## dfs와 순열과 조합 -->
-
-<!-- https://leejams.github.io/%EC%A1%B0%ED%95%A9/ -->
-
-<!-- https://velog.io/@rlatp1409/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-JS-%EC%88%9C%EC%97%B4%EA%B3%BC-%EC%A1%B0%ED%95%A9-%EA%B5%AC%ED%98%84-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8 -->
-
-<!-- https://velog.io/@devjade/JavaScript%EB%A1%9C-%EC%88%9C%EC%97%B4%EA%B3%BC-%EC%A1%B0%ED%95%A9-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0 -->
-
 ## 순열과 조합
-
-<!-- [[알고리즘] JavaScript 순열과 조합 알고리즘 구현하기 (순열 편)](https://leejams.github.io/%EC%88%9C%EC%97%B4/) -->
 
 ### 순열
 
@@ -875,3 +864,20 @@ function solution(k, d) {
 
 </div>
 </details>
+
+<!-- @todo:
+- 브루트 포스, 선형 탐색 설명
+https://leetcode.com/problems/available-captures-for-rook/
+-->
+
+<!-- @todo:
+- 재귀함수
+ -->
+
+<!-- @todo:
+- 비트 마스크
+ -->
+
+<!-- @todo:
+- DFS/BFS
+ -->
