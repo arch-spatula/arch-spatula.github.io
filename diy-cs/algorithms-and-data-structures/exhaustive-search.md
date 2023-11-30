@@ -720,10 +720,6 @@ export function combination(arr, n) {
 
 [피로도](https://school.programmers.co.kr/learn/courses/30/lessons/87946)
 
-### 1차 시도
-
-https://school.programmers.co.kr/learn/courses/30/lessons/87946
-
 ```js
 /**
  * @param {number} k
@@ -737,6 +733,30 @@ function solution(k, dungeons) {
 
 export default solution;
 ```
+
+```js
+import solution, { getIntersection, getUnion } from './playground';
+import { test, expect, describe } from 'vitest';
+
+// k	dungeons	                result
+// 80	[[80,20],[50,40],[30,10]]	3
+
+describe('피로도', () => {
+  test('예제 1', () => {
+    expect(
+      solution(80, [
+        [80, 20],
+        [50, 40],
+        [30, 10],
+      ])
+    ).toBe(3);
+  });
+});
+```
+
+<details>
+<summary>1차 그리디로 시도</summary>
+<div markdown="1">
 
 ```js
 /**
@@ -766,24 +786,88 @@ function solution(k, dungeons) {
 export default solution;
 ```
 
-```js
-import solution, { getIntersection, getUnion } from './playground';
-import { test, expect, describe } from 'vitest';
-
-// k	dungeons	                result
-// 80	[[80,20],[50,40],[30,10]]	3
-
-describe('피로도', () => {
-  test('예제 1', () => {
-    expect(
-      solution(80, [
-        [80, 20],
-        [50, 40],
-        [30, 10],
-      ])
-    ).toBe(3);
-  });
-});
-```
+</div>
+</details>
 
 2차 시도는 DFS로 해야 합니다. 하지만 경우의 수와 완전탐색의 관계를 파악하고 진행할 것입니다.
+
+<details>
+<summary>2차 DFS 시도</summary>
+<div markdown="1">
+
+```js
+/**
+ * @param {number} k
+ * @param {[number, number][]} dungeons
+ * @returns {number}
+ */
+function solution(k, dungeons) {
+  let result = [];
+  let depth = 0;
+  /**
+   * @param {[number, number][]} visited
+   * @param {[number, number][]} remaining
+   * @param {number} health
+   */
+  (function graph(visited, remaining, health, depth) {
+    if (!remaining.length) {
+      result.push(depth);
+      return;
+    }
+    for (let i = 0; i < remaining.length; i++) {
+      const current = visited.concat(remaining[i]);
+      // 진행여부 가드
+      // 통과 못하면 초기화
+      const [barrier, cost] = remaining[i];
+      if (health < barrier) {
+        graph(current, [], health - cost, depth);
+      } else {
+        const nextRemaining = remaining
+          .slice(i + 1)
+          .concat(remaining.slice(0, i));
+        graph(current, nextRemaining, health - cost, depth + 1);
+      }
+    }
+  })([], dungeons, k, 0);
+  return Math.max(...result);
+}
+
+export default solution;
+```
+
+최적화 측면에서 아쉬운 부분이 상당히 많습니다. 가장 큰 값을 보는 방식도 굳이 배열에 안 담고 탐색 하고 특정 조건에 도달하면 대소비교하고 더크면 갱신만 해도 되는데 비효율적인 방법으로 처리했습니다.
+
+</div>
+</details>
+
+DFS를 사용하면 문제가 풀립니다.
+
+<details>
+<summary>DFS 모범 정답</summary>
+<div markdown="1">
+
+```js
+function solution(k, d) {
+  const N = d.length;
+  const visited = new Array(N).fill(0);
+  let ans = 0;
+
+  function dfs(k, cnt) {
+    ans = Math.max(cnt, ans);
+
+    for (let j = 0; j < N; j++) {
+      if (k >= d[j][0] && !visited[j]) {
+        visited[j] = 1;
+        dfs(k - d[j][1], cnt + 1);
+        visited[j] = 0;
+      }
+    }
+  }
+
+  dfs(k, 0);
+  return ans;
+}
+```
+
+</div>
+</details>
