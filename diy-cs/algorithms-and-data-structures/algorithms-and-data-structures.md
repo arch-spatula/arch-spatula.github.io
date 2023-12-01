@@ -195,3 +195,62 @@ describe('N 찍기', () => {
 1. 마지막 줄에 줄바꿈을 하고 있는지 주의하기 바랍니다.
 
 2. `input.txt`에 읽는 파일을 `console.log`로 한번 확인하기 바랍니다.
+
+<!-- @todo:
+프림 알고리즘
+MST 최소 신장 트리(MST, Minimum Spanning Tree)
+https://gmlwjd9405.github.io/2018/08/28/algorithm-mst.html
+-->
+
+<!-- @todo: KMP  -->
+
+<!-- @todo: 허프만 알고리즘 -->
+<!-- @todo:
+위상 정렬
+https://namu.wiki/w/%EC%9C%84%EC%83%81%20%EC%A0%95%EB%A0%AC
+ -->
+
+<!-- @todo:
+유클리드 호제법
+https://namu.wiki/w/%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%20%ED%98%B8%EC%A0%9C%EB%B2%95
+ -->
+
+<!-- @todo:
+소인수분해/알고리즘
+https://namu.wiki/w/%EC%86%8C%EC%9D%B8%EC%88%98%EB%B6%84%ED%95%B4/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98
+ -->
+
+<!-- @todo:
+최소 공배수 최대 공약수 알고리즘
+ -->
+
+<!-- @todo:
+하노이의 탑
+ -->
+
+<!-- @todo:
+카운트 정렬 & 기수 정렬
+-->
+
+<!-- @todo:
+LIS 최장 증가 부분 수열
+https://namu.wiki/w/%EC%B5%9C%EC%9E%A5%20%EC%A6%9D%EA%B0%80%20%EB%B6%80%EB%B6%84%20%EC%88%98%EC%97%B4
+ -->
+
+<!-- @todo:
+플로이드-워셜 알고리즘
+https://namu.wiki/w/%ED%94%8C%EB%A1%9C%EC%9D%B4%EB%93%9C-%EC%9B%8C%EC%85%9C%20%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98
+ -->
+
+<!-- @todo:
+래드 블랙 트리
+ -->
+
+<!-- @todo:
+벨먼-포드 알고리즘
+https://namu.wiki/w/%EB%B2%A8%EB%A8%BC-%ED%8F%AC%EB%93%9C%20%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98
+ -->
+
+<!-- @todo:
+크루스칼 알고리즘
+ -->
