@@ -449,3 +449,8 @@ function solution(k, m, score) {
 
 </div>
 </details>
+
+<!-- @todo:
+배낭 문제 https://namu.wiki/w/%EB%B0%B0%EB%82%AD%20%EB%AC%B8%EC%A0%9C
+https://www.youtube.com/watch?v=hagBB17_hvg Dynamic Programming – 0/1 Knapsack Problem Tutorial
+-->
