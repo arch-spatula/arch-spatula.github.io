@@ -190,3 +190,22 @@ loop1: for (i = 0; i < 3; i++) {
 중쳡순회를 풀 수 있는 방법이 존재하는게 상당히 충격적입니다.
 
 label을 사용하지 않으면 flag를 사용해서 중첩순회를 풀어야 하지만 label을 활용하면 어느 순회문에 `break`에 적용할지 제어할 수 있습니다.
+
+## reduce로 객체 만들기
+
+```js
+arr.reduce((acc, curr) => ((acc[curr] = null), acc), {});
+// {A: null, B: null}
+```
+
+배열의 값을 키로 활용해 객체를 만드는 법을 찾던 중에 `reduce`를 이렇게 사용할 수 있다는 것을 발견했습니다. 작지만 특이한 용례입니다.
+
+```ts
+const distances: { [keys: Vertex]: number } = Object.keys(
+  this.adjacencyList
+).reduce((acc, curr) => ((acc[curr] = curr === start ? 0 : Infinity), acc), {});
+```
+
+화살표 함수에 반환하는 자리에 괄호로 반환하는 값만 아니라 할당하는 문장을 작성도 가능했습니다. 그리고 새로 만들고 참조할 객체를 다음 인자로 대입하면 되는 것이었습니다.
+
+[Convert array to object keys [duplicate]](https://stackoverflow.com/questions/54789406/convert-array-to-object-keys)

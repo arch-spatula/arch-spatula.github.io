@@ -4334,3 +4334,131 @@ callback으로 유저 데이터를 고유하게 만드는 법을 배웠습니다
 https://www.youtube.com/watch?v=KmxAH7ng8Qw
 
 배포입니다. 배포는 github과 vercel로 간단하게 처리할 수 있습니다.
+
+# 포폴 리팩토링
+
+포트폴리오 코드 퀄리티를 보니까 코드를 고민한 것보다는 새로운 기능과 요구사항 그리고 디버깅 작업을 더 많이했습니다.
+
+저는 남에게 엄격하고 자신에게 너무 관대하지만 이 코드가 남이라고 생각하면 서류 3초컷 할 것입니다.
+
+코드 퀄리티가 엔지니어링이라기 보단 양산형 국비지원 학원다니고 양산형 수준에 머물렀습니다.
+
+코드 퀄리티를 고민하고 리팩토링을 연습하고자 합니다.
+
+## 테스트가 리팩토링에 필요한 이유?
+
+리팩토링을 시작하려면 리팩토링하기 좋은 환경을 만들어야 합니다. 그리고 리팩토링하기 좋은 환경을 만들려면 테스트가 필요합니다.
+
+프론트엔드는 엄청 성숙한 제품이 아니라면 TDD를 반드시 할 필요는 없습니다. 하지만 성숙해지면서 테스트를 추가하는 방향이 정신을 건강하게 만들 수 있습니다(~~이직률도 낮출 수 있습니다~~). 건강한 코드베이스에는 건강한 정신이 깃드는 것처럼 말입니다.
+
+먼저 리팩토링은 기능은 동일한데 이해하기 더 쉬운 코드로 바꾸는 작업입니다.
+
+기능이 동일하다고 검증하고 코드가 안 망가졌다고 피드백받기 좋은 시스템을 갖을 수 있습니다.
+
+개인적으로 제품이 성숙해지고 일부 검증된 기능을 갖은 제품을 개발해고 싶었습니다.
+
+## Next.js
+
+먼저 Next.js에 Jest와 RTL을 설치해야 합니다. 하지만 문제가 많습니다. 생각보다 자료가 많지 않습니다.
+
+~~또 GPT 선생님에게 부탁할 수 없습니다.~~
+
+일단 자료를 참조해야 합니다.
+
+```sh
+yarn add jest jest-environment-jsdom @testing-library/react @testing-library/jest-dom --dev
+```
+
+위를 권장합니다.
+
+https://nextjs.org/docs/testing
+
+공식문서는 이정도만 권장하지만 실제로 유저 이벤트도 필요하고 테스팅 라이브러리도 타입지정을 상식적으로 당연히 해줘야 하는데 이부분은 본인이 직접 설치합시다.
+
+```sh
+yarn add @testing-library/user-event @types/testing-library__jest-dom --dev
+```
+
+```json
+"devDependencies": {
+    "@testing-library/jest-dom": "5.16.4",
+    "@testing-library/react": "14.0.0",
+    "@testing-library/user-event": "14.4.3",
+    "@types/react": "18.0.28",
+    "@types/testing-library__jest-dom": "5.14.5",
+    "jest": "29.5.0",
+    "jest-environment-jsdom": "29.5.0",
+    "typescript": "4.9.5"
+  }
+```
+
+이렇게 설치하면 저의 강박은 해결됩니다.
+
+## Provider
+
+테스트는 Node 런타임에서 실행됩니다. 그래서 window 객체 따위 없습니다.
+
+모든 렌더링이 분리된 환경에서 실행됩니다. Provider를 render마다 감싸줘야 합니다.
+
+절대 경로 설정이 안 되어 있습니다. 그래서 그 보기 싫은 `../`을 Jest에서도 설정해야 합니다.
+
+거기에다가 실수로 그냥 dependencies에 설치를 했습니다. 이번에는 아이러니하게 커밋을 안해서 살았습니다.
+
+검색으로 다른 사람들의 래퍼런스를 보면 Provider를 호출하고 있습니다. 다른 사람들이 이상해 보입니다. 스타일을 위해 Provider를 이렇게 설정해야 한다는 점이 너무 비효율적인 것 같습니다.
+
+## 절대 경로 문제
+
+```tsx
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/$1",
+  },
+```
+
+이거 설정하면 됩니다. 이게 참 힘들겠습니다.
+
+공식문서에서는 컴포넌트만 절대 경로를 설정해두고 있습니다. 저의 예시는 컴포넌트가 호출할 유틸함수에도 사용할 수 있게 만들고자 했습니다.
+
+## 항상 빌드 시도를 합시다.
+
+- `@testing-library/jest-dom`
+- `@testing-library/react`
+- `@testing-library/user-event`
+- `@types/jest`
+- `@types/testing-library__jest-dom`
+- `babel-loader`
+- `babel-plugin-transform-remove-imports`
+- `jest`
+- `jest-environment-jsdom`
+
+설치할게 참 많습니다. 그리고 커밋하기 전에 빌드해봅시다.
+
+`13.1.6` 버전인데
+
+## 그냥 남기는 코드
+
+```tsx
+// jest.config.mjs
+import nextJest from 'next/jest.js';
+
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: './',
+});
+
+// Add any custom config to be passed to Jest
+/** @type {import('jest').Config} */
+const config = {
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/$1',
+  },
+  testEnvironment: 'jest-environment-jsdom',
+};
+
+// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
+export default createJestConfig(config);
+```
+
+```tsx
+import '@testing-library/jest-dom/extend-expect';
+```
