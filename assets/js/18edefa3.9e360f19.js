@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[71561],{36885:s=>{s.exports=JSON.parse('{"label":"NoSQL","permalink":"/db/tags/no-sql","allTagsPath":"/db/tags","count":1,"items":[{"id":"db-cs/nosql-vs-sql","title":"SQL vs NoSQL","description":"SQL \uc7a5\uc810","permalink":"/db/db-cs/nosql-vs-sql"}]}')}}]);
