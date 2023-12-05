@@ -1,0 +1,8 @@
+{
+  "label": "데이터베이스 서비스",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "이런저런 데이터베이스 서비스"
+  }
+}

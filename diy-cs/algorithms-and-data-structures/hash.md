@@ -42,7 +42,7 @@ import { test, expect, describe } from 'vitest';
 // 5	["hello", "observe", "effect", "take", "either", "recognize", "encourage", "ensure", "establish", "hang", "gather", "refer", "reference", "estimate", "executive"]	[0,0]
 // 2	["hello", "one", "even", "never", "now", "world", "draw"]	[1,3]
 
-describe('카펫', () => {
+describe('영어 끝말잇기', () => {
   test('예제 1', () => {
     expect(
       solution(3, [

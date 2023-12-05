@@ -1,5 +1,5 @@
 ---
-sidebar_position: 15
+sidebar_position: 17
 description: '기타'
 tags: ['기타', '자료구조', '문제유형']
 ---

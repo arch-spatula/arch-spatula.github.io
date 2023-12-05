@@ -187,6 +187,17 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
+        id: 'db',
+        path: 'db',
+        routeBasePath: 'db',
+        sidebarPath: require.resolve('./sidebars.js'),
+        remarkPlugins: [math],
+        rehypePlugins: [katex],
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
         id: 'design-system-wiki',
         path: 'design-system-wiki',
         routeBasePath: 'design-system-wiki',
@@ -314,8 +325,16 @@ const config = {
                 to: '/react-cookbook/intro',
               },
               {
+                label: '뷰 Cook-Book',
+                to: '/vue/intro',
+              },
+              {
                 label: 'JS & TS Cook-Book',
                 to: '/js-ts-cookbook/intro',
+              },
+              {
+                label: 'easter',
+                to: '/easter',
               },
             ],
           },

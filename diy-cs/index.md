@@ -106,3 +106,8 @@ This course is based on introductory college-level material as well as the AP Co
 [Computer Science - roadmap](https://roadmap.sh/computer-science)
 
 - roadmap에서 알려주는 CS 지식 학습 순서도입니다.
+
+[널널할 개발자](https://www.youtube.com/@nullnull_not_eq_null)
+
+- 임베디드 개발자로 로우레벨 지식을 많이 소개해주고 있습니다.
+- [독하게 시작하는 C 프로그래밍](https://www.yes24.com/Product/Goods/18732021)을 저술했습니다.

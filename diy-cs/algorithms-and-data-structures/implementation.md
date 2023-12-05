@@ -695,3 +695,216 @@ export { countHit };
 
 </div>
 </details>
+
+## 가까운 수
+
+[가까운 수](https://school.programmers.co.kr/learn/courses/30/lessons/120890)
+
+```js
+function solution(array, n) {
+  var answer = 0;
+  return answer;
+}
+```
+
+```js
+import solution from './playground';
+import { test, expect, describe } from 'vitest';
+
+describe('i부터 j까지 k가 몇 번 등장하는지 return', () => {
+  test('3, 10, 28 중 20과 가장 가까운 수는 28입니다.', () => {
+    expect(solution([3, 10, 28], 20)).toBe(28);
+  });
+
+  test('10, 11, 12 중 13과 가장 가까운 수는 12입니다.', () => {
+    expect(solution([10, 11, 12], 13)).toBe(12);
+  });
+
+  test('1, 2, 3 중 2과 가장 가까운 수는 2입니다.', () => {
+    expect(solution([1, 2, 3], 2)).toBe(2);
+  });
+
+  test('-1, -2, -3 중 2과 가장 가까운 수는 -1입니다.', () => {
+    expect(solution([-1, -2, -3], 2)).toBe(-1);
+  });
+
+  test('-1, -2, -3 중 -2과 가장 가까운 수는 -2입니다.', () => {
+    expect(solution([-1, -2, -3], -2)).toBe(-2);
+  });
+
+  test('n=0 일때 -1, 1 중에 -1 이 반환되어야합니다', () => {
+    expect(solution([1, -1], 0)).toBe(-1);
+  });
+});
+```
+
+### 풀이
+
+<details>
+<summary>풀이</summary>
+<div markdown="1">
+
+```js
+/**
+ * @param {number[]} array
+ * @param {number} n
+ * @returns {number}
+ */
+function solution(array, n) {
+  let closest = array[0];
+  array.forEach((num) => {
+    if (Math.abs(num - n) < Math.abs(closest - n)) closest = num;
+    if (Math.abs(num - n) === Math.abs(closest - n)) {
+      closest = closest > num ? num : closest;
+    }
+  });
+  return closest;
+}
+
+export default solution;
+```
+
+</div>
+</details>
+
+### 풀이 전 계획과 생각
+
+1. Target 값의 차이가 가장 적은 숫자로 접근했습니다. 접근은 맞습니다.
+2. 차이는 양 방향으로 모두 접근할 수 있습니다. 그래서 절대값을 활용했습니다.
+3. 해당하는 값을 계속 비교하고 갱신하는 방식으로 구현했습니다. 그래서 forEach 메서드를 활용했습니다.
+
+### 풀이하면서 막혔던 점과 고민
+
+절대값비교를 하면서 데이터에 mutation이 발생합니다. 이 데이터를 복구해야 하는 것으로 생각했습니다. 그럴 필요가 없었습니다. 중요한 것은 판별입니다.
+
+### 풀이 후 알게된 개념과 소감
+
+지문을 잘 읽도록 합시다.
+
+테스트 코드를 활용해 책임을 잘 분리합시다.
+
+<details>
+<summary>모범 답안</summary>
+<div markdown="1">
+
+```js
+function solution(array, n) {
+  array.sort((a, b) => Math.abs(n - a) - Math.abs(n - b) || a - b);
+
+  return array[0];
+}
+```
+
+</div>
+</details>
+
+가장 가독성이 좋으면서 문제를 잘 풀이한 것 같습니다. 물론 시간복잡도를 비용으로 지불해야 합니다.
+
+## 진료순서 정하기
+
+[진료순서 정하기](https://school.programmers.co.kr/learn/courses/30/lessons/120835)
+
+```js
+function solution(emergency) {
+  var answer = [];
+  return answer;
+}
+```
+
+```js
+import solution from './playground';
+import { test, expect, describe } from 'vitest';
+
+describe('정수 배열 emergency가 매개변수로 주어질 때 응급도가 높은 순서대로 진료 순서를 정한 배열을 return', () => {
+  test('emergency가 [3, 76, 24]이므로 응급도의 크기 순서대로 번호를 매긴 [3, 1, 2]를 return합니다.', () => {
+    expect(solution([3, 76, 24])).toEqual([3, 1, 2]);
+  });
+
+  test('emergency가 [1, 2, 3, 4, 5, 6, 7]이므로 응급도의 크기 순서대로 번호를 매긴 [7, 6, 5, 4, 3, 2, 1]를 return합니다.', () => {
+    expect(solution([1, 2, 3, 4, 5, 6, 7])).toEqual([7, 6, 5, 4, 3, 2, 1]);
+  });
+
+  test('emergency가 [30, 10, 23, 6, 100]이므로 응급도의 크기 순서대로 번호를 매긴 [2, 4, 3, 5, 1]를 return합니다.', () => {
+    expect(solution([30, 10, 23, 6, 100])).toEqual([2, 4, 3, 5, 1]);
+  });
+
+  test('1, 2, 3 -> 3, 2, 1', () => {
+    expect(solution([1, 2, 3])).toEqual([3, 2, 1]);
+  });
+
+  test('[23, 1, 5] -> [1, 3, 2]', () => {
+    expect(solution([23, 1, 5])).toEqual([1, 3, 2]);
+  });
+});
+```
+
+<details>
+<summary>저의 답안</summary>
+<div markdown="1">
+
+```js
+/**
+ * @param {number[]} emergency
+ * @returns {number[]}
+ */
+function solution(emergency) {
+  return emergency
+    .map((num, idx) => {
+      const mapItem = new Map();
+      mapItem.set('index', idx);
+      mapItem.set('value', num);
+      return mapItem;
+    })
+    .sort((a, b) => b.get('value') - a.get('value'))
+    .map((item, idx) => {
+      return item.set('order', idx + 1);
+    })
+    .sort((a, b) => a.get('index') - b.get('index'))
+    .map((item) => item.get('order'));
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary>모범 답안</summary>
+<div markdown="1">
+
+```js
+function solution(emergency) {
+  let sorted = emergency.slice().sort((a, b) => b - a);
+  return emergency.map((v) => sorted.indexOf(v) + 1);
+}
+```
+
+</div>
+</details>
+
+### 풀이 전 계획과 생각
+
+모범답안처럼 비교만 하면 될 것이라고 생각했습니다. 하지만 머릿속이 정리되지 않고 복잡했습니다.
+
+### 풀이하면서 막혔던 점과 고민
+
+비교하고 정렬하는 2가지 행위를 같이 했습니다. 또 풀이하게 되는 케이스를 너무 복잡하게 생각했습니다.
+
+### 풀이 후 알게된 개념과 소감
+
+단순하게 여러번 체이닝 한것이 나쁜 것 같지 않습니다. 자료의 사이즈가 크면 더 좋은 성능의 코드가 될 것입니다.
+
+모범답안은 더 가독성이 있지만 이런 함수는 유틸함수, 헬퍼함수가 될 것입니다. 즉 구현디테일은 주로 숨겨져있을 것입니다. 또 중첩 선형 순회를 합니다. `map` 속에 `indexof`를 사용하고 있기 때문에 $O(n^{2})$ 시간복잡성을 갖을 것입니다.
+
+$$
+\begin{align}
+
+N_{map} + N \cdot logN_{sort} + N_{map} + N \cdot logN_{sort} + N_{map} \\
+= 3N_{map} + 2N \cdot logN_{sort} \\
+ ...
+ \\
+= N \cdot logN
+
+\end{align}
+$$
+
+단순한 1점문제인데 너무 복잡하게 생각했습니다.

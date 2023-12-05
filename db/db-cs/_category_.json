@@ -1,0 +1,8 @@
+{
+  "label": "DB CS",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "데이터 베이스와 관련된 CS 지식을 다룹니다."
+  }
+}
