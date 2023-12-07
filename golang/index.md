@@ -40,6 +40,12 @@ https://www.youtube.com/watch?v=CIyLurz-Ius
 
 - 한국어 설명이 상당히 잘되어 있는 사이트입니다. 기초부터 응용까지 자료가 많습니다.
 
+[Learn Go with Tests](https://miryang.gitbook.io/learn-go-with-tests/)
+
+- 위는 번역된 사이트입니다.
+- [원본](https://quii.gitbook.io/learn-go-with-tests/)을 참조할 것을 추천합니다.
+<!-- - 저는 [여기레포](링크 추가예정)에서 공부합니다. -->
+
 ## [Tucker의 Go 언어 프로그래밍] 2장 프로그래밍 언어
 
 https://www.youtube.com/watch?v=ELOihQ1HYBY
