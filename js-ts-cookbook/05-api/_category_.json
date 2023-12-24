@@ -1,0 +1,8 @@
+{
+  "label": "자바스크립트 특수 API",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "자바스크립트에서 특수성이 강한 API를 다룹니다."
+  }
+}
