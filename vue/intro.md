@@ -26,6 +26,10 @@ sidebar_position: 1
 
 [VueUse](https://vueuse.org/)
 
+[JohnKomarnicki](https://www.youtube.com/@JohnKomarnicki/featured)
+
+[VueConfToronto](https://www.youtube.com/@VueConfToronto)
+
 ## 최신 방법으로 설치하기(Modern install)
 
 ```sh

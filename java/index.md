@@ -48,6 +48,12 @@ SI에서 막장으로 짜놓은 코드도 Java일 가능성이 높고 네카라�
 
 천상계와 심해계 모두 Java가 많습니다. 아주 잘하는 언어가 되거나 아주 막나가는 언어가 될 것입니다.
 
+### 해외 상황
+
+<iframe class="phone-video" src="https://youtube.com/embed/TwXu4cJ9pCY" title="Exposed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+~~아들도 손절하게 만드는 언어~~
+
 ### 제임스 고슬링
 
 ![](https://user-images.githubusercontent.com/84452145/273433111-ea9ffc80-db2b-4902-a428-7a583ec2d60e.png)

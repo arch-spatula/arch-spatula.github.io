@@ -10,6 +10,10 @@ sidebar_position: 2
 
 <!-- @todo: https://www.notion.so/CSS-e801506f89374e75a564994a7d1ea950 -->
 
+## HTML 특수문자 리스트
+
+http://kor.pe.kr/util/4/charmap2.htm
+
 ## 은근히 자주 까먹는 link 태그
 
 ```html title="index.html"

@@ -111,3 +111,9 @@ This course is based on introductory college-level material as well as the AP Co
 
 - 임베디드 개발자로 로우레벨 지식을 많이 소개해주고 있습니다.
 - [독하게 시작하는 C 프로그래밍](https://www.yes24.com/Product/Goods/18732021)을 저술했습니다.
+
+### 기타 자료
+
+[Learn X in Y minutes](https://learnxinyminutes.com/)
+
+초 단기 학습자료를 제공합니다.
