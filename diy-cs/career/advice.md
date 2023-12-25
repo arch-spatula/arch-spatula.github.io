@@ -58,7 +58,7 @@ tags: ['조언', '커리어']
 
 > 프론트엔드 엔지니어링은 가짜 엔지니어링이다.
 
-https://www.youtube.com/watch?v=nL8GWU9M8LY
+<!-- https://www.youtube.com/watch?v=nL8GWU9M8LY -->
 
 - 하지마세요. 보안, SRE, ML 엔지니어, MSA 환경의 백엔드, 임베디드, 하드웨어 등 진짜 엔지니어로 커리어를 시작하세요. 당신이 하는 프론트엔드라는 것은 가짜 엔지니어입니다.
 - 프론트엔드로 커리어 시작했다면 이미 커리어 망한 것입니다.
@@ -411,13 +411,13 @@ https://www.youtube.com/watch?v=nL8GWU9M8LY
 
 > 문서화부터 똑바로 못하고 있으면 개발자를 그만두기 바랍니다. 자세가 안 되면 그만하세요.
 
-https://www.youtube.com/watch?v=Yjrez3N0_us
+<!-- https://www.youtube.com/watch?v=Yjrez3N0_us -->
 
 - 사용할 수 있는 도구들을 최대한 효율적으로 활용하기 바랍니다.
 
 > 문서(일반 사무직 직장이 쓰는 보고서)를 잘 못쓰면 퇴사하기바랍니다.
 
-https://www.youtube.com/watch?v=2yxUkrCvNa8
+<!-- https://www.youtube.com/watch?v=2yxUkrCvNa8 -->
 
 - 수능 국어 3등급 미만은 제발 개발자 하지좀 마세요.
 - 이메일, 슬랙 메시지는 기본기입니다.
@@ -460,7 +460,7 @@ https://www.youtube.com/watch?v=2yxUkrCvNa8
 
 > 개발자의 가면 증후군에 대한 근본적인 문제 중 하나는 본인이 일을 드럽게 못하는데 본인의 자아를 보호하고 방어 기제로 활용하고 문제를 덮어 놓는데 활용한다는 점입니다.
 
-https://www.youtube.com/watch?v=Byi41Ao-PP8
+<!-- https://www.youtube.com/watch?v=Byi41Ao-PP8 -->
 
 - 만약 본인이 가면증후군을 갖고 있다고 생각하면 그것은 본인이 일을 못하는데 남탓하는 것입니다. 본인이 일 못하면 본인이 일 못한다고 인지하기 바랍니다. 고치든 그만두는 그것은 본인이 알아서 합니다.
   - 개인적으로 그만 두기를 권장합니다. 본인 메타인지 능력은 쓰레기입니다. 단순노동이나 하기 바랍니다.
