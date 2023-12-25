@@ -14,6 +14,8 @@ ORM은 SQL 지식을 기반으로 합니다. 더 실수를 덜하고 보안취�
 
 ## 학습자료
 
+[devkuma](https://www.devkuma.com/)
+
 ### 강의자료
 
 [전광철 OCP](https://www.youtube.com/@ocp396)

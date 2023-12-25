@@ -17,11 +17,13 @@ vim distro를 실제로 받아서 사용하기 전에 개인에게 맞는 vim �
 
 [LAZYVIM](https://www.lazyvim.org/)
 
+[LunarVim](https://www.lunarvim.org/)
+
+[helix](https://helix-editor.com/)
+
 [kickstart](https://github.com/nvim-lua/kickstart.nvim)
 
 - neovim 학습용 레포로 생각하는 것이 더 적절합니다.
-
-[helix](https://helix-editor.com/)
 
 ## 설정을 위한 학습자료
 

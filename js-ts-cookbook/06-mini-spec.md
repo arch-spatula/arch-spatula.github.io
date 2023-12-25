@@ -169,3 +169,23 @@ export default solution;
 
 </div>
 </details>
+
+## `Array.prototype.fill()`에 참조형을 대입하면 모두 동일한 주소를 바라봅니다.
+
+매번 새로운 새로운 참조형 인스턴스를 할 당하고 싶으면 from의 2번째 콜백함수를 활용해주시기 바랍니다.
+
+```js
+const arr = Array.from({ length: 100 }).fill([]);
+arr[0][0] = null;
+console.log(arr);
+```
+
+배열 0 ~ 99는 하나의 배열을 참조합니다.
+
+```js
+const arr = Array.from({ length: 100 }, () => []);
+arr[0][0] = null;
+console.log(arr);
+```
+
+위처럼 작성하면 독립적인 할당이 가능해집니다. 0 ~ 99는 모두 개별적인 배열을 참조하게 됩니다.

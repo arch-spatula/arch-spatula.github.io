@@ -325,6 +325,10 @@ const config = {
                 to: '/react-cookbook/intro',
               },
               {
+                label: '뷰 Cook-Book',
+                to: '/vue/intro',
+              },
+              {
                 label: 'JS & TS Cook-Book',
                 to: '/js-ts-cookbook/intro',
               },
