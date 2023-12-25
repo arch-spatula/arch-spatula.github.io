@@ -106,3 +106,9 @@ This course is based on introductory college-level material as well as the AP Co
 [Computer Science - roadmap](https://roadmap.sh/computer-science)
 
 - roadmap에서 알려주는 CS 지식 학습 순서도입니다.
+
+### 기타 자료
+
+[Learn X in Y minutes](https://learnxinyminutes.com/)
+
+초 단기 학습자료를 제공합니다.

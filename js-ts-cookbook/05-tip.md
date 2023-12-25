@@ -171,3 +171,12 @@ loop1: for (i = 0; i < 3; i++) {
 중쳡순회를 풀 수 있는 방법이 존재하는게 상당히 충격적입니다.
 
 label을 사용하지 않으면 flag를 사용해서 중첩순회를 풀어야 하지만 label을 활용하면 어느 순회문에 `break`에 적용할지 제어할 수 있습니다.
+
+## Date 객체인지 확인하는 방법
+
+https://stackoverflow.com/questions/10589732/checking-if-a-date-is-valid-in-javascript
+
+```js
+var date = new Date();
+console.log(date instanceof Date && !isNaN(date.valueOf()));
+```
