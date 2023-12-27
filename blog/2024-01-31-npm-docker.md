@@ -45,7 +45,9 @@ RAT Remote Access Trojan
 
 ### npm Account 공격
 
-npm 패키지를 올린 계정의 만료된 도메인을 매입하고 이메일을 초기화시키고 코드를 푸쉬합니다. 이 공격 경로는 이렇게 글로만 보면 이해가 안 될 것입니다.
+npm 패키지를 올린 계정의 만료된 도메인을 매입하고 이메일을 초기화시키고 이메일을 탈취한 다음에 코드를 푸쉬합니다.
+
+<!-- 이 공격 경로는 이렇게 글로만 보면 이해가 안 될 것입니다. -->
 
 제일먼저 정찰활동입니다. 우리는 첩보자산을 확보해야 합니다. 자산을 확보하기 위해서는 자산을 평가하고 선정해야 합니다.
 
@@ -102,11 +104,77 @@ Docker의 한계는 볼륨 범위라는 것입니다. 결국 환경변수(`.env`
 
 그럼에두 불구하고 AWS에 올리지 않는다고 가정하고 Docker를 활용하는 방법을 소개하겠습니다.
 
-### NPM
+Docker를 어느정도 이해해야 Docker를 사용해서 개발환경을 설정할 수 있습니다. 도커라이징을 하는 것입니다.
 
-순수하게 NPM을 사용하기에는 아쉬운 점이 많아 yarn, pnpm도 다루겠습니다. ~~bun은 좋지만 싫어요~~
+docker를 사용할 때 관건은 Dockerfile을 만들고 Docker 파일로 이미지를 만들고 이미지로 Docker 컨테이너를 만드는 것입니다.
+
+```Dockerfile
+FROM python:3.11
+
+WORKDIR /code
+
+COPY ./requirements.txt /code/requirements.txt
+
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+COPY ./app /code/app
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
+```
+
+뒤에 `--reload`만 추가했습니다. 위는 fastapi 공식 문서에서 알려주는 docker 설정을 가져왔습니다.
+
+dev container를 플러그인을 설치합니다. 여기서 2가지 전략이 있습니다. attache to container 와 reopen in container 입니다.
+
+저의 경우 reopen in container가 잘 동작했습니다.
+
+```sh
+docker build -t fast-docer-image .
+```
+
+```sh
+docker run --rm -it ubuntu:16.04 /bin/bash
+```
+
+`--rm`은 종료 후 삭제를 의미합니다.
+
+```sh
+docker run --name fast-backend -p 80:80 fast-docer-image
+```
+
+```sh
+docker run --name fast-backend -p 80:80 -d -v $(pwd):/code fast-docer-image
+```
+
+이 명령을 설명해보세요.
+
+작업을 내부에서 처리하려면 볼륨 설정을 해줘야 합니다.
+
+How to create a great dev environment with Docker
+
+https://www.youtube.com/watch?v=0H2miBK_gAk
+
+<!-- <iframe class="codepen" src="https://www.youtube.com/embed/Jx39roFmTNg" title="지금! 🚨 개발자라면 무조건 알아야하는 NPM 해킹" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
+
+### npm
+
+순수하게 npm을 사용하기에는 아쉬운 점이 많아 yarn, pnpm도 다루겠습니다. ~~bun은 좋지만 싫어요~~
 
 ### pip
+
+#### fast api
+
+### docker의 한계
+
+패키지를 받는 방식에 따라 다릅니다. golang은 패키지를 root 디렉토리에 받습니다. 그렇기 때문에 실행하면 위험이 많습니다. deno도 이와 비슷한 정책입니다.
+
+### 그렇다고 docker가 안전한가?
+
+결론은 아닙니다.
+
+<iframe class="codepen" src="https://www.youtube.com/embed/1PBXB3RcDLs" title="What's really inside your docker containers?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+What's really inside your docker containers?
 
 ## sandworm
 
