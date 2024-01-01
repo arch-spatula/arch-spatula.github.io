@@ -15,7 +15,7 @@ draft: true
 
 :::caution 주의
 
-저는 보안 전문가가 아닙니다. 취미로 프로그래밍을 하고 주된 업무 분야가 아닌 것도 건드려보기 때문에 이 글을 쓰기 시작했습니다.
+저는 보안 전문가가 아닙니다. 취미로 주된 업무 분야(프론트엔드)가 아닌 것도 건드려보기 때문에 이 글을 쓰기 시작했습니다.
 
 보안 조언으로 받아들이지 마시고 모든 책임은 본인에게 있습니다.
 
@@ -182,19 +182,19 @@ Docker를 사용하는 이유는 로컬 기계에서 서로 격리시키기 때�
 
 ### Docker CLI 실습
 
-docker 설치는 알아서 하시고 진행해 주시기 바랍니다. 그냥 알아서 하라고 하면 불친절한 것 같아서 [여기 링크](https://docs.docker.com/get-docker/)는 남겨드리겠습니다.
+docker 설치는 알아서 하시고 진행해 주시기 바랍니다. 그냥 알아서 설치하라고 하면 불친절한 것 같아서 [여기 링크](https://docs.docker.com/get-docker/)는 남겨드리겠습니다.
 
-뭐 설치가 끝났으면 이제 공식 문서 링크들을 남겨드리겠습니다. 2가지 관점이 있는데 이론관점하고 실습관점입니다. 저는 비전공에 머리가 나빠서 핸즈온으로 먼저 뭐 해보고 다음에 다시 이론을 보면 이해가 더 잘 됐던 것 같습니다. [래퍼런스 공식문서](https://docs.docker.com/reference/)의 목차부터 잘 보기 바랍니다. 특히 [docker run 커맨드](https://docs.docker.com/engine/reference/commandline/run/)를 자세히 확인하기 바랍니다.
+뭐 설치가 끝났으면 이제 공식 문서 링크들을 남겨드리겠습니다. 2가지 관점이 있는데 이론관점하고 실습관점입니다. 저는 비전공에 머리가 나빠서 핸즈온으로 실습을 먼저 뭐 해보고 다음에 다시 이론을 보면 이해가 더 잘 됐던 것 같습니다. ~~역시 스킬 이슈~~ [래퍼런스 공식문서](https://docs.docker.com/reference/)의 목차부터 잘 보기 바랍니다. 특히 [docker run 커맨드](https://docs.docker.com/engine/reference/commandline/run/)를 자세히 확인하기 바랍니다.
 
 ```sh
 docker run --rm -it ubuntu:16.04 /bin/bash
 ```
 
-알아서 설치하셨으면 위명령을 시도해보기 바랍니다.
+알아서 설치하셨으면 위 명령을 시도해보기 바랍니다.
 
 `--rm`은 종료 후 삭제를 의미합니다.
 
-`-it`은 내부로 들어간다는 의미였던 것 같습니다. `-i`, `-t` 플래그 2개를 합친 것입니다. `-i`은 Interactive를 의미합니다. `-t`은 TTY이고 본딧말은 전신타자기(TeleTYpewriter)을 의미합니다. 표준 입력이 가능하도록 연결했다고 생각하면 됩니다.
+`-it`은 내부로 들어간다는 의미였던 것 같습니다. `-i`, `-t` 플래그 2개를 합친 것입니다. `-i`은 Interactive를 의미합니다. `-t`은 TTY이고 본딧말은 전신타자기(TeleTYpewriter)을 의미합니다. 원격에 표준 입력이 가능하도록 연결했다고 생각하면 됩니다.
 
 <!-- @todo: 2개의 플래그를 같이 사용해야 하는 이유 설명  -->
 
@@ -218,71 +218,119 @@ exit
 
 python 개발자가 백엔드 서버를 만들거나 아니면 재테크를 위해 데이터 분석을 시도하고 있다면 시도해볼 만합니다.
 
-docker를 사용하기 시작하면 python에서 가상환경을 설정한다는 것은 웃깁니다. 컨테이너가 가상환경인데 가상환경 속에서 가상환경을 사용한다는 것이 웃길 것 같습니다.
+docker를 사용하기 시작하면 python venv 설정은 더이상 필요 없어집니다. 컨테이너가 가상환경인데 가상환경 속에서 가상환경을 사용한다는 것이 웃길 것 같습니다. ~~버튜버(가상 유튜버)가 가상환경인 컨테이너 속에 파이썬 가상환경을 설정합니다.~~
 
-#### 데이터 사이언스를 위한 패키지 구성
+#### jupyterlab
 
-<!-- @주피터 노트북 -->
+<!-- @todo: 주피터 노트북 -->
 
-https://jupyter.org/install
+[주피터 노트북 공식 홈페이지](https://jupyter.org/install)
 
-pip install jupyterlab
+```
+├── requirements.txt
+└── Dockerfile
+```
+
+위와 같은 디랙토리로 시작하기 바랍니다.
 
 ```txt title="requirements.txt"
 jupyterlab
 numpy
 pandas
+matplotlib
 ```
+
+위는 4가지 데이터 사이언스를 위한 대표적인 패키지입니다. 이 `requirements.txt`이 필요한 것은 python이 패키지 관리하기 위해 필요한 특징입니다. 설치할 패키지를 읽어 오는 기준 파일입니다.
+
+```sh
+docker search python
+```
+
+첫째로 할 행위는 관련된 공식 이미지를 찾는 것입니다. 공식 이미지가 없다면 작업을 중단할 것을 권장합니다. 보안 취약점을 또 만들게 됩니다. 지금은 개발환경에서만 사용하려는 베이스 이미지를 찾습니다. ~~데이터 사이언티스트가 사용할 개발환경 배포는 스킬 이슈로 생략하겠습니다.~~
+
+```
+docker search python
+NAME                               DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+python                             Python is an interpreted, interactive, objec…   9313      [OK]
+pypy                               PyPy is a fast, compliant alternative implem…   385       [OK]
+hylang                             Hy is a Lisp dialect that translates express…   59        [OK]
+cimg/python                                                                        11
+bitnami/python                     Bitnami Python Docker Image                     27                   [OK]
+okteto/python                                                                      0
+```
+
+터미널에 위랑 비슷한 결과를 출력하게 될 것입니다. 위에서 `OFFICIAL`이 있는지 꼭 확인하기 바랍니다. python은 생태계가 거대한 편이라 당연히 있었습니다. python과 관련된 base 이미지를 이제 고르기만 하면 됩니다.
 
 ```Dockerfile
 # 파이썬 최신 버전을 런타임으로 활용
 FROM python:3.11
 
-# @todo: WORKDIR에 대해서 설명추가하기
+# 컨테이너 디렉토리 명명 호스트 디렉토리랑 크게 상관없음
 WORKDIR /root
 
+# ./requirements.txt을 복사하고 컨테이너 속에 붙여넣기
 COPY ./requirements.txt /root/requirements.txt
 
-# @todo: --no-cache-dir --upgrade -r 설명추가하기
+# @todo: --no-cache-dir, --upgrade, -r 설명추가하기
 RUN pip install --no-cache-dir --upgrade -r /root/requirements.txt
 
-EXPOSE 8888
-
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--NotebookApp.token=''", "--NotebookApp.password=''"]
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--allow-root"]
 ```
+
+위처럼 docker 파일을 작성하면 image를 위한 설계도가 만들어진 것입니다. 여기서 RUN은 이미지를 만드는 시점에 실행하고 CMD는 컨테이너를 띄울 때 실행하는 명령입니다.
+
+여기서 파이썬 지식이 필요합니다. `--no-cache-dir` 캐시를 활용하지 않아 최신버전을 사용합니다. `--upgrade` 혹시나 업데이트를 놓친 버전에 업데이트합니다. `-r`은 `/root/requirements.txt`을 읽기 위한 플래그입니다.
 
 ```sh
 docker build -t my-ds .
 ```
 
+이미지를 만들어냅니다.
+
 ```sh
-docker run --rm -p 8888:8888 my-ds
+docker run --rm -it -p 8888:8888 my-ds # 터미널에서 서버를 종료하면 컨테이너도 같이 사라짐
 ```
+
+이제 터미널에서 실행하기 시작하면 됩니다.
+
+```
+http://127.0.0.1:8888/lab?token=(토큰값)
+```
+
+뭐 해당 링크 들어가면 일단 본인만의 주피터 노트북 환경을 만들기는 한 것입니다. 하지만 아쉬운 점들이 많이 있습니다. 하나는 작업한 노트북은 보존하고 싶습니다. 라이브러리는 삭제를 유지해야 합니다. 또 자동완성이 잘 동작하지 않습니다. 또 여전히 보안문제가 있습니다. `--allow-root`으로 루트 권한으로 실행합니다. 이러한 한계는 어떻게 극복할 수 있는가? 다시 docker 파일로 돌아가봅시다.
+
+<!-- @todo 터미널 명령으로 바닥부터 다시 실행하기 -->
+<!-- 리눅스 배포판에서 부터 시작하기 -->
+
+<!-- A `_jupyter_server_extension_points` function was not found in jupyter_lsp. Instead, a `_jupyter_server_extension_paths` function was found and will be used for now. This function name will be deprecated in future releases of Jupyter Server. -->
+<!-- A `_jupyter_server_extension_points` function was not found in notebook_shim. Instead, a `_jupyter_server_extension_paths` function was found and will be used for now. This function name will be deprecated in future releases of Jupyter Server. -->
+
+<!-- CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--NotebookApp.token=''", "--NotebookApp.password=''"] -->
 
 <!-- --no-cache-dir 플래그는 무엇인가요? -->
 <!-- -r 플래그는 무엇인가요? -->
 
 #### fast api
 
-근본있게 장고를 사용하기는 해야 하지만 저는 근본이 부족해서 fast api를 사용하겠습니다.
-
-```Dockerfile
-FROM python:3.11
-
-WORKDIR /code
-
-COPY ./requirements.txt /code/requirements.txt
-
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
-
-COPY ./app /code/app
-
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
-```
+근본있게 장고를 사용하기는 해야 하지만 저는 전공을 안해서 근본없게 fast api를 사용하겠습니다.
 
 ```txt title="requirements.txt"
 fastapi
 uvicorn
+```
+
+```Dockerfile
+FROM python:3.11
+
+WORKDIR /root
+
+COPY ./requirements.txt /root/requirements.txt
+
+RUN pip install --no-cache-dir --upgrade -r /root/requirements.txt
+
+COPY ./app /root/app
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
 ```
 
 <!-- @todo: 디렉토리 설정도 보여주세요 -->
@@ -352,6 +400,8 @@ docker 이미지를 직접 만들어도 한계가 있습니다. docker는 격리
 <iframe class="codepen" src="https://www.youtube.com/embed/1PBXB3RcDLs" title="What's really inside your docker containers?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 What's really inside your docker containers?
+
+<!-- ### 부록 docker로 이상한 언어 사용해보기 -->
 
 ## sandworm
 
