@@ -303,9 +303,7 @@ http://127.0.0.1:8888/lab?token=(토큰값)
 
 ##### 사람 흉내내기
 
-https://jupyter-docker-stacks.readthedocs.io/en/latest
-
-위 공식문서를 읽고 적용해주시기 바랍니다.
+jupyterlab에서 운영하는 [jupyter-docker-stacks 공식문서](https://jupyter-docker-stacks.readthedocs.io/en/latest)를 읽고 적용해주시기 바랍니다.
 
 ```sh
 docker run -p 10000:8888 quay.io/jupyter/scipy-notebook:2023-11-17
@@ -317,25 +315,32 @@ docker run -p 10000:8888 quay.io/jupyter/scipy-notebook:2023-11-17
 http://127.0.0.1:10000/lab/
 ```
 
-왼쪽이 호스트가 접근할 수 있는 포트이고 오른쪽이 컨테이너가 가동하고 있는 포트입니다.
+왼쪽이 호스트가 접근할 수 있는 포트이고 오른쪽이 컨테이너가 가동하고 있는 포트입니다. 위는 jupyter docker stacks 문서에서 알려준 방법입니다. 문제는 그냥 체험에 가깝습니다. 우리는 실제 데이터 사이언스를 하면서 중간중간 알아낸 것을 정리하고 커밋을 올려야 합니다.
+
+```txt title="requirements.txt"
+jupyterlab
+numpy
+pandas
+matplotlib
+```
 
 ```Dockerfile
-# 파이썬 최신 버전을 런타임으로 활용
-FROM python:3.11
+FROM quay.io/jupyter/base-notebook
 
-# 컨테이너 디렉토리 명명 호스트 디렉토리랑 크게 상관없음
-WORKDIR /root
+# Install in the default python3 environment
+RUN pip install --no-cache-dir 'flake8' && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
 
-# requirements.txt을 참고해서 최신버전 패키지로 설치하기
-COPY ./requirements.txt /root/requirements.txt
+# Install from the requirements.txt file
+COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
 
-RUN pip install --no-cache-dir --upgrade -r /root/requirements.txt
-
-# 노트북을 복사해주세요.
-
-# "--allow-root"에 의존하지 않는 방법을 찾아주세요
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", ]
+RUN pip install --no-cache-dir --requirement /tmp/requirements.txt && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
 ```
+
+공식문서를 위와 같은 Dockerfile을 발견하고 적용할 수 있을 것입니다. 실제로 보안문제가 없는지는 모르겠습니다.
 
 <!-- @todo 터미널 명령으로 바닥부터 다시 실행하기 -->
 <!-- 리눅스 배포판에서 부터 시작하기 -->
