@@ -261,6 +261,8 @@ okteto/python                                                                   
 
 터미널에 위랑 비슷한 결과를 출력하게 될 것입니다. 위에서 `OFFICIAL`이 있는지 꼭 확인하기 바랍니다. python은 생태계가 거대한 편이라 당연히 있었습니다. python과 관련된 base 이미지를 이제 고르기만 하면 됩니다.
 
+##### 야매 설치
+
 ```Dockerfile
 # 파이썬 최신 버전을 런타임으로 활용
 FROM python:3.11
@@ -271,7 +273,7 @@ WORKDIR /root
 # ./requirements.txt을 복사하고 컨테이너 속에 붙여넣기
 COPY ./requirements.txt /root/requirements.txt
 
-# @todo: --no-cache-dir, --upgrade, -r 설명추가하기
+# requirements.txt을 참고해서 최신버전 패키지로 설치하기
 RUN pip install --no-cache-dir --upgrade -r /root/requirements.txt
 
 CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--allow-root"]
@@ -299,6 +301,42 @@ http://127.0.0.1:8888/lab?token=(토큰값)
 
 뭐 해당 링크 들어가면 일단 본인만의 주피터 노트북 환경을 만들기는 한 것입니다. 하지만 아쉬운 점들이 많이 있습니다. 하나는 작업한 노트북은 보존하고 싶습니다. 라이브러리는 삭제를 유지해야 합니다. 또 자동완성이 잘 동작하지 않습니다. 또 여전히 보안문제가 있습니다. `--allow-root`으로 루트 권한으로 실행합니다. 이러한 한계는 어떻게 극복할 수 있는가? 다시 docker 파일로 돌아가봅시다.
 
+##### 사람 흉내내기
+
+https://jupyter-docker-stacks.readthedocs.io/en/latest
+
+위 공식문서를 읽고 적용해주시기 바랍니다.
+
+```sh
+docker run -p 10000:8888 quay.io/jupyter/scipy-notebook:2023-11-17
+```
+
+위 명령으로 다음 링크를 들어가면 됩니다.
+
+```
+http://127.0.0.1:10000/lab/
+```
+
+왼쪽이 호스트가 접근할 수 있는 포트이고 오른쪽이 컨테이너가 가동하고 있는 포트입니다.
+
+```Dockerfile
+# 파이썬 최신 버전을 런타임으로 활용
+FROM python:3.11
+
+# 컨테이너 디렉토리 명명 호스트 디렉토리랑 크게 상관없음
+WORKDIR /root
+
+# requirements.txt을 참고해서 최신버전 패키지로 설치하기
+COPY ./requirements.txt /root/requirements.txt
+
+RUN pip install --no-cache-dir --upgrade -r /root/requirements.txt
+
+# 노트북을 복사해주세요.
+
+# "--allow-root"에 의존하지 않는 방법을 찾아주세요
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", ]
+```
+
 <!-- @todo 터미널 명령으로 바닥부터 다시 실행하기 -->
 <!-- 리눅스 배포판에서 부터 시작하기 -->
 
@@ -306,9 +344,6 @@ http://127.0.0.1:8888/lab?token=(토큰값)
 <!-- A `_jupyter_server_extension_points` function was not found in notebook_shim. Instead, a `_jupyter_server_extension_paths` function was found and will be used for now. This function name will be deprecated in future releases of Jupyter Server. -->
 
 <!-- CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--NotebookApp.token=''", "--NotebookApp.password=''"] -->
-
-<!-- --no-cache-dir 플래그는 무엇인가요? -->
-<!-- -r 플래그는 무엇인가요? -->
 
 #### fast api
 
@@ -376,6 +411,10 @@ https://kwon-eb.tistory.com/81
 여기서 의문입니다. devcontainer는 어떻게 우리의 컨테이너를 알고 설정해줄 수 있던 것인가?
 
 <!-- https://www.youtube.com/embed/Jx39roFmTNg -->
+
+#### 장고
+
+https://hub.docker.com/_/django
 
 ### npm
 
