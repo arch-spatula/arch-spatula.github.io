@@ -153,9 +153,32 @@ Deno가 하는 짓거리 보고 Node 팀에서도 의식하기 시작했습니�
 
 sandworm-audit을 실행하면 된다고 하는데 사실 잘 모릅니다.
 
+<!-- @todo: 패키지 매니저별 audit 실습 -->
+
 <!-- @todo: sandworm-audit 실습 -->
 
+<!-- @todo: 방어 전략을 목록으로 정리하기
+- node_module 직접 확인하기
+- Docker로 환경 분리
+ -->
+
+## 방어
+
+방어 전략들이 필요합니다. 로컬 머신을 방어하려면 먼저 Docker를 설치해서 패키지 내에 멀웨어의 활동범위를 축소시켜야 합니다. docker는 다루다가 보니까 저의 블로그 글쓰기 주제를 벗어 났습니다. 컨테이너 인스턴스를 띄우는 방법은 생략하겠습니다.
+
+npm audit을 통해서 실제 보안취약점 문제를 확인하도록 합니다.
+
+```sh
+npm audit
+```
+
 ## Dockerize로 기계 방어
+
+:::warning 경고
+
+여기 내용은 나중에 삭제 될 수 있습니다.
+
+:::
 
 Docker를 사용하는 이유는 로컬 기계에서 서로 격리시키기 때문입니다. 도커 컨테이너 내에 모두 설치하고 컨테이너를 종료하면 삭제하는 것으로 방어합니다. 설치된 파일이 컨테이너 내부에서 실행되고 있기 때문에 기계 전체를 접근하기는 어렵습니다.
 
@@ -386,17 +409,17 @@ dev container를 플러그인을 설치합니다. 여기서 2가지 전략이 �
 저의 경우 reopen in container가 잘 동작했습니다.
 
 ```sh
-docker build -t fast-docer-image .
+docker build -t fast-docker-image .
 ```
 
 <!-- -t 플래그는 무엇을 의미하는가? -->
 
 ```sh
-docker run --name fast-backend -p 80:80 fast-docer-image
+docker run --name fast-backend -p 80:80 fast-docker-image
 ```
 
 ```sh
-docker run --name fast-backend -p 80:80 -d -v $(pwd):/code fast-docer-image
+docker run --name fast-backend -p 80:80 -d -v $(pwd):/code fast-docker-image
 ```
 
 <!-- -v 플래그는 무엇인가? -->
@@ -421,13 +444,13 @@ https://kwon-eb.tistory.com/81
 
 https://hub.docker.com/_/django
 
-```
-
+```txt title="requirements.txt"
+Django
 ```
 
 ```Dockerfile
 # Use an official Python runtime as a parent image
-FROM python:3.8
+FROM python:3.12
 
 # Set the working directory to /app
 WORKDIR /app
@@ -438,11 +461,24 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# 버전 확인
+RUN python -m django --version
+
+RUN django-admin startproject config .
+
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
 
 # Run Django development server when the container launches
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+```
+
+```sh
+docker build -t django-docker-image .
+```
+
+```sh
+docker run --rm --name django-backend -p 80:8000 -v $(pwd):/code django-docker-image
 ```
 
 ### npm
@@ -452,6 +488,10 @@ CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 ### go mod
 
 저는 모든 언어가 취약하다고 가정합니다. 심지어 go 언어도 취약하다고 생각합니다. 보안 취약점 문제를 갖고 있다고 생각합니다.
+
+### Java
+
+우리나라에서 제일 중요한 Dockerize하는 방법입니다.
 
 ### docker의 한계
 
