@@ -1,7 +1,6 @@
 ---
 sidebar_position: 3
 tags: ['docker', 'Dev container']
-draft: true
 ---
 
 # dev container
@@ -31,3 +30,9 @@ dev container는 그냥 VScode 플러그인이라고 생각하고 넘길 수 있
 이렇게 접근했는데 빈화면이라면 VScode 터미널에 `code .` 라고 한번 명령해주기 바랍니다. 여기서부터 북치고 장구치고 알아서 하기 바랍니다.
 
 <!-- @todo: neovim -->
+
+<!-- dev container를 플러그인을 설치합니다. 여기서 2가지 전략이 있습니다. attache to container 와 reopen in container 입니다. -->
+
+<!-- 여기서 의문입니다. devcontainer는 어떻게 우리의 컨테이너를 알고 설정해줄 수 있던 것인가? -->
+
+<!-- https://www.youtube.com/embed/Jx39roFmTNg -->
