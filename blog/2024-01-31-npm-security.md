@@ -235,4 +235,34 @@ Docker를 사용하는 이유는 로컬 기계에서 서로 격리시키기 때�
 
 <!-- 하지만 모든 것들은 생각입니다. 지금 현재 갖고 있는 지식에서 이 보안을 하나둘씩 대응하기에는 지식이 부족합니다. -->
 
+## npm의 세계는 생각보다 안전합니다.
+
+```sh
+npx create-next-app@latest .
+```
+
+```sh
+npx nuxi@latest init .
+```
+
+```sh
+npm create vite@latest .
+```
+
+```sh
+npm audit --audit-level=high
+```
+
+```sh
+npx @sandworm/audit@latest
+```
+
+저는 스스로 사람을 불신한다고 하면서 사람을 아주 잘 믿는 사람입니다.
+
+생각보다 anticlimactic하게 별거 없었습니다. 꽤나 심각한 멀웨어를 왕창 설치할 거라고 생각했는데 아니었습니다.
+
+## 결론
+
+설치할 때 보안취약점 확인해보고 없으면 그냥 편하게 개발합시다.
+
 [^1]: [[카드뉴스] ‘최근 가장 뜨거운 보안 이슈’, 공급망 공격](https://m.boannews.com/html/detail.html?mtype=3&tab_type=H&idx=122516)
