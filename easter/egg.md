@@ -33,7 +33,7 @@ date: 1453-5-29
 
 Clang
 
-[golang](golang)
+[머리나쁜 사람들을 위한 Go](golang)
 
 Rust
 
