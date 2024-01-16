@@ -218,16 +218,94 @@ http://127.0.0.1:10000/lab/
 
 ## JavaScript
 
-순수하게 npm을 사용하기에는 아쉬운 점이 많아 yarn, pnpm도 다루겠습니다. ~~bun은 좋지만 싫어요~~
+무조건 자바스크립트만 해당한다는 의미는 아닙니다.
 
+### npm
+
+- 제일 먼저 갖추어야 할 조건은 node_module을 로컬에 설치하지 말아야 합니다.
+
+```json title="package.json"
+{
+  "name": "express-npm-docker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --watch --trace-warnings index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
+```
+
+자바스크립트와 관련된 Docker는 `package.json`을 주의해야 합니다.
+
+```txt title=".dockerignore"
+node_modules
+```
+
+```Dockerfile
+FROM node:latest
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+# Add your source files
+COPY . .
+
+CMD ["npm", "run", "start"]
+```
+
+```js title="index.js"
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('hello, docker????');
+});
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+```
+
+```sh
+docker build -t my-npm-app .
+```
+
+```sh
+docker run --rm -it -p 80:3000 -v $(pwd):/app/app my-npm-app
+```
+
+http://localhost/
+
+위 링크로 들어가기 바랍니다.
+
+<!-- ### yarn -->
+
+<!-- ### pnpm -->
+
+<!--
+
+순수하게 npm을 사용하기에는 아쉬운 점이 많아 yarn, pnpm도 다루겠습니다. ~~bun은 좋지만 싫어요~~
+ -->
 <!-- 자바스크립트는 패키지 매니져도 표준화된 것이 없습니다. -->
 
-## Java
-
-### Go mod
+<!--
+## Go mod
 
 저는 모든 언어가 취약하다고 가정합니다. 심지어 go 언어도 취약하다고 생각합니다. 보안 취약점 문제를 갖고 있다고 생각합니다.
 
-### Java
+## Java
 
 우리나라에서 제일 중요한 언어를 Dockerize하는 방법입니다.
+
+-->
