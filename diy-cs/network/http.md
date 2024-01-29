@@ -249,8 +249,21 @@ if (!ipAddress) {
 
 문제입니다.
 
-> {"Status":0,"TC":false,"RD":true,"RA":true,"AD":true,"CD":false,"Question":[{"name":"api.boot.dev","type":1}],"Answer":[{"name":"api.boot.dev","type":1,"TTL":3600,"data":"34.111.29.119"}]}
->
+```json
+{
+  "Status": 0,
+  "TC": false,
+  "RD": true,
+  "RA": true,
+  "AD": true,
+  "CD": false,
+  "Question": [{ "name": "api.boot.dev", "type": 1 }],
+  "Answer": [
+    { "name": "api.boot.dev", "type": 1, "TTL": 3600, "data": "34.111.29.119" }
+  ]
+}
+```
+
 > something went wrong in fetchIPAddress
 
 이렇게 응답받은 객체가 IP만 반환하도록 처리합니다.
@@ -386,7 +399,7 @@ function logItems(items) {
 
 Problem is, there is a bug. The API isn't hosted on boot.dev, it's hosted on the api subdomain! Fix the bug.
 
-> SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+> `SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON`
 
 ```js
 const bootdevAPIDomain = 'api.boot.dev';
