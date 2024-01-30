@@ -4,7 +4,6 @@ authors: [arch-spatula]
 tags: ['docker', '보안', 'npm', 'pip']
 description: '개발환경의 보안을 신경써봅시다.'
 toc_max_heading_level: 6
-draft: true
 ---
 
 # 안전한 개발환경을 만들어보자

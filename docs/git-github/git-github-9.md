@@ -64,7 +64,7 @@ done은 작업이 끝난 상태입니다.
 
 ## 권장 자료
 
-[<업무 시각화> - 도미니카 드그란디스](https://www.yes24.com/Product/Goods/86627323)
+[업무 시각화 - 도미니카 드그란디스](https://www.yes24.com/Product/Goods/86627323)
 
 위 도서는 칸반 다루기의 고전입니다.
 
