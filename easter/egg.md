@@ -13,33 +13,33 @@ date: 1453-5-29
 
 :::
 
-[Experience](experience)
+[Experience](/experience)
 
-[MEME](meme)
+[MEME](/meme)
 
-[Python](python)
+[Python](/python)
 
-[주니어가 다루는 거 보면 신뢰도가 떨어져 보이는 NestJS](nestjs)
+[주니어가 다루는 거 보면 신뢰도가 떨어져 보이는 NestJS](/nestjs)
 
 <!-- @todo: 시니어가 되면 Spring 따라하는 NestJS라고 수정하기 -->
 
-[DB 줍줍](db)
+[DB 줍줍](/db)
 
-[디자인 시스템 위키](design-system-wiki)
+[디자인 시스템 위키](/design-system-wiki)
 
-[HTML & CSS](html-css)
+[HTML & CSS](/html-css)
 
-[DIY-CS](diy-cs)
+[DIY-CS](/diy-cs)
 
 Clang
 
-[머리나쁜 사람들을 위한 Go](golang)
+[머리나쁜 사람들을 위한 Go](/golang)
 
 Rust
 
 Ocaml
 
-[꼰대가 되기 위한 Java](java)
+[꼰대가 되기 위한 Java](/java)
 
 Python
 
