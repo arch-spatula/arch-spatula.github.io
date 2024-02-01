@@ -1753,13 +1753,12 @@ export function Component(props) {
 전달할 수 없습니다. props는 JSX로 object로 전달하는 것뿐입니다. 네이티브 DOM은 JSX로 조작하는 것입니다. 중간과정을 건너뛰려는 개념적 논리적 오류입니다.
 
 4. How do I receive props in a component?
-   function Navbar(props) {
-   return (
-   <header>
-   {props.propsMethod}
-   </header>
-   )
-   }
+
+```jsx
+function Navbar(props) {
+  return <header>{props.propsMethod}</header>;
+}
+```
 
 5. What data type is `props` when the component receives it?
    오브젝트(Object) 자료입니다.

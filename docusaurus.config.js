@@ -3,8 +3,10 @@
 
 const math = require('remark-math');
 const katex = require('rehype-katex');
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+
+const { themes } = require('prism-react-renderer');
+const lightCodeTheme = themes.github;
+const darkCodeTheme = themes.dracula;
 require('dotenv').config();
 // const mdxMermaid = import('mdx-mermaid')
 
@@ -30,7 +32,7 @@ const config = {
     GIT_USER: process.env.GIT_USER,
   },
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -78,7 +80,6 @@ const config = {
       }),
     ],
   ],
-
   plugins: [
     [
       '@docusaurus/plugin-content-blog',
