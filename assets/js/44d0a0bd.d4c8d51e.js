@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[92170],{7669:e=>{e.exports=JSON.parse('{"label":"experience","permalink":"/experience/tags/experience","allTagsPath":"/experience/tags","count":1,"unlisted":false}')}}]);

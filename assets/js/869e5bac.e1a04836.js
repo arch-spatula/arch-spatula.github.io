@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[2262],{73123:a=>{a.exports=JSON.parse('{"label":"smart fridge","permalink":"/meme/tags/smart-fridge","allTagsPath":"/meme/tags","count":1,"unlisted":false}')}}]);

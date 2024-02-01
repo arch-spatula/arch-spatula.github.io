@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[9570],{45361:a=>{a.exports=JSON.parse('{"label":"switch case","permalink":"/blog/tags/switch-case","allTagsPath":"/blog/tags","count":1}')}}]);

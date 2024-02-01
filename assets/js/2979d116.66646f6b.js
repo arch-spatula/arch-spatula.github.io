@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[97043],{2499:a=>{a.exports=JSON.parse('{"label":"error boundary","permalink":"/blog/tags/error-boundary","allTagsPath":"/blog/tags","count":1,"unlisted":false}')}}]);

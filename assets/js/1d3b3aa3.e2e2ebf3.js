@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[31724],{76503:a=>{a.exports=JSON.parse('{"label":"refactoring","permalink":"/blog/tags/refactoring","allTagsPath":"/blog/tags","count":2}')}}]);

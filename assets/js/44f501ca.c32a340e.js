@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[76913],{28341:a=>{a.exports=JSON.parse('{"label":"deno deploy","permalink":"/blog/tags/deno-deploy","allTagsPath":"/blog/tags","count":3,"unlisted":false}')}}]);

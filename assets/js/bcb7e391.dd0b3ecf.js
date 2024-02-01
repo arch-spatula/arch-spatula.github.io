@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[1599],{74527:a=>{a.exports=JSON.parse('{"label":"\uc608\uc678\ucc98\ub9ac","permalink":"/blog/tags/\uc608\uc678\ucc98\ub9ac","allTagsPath":"/blog/tags","count":1,"unlisted":false}')}}]);

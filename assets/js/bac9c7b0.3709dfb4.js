@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[30114],{70795:a=>{a.exports=JSON.parse('{"label":"react portal","permalink":"/blog/tags/react-portal","allTagsPath":"/blog/tags","count":2}')}}]);

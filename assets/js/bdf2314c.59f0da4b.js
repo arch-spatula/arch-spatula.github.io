@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[27466],{26300:a=>{a.exports=JSON.parse('{"label":"flash card","permalink":"/blog/tags/flash-card","allTagsPath":"/blog/tags","count":1,"unlisted":false}')}}]);

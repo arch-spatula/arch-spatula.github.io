@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[55873],{53752:a=>{a.exports=JSON.parse('{"label":"React.dev","permalink":"/blog/tags/react-dev","allTagsPath":"/blog/tags","count":1}')}}]);

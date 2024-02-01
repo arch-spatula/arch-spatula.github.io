@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[40880],{93961:a=>{a.exports=JSON.parse('{"label":"\ud574\ucee4\ud1a4","permalink":"/meme/tags/\ud574\ucee4\ud1a4","allTagsPath":"/meme/tags","count":1,"unlisted":false}')}}]);

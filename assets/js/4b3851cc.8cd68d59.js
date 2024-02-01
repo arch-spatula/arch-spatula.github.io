@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[790],{14062:a=>{a.exports=JSON.parse('{"label":"Silicon Valley","permalink":"/meme/tags/silicon-valley","allTagsPath":"/meme/tags","count":6,"unlisted":false}')}}]);

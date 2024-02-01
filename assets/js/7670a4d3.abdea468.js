@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[45577],{4276:a=>{a.exports=JSON.parse('{"label":"CORS","permalink":"/meme/tags/cors","allTagsPath":"/meme/tags","count":1}')}}]);

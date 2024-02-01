@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[25314],{548:a=>{a.exports=JSON.parse('{"label":"oak","permalink":"/blog/tags/oak","allTagsPath":"/blog/tags","count":2,"unlisted":false}')}}]);

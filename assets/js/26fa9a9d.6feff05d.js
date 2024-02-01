@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[94450],{77118:a=>{a.exports=JSON.parse('{"label":"hobby","permalink":"/golang/tags/hobby","allTagsPath":"/golang/tags","count":1,"items":[{"id":"draft","title":"draft","description":"\uc774\ub7f0 \uc800\ub7f0 golang \ubbf8\uc815","permalink":"/golang/draft"}]}')}}]);

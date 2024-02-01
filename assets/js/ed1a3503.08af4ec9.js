@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[11463],{68348:a=>{a.exports=JSON.parse('{"label":"Task Queue","permalink":"/blog/tags/task-queue","allTagsPath":"/blog/tags","count":1,"unlisted":false}')}}]);

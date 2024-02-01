@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[84302],{35426:a=>{a.exports=JSON.parse('{"label":"OK LGTM","permalink":"/meme/tags/ok-lgtm","allTagsPath":"/meme/tags","count":1}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[52394],{75330:a=>{a.exports=JSON.parse('{"label":"props drilling","permalink":"/meme/tags/props-drilling","allTagsPath":"/meme/tags","count":1,"unlisted":false}')}}]);

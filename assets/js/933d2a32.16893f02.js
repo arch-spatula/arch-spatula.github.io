@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[17896],{72839:a=>{a.exports=JSON.parse('{"label":"lazy loading","permalink":"/blog/tags/lazy-loading","allTagsPath":"/blog/tags","count":1,"unlisted":false}')}}]);

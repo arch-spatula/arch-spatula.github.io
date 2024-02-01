@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[65151],{12560:a=>{a.exports=JSON.parse('{"label":"IIFE","permalink":"/blog/tags/iife","allTagsPath":"/blog/tags","count":1}')}}]);

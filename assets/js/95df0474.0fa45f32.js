@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[60764],{23585:a=>{a.exports=JSON.parse('{"label":"unhandled rejection","permalink":"/blog/tags/unhandled-rejection","allTagsPath":"/blog/tags","count":1}')}}]);

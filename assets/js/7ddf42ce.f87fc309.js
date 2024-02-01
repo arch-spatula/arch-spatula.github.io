@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[78347],{67896:a=>{a.exports=JSON.parse('{"label":"scrum","permalink":"/meme/tags/scrum","allTagsPath":"/meme/tags","count":1,"unlisted":false}')}}]);

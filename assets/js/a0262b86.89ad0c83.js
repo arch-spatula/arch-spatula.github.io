@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[36419],{38757:a=>{a.exports=JSON.parse('{"label":"custom hook","permalink":"/blog/tags/custom-hook","allTagsPath":"/blog/tags","count":3,"unlisted":false}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[93694],{38720:a=>{a.exports=JSON.parse('{"label":"tab vs space","permalink":"/meme/tags/tab-vs-space","allTagsPath":"/meme/tags","count":1,"unlisted":false}')}}]);

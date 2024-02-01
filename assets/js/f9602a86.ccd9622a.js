@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[51653],{2194:a=>{a.exports=JSON.parse('{"label":"react testing library","permalink":"/blog/tags/react-testing-library","allTagsPath":"/blog/tags","count":1}')}}]);

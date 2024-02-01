@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[43207],{13026:i=>{i.exports=JSON.parse('{"label":"micro tips","permalink":"/docs/tags/micro-tips","allTagsPath":"/docs/tags","count":1,"items":[{"id":"VSCode/micro-tips","title":"VSCode \uc90d\uc90d","description":"cmd + i","permalink":"/docs/VSCode/micro-tips"}]}')}}]);

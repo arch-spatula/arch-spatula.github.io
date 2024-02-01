@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[94065],{66784:a=>{a.exports=JSON.parse('{"label":"vercel Build Failed","permalink":"/blog/tags/vercel-build-failed","allTagsPath":"/blog/tags","count":1,"unlisted":false}')}}]);

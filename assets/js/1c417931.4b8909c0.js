@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[90188],{62902:a=>{a.exports=JSON.parse('{"label":"astro","permalink":"/blog/tags/astro","allTagsPath":"/blog/tags","count":1,"unlisted":false}')}}]);

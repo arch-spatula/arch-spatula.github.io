@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[92733],{56881:a=>{a.exports=JSON.parse('{"label":"mongoDB","permalink":"/blog/tags/mongo-db","allTagsPath":"/blog/tags","count":3}')}}]);

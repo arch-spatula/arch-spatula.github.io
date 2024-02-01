@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[33803],{10447:a=>{a.exports=JSON.parse('{"label":"type gymnastics","permalink":"/blog/tags/type-gymnastics","allTagsPath":"/blog/tags","count":1}')}}]);

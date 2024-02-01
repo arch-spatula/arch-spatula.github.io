@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[19753],{89797:a=>{a.exports=JSON.parse('{"label":"singleton","permalink":"/blog/tags/singleton","allTagsPath":"/blog/tags","count":1,"unlisted":false}')}}]);

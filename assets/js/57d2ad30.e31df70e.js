@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[56003],{55574:a=>{a.exports=JSON.parse('{"label":"backface-visibility","permalink":"/blog/tags/backface-visibility","allTagsPath":"/blog/tags","count":1}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[6090],{85010:a=>{a.exports=JSON.parse('{"label":"data routing","permalink":"/blog/tags/data-routing","allTagsPath":"/blog/tags","count":1,"unlisted":false}')}}]);

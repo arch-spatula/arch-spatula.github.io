@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[26149],{92277:a=>{a.exports=JSON.parse('{"label":"CLI","permalink":"/blog/tags/cli","allTagsPath":"/blog/tags","count":1}')}}]);
