@@ -32,3 +32,22 @@ vim distro를 실제로 받아서 사용하기 전에 개인에게 맞는 vim �
 [Dreams of Code의 Neovim 시리즈](https://www.youtube.com/playlist?list=PL05iK6gnYad1sb4iQyqsim_Jc_peZdNXf)
 
 <!-- ## 추천 플러그 -->
+
+## 사람과 기관
+
+[TJ DeVries](https://github.com/tjdevries)
+
+- [neovim](https://github.com/neovim/neovim)
+- [Telescope](https://github.com/nvim-telescope/telescope.nvim?tab=readme-ov-file)
+- [kickstart](https://github.com/nvim-lua/kickstart.nvim)
+
+[Folke Lemaitre](https://github.com/folke)
+
+- vim distro [💤 LazyVim](https://github.com/LazyVim/LazyVim)
+- 플러그인 매니저 [💤 lazy.nvim](https://github.com/folke/lazy.nvim)
+- [💥 Noice](https://github.com/folke/noice.nvim)
+- [💥 Which Key](https://github.com/folke/which-key.nvim)
+
+[ThePrimeagen](https://github.com/ThePrimeagen)
+
+- [harpoon](https://github.com/ThePrimeagen/harpoon)
