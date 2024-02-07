@@ -375,6 +375,8 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+        // @todo lua 하이라이트 지원하게 만들기
+        // additionalLanguages: ['lua'],
       },
     }),
 };
