@@ -5,6 +5,14 @@ description: '타입스크립트 이런저런 팁'
 
 # 타입스크립트 팁
 
+<!--
+
+AOP in TypeScript
+
+https://d2.naver.com/helloworld/3010710
+
+-->
+
 ## keyof 연산자
 
 keyof는 자바스크립트에 없습니다. 객체에서 key만 추출하고 싶을 때 사용할 수 있는 타입스크립트 연산자입니다.

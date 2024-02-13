@@ -42,3 +42,5 @@ vim은 4가지 모드가 존재합니다. 일반 모드, 삽입 모드, 비주�
 `dd`로 삭제하면 삭제랑 동시에 복사입니다. 그래서 `p`를 붙이면 삭제한 내용을 볼 수 있습니다.
 
 [^1]: [Vim As Your Editor - Introduction](https://www.youtube.com/watch?v=X6AR2RMB5tE)
+
+[Vimtutor를 이용해 Vim 명령어를 배워보자](https://yozm.wishket.com/magazine/detail/2238/)

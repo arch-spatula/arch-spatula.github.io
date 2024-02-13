@@ -15,6 +15,14 @@ draft: true
 
 ---
 
+<!--
+
+HTTP/2 신속한 재설정 취약점으로 인해 역대 규모의 DDoS 발생
+
+https://news.hada.io/topic?id=11274
+
+ -->
+
 ## 현실
 
 첫째로 보안은 기술적인 측면은 견고하지만 사람과 관련된 부분은 상당히 허술합니다. 암화 라이브러리는 상당히 많고 커뮤니티를 통해 보안을 수월하게 구축할 수 있습니다.
@@ -99,7 +107,7 @@ CORS는 허용하는 보안 정책입니다. 동일한 origin 혹은 CORS를 허
 
 세션 페이지입니다.
 
-```js
+```jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -136,7 +144,7 @@ export default function SessionPage() {
     setData(response.data.data);
   };
 
-  return (
+  return
     <div style={{ padding: 20 }}>
       <h1>세션 인증/인가</h1>
       <h3>
@@ -291,7 +299,7 @@ signature는 해더와 함께 공변적입니다. payload는 인증데이터입�
 
 클라이언트가 아이디 비번을 서버에게 날립니다. 서버는 받아서 데이터 베이스에 확인하고 멤법 데이터를 인증상태로 처리합니다. JWT를 만들어냅니다. 시크릿 키로 만듭니다. 해당하는 토큰을 응답으로 Set-Cookie 혹은 body에 담겨있습니다. 이부분은 백엔드 엔지니어가 알아서 처리하는 영역입니다. 서버는 응답으로 받으면 브라우저는 저장이 처리 될 것입니다.
 
-```js
+```jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Cookies } from 'react-cookie';

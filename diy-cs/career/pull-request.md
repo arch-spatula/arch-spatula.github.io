@@ -75,3 +75,8 @@ tags: ['코드 리뷰', '커리어', 'PR']
 대칭적으로 칭찬과 비판을 갖는데 칭찬하는데 비중을 더 두도록 합니다.
 
 [^1] [코드 리뷰어를 하며 저지른 실수 7가지](https://yozm.wishket.com/magazine/detail/2095/)
+
+[IT 기업별 코드 리뷰 방식](https://news.hada.io/topic?id=11048)
+[인포그랩의 소중한 자산입니다. 콘텐츠를 복사할 수 없는 점 너른 양해 부탁드립니다.](https://insight.infograb.net/blog/2023/06/28/gitlab-ai/)
+
+[Critique - 구글이 개발자 만족도 97%로 코드 리뷰의 고통을 덜어주는 방법](https://news.hada.io/topic?id=12289)

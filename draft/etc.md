@@ -1,5 +1,17 @@
 # ETC
 
+면접질문 레포 줍줍
+
+[프론트엔드 면접질문 중요도별 정리](https://github.com/Esoolgnah/Frontend-Interview-Questions)
+
+## 클라우드
+
+[AWS 배포 완벽가이드 (feat. Lightsail, Docker, ECS)](https://www.inflearn.com/course/aws-%EB%B0%B0%ED%8F%AC-%EC%99%84%EB%B2%BD%EA%B0%80%EC%9D%B4%EB%93%9C)
+
+## 개발자와 소프트웨어 엔지니어의 차이는 무엇인가?
+
+[Are you a Software Developer or a Software Engineer?](https://cult.honeypot.io/reads/are-you-a-software-developer-or-a-software-engineer/)
+
 ## REST API 명세서 작성하기
 
 API 명세서 작성하면

@@ -218,3 +218,15 @@ const distances: { [keys: Vertex]: number } = Object.keys(
 화살표 함수에 반환하는 자리에 괄호로 반환하는 값만 아니라 할당하는 문장을 작성도 가능했습니다. 그리고 새로 만들고 참조할 객체를 다음 인자로 대입하면 되는 것이었습니다.
 
 [Convert array to object keys [duplicate]](https://stackoverflow.com/questions/54789406/convert-array-to-object-keys)
+
+<!--
+## 예외처리 전략
+
+[좋은 예외(Exception) 처리](https://jojoldu.tistory.com/734)
+-->
+
+<!--
+쉽고 빠른 NodeJS 부하테스트 툴, autocannon
+
+https://medium.com/zigbang/%EC%89%BD%EA%B3%A0-%EB%B9%A0%EB%A5%B8-nodejs-%EB%B6%80%ED%95%98%ED%85%8C%EC%8A%A4%ED%8A%B8-%ED%88%B4-autocannon-c860886d6f15
+ -->
