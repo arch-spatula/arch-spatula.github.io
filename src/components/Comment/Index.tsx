@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
-import { useColorMode } from "@docusaurus/theme-common";
+import React, { useEffect, useRef } from 'react';
+import { useColorMode } from '@docusaurus/theme-common';
 
-const utterancesSelector = "iframe.utterances-frame";
+const utterancesSelector = 'iframe.utterances-frame';
 
 /**
  * @see https://younho9.dev/docusaurus-manage-docs-2
@@ -11,28 +11,28 @@ const utterancesSelector = "iframe.utterances-frame";
 
 function Comment() {
   const containerRef = useRef(null);
-  const { isDarkTheme } = useColorMode();
-  const utterancesTheme = isDarkTheme ? "dark" : "light";
+  const { colorMode } = useColorMode();
+  const utterancesTheme = colorMode ? 'dark' : 'light';
 
   useEffect(() => {
     const utterancesEl = containerRef.current.querySelector(utterancesSelector);
 
     const createUtterancesEl = () => {
-      const script = document.createElement("script");
-      script.src = "https://giscus.app/client.js";
-      script.setAttribute("data-repo", "arch-spatula/arch-spatula.github.io");
-      script.setAttribute("data-repo-id", "R_kgDOImK9Dg");
-      script.setAttribute("data-category", "General");
-      script.setAttribute("data-category-id", "DIC_kwDOImK9Ds4CUzIZ");
-      script.setAttribute("data-mapping", "pathname");
-      script.setAttribute("data-strict", "0");
-      script.setAttribute("data-reactions-enabled", "1");
-      script.setAttribute("data-emit-metadata", "0");
-      script.setAttribute("data-input-position", "bottom");
-      script.setAttribute("data-lang", "ko");
-      script.setAttribute("crossorigin", "anonymous");
-      script.setAttribute("data-theme", utterancesTheme);
-      script.setAttribute("data-loading", "lazy");
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', 'arch-spatula/arch-spatula.github.io');
+      script.setAttribute('data-repo-id', 'R_kgDOImK9Dg');
+      script.setAttribute('data-category', 'General');
+      script.setAttribute('data-category-id', 'DIC_kwDOImK9Ds4CUzIZ');
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'bottom');
+      script.setAttribute('data-lang', 'ko');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.setAttribute('data-theme', utterancesTheme);
+      script.setAttribute('data-loading', 'lazy');
 
       script.async = true;
       containerRef.current.appendChild(script);
@@ -40,16 +40,16 @@ function Comment() {
 
     const postThemeMessage = () => {
       const message = {
-        type: "set-theme",
+        type: 'set-theme',
         theme: utterancesTheme,
       };
-      utterancesEl.contentWindow.postMessage(message, "https://utteranc.es");
+      utterancesEl.contentWindow.postMessage(message, 'https://utteranc.es');
     };
 
     utterancesEl ? postThemeMessage() : createUtterancesEl();
-  }, [isDarkTheme]);
+  }, [colorMode]);
 
-  return <div ref={containerRef} style={{ marginTop: "3rem" }} />;
+  return <div ref={containerRef} style={{ marginTop: '3rem' }} />;
 }
 
 export default Comment;
