@@ -1,5 +1,5 @@
 ---
-sidebar_position: 10
+sidebar_position: 11
 description: '이력서'
 tags: ['이력서', '포트폴리오']
 draft: true

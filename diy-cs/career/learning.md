@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 7
 description: '학습법'
 tags: ['학습법', '커리어']
 ---

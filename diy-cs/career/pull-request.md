@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 8
 description: '코드 리뷰'
 tags: ['코드 리뷰', '커리어', 'PR']
 ---

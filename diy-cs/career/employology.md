@@ -1,5 +1,5 @@
 ---
-sidebar_position: 9
+sidebar_position: 10
 description: '취업학'
 tags: ['취업학', '이력서', '포트폴리오']
 draft: true
