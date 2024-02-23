@@ -6,7 +6,11 @@ tags: ['C 언어', '줍줍']
 
 # C 언어
 
-<iframe class="codepen" src="https://www.youtube.com/embed/xUieIoMo3r8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+컴퓨터(computer)의 C가 아니라 ABC의 C로 3세대 언어입니다. 놀랍게도 C언어를 배우면서 알게 되는 것과 먼저 알아야 하는 것과 배우고 난 뒤에 알게 되는 것 각각 다릅니다. 하지만 먼저 알아야 하는 것은 컴퓨터 구조론 정도에 해당합니다. 그것도 아주 심오한 정도는 아닙니다. ~~저의 뇌피셜입니다.~~ 
+
+C 언어랑 파이썬이랑 공통점이 있습니다. 프로그래밍 언어 자체는 쉬습니다. 하지만 어려운 것은 프로그래밍이라는 것을 알려줍니다.
+
+<iframe class="codepen" src="https://www.youtube.com/embed/yOyaJXpAYZQ" title="Comparing C to machine language" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 <!-- https://www.youtube.com/watch?v=yOyaJXpAYZQ -->
 
