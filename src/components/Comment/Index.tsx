@@ -47,7 +47,7 @@ function Comment() {
     };
 
     utterancesEl ? postThemeMessage() : createUtterancesEl();
-  }, [isDarkTheme]);
+  }, [colorMode]);
 
   return <div ref={containerRef} style={{ marginTop: '3rem' }} />;
 }
