@@ -31,7 +31,14 @@ vim distro를 실제로 받아서 사용하기 전에 개인에게 맞는 vim �
 
 [Dreams of Code의 Neovim 시리즈](https://www.youtube.com/playlist?list=PL05iK6gnYad1sb4iQyqsim_Jc_peZdNXf)
 
-<!-- ## 추천 플러그 -->
+<!-- ## 추천 플러그인 -->
+
+<!--
+
+국내 vim 컨프런스가 있었습니다.
+
+[au VimEnter](https://au-vimenter.github.io/post/2023-12-23-au-vimenter/#session-1)
+ -->
 
 ## 사람과 기관
 

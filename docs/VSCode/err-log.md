@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-tags: ["vscode", "error log", "moduleResolution"]
+tags: ['vscode', 'error log', 'moduleResolution']
 ---
 
 # VSCode와 관련된 이런 저런 에러 추가
@@ -45,3 +45,9 @@ vite으로 리액트를 설치했습니다.
 
 - 에디터도 에러의 범인이 될 수 있습니다. 하지만 짧은 개발 경험에도 불구하고 에디터가 문제를 일으킨 경우는 많지 않았습니다.
   - 지금처럼 검색해서 발견하기 전까지는 용의자에서 보류합니다.
+
+<!--
+
+[내가 웹스톰을 사용하는 방법](https://velog.io/@leehaeun0/%EB%82%B4%EA%B0%80-%EC%9B%B9%EC%8A%A4%ED%86%B0%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
+
+ -->

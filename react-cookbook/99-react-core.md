@@ -7,7 +7,7 @@ draft: true
 
 # React Core
 
-<!-- https://d2.naver.com/helloworld/2690975 -->
+<!-- [React 파이버 아키텍처 분석](https://d2.naver.com/helloworld/2690975) -->
 
 <!-- @todo: 폴더 만들고 주제별로 다루기 -->
 

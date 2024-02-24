@@ -30,3 +30,11 @@ draft: true
 <!-- https://vercel.com/blog/how-react-18-improves-application-performance -->
 
 <!-- https://dev.to/alais29/building-a-real-time-search-filter-in-react-a-step-by-step-guide-3lmm -->
+
+<!--
+
+(번역) 하이드레이션은 트리이고, 재개 가능성(Resumability)은 맵입니다
+
+https://velog.io/@superlipbalm/hydration-tree-resumability-map
+
+-->

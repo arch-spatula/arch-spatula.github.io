@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
+import { useEffect, useRef } from 'react';
 import { useColorMode } from '@docusaurus/theme-common';
 
 const utterancesSelector = 'iframe.utterances-frame';
@@ -11,8 +12,7 @@ const utterancesSelector = 'iframe.utterances-frame';
 
 function Comment() {
   const containerRef = useRef(null);
-  const { colorMode } = useColorMode();
-  const utterancesTheme = colorMode ? 'dark' : 'light';
+  const { isDarkTheme, colorMode: utterancesTheme } = useColorMode();
 
   useEffect(() => {
     const utterancesEl = containerRef.current.querySelector(utterancesSelector);
@@ -47,7 +47,7 @@ function Comment() {
     };
 
     utterancesEl ? postThemeMessage() : createUtterancesEl();
-  }, [colorMode]);
+  }, [utterancesTheme]);
 
   return <div ref={containerRef} style={{ marginTop: '3rem' }} />;
 }

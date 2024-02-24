@@ -7,6 +7,8 @@ draft: true
 
 # 운영체제
 
+<!--https://github.com/2024-pass-backend/cs-plant?tab=readme-ov-file-->
+
 운영체제는 2가지 정석 학습 루트가 있습니다.
 
 하나는 공룡책입니다. 이름도 창의적이게 [운영체제](https://www.yes24.com/Product/Goods/89496122)라고 합니다.

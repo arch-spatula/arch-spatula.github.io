@@ -21,6 +21,12 @@ https://refactoring.guru/ko/design-patterns
 
 https://www.youtube.com/watch?v=5Oqz3y2Kbzs -->
 
+<!--
+프로토타입 패턴 (Prototype Pattern)
+
+https://johngrib.github.io/wiki/pattern/prototype/
+-->
+
 ## 행동 패턴
 
 <!-- ### 옵저버 -->

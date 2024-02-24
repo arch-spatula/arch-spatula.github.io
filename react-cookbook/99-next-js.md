@@ -5,6 +5,10 @@ sidebar_position: 99
 draft: true
 ---
 
+## 서버컴포넌트
+
+[새로 등장한 ‘리액트 서버 컴포넌트’ 이해하기](https://yozm.wishket.com/magazine/detail/2271/)
+
 ## `ReferenceError: self is not defined`
 
 ```ts
