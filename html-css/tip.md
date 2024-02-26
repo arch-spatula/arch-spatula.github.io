@@ -185,7 +185,7 @@ item::after {
 
 ### button
 
-<iframe class="codepen" src="https://www.youtube.com/embed/pMoL2URoqhI" title="Everything you didn't know you need to know about buttons" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe className="codepen" src="https://www.youtube.com/embed/pMoL2URoqhI" title="Everything you didn't know you need to know about buttons" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
 ```css
 .my-btn {
@@ -248,5 +248,19 @@ input은 이런것도 지원합니다. 이런것도 있는게 신기합니다.
 너비가 `700px`이 되면 `.foo` 클래스가 덮어쓰기가 됩니다.
 
 1가지 중요한 것이 있습니다. `container-type`을 반드시 선언해야 적용이 가능해집니다. 저는 `container-name`만으로 적용가능할 것이라고 착각했습니다.
+
+## `sticky`의 부모는 `overflow`가 `unset`이어야 함
+
+```scss
+.foo {
+  overflow: unset;
+  .bar {
+    position: sticky;
+    left: 10px;
+  }
+}
+```
+
+사실 원리는 잘 모릅니다.
 
 [^1]: 출처: https://inpa.tistory.com/entry/🌟-css-container-사용법 [Inpa Dev 👨‍💻:티스토리]
