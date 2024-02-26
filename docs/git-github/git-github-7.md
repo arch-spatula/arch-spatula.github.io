@@ -41,3 +41,27 @@ git remote prune origin
 협업을 여러명이 하면 죽은 브랜치 계속 사용하는 사람들도 있습니다. 죽은 브랜치에 계속 커밋하고 push했습니다.
 
 그냥 작업마다 새 브랜치 따면 편해집니다.
+
+## `git pull`을 ui에서 하기
+
+브랜치를 배포 버전 기준별로 살려두는 전략도 있습니다. `git pull`을 ui에서 처리할 수 있습니다. PR이 합쳐질 때마다 타겟 브랜치와 동기화를 합니다.
+
+실제 작업 전에 가능하면 커밋을 `squash`로 합쳐주기 바랍니다.
+
+![](/img/doc/git/squash.png)
+
+![](/img/doc/git/squash2.png)
+
+![](/img/doc/git/start.png)
+
+![](/img/doc/git/search.png)
+
+![](/img/doc/git/merge.png)
+
+## rebase는 merge 커밋을 포함하지 않습니다.
+
+제곧내.
+
+나중에 알게된 놀라운 사실입니다. `revert`로 기능을 롤빽해야 할 때 유용한 방법론입니다.
+
+rebase할 브랜치에 PR을 올릴 때는 `squash`합니다.
