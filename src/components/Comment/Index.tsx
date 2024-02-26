@@ -12,7 +12,7 @@ const utterancesSelector = 'iframe.utterances-frame';
 
 function Comment() {
   const containerRef = useRef(null);
-  const { isDarkTheme, colorMode: utterancesTheme } = useColorMode();
+  const { colorMode: utterancesTheme } = useColorMode();
 
   useEffect(() => {
     const utterancesEl = containerRef.current.querySelector(utterancesSelector);
