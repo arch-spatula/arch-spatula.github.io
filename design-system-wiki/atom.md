@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 tags: ['design system', 'atom']
 toc_max_heading_level: 6
 ---
