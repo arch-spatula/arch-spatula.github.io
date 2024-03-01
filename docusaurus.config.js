@@ -133,6 +133,17 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
+        id: 'industrial-engineering',
+        path: 'industrial-engineering',
+        routeBasePath: 'industrial-engineering',
+        sidebarPath: require.resolve('./sidebars.js'),
+        remarkPlugins: [math],
+        rehypePlugins: [katex],
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
         id: 'nestjs',
         path: 'nestjs',
         routeBasePath: 'nestjs',
