@@ -16,6 +16,9 @@ const config = {
   tagline: '다양하게 조금씩 배우고 레시피로 정리합니다. 정해진 것은 없습니다.',
   favicon: 'img/logo.svg',
 
+  // @todo 배포 이미지 확인하고 링크 깨지면 아래 주석 풀어보기
+  // staticDirectories: ['public', 'static'],
+
   // Set the production url of your site here
   url: 'https://arch-spatula.github.io/',
   // Set the /<baseUrl>/ pathname under which your site is served
