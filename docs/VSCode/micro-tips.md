@@ -9,6 +9,16 @@ tags: ['vscode', 'micro tips', '줍줍']
 
 <iframe className="codepen" src="https://www.youtube.com/embed/ifTF3ags0XI" title="25 VS Code Productivity Tips and Speed Hacks" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
+### F12
+
+![](/img/doc/vscode/f12.png)
+
+`F12` 특정 파일 위치로 이동할 수 있습니다.
+
+![](/img/doc/vscode/f12-alt-shift.png)
+
+`alt` + `shift` + `F12`으로 일괄 변경 시도할 수 있습니다.
+
 <!--
 
 나중에 정리할 영상입니다. 지금은 귀찮습니다.
