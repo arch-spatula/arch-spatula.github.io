@@ -46,3 +46,7 @@ Python
 elixir
 
 elm
+
+## 도메인 지식
+
+[산업공학](/industrial-engineering)
