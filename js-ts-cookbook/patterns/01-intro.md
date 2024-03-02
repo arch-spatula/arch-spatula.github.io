@@ -16,3 +16,15 @@ description: '패턴에 대해서'
 또 성능 최적화를 위해 코드 결합도와 복잡성이 높아졌다고 자책할 필요는 없습니다. 문서화로 동작과 이유를 설명해주세요.
 
 하지만 특별한 이유가 없다면 복잡성을 낮추기 위해 고민하기 바랍니다.
+
+## 학습자료
+
+[디자인 패턴 - patterns](https://www.patterns.dev)
+
+[refactoring guru 의 디자인 패턴](https://refactoring.guru/ko/design-patterns)
+
+<iframe className="codepen" src="https://www.youtube.com/embed/IaIFGYWDuuo" title="FEConf 2023 [B1] 웹 기반 그래픽 편집기의 구조와 7가지 디자인 패턴" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+
+[웹 기반 그래픽 편집기의 구조와 7가지 디자인 패턴 (1)](https://yozm.wishket.com/magazine/detail/2466/)
+
+[웹 기반 그래픽 편집기의 구조와 7가지 디자인 패턴 (2)](https://yozm.wishket.com/magazine/detail/2467/)

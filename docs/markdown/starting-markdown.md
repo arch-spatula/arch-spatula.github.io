@@ -1,6 +1,6 @@
 ---
-description: "Markdown을 다루는 법을 소개합니다."
-tags: ["Markdown", "Cook-book"]
+description: 'Markdown을 다루는 법을 소개합니다.'
+tags: ['Markdown', 'Cook-book']
 sidebar_position: 1
 ---
 
@@ -290,6 +290,18 @@ graph TD;
 ```
 
 글 뒷부분은 이렇게 표시합니다. 이렇게 작성하면 미주에 알아서 구분선이 추가됩니다.
+
+## 기타 알면 좋은 것
+
+### 이모지
+
+[이모지/목록 - 나무위키](https://namu.wiki/w/%EC%9D%B4%EB%AA%A8%EC%A7%80/%EB%AA%A9%EB%A1%9D)
+
+여태껏 이모지를 검색하고 보안취약점을 유발할 것 같은 사이트에서 구경했는데 또 다른 보안 취약점을 갖고 있는 나무위키에서 볼 수 있게 되었습니다. 그래도 편집에서 클립보드 취약점을 활용하는지 볼 수 있습니다. 다른 사이트들은 클립보다 보안취약점을 직접 편집을 들어가서 확인할 수 있습니다. 훌륭한 해커라면 이런 서비스를 활용해서 당신에게 키로거를 설치하게 만드는 다음에 당신의 금융정보를 도용할 것입니다.
+
+[이모지 키친](https://emojikitchen.dev/)
+
+2개의 이모지를 합성한 이미지를 만들어줍니다. 아주 훌륭하고 이상한 이미지를 잘 만들어줍니다.
 
 [^1]: [[LYNMP 도움말] 마크다운(Markdown) - 표(table) 입력 - LYNMP](https://lynmp.com/ko/article/title/markdown-table-om811c9dc5oi)
 [^2]: [How to add footnotes to GitHub-flavoured Markdown?](https://stackoverflow.com/questions/25579868/how-to-add-footnotes-to-github-flavoured-markdown)
