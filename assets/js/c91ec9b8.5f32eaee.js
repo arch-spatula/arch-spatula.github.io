@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[72474],{95194:a=>{a.exports=JSON.parse('{"label":"vercel","permalink":"/blog/tags/vercel","allTagsPath":"/blog/tags","count":1,"unlisted":false}')}}]);

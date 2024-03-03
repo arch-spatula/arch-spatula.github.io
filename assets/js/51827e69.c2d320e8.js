@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[13921],{49835:a=>{a.exports=JSON.parse('{"label":"vim","permalink":"/blog/tags/vim","allTagsPath":"/blog/tags","count":1,"unlisted":false}')}}]);

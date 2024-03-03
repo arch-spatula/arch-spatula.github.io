@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[35667],{62462:a=>{a.exports=JSON.parse('{"label":"neovim","permalink":"/blog/tags/neovim","allTagsPath":"/blog/tags","count":1,"unlisted":false}')}}]);
