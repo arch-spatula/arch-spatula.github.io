@@ -6,6 +6,13 @@ description: '칸반과 github 프로젝트를 같이 사용하면서 얻은 작
 
 # github 프로젝트 칸반 활용
 
+<!--
+
+Git 형상관리 잘하는 법
+
+https://news.hada.io/topic?id=11403
+ -->
+
 <!-- https://kciter.so/posts/effective-work -->
 
 <!-- https://www.jobplanet.co.kr/contents/news-5099 -->

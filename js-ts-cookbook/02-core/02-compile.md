@@ -233,6 +233,13 @@ V8엔진의 역할은 다양합니다.
 
 ---
 
+[[JS] 메모리 누수는 왜 발생할까?(feat. 메모리 측정법)](https://mong-blog.tistory.com/entry/JS%EC%97%90%EC%84%9C-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EB%88%84%EC%88%98%EB%8A%94-%EC%99%9C-%EB%B0%9C%EC%83%9D%ED%95%A0%EA%B9%8Cfeat-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%B8%A1%EC%A0%95%EB%B2%95#google_vignette)
+
+
+[빠르게 알아보는 Javascript V8엔진](https://www.inflearn.com/course/%EB%B9%A0%EB%A5%B4%EA%B2%8C-%EC%95%8C%EC%95%84%EB%B3%B4%EB%8A%94-javascript-v8%EC%97%94%EC%A7%84#curriculum)
+
+[(번역) 웹 개발에 대해 엔지니어들이 믿는 이상한 것들](https://velog.io/@sehyunny/weired-things-engineers-believe)
+
 [BlinkOn 6 Day 1 Talk 2: Ignition - an interpreter for V8](https://www.youtube.com/watch?v=r5OWCtuKiAk)
 
 [V8 에서 Javascript 코드를 실행하는 방법 정리해보기](https://pks2974.medium.com/v8-%EC%97%90%EC%84%9C-javascript-%EC%BD%94%EB%93%9C%EB%A5%BC-%EC%8B%A4%ED%96%89%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95-%EC%A0%95%EB%A6%AC%ED%95%B4%EB%B3%B4%EA%B8%B0-25837f61f551) -->

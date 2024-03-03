@@ -30,6 +30,8 @@ sidebar_position: 1
 
 [VueConfToronto](https://www.youtube.com/@VueConfToronto)
 
+[vue 디자인 패턴 - patterns](https://www.patterns.dev/vue)
+
 ## 최신 방법으로 설치하기(Modern install)
 
 ```sh

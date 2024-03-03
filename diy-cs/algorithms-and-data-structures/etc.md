@@ -60,3 +60,18 @@ SELECT ANIMAL_ID, NAME FROM ANIMAL_INS WHERE INTAKE_CONDITION != "Aged" ORDER BY
 ```sql
 SELECT ANIMAL_ID, NAME, DATETIME FROM ANIMAL_INS ORDER BY NAME, DATETIME desc
 ```
+
+<!--
+
+자료구조 개념 이해하기 ‘힙과 힙 정렬 알고리즘’
+
+https://yozm.wishket.com/magazine/detail/2312/
+
+2024 카카오 겨울 인턴십 코딩테스트 문제해설
+
+https://tech.kakao.com/2023/12/27/2024-coding-test-winter-internship/
+
+알아두면 유용한 정렬 알고리즘과 시간 복잡도 분석
+
+https://yozm.wishket.com/magazine/detail/2266/
+ -->

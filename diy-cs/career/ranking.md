@@ -18,7 +18,17 @@ tags: ['주관적인 랭킹', '커리어']
 
 ## 🌟🌟🌟🌟🌟
 
+### 네이버
+
 [네이버](https://recruit.navercorp.com/)
+
+[2023 팀네이버 신입 공채 후기 (서류, 코딩테스트, 기술 인터뷰)](https://velog.io/@shyuuuuni/2023-%ED%8C%80%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%8B%A0%EC%9E%85-%EA%B3%B5%EC%B1%84-%ED%9B%84%EA%B8%B0)
+
+["나는 네이버 프런트엔드 개발자입니다" 출간 여정기](https://d2.naver.com/helloworld/2275242)
+
+위 도서와 출간 여정을 살펴보고 면접에 임하기 바랍니다.
+
+### 카카오
 
 [카카오](https://careers.kakao.com/index)
 
@@ -148,7 +158,6 @@ tags: ['주관적인 랭킹', '커리어']
 
 [크리에이트립](https://career.creatrip.team/)
 
-
 [베스핀글로벌](https://www.bespinglobal.com/)
 
 - 사실 패스트캠퍼스 광고보고 알게되었습니다.
@@ -175,8 +184,11 @@ G마켓
 - 보안없는 보안회사입니다.
 
 <!--
-
 ## 💣💣
+
+[System Management](https://namu.wiki/w/%EC%8B%9C%EC%8A%A4%ED%85%9C%20%EA%B4%80%EB%A6%AC?from=SM%28%EA%B0%9C%EB%B0%9C%29)
+
+운영을 한다는 점만 다릅니다. 자체서비스를 비슷하게 흉내만 날 뿐입니다. 보통 하청업체가 유지보수하는 업무입니다. 실력이 많이 늘것이라는 착각을 주기 쉬은 업종입니다.
 
 ## 💣💣💣
 

@@ -176,3 +176,16 @@ CPU와 메모리 중간 연결지점이라고 보기도 합니다.
 ## GPU
 
 그래픽스 카드입니다. 원래 게임엔진을 더 효율적으로 사용하는데 많이 사용했는데 인공지능 훈련할 때 상당히 유용합니다.
+
+[GPU Basics -동작원리와 사용하는 이유에 대해서](https://gruuuuu.github.io/ai/gpu-basics/)
+
+<!--
+
+컴퓨터 시스템 딥 다이브: C 언어부터 어셈블리, 아키텍처, OS까지 한 꺼풀씩 벗겨보는 컴퓨터 시스템
+
+https://product.kyobobook.co.kr/detail/S000211776141
+
+시스템 소프트웨어 개발자를 위한 Arm - basic course
+
+https://www.inflearn.com/roadmaps/763
+-->

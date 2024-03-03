@@ -5,6 +5,14 @@ tags: ['draft']
 draft: true
 ---
 
+<!--
+
+개발자 도구만 잘써도 이쁨 받는다.
+
+https://velog.io/@leehyunho2001/%EA%B0%9C%EB%B0%9C%EC%9E%90-%EB%8F%84%EA%B5%AC%EB%A7%8C-%EC%9E%98%EC%8D%A8%EB%8F%84-%EC%9D%B4%EC%81%A8-%EB%B0%9B%EB%8A%94%EB%8B%A4#%EB%88%84%EA%B5%AC%EB%82%98-%EB%8B%A4-%EC%95%84%EB%8A%94-application-tab
+
+-->
+
 ## promises 동시에 다루기
 
 <!-- @todo 아래 내용 정리하기 -->

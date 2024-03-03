@@ -91,3 +91,13 @@ https://docs.github.com/en/repositories/releasing-projects-on-github/automatical
 문제는 이해가 잘 안됩니다.
 
 이벤트, 워크플로우, 잡이 뭔지 알겠습니다. 어디를 어떻게 적성하고 제어해야 하는지 모르겠습니다.
+
+[CI/CD 개념과 깃허브 리포지터리 생성하기](https://yozm.wishket.com/magazine/detail/2184/)
+
+<!--
+
+[GitHub Actions로 개선하는 코드 리뷰 문화](https://toss.tech/article/25431)
+
+github action은 다양한 응용이 가능합니다.
+
+-->

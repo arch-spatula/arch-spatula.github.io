@@ -269,3 +269,15 @@ describe('callJSONPlaceholder', () => {
 ![](https://user-images.githubusercontent.com/84452145/284896473-a1f85bd1-9dca-489b-b4b3-c9ff5f61423c.png)
 
 mocking을 단일 횟수할 순서대로 실행하고 다음 mocking을 처리합니다.
+
+[(번역) 뛰어난 테스팅 글 모음 (자바스크립트 포함)](https://velog.io/@sehyunny/a-compilation-of-outstanding-testing-articles)
+
+[(번역) - 자바스크립트에서 테스트 어설션 스타일](https://medium.com/@yujso66/%EB%B2%88%EC%97%AD-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EC%97%90%EC%84%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%96%B4%EC%84%A4%EC%85%98-%EC%8A%A4%ED%83%80%EC%9D%BC-314aea22faa8)
+
+<!--
+
+웹페이지 기기별 테스트 필요할 땐 ‘Responsively’
+
+https://yozm.wishket.com/magazine/detail/2258/
+
+-->
