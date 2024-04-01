@@ -32,6 +32,8 @@ sidebar_position: 1
 
 [vue 디자인 패턴 - patterns](https://www.patterns.dev/vue)
 
+[vue로 아키텍쳐 설계하기](https://genie-youn.github.io/journal/Vue_Application_Architecture_part1.html)
+
 ## 최신 방법으로 설치하기(Modern install)
 
 ```sh

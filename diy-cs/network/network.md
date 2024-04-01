@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
-description: '네트워크'
-tags: ['네트워크']
+description: "네트워크"
+tags: ["네트워크"]
 draft: true
 ---
 
@@ -29,6 +29,50 @@ Top 8 Most Popular Network Protocols Explained -->
 <!-- ## 비행기모드
 
 [What happens if you don’t put your phone in airplane mode? - Lindsay DeMarchi](https://www.youtube.com/watch?v=iKYHf22qVdM) -->
+
+## 하이 레벨: 인터넷이란 무엇인가?
+
+<iframe className="codepen" src="https://www.youtube.com/embed/jjKFXlFNR4E" title="POV: I'm on my third coffee and you just asked me how the internet works" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+
+<!--## 버퍼를 수동으로 비우도록 설계한 이유는 무엇인가?-->
+
+<!--유용하다고 착각하는 자료를 줍줍했습니다.-->
+
+<!--https://modoocode.com/32 -->
+
+<!--어쎔블리를 다루는 블로그입니다.-->
+
+<!--근본적인 설계이유는 모릅니다. 하지만 버퍼에 남는 `scanf`의 동작원리를 설명해줍니다.-->
+
+<!--하지만 추측은 버퍼에 담는 이유는 프로그램의 효율성 때문에 넣는다는 것을 압니다. 모아서 한번에 저장하는 것이 입력마다 저장하는 것보다 효율적입니다.-->
+
+<!--과거에는 컴퓨터 아키텍쳐가 복잡해지면서 성장한 세대들에게 버퍼 메모리라는 개념은 어쩌면 직관적이었을 것입니다. 당시 시점에서는 혁신이라고 생각하고 있었을 것입니다.-->
+
+## 방화벽이란 무엇인가?
+
+방화벽이란 트레픽을 제한하거나 허용하는 하드웨어 및 소프트웨어입니다. 네트워크 분야의 보안 시스템입니다.
+
+[방화벽 (네트워킹)](https://ko.wikipedia.org/wiki/%EB%B0%A9%ED%99%94%EB%B2%BD_(%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9))
+
+방화벽은 WAN와 LAN를 구분하는데 주로 사용합니다. LAN으로 내부 네트워크는 예를 들어 회사에서 서로 신뢰할 수 있습니다. 하지만 외부 WAN를 통해 들어오는 트레픽은 신뢰할 수 없습니다. 이 신뢰할 수 없기 때문에 장벽을 만듭니다.
+
+장벽은 보안 규칙을 준수하는지 확인하는 기능을 갖고 있습니다. 방화벽과 관련된 대표적인 보안 규칙은 잘 모릅니다. 
+
+들어오는 것과 나가는 것들을 검열, 수정, 차단을 할 수 있습니다.
+
+대부분 인터넷에서 오는 요청은 신뢰할 수 없습니다.
+
+방화벽은 리버스 프록스 역할을 수행합니다. 신뢰할 수 없는 요청은 DMZ로 리다이렉팅합니다. 신뢰할 수 있으면 원래 서버로 요청을 허용합니다.
+
+방화벽은 놀랍게도 다양한 세대를 갖고 있습니다.
+
+---
+
+지금까지 찾은 것의 문제는 방화벽에 대한자료를 위키피디아 1개 보고 설명하고 있습니다. 깊이가 없습니다.
+
+네트워크 트레픽 부하를 막는데 무슨 역할을 하는지 어떻게 구현하는지 설명이 전혀 없습니다. C 언어 네트워크 프로토콜 구현은 어떻게 하는지 일반적으로 활용하는 보안 규칙도 안 다룹니다.
+
+이런 설명으로는 DoS만 막고 DDoS를 막는 방법은 모릅니다.
 
 ## What is GraphQL? Is it a replacement for the REST API?
 

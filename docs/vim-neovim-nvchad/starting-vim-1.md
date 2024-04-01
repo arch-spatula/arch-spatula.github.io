@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-tags: ['vim', '방탈출']
+tags: ["vim", "방탈출"]
 ---
 
 # vim 시작하기
@@ -64,5 +64,12 @@ alias vi="nvim"
 alias vimdiff="nvim -d"
 export EDITOR=/usr/local/bin/nvim # M1이면 /opt/homebrew/bin/nvim
 ```
+
+위 설정들을 대략했으면 다음으로 넘어갑시다.
+
+<iframe className="codepen" src="https://www.youtube.com/embed/m8C0Cq9Uv9o" title="The Only Video You Need to Get Started with Neovim" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+
+- [DHH](https://world.hey.com/dhh) 보라고 만든 풍문이 있습니다.
+- 여러번 봐야 이해되는 [Lua-guide](https://neovim.io/doc/user/lua-guide.html)
 
 [^1]: [CLI 프로그램 - macOS 안내서](https://subicura.com/mac/dev/terminal-apps.html#neovim)
