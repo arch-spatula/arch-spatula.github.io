@@ -1,13 +1,19 @@
 ---
 sidebar_position: 99
-description: 'npm에 관한 설명'
-tags: ['error log', 'npm']
+description: "npm에 관한 설명"
+tags: ["error log", "npm"]
 draft: true
 ---
 
 # npm
 
 node.js를 설치하면 기본적으로 npm도 자동 설치됩니다. node.js라는 런타임을 설치하면 자동적으로 같이 패키지매니저도 설치됩니다.
+
+## 패키지 출시하는 방법
+
+<iframe className="codepen" src="https://www.youtube.com/embed/eh89VE3Mk5g" title="Blazing Fast Tips: Publishing to NPM" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+
+위 영상은 npm 패키지를 출시하기 위한 팁들만 모아두고 있습니다. 진짜 출시는 없습니다.
 
 ## 캐러셀 구현과 디버깅
 
@@ -16,8 +22,8 @@ node.js를 설치하면 기본적으로 npm도 자동 설치됩니다. node.js�
 https://trendyol.github.io/react-carousel/docs/installation 이 라이브러리를 설치하고 버그가 발생했습니다. VScode에는 더이상 버그가 없었습니다.
 
 ```tsx
-import React from 'react';
-import { Carousel } from '@trendyol-js/react-carousel';
+import React from "react";
+import { Carousel } from "@trendyol-js/react-carousel";
 
 type VideoListProps = {
   title: string;
@@ -32,8 +38,8 @@ const VideoList = ({ title, list }: VideoListProps) => {
         show={3}
         slide={1}
         infinite={false}
-        rightArrow={<div className="text-white">{'>'}</div>}
-        leftArrow={<div className="text-white">{'<'}</div>}
+        rightArrow={<div className="text-white">{">"}</div>}
+        leftArrow={<div className="text-white">{"<"}</div>}
       >
         {list.map((item) => (
           <div key={item}>

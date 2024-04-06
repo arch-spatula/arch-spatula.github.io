@@ -1,16 +1,16 @@
 ---
 sidebar_position: 8
-description: '디버깅'
-tags: ['디버깅', '커리어']
+description: "디버깅"
+tags: ["디버깅", "커리어"]
 ---
 
 # 디버깅
 
 디버깅을 따로 다루는 이유는 기능 추가보단 버그 제거를 더 많이 할 가능성이 높습니다. 또 개인 프로젝트를 프로젝트 기간 혹은 작업 수명이 길면 디버깅 시간과 작업도 늘어납니다.
 
-<iframe class="codepen" src="https://www.youtube.com/embed/X3jw1JVNdPE" title="how to never write bug" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe className="codepen" src="https://www.youtube.com/embed/X3jw1JVNdPE" title="how to never write bug" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
-<iframe class="codepen" src="https://www.youtube.com/embed/J8uAiZJMfzQ" title="Debugging Like A Pro" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe className="codepen" src="https://www.youtube.com/embed/J8uAiZJMfzQ" title="Debugging Like A Pro" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
 ## 읽기
 
@@ -94,9 +94,9 @@ NC 소프트 같은 경우에는 대기업 복지로 15분으로 설정했다고
 
 ## 마인드 셋
 
-컴퓨터는 항상 논리적입니다. 점진적으로 언젠가 문제해결이 가능합니다. 본인의 한계를 파악하고 다른 사람들에게 도움을 요청하도록 하세요. 해고가 감봉보다 낫습니다.
+- 인내와 자제력이 필요합니다.
+- 컴퓨터는 항상 논리적입니다. 점진적으로 언젠가 문제해결이 가능합니다. 본인의 한계를 파악하고 다른 사람들에게 도움을 요청하도록 하세요. 감봉이 해고보다 낫습니다.
 
-인내와 자제력이 필요합니다.
 
 ## 버그 리포팅
 
@@ -111,3 +111,29 @@ NC 소프트 같은 경우에는 대기업 복지로 15분으로 설정했다고
 ## 러버덕 디버깅
 
 러버덕에게 코드의 동작 방식을 설명하도록 합니다. 때로는 이메일 혹은 슬랙 메시지를 본인의 상상의 멘토에게 보내는 방법도 있습니다. 문제를 최대한 이해하고 정확히 설명하면서 파악하게 됩니다.
+
+## 버그의 유형
+
+- 프론트엔드 엔지니어가 만나는 버그의 유형에 따라 디버깅 전략이 다릅니다.
+  - 공통적인 전략도 있습니다. 첫째는 낙서장부터 찾습니다. 작업 과정을 문서화합니다. 문제를 묘사합니다. 가설을 설정하고 해결을 시도합니다. 실패한 시도도 다시 시도하지 않게 기록합니다. 실패한 시도가 무엇을 알게 했는지 기술합니다. 또 작업을 하면서 중간 중간 스크린샷을 찍습니다. 현재 제품의 기존과 변경을 스크린샷 혹은 영상녹화합니다. 성능, 네트워크, element 등 모두 스크린샷을 찍고 분석하면서 작업합니다. 코드에서 이해가 안되는 부분은 손으로 한번 도식화를 하고 편한 그래픽 툴에서 다이어그램을 옮겨 작성합니다.
+  - CSS 문제
+    - 브라우져를 확인합니다. CSS에 무슨 스타일이 적용되었는지 확인합니다. 목표로 하는 스타일을 브라우져에서 하드코딩을 시도합니다. 적용해야 할 지점을 찾으면 소스코드에서 검색하고 변경합니다.
+  - 상태 문제
+    - 클라이언트 사이드는 대부분 상태를 갖습니다. 지금 코드의 변경이 풍선효과로 다른 문제를 만들 가능성이 높습니다.
+    - 검증표를 하나 만듭니다. 변경이 다른 문제를 만드지 체크리스트입니다. 검증표 원본은 작게 시작합니다. 검증표를 복사하고 코드를 변경합니다. 기존 디버깅 낙서장도 여전히 활용합니다. 코드를 변경하고 해결할 때마다 기존 동작에서 새로운 버그를 안만드는 체크합니다.
+    - 보통 난이도가 높으면 코드량이 많고 도식화가 필요할 수 있습니다. 손으로 도식화를 하고 그래픽 툴로 옮겨도 됩니다. 아니면 처음부터 그래픽 툴에서 작성해도 됩니다.
+  - 꼼꼼함은 작업 루프, 작업 루틴 문제라고 인식하고 접근하면 수월해집니다.
+
+## 더버깅 조언
+
+### 더 많은 정보가 필요하면 넌 주니어
+
+<iframe className="codepen" src="https://www.youtube.com/embed/fUCMIf_4Pnc" title="더 많은 정보가 필요하면 넌 주니어" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+
+- 버그는 재현스탭이 있을 때 제일 편합니다. 문제를 파악하고 원인을 해결할 수 있습니다. 이정도 시점이면 동작별로 발생하는 함수의 입출력을 확인하고 디버깅을 확인하면 됩니다. 하지만 모든 경우 순조롭게 되는 것은 아닙니다.
+- 로그 수집 못해서 버그를 수정 못하는 경우도 있습니다. 버그를 재현가능하게 정보를 더 달라고 하는 경우가 있습니다. 재현 스탭과 로그로 디버깅에 착수가 가능한데 안하는 사람들이 있습니다. 계속 가설을 추가하거 기각하고 어떤 점진적인 해결이 이루져야 하는데 아닌 경우입니다. 악용하고 정보가 부족하다고 원론적이고 막연하게 디버깅을 미루는 경우입니다.
+  - 모르면 모른다고 하거나 해야 합니다. 모른다는 것을 숨깁니다. 이것은 고용안전성을 위한 선택입니다. 아직도 버그를 확인하는 능력이 부족한 것입니다.
+  - 정보를 모으거나 판단이 안서면 다른 사람의 도움을 받아야 합니다.
+  - 버그가 쌓일 수 있는데 모이면 털어내야 합니다.
+- 관리라는 것은 직원들의 부족한 역량을 쫓아내는 것읍니다.
+  - 회피성향이 강하면 개발자를 하면 안됩니다. 코드 품질측면에서도 오히려 해가 되면 막아야 합니다.

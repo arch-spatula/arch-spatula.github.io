@@ -26,3 +26,7 @@ draft: true
 SELECT ISNULL(DEPT, '미배정') AS DPET
 FROM employee
 ```
+
+## CROSS JOIN 
+
+행렬곱과 유사합니다. 더 정확히는 카테시안 곱입니다. 가끔 사용하는 JOIN 전략입니다.

@@ -54,6 +54,12 @@ type Date struct {
 - regurgitation: 역류
   - 단순하게 암기하고 시험 때 바로 뱃는다고 자주 표현할 때 사용합니다.
 
+## 기타
+
+- 터치타이핑: 키보드를 안보고 감각만으로 타이핑하는 스킬을 말합니다.
+  - 개발자를 위한 특수한 키보드를 구매결정할 기준은 터치타이핑이 될 때부터입니다.
+  - 또 터미널 기반 에디터를 활용할 때 가치가 있으려면 터치타이핑이 가능할 때부터입니다.
+
 [^1]: [Out of the box (feature) - wikipedia](<https://en.wikipedia.org/wiki/Out_of_the_box_(feature)>)
 [^2]: [Eating your own dog food - wikipedia](https://en.wikipedia.org/wiki/Eating_your_own_dog_food)
 [^3]: [레코드 - 컴퓨터 과학](<https://ko.wikipedia.org/wiki/%EB%A0%88%EC%BD%94%EB%93%9C_(%EC%BB%B4%ED%93%A8%ED%84%B0_%EA%B3%BC%ED%95%99)>)

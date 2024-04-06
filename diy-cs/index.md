@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
-description: '시작'
-tags: ['intro']
+description: "시작"
+tags: ["intro"]
 ---
 
 # 고객 서비스 말고 컴퓨터 과학 시작하기
@@ -28,7 +28,7 @@ tags: ['intro']
 
 ![컴퓨터 과학의 지도](https://user-images.githubusercontent.com/84452145/263605571-ed2d6b28-70b9-4b4f-af92-fd5ccf4c2d50.png)
 
-<iframe class="codepen" src="https://www.youtube.com/embed/SzJ46YA_RaA" title="컴퓨터과학 지도: 어떤 것들을 다루는가?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe className="codepen" src="https://www.youtube.com/embed/SzJ46YA_RaA" title="컴퓨터과학 지도: 어떤 것들을 다루는가?" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
 - Theoretical Computer Science
   - Turing Machine
@@ -117,3 +117,46 @@ This course is based on introductory college-level material as well as the AP Co
 [Learn X in Y minutes](https://learnxinyminutes.com/)
 
 초 단기 학습자료를 제공합니다.
+
+## 과학과 공학의 차이?
+
+디버깅하는 상황이 아니고 회사에서
+
+컴퓨터 과학은 컴퓨터를 과학적 방법론을 활용해 연구하는 방법론입니다. 이론을 생산하기 위한 분야입니다.
+
+```mermaid
+flowchart LR
+    아이디어 ---> 소재 ---> 가설_설정 ---> 검증 ---> 보고
+```
+
+위와 같은 순서를 갖습니다. 소프트웨어를 만들 때 디버깅은 과학적으로 접근합니다.
+
+컴퓨터 공학은 컴퓨터를 활용해 공학적으로 문제를 해결합니다. 문제 정의,
+
+```mermaid
+flowchart LR
+    문제_정의 ---> 요구사항_분석---> 설계 ---> 구현 ---> 테스트 ---> 유지_보수
+```
+
+워터폴 애자일을 지금 논의하기에는 부적합니다. 가능하면 다른 석유화학, 전기 및 전자, 바이오 등 다른 공학분야의 일반적인 방법론을 올리고 싶었지만 모릅니다.
+
+<!--https://www.youtube.com/watch?v=btGYcizV0iI-->
+
+공학의 어원은 영리함 또는 설계 및 계획함을 의미합니다.
+
+공학입장에서 과학은 도구에 불과합니다. 수학과 과학을 활용해서 달성할 임무에 활용합니다. 공학의 핵심은 수학입니다. 하지만 아이디어와 적용이 더 중요합니다.
+
+과학적으로 이해를 하기 위해 접근합니다. 과학자는 탐구에 끝납니다. 답은 얻습니다.
+
+엔지니어는 답을 문제해결에 활용하고자 합니다.
+
+컴퓨터를 전공했다고 하면 공학적방법론과 과학적 방법론 모두 활용할 줄 알아야 합니다.
+
+당신이 데이터 사이언티스트 혹은 데이터 분석가(가짜개발자) 과학적 방법을 일상에서 많이 사용합니다.
+
+당신이 AI를 구현하거나 데이터를 적재하는 데이터 엔지니어라면 공학적 방법을 일상에서 많이 사용합니다.
+
+제품을 개발하는 관점에서 개발자는 구현은 애매하게 과학과 공학을 모두 사용합니다. 테스트, 리팩토링할 때는 공학자이고 디버깅과 최적화할 때는 과학자입니다. 하지만 대부분의 경우 당신은 엔지니어입니다.
+
+석유 화학, 바이오, 제조, 심지어 건축회사 회사를 재직하는 대다수 엔지니어는 당신을 엔지니어라고 생각하지 않습니다. 당신은 가짜엔지니업니다. 그냥 사무직과 똑같다고 봅니다. 정보처리기사가 전공제한이 없고 상업용 소프트웨어 개발에 자격증 미 보유자가 작업하면 형사처벌이 아닌 것을 보면 소프트웨어 엔지니어링은 엔지니어링이 아닙니다.
+
