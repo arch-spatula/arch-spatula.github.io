@@ -7,9 +7,7 @@ tags: ['dev meme', 'CSS', 'design']
 
 # 디자이너 vs 개발자
 
-<p class="center">
-<iframe class="phone-video" src="https://github.com/arch-spatula/arch-spatula.github.io/assets/84452145/79c38bf8-a8b7-4cb3-947f-c5135e192562" title="design vs programming" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-</p>
+<iframe className="phone-video" src="https://github.com/arch-spatula/arch-spatula.github.io/assets/84452145/79c38bf8-a8b7-4cb3-947f-c5135e192562" title="design vs programming" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
 ㅋㅋㅋㅋㅋ
 
