@@ -121,17 +121,148 @@ if (isNum != 3) {
 
 ### `scanf`의 동작 원리는 무엇인가?
 
-<!-- TODO: 명세 및 동작 방식 정리하기 -->
+```c
+int num1 = 0;
 
-[문자열(string) - 버퍼에 관한 이해 - 모두의 코드](https://modoocode.com/32)
+scanf("%d", &num1);
+```
 
-https://www.ibm.com/docs/ko/i/7.3?topic=functions-scanf-read-data
+코드를 먼저 이해하고 어쎔블리에서 이러한 동작을 하지않으까? 추론해봅시다.
 
-https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/scanf-width-specification?view=msvc-170
+`scanf`는 `printf` 함수와 상당히 닯았습니다. 2개 이상의 인자를 받습니다. 첫번째 인자로 형식문자(formatted string)을 받습니다. 그리고 두번째 인자로 가변인자를 받습니다. 하지만 약간의 차이가 있습니다. `scanf`의 목적은 표준입력을 받아 메모리에 저장합니다. 하지만 `printf`는 표준출력을 합니다.
 
-https://ko.wikipedia.org/wiki/Scanf 
+설명에 큰 오류가 있습니다. 버퍼메모리에 표준입력을 저장합니다. 저장하는 정보들 중 프로그래밍적으로 제어하고 싶어서 버퍼메모리가 아닌 메모리에 저장하기 위해 사용하는 함수입니다. 버퍼메모리에서 입력을 캡쳐하지만 캡쳐한 값은 버퍼가 아닌 메모리에서 처리해야 제어가 쉽고 보안상 안전합니다.
 
-https://bigpel66.oopy.io/library/c/chewing-c/6 
+```c
+#include <stdio.h>
+int scanf(const char *formatString, argumentList);
+```
+
+IBM 문서[^4]에서 표시한 `scanf` 시그니쳐입니다. `scanf`는 첫번째 인자(`formatString`)로 형식문자를 받습니다. `%d`, `%u`, `%c`, `%s`으로 출력형식이 아니라 입력 형식을 잡습니다.
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void) {
+  int input = 0, total = 0;
+
+  scanf("%d", &input); // 1
+  total += input;
+
+  scanf("%d", &input); // 2
+  total += input;
+
+  scanf("%d", &input); // 3 
+  total += input;
+
+  printf("Total :%d\n", total); // Total :6
+
+  return EXIT_SUCCESS;
+}
+```
+
+사용자가 입력으로 숫자를 입력하면 부호있는 정수형을 출력하는 `%d`이 입력 값 `1\n` 중 `1`을 메모리상 자정합니다. 메모리상 저장하기 위해서는 메모리 주소가 필요합니다. 이 메모리 주소를 결정하고 쓰기를 하고 나중에 다시 읽기를 위해 두번째 인자부터 메모리 주소를 인자를 받습니다. 
+
+여기서 약간의 의문을 가질 수 있을 것입니다. 표준입력에 입력을 하기 위해서는 왜 개행문자가 필요한가? 개행문자(`\n`)는 입력의 종료를 표현하기 위해 우리가 엔터로 입력합니다. 그래야 입력이 종료되었다고 간주할 수 있게 됩니다. 이 입력이 종료되었다고 간주해야 프로그램은 이어서 실행할 수 있습니다. 종료할 기준이 필요했는데 개행문자(`\n`)를 활용한 것입니다. 
+
+이 개행문자(`\n`)를 받으면서 약간의 문제가 발생합니다.
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void) {
+  int num;
+  char c;
+
+  printf("숫자를 입력하세요 : "); // 42
+  scanf("%d", &num);
+
+  printf("문자를 입력하세요 : ");
+  scanf("%c", &c);
+  return EXIT_SUCCESS;
+}
+// 숫자를 입력하세요 : 42
+// 문자를 입력하세요 : %
+```
+
+모두의 코드[^5]에서 가져온 예시입니다. 이렇게 동작하는 이유가 아까 말한 `\n` 개행문자를 입력의 종료로 간주하면서 발생하는 문제입니다. 사실 개행문자(`\n`)만 해당하는 것은 아니고 탭(`\t`), 스페이스(` `)도 해당합니다. 이런 문자를 보고 화이트 스페이스 문자라고 부릅니다. 하지만 간단한 해결책이 있습니다. `%c` 대신에 `%s`을 사용합니다.
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void) {
+  int num;
+  char s;
+
+  printf("숫자를 입력하세요 : ");
+  scanf("%d", &num);
+
+  printf("문자를 입력하세요 : ");
+  scanf("%s", &s);  // 여기다 다릅니다.
+  return EXIT_SUCCESS;
+}
+// 숫자를 입력하세요 : 42
+// 문자를 입력하세요 : bongo cat
+```
+
+<!-- TODO: 입력하고 버퍼에 뭐가 남아 있고 읽기 포인터가 무엇부터 읽기 시작하는지 도식화하기 -->
+
+어떻게 다른가? `%c`의 경우 남겨진 입력 버퍼의 값을 들고 보여준 것입니다. 하지만 `%s` 화이트 스페이스는 무시하고 입력에 해당하는 정보부터 읽고 메모리에 저장합니다.
+
+하지만 여전히 한계가 있습니다.
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void) {
+  char str1[32] = {0};
+  char str2[32] = {0};
+
+  printf("문자를 입력하세요 : ");
+  scanf("%s", str1);
+
+  printf("문자를 입력하세요 : ");
+  scanf("%s", str2);
+
+  printf("str1 : %s, str2: %s\n", str1, str2);
+  return EXIT_SUCCESS;
+}
+// 문자를 입력하세요 : foo bar
+// 문자를 입력하세요 : str1 : foo, str2: bar
+```
+
+`%s`는 공백을 무시해도 사용자의 의도랑 다른 입력할 가능성이 높습니다. 지금의 경우 문자를 띄어쓰기를 포함해 긴 문장을 작성할 경우가 있습니다. 하지만 다음 입력을 받아야 하는데 이전에 입력에 있던 버퍼에서 `str2`에 할당합니다. 
+
+입력이 발생하고 그 후에 버퍼를 비우도록 만들면 됩니다. 개행문자, 띄어쓰기, 탭 모두 안남기겨서 혼선의 여지를 안주는 전략을 사용하면 됩니다.
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void) {
+  int num;
+  char c;
+
+  printf("숫자를 입력하세요 : ");
+  scanf("%d%*c", &num);
+
+  printf("문자를 입력하세요 : ");
+  scanf("%c", &c);
+  return EXIT_SUCCESS;
+}
+```
+
+`%*c`은 버퍼에 입력하고 해당하는 정보를 받고 그 이외 정보는 모두 삭제합니다. 그리고 `gcc`에서도 잘 동작하는 방법입니다.
+
+<!--https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/scanf-width-specification?view=msvc-170-->
+
+[scanf - 위키피디아](https://ko.wikipedia.org/wiki/Scanf)
+
+[scanf 동작 방식](https://bigpel66.oopy.io/library/c/chewing-c/6)
 
 ## 표준입력에 문자열이 들어가면 버퍼를 비워줘야 하는 이유는 무엇인가?
 
@@ -245,7 +376,25 @@ C 언어로 CLI 인자를 입력할 때는 라인 버퍼링에 해당합니다. 
 
 [메모리 버퍼 - 나무위키](https://namu.wiki/w/%EB%B2%84%ED%8D%BC#s-4)
 
+### 가짜 버퍼란?
+
+C 언어로 표준 입력받는 것은 진짜 키보드 하드웨어의 버퍼를 접근해서 메모리처럼 활용하는 것은 아닙니다. 
+
+키보드에 해당하는 표준입력버퍼를 흉내난 것입니다. 그래서 처음받을 때 메모리에 담고 메모리에서 접근합니다.
+
+가상 메모리랑 비슷하게 하드웨어를 추상화한 것입니다.
+
+<!-- TODO: 공식 C 언어 스팩을 직접 인용해주세요 -->
+
+[하드웨어 추상화](https://ko.wikipedia.org/wiki/%ED%95%98%EB%93%9C%EC%9B%A8%EC%96%B4_%EC%B6%94%EC%83%81%ED%99%94)
+
 ### 버퍼를 비우는 방법은 무엇인가?
+
+```c
+scanf("%d%*c", &num);
+```
+
+버전 호환성 문제가 없다면 이 방법도 좋은 방법입니다. 마지막에 `%*c`을 붙여서 표준입력의 남은 버퍼를 모두 제거합니다. 
 
 ```c
 #include <stdio.h>
@@ -303,13 +452,15 @@ int main(void) {
 
 아마 반대 질문도 있습니다. 왜 버퍼를 자동으로 비워줘야 하는가? 버퍼를 채운다는 의미는 무엇인가? 이런 질문부터해야 합니다. 지금 이런 질문을 하는 것은 그져 C 언어를 사용하다가 발생한 현상입니다. 표준입력을 숫자로 받기로 했는데 사용자가 문자열을 입력해서 발생한 현상이고 프로그래머가 의식적으로 `getchar`을 호출한다는 것이 부조리하다는 생각을 갖을 것입니다. 여기서 부조리는 프로그래머 본인의 부족한 식견이라는 것부터 파악해야 합니다. 보이는 것이 별로 없기 때문에 타당함을 그져 모르는 것입니다.
 
-> 프로그래머를 믿어라. (Trust the programmer)
+C 언어의 버퍼 메모리가 하드웨어 추상화이고 이 추상화의 목적은 하드웨어를 직접 제어하는 것을 흉내내는 것입니다. 이 제어마져 C 언어 차원에서 자동으로 처리한다면 프로그래머가 제어할 수 있대상은 무엇인가? 아마 없을 것입니다.
 
-이 철학을 실천하는 언어입니다. 이 철학을 부정하는 견문을 갖고 있고 부조리하다고 생각하는 프로그래머는 다른 직업이 더 적합할 것입니다. 다른 사람 고생그만 시키고 퇴사하기 바랍니다.
+<!--> 프로그래머를 믿어라. (Trust the programmer)-->
+
+<!--이 철학을 실천하는 언어입니다. 이 철학을 부정하는 견문을 갖고 있고 부조리하다고 생각하는 프로그래머는 다른 직업이 더 적합할 것입니다. 다른 사람 고생그만 시키고 퇴사하기 바랍니다.-->
 
 버퍼를 접근해서 어떻게 처리할지도 프로그래머의 재량으로 두는 언어이기 때문에 수동으로 버퍼를 비워줘야 합니다.
 
-직접 명시한 부분을 본적이 없어서 알 수 없습니다.
+물론 문제는 직접 명시한 부분을 본적이 없어서 알 수 없습니다.
 
 <!-- TODO: 아래 문단 확인 검증하기-->
 
@@ -432,3 +583,5 @@ int main() {
 [^1]: [버퍼 (컴퓨터 과학) - 위키피디아](<https://ko.wikipedia.org/wiki/%EB%B2%84%ED%8D%BC_(%EC%BB%B4%ED%93%A8%ED%84%B0_%EA%B3%BC%ED%95%99)>)
 [^2]: [버퍼 underrun - ㅈ(식)무위키](https://namu.wiki/w/%EB%B2%84%ED%8D%BC%20%EC%96%B8%EB%8D%94%EB%9F%B0)
 [^3]: [컴퓨터 구조와 I/O](https://jongmin92.github.io/2019/02/18/Programming/computer-structure/)
+[^4]: [scanf() — 데이터 읽기 - IBM](https://www.ibm.com/docs/ko/i/7.5?topic=functions-scanf-read-data)
+[^5]: [문자열(string) - 버퍼에 관한 이해 - 모두의 코드](https://modoocode.com/32)
