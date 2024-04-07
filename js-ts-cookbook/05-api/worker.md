@@ -6,7 +6,7 @@ tags: ['Worker']
 
 # Worker
 
-<iframe class="codepen" src="https://www.youtube.com/embed/-JE8P2TiJEg" title="PROOF JavaScript is a Multi-Threaded language" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe className="codepen" src="https://www.youtube.com/embed/-JE8P2TiJEg" title="PROOF JavaScript is a Multi-Threaded language" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
 언젠가 다뤄보고 싶었는데 더 쉽게 fireship이 저 대신 다루어줬습니다.
 

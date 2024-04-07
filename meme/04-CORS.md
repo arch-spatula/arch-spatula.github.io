@@ -7,7 +7,7 @@ date: 1000-1-4
 
 # CORS 설정 에러
 
-<p class="center">
+<p className="center">
 <img src="https://user-images.githubusercontent.com/84452145/241549745-f4d94c6e-ca93-4712-bdeb-3f66ea0f7150.png" width="400px" alt="CORS error"></img>
 </p>
 

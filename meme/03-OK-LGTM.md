@@ -15,7 +15,7 @@ date: 1000-1-3
 
 # OK LGTM
 
-<p class="center">
+<p className="center">
 <img src="https://user-images.githubusercontent.com/84452145/223464994-cadefd60-86f2-426a-911e-cc9d7ee12a9e.png" width="400px" alt="OK LGTM"></img>
 </p>
 
