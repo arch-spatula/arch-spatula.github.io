@@ -1,14 +1,14 @@
 ---
-title: 'CORS 설정 에러'
-description: 'CORS 설정 에러'
+title: "OK LGTM"
+description: "OK LGTM"
 tags:
   [
-    'OK LGTM',
-    'dev meme',
-    'Code Review',
-    '코드 리뷰',
-    'Pull Request',
-    '무지성 LGTM',
+    "OK LGTM",
+    "dev meme",
+    "Code Review",
+    "코드 리뷰",
+    "Pull Request",
+    "무지성 LGTM",
   ]
 date: 1000-1-3
 ---
