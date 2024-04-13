@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
-description: '컴퓨터 구조론'
-tags: ['하드웨어', '아키텍쳐', '컴퓨터 구조론']
+description: "컴퓨터 구조론"
+tags: ["하드웨어", "아키텍쳐", "컴퓨터 구조론"]
 draft: true
 ---
 
@@ -9,14 +9,15 @@ draft: true
 
 컴퓨터를 이해하는 출발점입니다. 개인적으로 핵심은 중앙처리장치, 주기억장치, 보조기억장치라고 봅니입니다. 물론 모니터, 스피커같은 출력장치도 중요하고 또 마우스와 키보드처럼 입력장치도 중요합니다.
 
-<!-- @todo: 컴퓨터 전체 아키텍쳐 사진 추가 -->
+<!-- TODO: 컴퓨터 전체 아키텍쳐 사진 추가 -->
+<!-- TODO: 시스템(입력, 처리, 출력, 피드백, 관리) 사진 추가 -->
 
 ## 진공관
 
 애니악은 대학교 건물 층 1개 전체를 차지했습니다. 진공관은 비싸고 부피가 크고 고장이 잘났습니다. 이시절 버그는 실제 벌레가 큰 컴퓨터 안에 계산을 망치면서 발생했습니다.
 
-<!-- @todo 진공관 사진 추가 -->
-<!-- @todo 애니악 등 과거 초기 컴퓨터 사진 추가 -->
+<!-- TODO: 진공관 사진 추가 -->
+<!-- TODO: 애니악 등 과거 초기 컴퓨터 사진 추가 -->
 
 ## 트랜지스터(transistor)
 
@@ -82,7 +83,7 @@ xor은 2개 중 1개만 전압을 받으면 1이 됩니다. 1을 2개 받으면 
 
 <!-- https://www.youtube.com/watch?v=WGKHEIpXy5c -->
 
-<iframe class="codepen" src="https://www.youtube.com/embed/gI-qXk7XojA" title="부울 연산과 논리 게이트 : 컴퓨터 과학 특강 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe className="codepen" src="https://www.youtube.com/embed/gI-qXk7XojA" title="부울 연산과 논리 게이트 : 컴퓨터 과학 특강 3" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
 <!-- 안녕하세요! 저는 Carrie Anne이에요. 컴퓨터 과학 특강에 오신 것을 환영합니다! 우리는 오늘 추상화의 사다리로 올라가는 여행을 시작할거에요. 처음에 우리는 모든 스위치와 장비를 단순하게 볼 수 있지만, 점점 더 복잡해져 가는 시스템들을 조립할 수 있는 능력을 얻을 겁니다.
 
@@ -125,6 +126,10 @@ XOR연산이 참인 경우는 하나의 입력이 참이고 하나는 거짓인 
 컴퓨터 기술자가 프로세서를 설계할 때 대부분 트랜지스터의 수준으로 일하지 않습니다. 대신 그것보다 매우 큰 블록들로 논리 회로와 같은, 논리회로들로 만들어진 더 큰 구성요소들로 작업을 해요. 이 얘기는 나중에 다른 강의에서 좀더 논의해보죠. 그리고 만약 당신이 전문적인 컴퓨터 프로그래머라고 해도, 어떻게 당신이 프로그래밍한 논리가 물리적 세계에서 구현되는 방식에 대해서 생각하는 경우는 드물어요. 이 아주, 매우 작은 부품들로 말이죠. 우리는 원시적인 전기 신호에 대한 생각에서부터 데이터의 첫 번째 표현까지 배웠어요. 그 표현은 참과 거짓이죠. 그리고 연산을 조금 맛보았어요. 이 강의에서 배운 논리 회로만으로 우리는 복잡한 논리문을 평가하는 시스템을 만들 수 있어요. 만약 "이름이 John Green이고 오후 다섯시 또는 주말이고 피자 헛 근처에 있는 경우" 라는 조합들로 John은 피자를 원할 것이다.는 참일 것이에요. 그리고 그걸로, 저는 배고파 죽겠네요.ㅎㅎ 우린 다음주에 만나요~
  -->
 
+## 하이레벨로 이해하는 컴퓨터의 동작 방식
+
+<iframe className="codepen" src="https://www.youtube.com/embed/p3q5zWCw8J4" title="How computer memory works - Kanawat Senanan" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+
 ## 중앙처리장치(CPU, Central Processing Unit)
 
 중앙처리장치는 컴퓨터에 뇌에 해당한다고 자주 말합니다. 뇌에 해당한다고 하는 이유는 모든 것에 관여하기 때문입니다. 도식을 보면 모든 것에 관여하기 때문에 컴퓨터의 중앙에 있습니다.
@@ -153,23 +158,18 @@ CPU와 메모리 중간 연결지점이라고 보기도 합니다.
 
 아마 일상에서는 하드라고 자주 말하는 것을 봤을 것입니다. 컴퓨터과학을 공부하는 사람들은 디스크라고 자주 이야기합니다.
 
-## 작업 주기
+## The Fetch-Execute Cycle
 
-<!-- https://www.youtube.com/watch?v=Z5JC9Ve1sfI -->
-
-<!--
+<iframe className="codepen" src="https://www.youtube.com/embed/Z5JC9Ve1sfI" title="The Fetch-Execute Cycle: What's Your Computer Actually Doing?" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
 > So every computer has a billion tiny Tom's, snapping their fingers in synchronicity.... Neat!
 >
 > \- 유튜브 어떤 댓글
 
- -->
-
 <!-- https://www.youtube.com/watch?v=FZGugFqdr60 -->
 
-<!-- @todo: 어쎔블리 코드블럭으로 표현하기 -->
-
-<!-- @todo 동작 과정 도식화 & 시각화하기 -->
+<!-- TODO: 어쎔블리 코드블럭으로 표현하기 -->
+<!-- TODO: 동작 과정 도식화 & 시각화하기 -->
 
 ---
 

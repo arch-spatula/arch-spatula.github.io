@@ -1,21 +1,21 @@
 ---
-title: 'CORS 설정 에러'
-description: 'CORS 설정 에러'
+title: "OK LGTM"
+description: "OK LGTM"
 tags:
   [
-    'OK LGTM',
-    'dev meme',
-    'Code Review',
-    '코드 리뷰',
-    'Pull Request',
-    '무지성 LGTM',
+    "OK LGTM",
+    "dev meme",
+    "Code Review",
+    "코드 리뷰",
+    "Pull Request",
+    "무지성 LGTM",
   ]
 date: 1000-1-3
 ---
 
 # OK LGTM
 
-<p class="center">
+<p className="center">
 <img src="https://user-images.githubusercontent.com/84452145/223464994-cadefd60-86f2-426a-911e-cc9d7ee12a9e.png" width="400px" alt="OK LGTM"></img>
 </p>
 

@@ -7,7 +7,7 @@ date: 1000-1-1
 
 # 시니어 자바스크립트 개발자 인터뷰
 
-<iframe class="codepen" src="https://www.youtube.com/embed/Uo3cL4nrGOk" title="시니어 자바스크립트 개발자 인터뷰" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe className="codepen" src="https://www.youtube.com/embed/Uo3cL4nrGOk" title="시니어 자바스크립트 개발자 인터뷰" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
 제가 제일 좋아하는 밈입니다.
 

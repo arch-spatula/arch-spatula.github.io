@@ -7,10 +7,10 @@ date: 1000-1-9
 
 # 스크럼
 
-<iframe class="codepen" src="https://www.youtube.com/embed/Ps4nSgyieIw" title="Silicon Valley - 'Scrum'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe className="codepen" src="https://www.youtube.com/embed/Ps4nSgyieIw" title="Silicon Valley - 'Scrum'" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
-<iframe class="codepen" src="https://www.youtube.com/embed/bB340S0tGf8" title="Interview with an Agile Coach - Sprint1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe className="codepen" src="https://www.youtube.com/embed/bB340S0tGf8" title="Interview with an Agile Coach - Sprint1" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
-<iframe class="codepen" src="https://www.youtube.com/embed/A-H-xZ5ZXgo" title="Interview with an Agile Coach - Sprint2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe className="codepen" src="https://www.youtube.com/embed/A-H-xZ5ZXgo" title="Interview with an Agile Coach - Sprint2" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
-<iframe class="codepen" src="https://www.youtube.com/embed/GGbsgs611MM" title="Shit Bad Scrum Masters Say" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe className="codepen" src="https://www.youtube.com/embed/GGbsgs611MM" title="Shit Bad Scrum Masters Say" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>

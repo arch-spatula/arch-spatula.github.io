@@ -1,6 +1,6 @@
 ---
 sidebar_position: 9
-description: '사람과 기관입니다.'
+description: "사람과 기관입니다."
 ---
 
 # 사람과 기관
@@ -15,7 +15,7 @@ description: '사람과 기관입니다.'
 >
 > \- 인터넷의 누군가
 
-<iframe class="codepen" src="https://www.youtube.com/embed/7TycxwFmdB0" title="앨런 튜링 : 컴퓨터 과학 특강 # 15" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe className="codepen" src="https://www.youtube.com/embed/7TycxwFmdB0" title="앨런 튜링 : 컴퓨터 과학 특강 # 15" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
 - 컴퓨터의 아버지로 통합니다.
   - `이미테이션 게임`을 봤다면 감동이 꽤 클것입니다.
@@ -114,6 +114,18 @@ IBM
 아마존
 
 DARPA
+
+다음은 대기업인 기술기업의 테크 블로그입니다.
+
+- [Netflix TechBlog](https://netflixtechblog.com/)
+- [Uber Blog](https://www.uber.com/en-IN/blog/engineering/)
+- [Cloudflare Blog](https://blog.cloudflare.com/)
+- [Engineering at Meta](https://engineering.fb.com/)
+- [LinkedIn Engineering](https://www.linkedin.com/blog/engineering)
+- [Discord Blog](https://discord.com/category/engineering)
+- [AWS Architecture](https://aws.amazon.com/blogs/architecture/)
+- [Slack Engineering](https://slack.engineering/)
+- [Stripe Blog](https://stripe.com/blog/engineering)
 
 <!-- 모질라 재단 -->
 

@@ -7,7 +7,7 @@ date: 1000-1-13
 
 # 최강 어드민 계정
 
-<iframe class="codepen" src="https://www.youtube.com/embed/L4Xmud9iX3w" title="Username is Password - Silicon Valley" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe className="codepen" src="https://www.youtube.com/embed/L4Xmud9iX3w" title="Username is Password - Silicon Valley" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
 ```txt title="아이디"
 password

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-description: '패턴에 대해서'
+description: "패턴에 대해서"
 ---
 
 # 패턴에서 대해서...
@@ -28,3 +28,5 @@ description: '패턴에 대해서'
 [웹 기반 그래픽 편집기의 구조와 7가지 디자인 패턴 (1)](https://yozm.wishket.com/magazine/detail/2466/)
 
 [웹 기반 그래픽 편집기의 구조와 7가지 디자인 패턴 (2)](https://yozm.wishket.com/magazine/detail/2467/)
+
+<iframe className="codepen" src="https://www.youtube.com/embed/I5c7fBgvkNY" title="Everything You NEED to Know About Client Architecture Patterns" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>

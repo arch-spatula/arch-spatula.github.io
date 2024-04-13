@@ -1,6 +1,6 @@
 ---
 sidebar_position: 8
-tags: ['vim', 'vim distro', 'neovim', 'plugin']
+tags: ["vim", "vim distro", "neovim", "plugin"]
 ---
 
 # neovim 플러그인
@@ -91,6 +91,78 @@ return {
 	end,
 }
 ```
+
+## LSP 관리
+
+```lua
+return { 
+    {
+		"williamboman/mason.nvim",
+		cmd = {
+			"Mason",
+			"MasonInstall",
+			"MasonInstallAll",
+			"MasonUpdate",
+			"MasonUninstall",
+			"MasonUninstallAll",
+			"MasonLog",
+		},
+		config = function()
+			require("mason").setup({})
+			-- https://github.com/NvChad/NvChad/blob/e5f8a38ae3d6b3bedf68f29b0e96dad7a4ca2da5/lua/nvchad/plugins/init.lua
+			-- NvChad 레포에서 제공하는 MasonInstallAll 커맨드를 구현함
+			-- 처음부터 확정 설치를 할수 없음 MasonInstallAll로 코드로 설정을 명시하게 됨
+			local ensure_installed = {
+				"stylua",
+				"spell",
+				"codespell",
+				"prettierd",
+				"gospel",
+				--"gofumpt",
+				--"biome",
+				"pylint",
+				"cspell",
+			}
+
+			vim.api.nvim_create_user_command("MasonInstallAll", function()
+				if ensure_installed and #ensure_installed > 0 then
+					vim.cmd("MasonInstall " .. table.concat(ensure_installed, " "))
+				end
+			end, { desc = "Mason Install All package" })
+		end,
+	},
+},
+```
+
+- `MasonInstallAll`은 원래 없는 명령인데 수동으로 추가했습니다.
+- [NvChad](https://nvchad.com/)를 참고했습니다. 직접 [소스 코드](https://github.com/NvChad/NvChad/blob/e5f8a38ae3d6b3bedf68f29b0e96dad7a4ca2da5/lua/nvchad/plugins/init.lua
+)에서 어떻게 구현했는지 확인했습니다.
+- 이 명령이 있으면 해당하는 언어의 LSP를 본인의 문서말고 코드로 관리할 수 있습니다. 그냥 `MasonInstallAll` 명령으로 설치하면 됩니다.
+
+```lua 
+  -- lsp stuff
+  {
+    "williamboman/mason.nvim",
+    cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUpdate", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
+    config = function()
+      require("mason").setup({})
+
+      local ensure_installed = {
+        "stylua",
+      }
+      -- custom nvchad cmd to install all mason binaries listed
+      vim.api.nvim_create_user_command("MasonInstallAll", function()
+        if ensure_installed and ensure_installed > 0 then
+          vim.cmd("MasonInstall " .. table.concat(ensure_installed, " "))
+        end
+      end, {})
+
+      vim.g.mason_binaries_list = opts.ensure_installed
+    end,
+  },
+```
+
+- 위는 조금더 간략한 버전입니다.
 
 ## fuzzy finder
 
@@ -301,5 +373,58 @@ return {
 			},
 		}
 	end
+}
+```
+
+## undotree
+
+![](/img/doc/vim/undotree.png)
+
+```lua
+return {
+	"mbbill/undotree",
+	config = function()
+		-- window 간 이동할 때는 mac 기준 ctrl + w -> h, j, k, l 으로 이동
+		-- toggle을 누리기 때문에 leader(스페이스바)를 누르는 동안 u를 눌러야 열고 닫을 수 있음
+		vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+	end,
+}
+```
+
+[nvim-window - easily switch between windows in the current tab page](https://www.reddit.com/r/neovim/comments/oflohn/nvimwindow_easily_switch_between_windows_in_the/)
+
+위는 윈도우간 이동을 알려주는 포스트입니다. (`ctrl` + `w`) + (`h`/`j`/`k`/`l`) 인데 w를 window라고 생각하면 직관적입니다.
+
+<iframe className="codepen" src="https://www.youtube.com/embed/w7i4amO_zaE?t=810" title="0 to LSP : Neovim RC From Scratch" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+
+위 설정을 참고했습니다.
+
+## statusline
+
+![](/img/doc/vim/statusline.png)
+
+```lua
+return {
+	"nvim-lualine/lualine.nvim",
+	dependencies = { "nvim-tree/nvim-web-devicons" },
+	config = function()
+		-- https://github.com/nvim-lualine/lualine.nvim/blob/master/examples/bubbles.lua
+		-- 위는 참고한 레포입니다.
+		require("lualine").setup({
+			options = { component_separators = "", section_separators = { left = "", right = "" } },
+			sections = {
+				lualine_a = { { "mode", separator = { left = "" }, right_padding = 2 } },
+				--lualine_b = { "filename", "branch" },
+				--lualine_c = {
+				--"%=", [> add your center compoentnts here in place of this comment <]
+				--},
+				--lualine_x = {},
+				--lualine_y = { "filetype", "progress" },
+				lualine_z = {
+					{ "location", separator = { right = "" }, left_padding = 2 },
+				},
+			},
+		})
+	end,
 }
 ```
