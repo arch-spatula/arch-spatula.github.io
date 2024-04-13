@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[9262],{72823:a=>{a.exports=JSON.parse('{"label":"jeff dean","permalink":"/meme/tags/jeff-dean","allTagsPath":"/meme/tags","count":1,"unlisted":false}')}}]);

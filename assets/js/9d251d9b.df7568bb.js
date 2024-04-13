@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[24359],{25960:a=>{a.exports=JSON.parse('{"label":"chuck norris","permalink":"/meme/tags/chuck-norris","allTagsPath":"/meme/tags","count":1,"unlisted":false}')}}]);

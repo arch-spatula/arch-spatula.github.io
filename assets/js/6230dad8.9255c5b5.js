@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkarch_spatula_github_io=self.webpackChunkarch_spatula_github_io||[]).push([[84989],{45662:a=>{a.exports=JSON.parse('{"permalink":"/meme/tags/silicon-valley","page":1,"postsPerPage":6,"totalPages":1,"totalCount":6,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);
