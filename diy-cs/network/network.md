@@ -30,6 +30,10 @@ Top 8 Most Popular Network Protocols Explained -->
 
 [What happens if you don’t put your phone in airplane mode? - Lindsay DeMarchi](https://www.youtube.com/watch?v=iKYHf22qVdM) -->
 
+## 유용한 자료
+
+- [TCP/IP 완벽 가이드](http://www.acornpub.co.kr/book/tcpip)
+
 ## 하이 레벨: 인터넷이란 무엇인가?
 
 <iframe className="codepen" src="https://www.youtube.com/embed/jjKFXlFNR4E" title="POV: I'm on my third coffee and you just asked me how the internet works" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>

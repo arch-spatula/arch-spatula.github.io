@@ -94,4 +94,37 @@ int main(void)
 }
 ```
 
+## C 언어 메모리 사이즈를 알아내는 방법
+
+```c
+#include <malloc/malloc.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(void) {
+  char *pszData = NULL;
+
+  pszData = (char *)malloc(sizeof(char) * 6);
+  if (pszData == NULL) {
+    perror("Failed to allocate memory");
+    return EXIT_FAILURE;
+  }
+
+  printf("Allocated memory size: %zu\n", malloc_size(pszData));
+  printf("Usable memory size: %zu\n", malloc_good_size(sizeof(char) * 6));
+
+  free(pszData);
+  return EXIT_SUCCESS;
+}
+```
+
+메모리 사이즈를 알려준다고 했는데 C 언어에서 약간의 저혼자 경험하는 난제를 발견했네요. 
+
+`malloc_good_size`라는 것도 존재해서 신기합니다.
+
+하지만 정확히 메모리 사이즈를 알아낼 수 없었습니다.
+
+C 언어의 난제 문서를 따로 만들어야겠습니다.
+
 <!--## C 언어로 방화벽은 구현은 어떻게 할 수 있는가?-->
