@@ -30,3 +30,13 @@ description: "패턴에 대해서"
 [웹 기반 그래픽 편집기의 구조와 7가지 디자인 패턴 (2)](https://yozm.wishket.com/magazine/detail/2467/)
 
 <iframe className="codepen" src="https://www.youtube.com/embed/I5c7fBgvkNY" title="Everything You NEED to Know About Client Architecture Patterns" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+
+## FSD Architecture 
+
+- 당연히 최신 트렌드라 시간의 인고가 필요합니다. 2024년에 발견한 글입니다.
+- 개인적으로 실험 시도를 하고 2034년에 도입이 괜찮아보이면 논의해도 될 것 같습니다.
+- [Korean FE Article](https://kofearticle.substack.com/p/korean-fe-article-f40)에도 홍보글이 올라왔습니다. ~~홍보가 아닐 수 있습니다.~~
+- [요약](https://emewjin.github.io/feature-sliced-design)을 구경해볼 수 있습니다.
+- [Feature-Sliced Design 공식 문서](https://feature-sliced.design) 심지어 공식 사이트도 따로 있습니다.
+- 나중에 전파되고 종교처럼 여겨질 것입니다.
+

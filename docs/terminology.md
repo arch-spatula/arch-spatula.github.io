@@ -59,6 +59,11 @@ type Date struct {
 - 터치타이핑: 키보드를 안보고 감각만으로 타이핑하는 스킬을 말합니다.
   - 개발자를 위한 특수한 키보드를 구매결정할 기준은 터치타이핑이 될 때부터입니다.
   - 또 터미널 기반 에디터를 활용할 때 가치가 있으려면 터치타이핑이 가능할 때부터입니다.
+- [What does "rc" mean in dot files](https://stackoverflow.com/questions/11030552/what-does-rc-mean-in-dot-files)
+  - run commands
+  - resource control
+  - run control
+  - runtime configuration
 
 [^1]: [Out of the box (feature) - wikipedia](<https://en.wikipedia.org/wiki/Out_of_the_box_(feature)>)
 [^2]: [Eating your own dog food - wikipedia](https://en.wikipedia.org/wiki/Eating_your_own_dog_food)
