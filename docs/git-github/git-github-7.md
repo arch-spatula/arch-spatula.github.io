@@ -75,3 +75,9 @@ git diff --stat
 뭐 PR을 올릴지말지 기준으로 활용할 수 있습니다. 200줄 전후로 적당한 시점인지 파악할 때 유용합니다.
 
 개발자 글쓰기할 때 매일 글을 쓴다면 활용해볼 수 있습니다. 매일 200줄 변화처럼 작고 어림잡기 적당한 기준도 적절할 수 있습니다.
+
+## github에는 blob에도 링크를 걸 수 있습니다.
+
+아래는 vue의 공식문서에서 발견한 링크입니다.
+
+https://github.com/vuejs/core/blob/44b95276f5c086e1d88fa3c686a5f39eb5bb7821/packages/runtime-core/src/componentPublicInstance.ts#L132-L165

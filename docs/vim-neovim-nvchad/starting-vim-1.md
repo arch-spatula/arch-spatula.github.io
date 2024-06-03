@@ -3,6 +3,12 @@ sidebar_position: 1
 tags: ["vim", "방탈출"]
 ---
 
+:::danger
+
+이 시리즈는 나중에 `dotfiles`로 묶어서 이동할 수 있습니다. 이직 준비할 시기에 가려두기를 할 것입니다.
+
+:::
+
 # vim 시작하기
 
 ![how-to-exit-vim-meme](/img/doc/vim/how-to-exit-vim-meme.jpg)
