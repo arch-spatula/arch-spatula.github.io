@@ -30,12 +30,13 @@ description: "사람과 기관입니다."
 
 ![](https://user-images.githubusercontent.com/84452145/271193516-b396c164-dab3-4ab5-b49f-7547fe570464.png)
 
+
 - ~~폰지 노이만 생각하고 짝퉁 노이만 생각하면 곤란합니다.~~
 - 수학자이고 컴퓨터과학자이고 또 경제학자입니다.
   - 놀랍게도 미시경제학 > 게임이론 > 미니맥스를 증명했습니다.
 - 오늘날 디지털 컴퓨터는 폰 노이만 아키텍쳐를 활용하는 컴퓨터들이 대부분입니다.
 
-![](/img/doc/diy-cs/institution-and-person/Neumann_János_Lajos.jpeg)
+![](/img/doc/diy-cs/institution-and-person/Neumann_Janos_Lajos.jpeg)
 
 - [미래에서 온 남자 폰 노이만](https://www.yes24.com/Product/Goods/122427060)
 - 사실 안 읽어봤습니다.
