@@ -36,6 +36,7 @@ vimtutor # 터미널 명령
 - `ctrl` + `w` -> `h`, `j`, `k`, `l` 로 창을 변경할 수 있다는 것이 충격입니다.
 - `>>` / `<<`: 비주얼 모드로 선택한 상태에서 탭하는 방법입니다.
   - [Tabbing visual selection](https://stackoverflow.com/questions/442302/tabbing-visual-selection)
+- `=`은 다음줄의 시작하는 단어로 이동합니다.
 
 <!-- - https://frhyme.github.io/vim/vim02_indent_tab/-->
 
@@ -61,6 +62,20 @@ vimtutor # 터미널 명령
 - [화면을 분할하는 방법](https://neovim.io/doc/user/usr_08.html)도 있습니다.
   - `:split 파일이름`으로 화면을 분할 할 수 있습니다.
   - `:vsplit 파일이름`으로 수평 분할도 가능합니다.
+
+#### `:messages`로 로그보기
+
+```
+Word 'n' added to ~/.config/nvim/spell/en.utf-8.add
+```
+
+위와 같은 로그가 발생했는데 찝찝했었습니다. 그래서 nvim으로 로그를 어떻게 볼 수 있는지 검색했습니다.
+
+```
+:messages
+```
+
+위 커맨드로 로그를 확인할 수 있습니다.
 
 ### explore
 
