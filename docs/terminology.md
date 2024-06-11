@@ -53,12 +53,21 @@ type Date struct {
 - jump the shark: 창작물이나 창작자가 본질을 소모해 원래 목적을 과장하거나 취지에 부합한 소재를 이용하는 행위를 가리키는 영어 관용구이다.[^4]
 - regurgitation: 역류
   - 단순하게 암기하고 시험 때 바로 뱃는다고 자주 표현할 때 사용합니다.
+- perplexed : 황당하다.
+  - 아마 저의 모자란 영어 실력이 더 황당했을 것입니다.
+- unobtrusive : 나서지 않는
+  - 상당히 기본적인 영어인데 모르고 있습니다.
 
 ## 기타
 
 - 터치타이핑: 키보드를 안보고 감각만으로 타이핑하는 스킬을 말합니다.
   - 개발자를 위한 특수한 키보드를 구매결정할 기준은 터치타이핑이 될 때부터입니다.
   - 또 터미널 기반 에디터를 활용할 때 가치가 있으려면 터치타이핑이 가능할 때부터입니다.
+- [What does "rc" mean in dot files](https://stackoverflow.com/questions/11030552/what-does-rc-mean-in-dot-files)
+  - run commands
+  - resource control
+  - run control
+  - runtime configuration
 
 [^1]: [Out of the box (feature) - wikipedia](<https://en.wikipedia.org/wiki/Out_of_the_box_(feature)>)
 [^2]: [Eating your own dog food - wikipedia](https://en.wikipedia.org/wiki/Eating_your_own_dog_food)

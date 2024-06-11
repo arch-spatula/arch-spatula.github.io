@@ -14,9 +14,9 @@ lua는 스크립트 프로그래밍 언어입니다. 뭐 성능은 좋다고 하
 
 한가지 놀란 것이 있습니다. ~~한국인이 lua를 다루니까~~ [꺼무위키](https://namu.wiki/w/Lua)에서 lua 문법을 설명해주고 있습니다.
 
-<!-- @todo: 여정 다익스트라까지 만들기 -->
-<!-- @todo: CLI 만들기 -->
-<!-- @todo: http 서버 만들기 -->
+<!-- TODO: 여정 다익스트라까지 만들기 -->
+<!-- TODO: CLI 만들기 -->
+<!-- TODO: http 서버 만들기 -->
 
 https://learnxinyminutes.com/docs/lua/
 
@@ -161,3 +161,18 @@ end
 ```
 :help vim.env 
 ```
+
+## 현재 디렉토리랑 관련된 명령
+
+```c
+" relative path
+:let @+ = expand("%")
+
+" full path
+:let @+ = expand("%:p")
+
+" just filename
+:let @+ = expand("%:t")
+```
+
+vim에 이런 충격적인 명령들이 있습니다. 아마 이런 명령은 C 컴파일 명령이랑 연결할 수 있을 것 같습니다.

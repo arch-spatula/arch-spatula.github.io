@@ -49,3 +49,19 @@ function getId() {
 ## eslint 지정
 
 https://velog.io/@xmun74/Next.js-TS%EC%97%90%EC%84%9C-ESLint-Prettier-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0
+
+---
+
+## Godot
+
+https://www.youtube.com/watch?v=S8lMTwSRoRg
+
+Godot Game Development – Crash Course for Beginners 
+
+나중에 다시 볼 튜토리얼입니다.
+
+https://docs.godotengine.org/en/stable/getting_started/step_by_step/
+
+세상에 필요없는 코드를 또 싸지를 자료들입니다.
+
+

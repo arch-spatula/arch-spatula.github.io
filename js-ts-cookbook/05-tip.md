@@ -219,6 +219,12 @@ const distances: { [keys: Vertex]: number } = Object.keys(
 
 [Convert array to object keys [duplicate]](https://stackoverflow.com/questions/54789406/convert-array-to-object-keys)
 
+## npkill 
+
+https://www.npmjs.com/package/npkill
+
+- 필요없는 node_modules를 찾고 선택해서 삭제해줍니다.
+
 <!--
 ## 예외처리 전략
 
