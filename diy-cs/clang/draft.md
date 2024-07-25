@@ -159,3 +159,9 @@ strcpy(dealer.cards, "");
 ```
 
 CLI에서 문제가 있었는데 전판의 손패를 계속 들고 있는 버그가 있었습니다. 새로운 판이 시작하면 문자열을 모두 비워야 했습니다.
+
+## 나중에 볼 C 언어 튜토리얼
+
+Learn C Programming and OOP with Dr. Chuck (feat. classic book by Kernighan and Ritchie) 
+
+https://www.youtube.com/watch?v=PaPN51Mm5qQ
