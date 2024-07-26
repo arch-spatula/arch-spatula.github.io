@@ -38,3 +38,7 @@ const Card = styled.div`
 이런 방법을 권장하고 있습니다. 이렇게 되면 생기는 단점은 props가 없다는 것입니다. 그래서 한계가 생깁니다.
 
 회사 규모에서는 더 복잡한 버튼의 상태를 갖을 것인데 고민이 많아집니다. 다시 생각해보면 설계가 잘못되어 있습니다.
+
+## 흥미로운 문서 줍줍
+
+https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-margin-top

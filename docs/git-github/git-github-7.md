@@ -16,6 +16,24 @@ git remote prune origin
 
 원격에 트레킹 안하는 브랜치를 삭제하는 명령입니다. 오늘 처음봤습니다.
 
+## git bisect
+
+[git bisect 로 문제가 발생한 commit 빠르고 쉽게 찾기](https://blog.gangnamunni.com/post/understanding_git_bisect/)
+
+이 명령을 활용해보면 커밋 수가 많으면 곤란하다는 것을 배웁니다. 의외로 자주 사용하는 명령이라고 합니다.
+
+```sh
+git bisect start 
+```
+
+```sh
+git bisect bad # 버그 발생하는 커밋에서 시작하기
+```
+
+```sh
+git bisect good (과거_좋았던_커밋해쉬)
+```
+
 ## 정리한 비어있는 폴더 공유하기 `.gitkeep`
 
 ```

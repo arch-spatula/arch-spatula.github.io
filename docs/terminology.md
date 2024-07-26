@@ -57,6 +57,9 @@ type Date struct {
   - 아마 저의 모자란 영어 실력이 더 황당했을 것입니다.
 - unobtrusive : 나서지 않는
   - 상당히 기본적인 영어인데 모르고 있습니다.
+- canonical: 표준적인
+  - https://vuejs.org/guide/extras/reactivity-in-depth.html 여기 문서에서 발견했습니다.
+- trivial: 하찮은
 
 ## 기타
 
@@ -68,6 +71,8 @@ type Date struct {
   - resource control
   - run control
   - runtime configuration
+- OPSEC(Operations security): 운영보안입니다.
+  - 직업 사이버 범죄로 장물, 마약 매매할 때 준수할 사항을 의미하는 경우도 있습니다.
 
 [^1]: [Out of the box (feature) - wikipedia](<https://en.wikipedia.org/wiki/Out_of_the_box_(feature)>)
 [^2]: [Eating your own dog food - wikipedia](https://en.wikipedia.org/wiki/Eating_your_own_dog_food)

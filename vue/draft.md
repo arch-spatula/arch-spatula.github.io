@@ -303,3 +303,31 @@ const useOutSideClick = () => {
 ```
 
 이렇게 만들 수 있습니다. 클릭한 외부 요소에 이벤트 핸들러가 실행됩니다.
+
+## vue의 구독 중단 전략
+
+https://vuejs.org/guide/essentials/watchers.html#stopping-a-watcher
+
+```ts
+const unwatch = watchEffect(() => {})
+
+// ...later, when no longer needed
+unwatch()
+```
+
+`watch`가 반환하는 함수를 실행하면 더이상 구독을 하지 않습니다.
+
+클린업 전략이 될 수 있습니다.\
+
+## 깊은 선택
+
+https://vuejs.org/api/sfc-css-features#deep-selectors
+
+```css
+.a :deep(.b) {
+  /* ... */
+}
+```
+
+SCSS 기능으로 생각했지만 vue의 기능이었습니다.
+
