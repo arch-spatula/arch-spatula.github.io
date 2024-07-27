@@ -147,17 +147,6 @@ const config = {
     [
       "@docusaurus/plugin-content-docs",
       {
-        id: "nestjs",
-        path: "nestjs",
-        routeBasePath: "nestjs",
-        sidebarPath: require.resolve("./sidebars.js"),
-        remarkPlugins: [math],
-        rehypePlugins: [katex],
-      },
-    ],
-    [
-      "@docusaurus/plugin-content-docs",
-      {
         id: "diy-cs",
         path: "diy-cs",
         routeBasePath: "diy-cs",
@@ -194,17 +183,6 @@ const config = {
         id: "db",
         path: "db",
         routeBasePath: "db",
-        sidebarPath: require.resolve("./sidebars.js"),
-        remarkPlugins: [math],
-        rehypePlugins: [katex],
-      },
-    ],
-    [
-      "@docusaurus/plugin-content-docs",
-      {
-        id: "react-cookbook",
-        path: "react-cookbook",
-        routeBasePath: "react-cookbook",
         sidebarPath: require.resolve("./sidebars.js"),
         remarkPlugins: [math],
         rehypePlugins: [katex],
@@ -262,12 +240,6 @@ const config = {
             label: "이런저런 레시피 시리즈",
           },
           {
-            to: "/react-cookbook/intro",
-            label: "리액트 Cook-Book",
-            activeBaseRegex: `/react-cookbook/`,
-            position: "left",
-          },
-          {
             to: "/WebApp-Cookbook/intro",
             label: "WebApp Cookbook",
             activeBaseRegex: `/WebApp-Cookbook/`,
@@ -293,10 +265,6 @@ const config = {
               {
                 label: "이런저런 레시피 시리즈",
                 to: "/docs/intro",
-              },
-              {
-                label: "리액트 Cook-Book",
-                to: "/react-cookbook/intro",
               },
               {
                 label: "WebApp Cookbook",
