@@ -24,37 +24,7 @@ toc_max_heading_level: 6
 
 <!-- @todo 나중에 _category.json으로 티어별로 분류하기 아니면 개별 시스템마다 독자적인 문서로 작성하기 -->
 
-### 평가 보류
-
-airbnb design
-
-https://airbnb.design/
-
-Design at Meta
-
-https://design.facebook.com/
-
-Volvo Cars design system
-
-https://design.volvocars.com/
-
-buffer
-
-https://buffer.com/
-
-vanillaframework
-
-https://vanillaframework.io/docs
-
-servicenow
-
-https://developer.servicenow.com/dev.do#!/
-
-### 수집
-
-https://www.designsystemsforfigma.com/
-
-#### 🌟🌟🌟🌟🌟
+## 🌟🌟🌟🌟🌟
 
 Material Design
 
@@ -68,7 +38,7 @@ Line Design System
 
 https://designsystem.line.me/LDSM/components
 
-#### ⭐⭐⭐⭐
+## ⭐⭐⭐⭐
 
 Toss Design System
 
@@ -78,7 +48,7 @@ https://sooji8.notion.site/sooji8/Tok-D-_-Design-System-Beta-13bbc02b59254190be3
 
 https://socarframe.socar.kr/8bb3aba4a/p/480a5e-introduction
 
-#### ⭐⭐⭐
+## ⭐⭐⭐
 
 Human Interface Guidelines
 
@@ -94,7 +64,7 @@ https://developer.microsoft.com/en-us/fluentui#/
 
 https://baseweb.design/components/
 
-#### ⭐⭐
+## ⭐⭐
 
 Base Web
 
@@ -108,7 +78,7 @@ Gestalt
 
 https://gestalt.pinterest.systems/home
 
-#### ⭐
+## ⭐
 
 Solar design system
 
@@ -283,3 +253,35 @@ https://www.oracle.com/webfolder/ux/middleware/alta/index.html
 Hey Design
 
 https://heydesign.systems/
+
+### 평가 보류
+
+airbnb design
+
+https://airbnb.design/
+
+Design at Meta
+
+https://design.facebook.com/
+
+Volvo Cars design system
+
+https://design.volvocars.com/
+
+buffer
+
+https://buffer.com/
+
+vanillaframework
+
+https://vanillaframework.io/docs
+
+servicenow
+
+https://developer.servicenow.com/dev.do#!/
+
+### 수집
+
+https://www.designsystemsforfigma.com/
+
+

@@ -25,8 +25,6 @@ date: 1453-5-29
 
 [DB 줍줍](/db)
 
-[디자인 시스템 위키](/design-system-wiki)
-
 [DIY-CS](/diy-cs)
 
 Clang
