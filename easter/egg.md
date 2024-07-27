@@ -27,8 +27,6 @@ date: 1453-5-29
 
 [디자인 시스템 위키](/design-system-wiki)
 
-[HTML & CSS](/html-css)
-
 [DIY-CS](/diy-cs)
 
 Clang

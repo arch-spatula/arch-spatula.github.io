@@ -1,6 +1,8 @@
 ---
 sidebar_position: 1
+description: 'HTML CSS 시작하기'
 ---
+
 
 # HTML & CSS
 

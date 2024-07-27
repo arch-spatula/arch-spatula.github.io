@@ -1,5 +1,6 @@
 ---
 sidebar_position: 2
+description: 'HTML CSS 이런저런 팁'
 ---
 
 # HTML & CSS 팁
