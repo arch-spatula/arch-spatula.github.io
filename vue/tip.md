@@ -92,3 +92,19 @@ const adapter = computed(() => {
 `deep: true`로 설정하면 깊은 비교를 합니다. 객체의 속성별로 값을 비교하고 그리고 그 자식을 계속 재귀로 순회해야 합니다. 배열도 해당합니다. 이 탐색하는 작업이 비싼 작업에 해당합니다. 만약에 같다면 비싼 탐색을 하고 로직을 실행할지 말지 결정합니다. 
 
 `watch`의 `deep: true`를 해도 구독하는 대상의 크기를 봐가면서 작업합니다. 탐색시간이 너무 길면 자제합니다. 아니면 변경할 부분만 골라서 구독합니다. 전체 비교는 비효율적입니다.
+
+## v-if, v-show 조건부 처리 전략
+
+```html
+v-if="(!useVShow && modalState) || useVShow" v-show="useVShow && modalState"
+```
+
+```html
+<div v-bind="true {'v-show': true} : {'v-if': true}"></div>
+```
+
+- 위처럼 vue 다이렉티브를 직접 넣는 방법을 모르겠습니다. 아마 없을지도 모릅니다.
+- 지금 코드는 막짰습니다. 호출자는 v-show로 랜더링 캐싱을 할지 v-if로 닫을 때 언마운트 시키는 것이 중요한지 정하는 부분이 중요합니다.
+  - 나중에 단일 props가 string literal 타입선언으로 처리하도록 하고 싶습니다.
+
+<!-- TODO: ## vue-query는 undefined를 반환하면 캐싱을 안함-->

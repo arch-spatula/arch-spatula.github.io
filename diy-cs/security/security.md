@@ -15,6 +15,36 @@ draft: true
 
 ---
 
+## 2024년 중 가장 흥미로운 보안 이슈
+
+### Linux got wrecked by backdoor attack
+
+https://www.youtube.com/watch?v=bS9em7Bg0iU
+
+jia tan이 공격자라는 것을 알고 있습니다.
+
+### malicious javascript injected into 100,000 websites 
+
+https://www.youtube.com/watch?v=bbatLr98fEY
+
+폴리필(Polyfill) 자바스크립트를 브라우저로 인섹션하고 그리고 브라우저 컨텍스트를 시작해서 유저 컴퓨터를 접근하는 방법입니다.
+
+공급망공격이기 때문에 상당히 뛰어난 공격법입니다.
+
+### Korean ISP Hacks Customers Using Torrent Software
+
+https://www.youtube.com/watch?v=iRjdjck3obY
+
+오늘도 조선은 평화롭습니다. 역시나 통신사만큼 개발자로서 불신하는 회사는 없습니다. 스팸 신고를 해도 일부러 경찰에 전달을 거부하거나 시저 사이퍼로 전환해서 전달하는 짓거리를 합니다.
+
+웹하드에 다운받을 때 멀웨어를 같이 설치하게 한 것입니다. 아주 훌륭합니다.
+
+성능과 비용 때문에 부하 제어를 했다고 했는데 처벌은 당연히 없습니다. 역시 법은 강해져야 유리하게 적용받습니다.
+
+## 줍줍
+
+https://news.hada.io/topic?id=15528&utm_source=slack&utm_medium=bot&utm_campaign=T056MP5374J
+
 <!--
 
 HTTP/2 신속한 재설정 취약점으로 인해 역대 규모의 DDoS 발생

@@ -13,6 +13,85 @@ https://velog.io/@leehyunho2001/%EA%B0%9C%EB%B0%9C%EC%9E%90-%EB%8F%84%EA%B5%AC%E
 
 -->
 
+## 날짜 순회
+
+나중에 Dayjs 레포를 읽어보고 싶어집니다. 회사에서 사용하고 있습니다. 아마 이직을 먼 미래에 해도 사용하고 있을 것 같습니다.
+
+모르는 것은 선택한 컬럼 정보를 그대로 접근하는 방법을 모릅니다. 하지만 컬럼의 인덱스를 알 수 있습니다. 이 정보를 활용해서 날짜의 범위를 선택했습니다. 처음과 끝 그리고 증감 정도를 알아서 순회를 구현하는 것으로 해결이 가능했습니다.
+
+dayjs 일단위, 주단위, 월단위 순회하는 전략이 있습니다. 그리고 전략 패턴 비슷하게 생겼습니다.
+
+```ts
+/**
+ * Day:   "06-18"
+ * Week:  "2024W25"
+ * Month: "2024M06"
+ */
+const dateRange = (startDate: string, endDate: string, aggregateType: 'Day' | 'Week' | 'Month') => {
+  const range: string[] = [];
+  
+  switch (aggregateType) {
+    case 'Day':
+      /**
+       * 일단위 순회
+       */
+
+      for (let day = dayjs(startDate); day.isBefore(dayjs(endDate).add(1, 'day')); day = day.add(1, 'day')) {
+        range.push(day.format('YYYY-MM-DD'));
+      }
+      break;
+    case 'Week':
+      /**
+       * 주단위 순회
+       * 52주에 해당하지 않는 연도 예외가 발생해서 dayjs로 계산
+       * 요일 제어로 off by one 방지
+       */
+      let [startWeekYear, startWeek] = startDate.split('W').map(str => parseInt(str));
+      let [endWeekYear, endWeek] = endDate.split('W').map(str => parseInt(str));
+      for (
+        let week = dayjs().year(startWeekYear).isoWeek(startWeek).day(0);
+        week.isBefore(dayjs().year(endWeekYear).isoWeek(endWeek).day(6));
+        week = week.add(1, 'week')
+      ) {
+        range.push(`${week.year()}W${week.week()}`);
+      }
+      break;
+    case 'Month':
+      /**
+       * 월단위 순회
+       * 시작 일 마지막 일로 off by one 방지
+       */
+      let [startMonthYear, startMonth] = startDate.split('M').map(str => parseInt(str));
+      let [endMonthYear, endMonth] = endDate.split('M').map(str => parseInt(str));
+      for (
+        let month = dayjs().year(startMonthYear).month(startMonth).day(28).add(-2, 'month');
+        month.isBefore(dayjs().year(endMonthYear).month(endMonth).day(1).add(-1, 'month'));
+        month = month.add(1, 'month')
+      ) {
+        range.push(month.format('YYYY[M]MM'));
+      }
+      break;
+    default:
+      break;
+  }
+  return range;
+};
+```
+
+굳이 dayjs로 구현한 이유는 연말 연초가 바뀔 때 로직에 애매한 점이 많아서 이렇게 구현했습니다.
+
+## history api
+
+https://www.daleseo.com/js-history-api/
+
+프레임워크랑 라이브러리에서 많이 사용하는 자바스크립트 API입니다. 이전 이후 라우팅 등 처리하는데 의존하고 있습니다.
+
+## 조건부 타입 선언
+
+https://www.youtube.com/watch?v=xsfdypZCLQ8
+
+조건부 타입 선언이 가능한 방법입니다. 조건부로 더욱더 조심스러운 타입 선언 방법입니다.
+
 ## promises 동시에 다루기
 
 <!-- @todo 아래 내용 정리하기 -->
