@@ -180,17 +180,6 @@ const config = {
     [
       "@docusaurus/plugin-content-docs",
       {
-        id: "vue",
-        path: "vue",
-        routeBasePath: "vue",
-        sidebarPath: require.resolve("./sidebars.js"),
-        remarkPlugins: [math],
-        rehypePlugins: [katex],
-      },
-    ],
-    [
-      "@docusaurus/plugin-content-docs",
-      {
         id: "java",
         path: "java",
         routeBasePath: "java",
@@ -279,12 +268,6 @@ const config = {
             position: "left",
           },
           {
-            to: "/vue/intro",
-            label: "뷰 Cook-Book",
-            activeBaseRegex: `/vue/`,
-            position: "left",
-          },
-          {
             to: "/WebApp-Cookbook/intro",
             label: "WebApp Cookbook",
             activeBaseRegex: `/WebApp-Cookbook/`,
@@ -314,10 +297,6 @@ const config = {
               {
                 label: "리액트 Cook-Book",
                 to: "/react-cookbook/intro",
-              },
-              {
-                label: "뷰 Cook-Book",
-                to: "/vue/intro",
               },
               {
                 label: "WebApp Cookbook",

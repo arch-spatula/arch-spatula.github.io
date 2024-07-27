@@ -35,6 +35,37 @@ React는 MVC 패턴에 더 가깝습니다. 상태에 대한 Model과 Controller
 
 값을 제어할 때는 실제 값과 보이는 값이 같은 경우는 사용자가 입력한 input을 제외하고 클릭하는 값은 서로 분리하기 바립니다. 사용자가 입력하는 값은 문자열을 활용해도 괜찮지만 클릭처럼 여러 묶음을 선택하는 경우면 객체를 활용하고 보이는 값과 서버 통신에 활용할 값을 분리하기 바랍니다.
 
+## pania의 $patch 하지만 반응성이 없음
+
+- `$patch`는 pania 전역 상태를 갱신할 때 사용하는 메서드입니다. 하지만 반응성이 없습니다.
+- 반응성이 필요하면 `store`의 `ref`에 `value` 할당으로 setter를 실행하도록 합니다.
+- pania 창시자는 싱글튼 `ref`로 취급하라고 조언합니다.
+
+## Vue CLI
+
+:::caution
+
+[vite](https://ko.vitejs.dev/guide/)을 통해 설치하는 것이 더 안정적입니다.
+
+:::
+
+[Vue CLI](https://cli.vuejs.org/)는 유사 레거시입니다.
+
+- 더 정확히는 지금 시점에서는 활용이 어럽습니다.
+- Nest.js같은 CLI는 아닙니다. CLI로 자동으로 파일을 생성하고 연결해주지 않습니다.
+
+### CLI 설치
+
+```sh
+npm install -g @vue/cli
+```
+
+### CLI 삭제
+
+```sh
+npm uninstall -g @vue/cli
+```
+
 ## `ref`는 무조건 1개만 가질 필요는 없음
 
 [Multiple v-model bindings](https://ko.vuejs.org/guide/components/v-model.html#multiple-v-model-bindings)
@@ -107,4 +138,16 @@ v-if="(!useVShow && modalState) || useVShow" v-show="useVShow && modalState"
 - 지금 코드는 막짰습니다. 호출자는 v-show로 랜더링 캐싱을 할지 v-if로 닫을 때 언마운트 시키는 것이 중요한지 정하는 부분이 중요합니다.
   - 나중에 단일 props가 string literal 타입선언으로 처리하도록 하고 싶습니다.
 
-<!-- TODO: ## vue-query는 undefined를 반환하면 캐싱을 안함-->
+<!--  TODO: ## vue-query는 undefined를 반환하면 캐싱을 안함 -->
+
+## useRoute는 URL에 대한 Ref
+
+```ts
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
+watch(route, (oldRoute, newRoute) => {
+  console.log(oldRoute.path, newRoute.path);
+});
+```
