@@ -1,68 +1,68 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const math = require('remark-math');
-const katex = require('rehype-katex');
+const math = require("remark-math");
+const katex = require("rehype-katex");
 
-const { themes } = require('prism-react-renderer');
+const { themes } = require("prism-react-renderer");
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
-require('dotenv').config();
+require("dotenv").config();
 // const mdxMermaid = import('mdx-mermaid')
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Arch-Spatula의 레시피',
-  tagline: '다양하게 조금씩 배우고 레시피로 정리합니다. 정해진 것은 없습니다.',
-  favicon: 'img/logo.svg',
+  title: "Arch-Spatula의 레시피",
+  tagline: "다양하게 조금씩 배우고 레시피로 정리합니다. 정해진 것은 없습니다.",
+  favicon: "img/logo.svg",
 
   // @todo 배포 이미지 확인하고 링크 깨지면 아래 주석 풀어보기
   // staticDirectories: ['public', 'static'],
 
   // Set the production url of your site here
-  url: 'https://arch-spatula.github.io/',
+  url: "https://arch-spatula.github.io/",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   // baseUrl: "/arch-spatula.github.io/",
-  baseUrl: '/',
+  baseUrl: "/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'arch-spatula', // Usually your GitHub org/user name.
-  projectName: 'arch-spatula.github.io', // Usually your repo name.
+  organizationName: "arch-spatula", // Usually your GitHub org/user name.
+  projectName: "arch-spatula.github.io", // Usually your repo name.
   trailingSlash: false,
   customFields: {
     GIT_USER: process.env.GIT_USER,
   },
 
-  onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: "warn",
+  onBrokenMarkdownLinks: "warn",
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'ko',
-    locales: ['ko'],
+    defaultLocale: "ko",
+    locales: ["ko"],
   },
 
-  deploymentBranch: 'gh-pages',
+  deploymentBranch: "gh-pages",
 
   presets: [
     [
-      'classic',
+      "classic",
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          routeBasePath: 'docs',
-          path: 'docs',
-          sidebarPath: require.resolve('./sidebars.js'),
-          lastVersion: 'current',
-          onlyIncludeVersions: ['current'],
+          routeBasePath: "docs",
+          path: "docs",
+          sidebarPath: require.resolve("./sidebars.js"),
+          lastVersion: "current",
+          onlyIncludeVersions: ["current"],
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/arch-spatula/arch-spatula.github.io/blob/dev/',
+            "https://github.com/arch-spatula/arch-spatula.github.io/blob/dev/",
           remarkPlugins: [math],
           rehypePlugins: [katex],
         },
@@ -71,187 +71,130 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/arch-spatula/arch-spatula.github.io/blob/dev/',
-          postsPerPage: 'ALL',
+            "https://github.com/arch-spatula/arch-spatula.github.io/blob/dev/",
+          postsPerPage: "ALL",
           blogSidebarCount: 0,
           remarkPlugins: [math],
           rehypePlugins: [katex],
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve("./src/css/custom.css"),
         },
       }),
     ],
   ],
   plugins: [
     [
-      '@docusaurus/plugin-content-blog',
+      "@docusaurus/plugin-content-blog",
       {
         /**
          * Required for any multi-instance plugin
          */
-        id: 'easter',
+        id: "easter",
         /**
          * URL route for the blog section of your site.
          * *DO NOT* include a trailing slash.
          */
-        routeBasePath: 'easter',
+        routeBasePath: "easter",
         /**
          * Path to data on filesystem relative to site dir.
          */
-        path: './easter',
+        path: "./easter",
         blogSidebarCount: 0,
       },
     ],
     [
-      '@docusaurus/plugin-content-blog',
+      "@docusaurus/plugin-content-blog",
       {
-        id: 'experience',
-        routeBasePath: 'experience',
-        path: './experience',
+        id: "experience",
+        routeBasePath: "experience",
+        path: "./experience",
         blogSidebarCount: 0,
       },
     ],
     [
-      '@docusaurus/plugin-content-blog',
+      "@docusaurus/plugin-content-blog",
       {
-        id: 'meme',
-        routeBasePath: 'meme',
-        path: './meme',
+        id: "meme",
+        routeBasePath: "meme",
+        path: "./meme",
         blogSidebarCount: 0,
-        postsPerPage: 'ALL',
+        postsPerPage: "ALL",
       },
     ],
     [
-      '@docusaurus/plugin-content-docs',
+      "@docusaurus/plugin-content-docs",
       {
-        id: 'python',
-        path: 'python',
-        routeBasePath: 'python',
-        sidebarPath: require.resolve('./sidebars.js'),
+        id: "python",
+        path: "python",
+        routeBasePath: "python",
+        sidebarPath: require.resolve("./sidebars.js"),
         remarkPlugins: [math],
         rehypePlugins: [katex],
       },
     ],
     [
-      '@docusaurus/plugin-content-docs',
+      "@docusaurus/plugin-content-docs",
       {
-        id: 'industrial-engineering',
-        path: 'industrial-engineering',
-        routeBasePath: 'industrial-engineering',
-        sidebarPath: require.resolve('./sidebars.js'),
+        id: "industrial-engineering",
+        path: "industrial-engineering",
+        routeBasePath: "industrial-engineering",
+        sidebarPath: require.resolve("./sidebars.js"),
         remarkPlugins: [math],
         rehypePlugins: [katex],
       },
     ],
     [
-      '@docusaurus/plugin-content-docs',
+      "@docusaurus/plugin-content-docs",
       {
-        id: 'nestjs',
-        path: 'nestjs',
-        routeBasePath: 'nestjs',
-        sidebarPath: require.resolve('./sidebars.js'),
+        id: "diy-cs",
+        path: "diy-cs",
+        routeBasePath: "diy-cs",
+        sidebarPath: require.resolve("./sidebars.js"),
         remarkPlugins: [math],
         rehypePlugins: [katex],
       },
     ],
     [
-      '@docusaurus/plugin-content-docs',
+      "@docusaurus/plugin-content-docs",
       {
-        id: 'diy-cs',
-        path: 'diy-cs',
-        routeBasePath: 'diy-cs',
-        sidebarPath: require.resolve('./sidebars.js'),
+        id: "golang",
+        path: "golang",
+        routeBasePath: "golang",
+        sidebarPath: require.resolve("./sidebars.js"),
         remarkPlugins: [math],
         rehypePlugins: [katex],
       },
     ],
     [
-      '@docusaurus/plugin-content-docs',
+      "@docusaurus/plugin-content-docs",
       {
-        id: 'golang',
-        path: 'golang',
-        routeBasePath: 'golang',
-        sidebarPath: require.resolve('./sidebars.js'),
+        id: "java",
+        path: "java",
+        routeBasePath: "java",
+        sidebarPath: require.resolve("./sidebars.js"),
         remarkPlugins: [math],
         rehypePlugins: [katex],
       },
     ],
     [
-      '@docusaurus/plugin-content-docs',
+      "@docusaurus/plugin-content-docs",
       {
-        id: 'vue',
-        path: 'vue',
-        routeBasePath: 'vue',
-        sidebarPath: require.resolve('./sidebars.js'),
+        id: "db",
+        path: "db",
+        routeBasePath: "db",
+        sidebarPath: require.resolve("./sidebars.js"),
         remarkPlugins: [math],
         rehypePlugins: [katex],
       },
     ],
     [
-      '@docusaurus/plugin-content-docs',
+      "@docusaurus/plugin-content-docs",
       {
-        id: 'java',
-        path: 'java',
-        routeBasePath: 'java',
-        sidebarPath: require.resolve('./sidebars.js'),
-        remarkPlugins: [math],
-        rehypePlugins: [katex],
-      },
-    ],
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'db',
-        path: 'db',
-        routeBasePath: 'db',
-        sidebarPath: require.resolve('./sidebars.js'),
-        remarkPlugins: [math],
-        rehypePlugins: [katex],
-      },
-    ],
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'design-system-wiki',
-        path: 'design-system-wiki',
-        routeBasePath: 'design-system-wiki',
-        sidebarPath: require.resolve('./sidebars.js'),
-        // 아래는 수식 쓰기 시작하면 풀어주세요
-        remarkPlugins: [math],
-        rehypePlugins: [katex],
-      },
-    ],
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'html-css',
-        path: 'html-css',
-        routeBasePath: 'html-css',
-        sidebarPath: require.resolve('./sidebars.js'),
-        // 아래는 수식 쓰기 시작하면 풀어주세요
-        remarkPlugins: [math],
-        rehypePlugins: [katex],
-      },
-    ],
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'react-cookbook',
-        path: 'react-cookbook',
-        routeBasePath: 'react-cookbook',
-        sidebarPath: require.resolve('./sidebars.js'),
-        remarkPlugins: [math],
-        rehypePlugins: [katex],
-      },
-    ],
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'js-ts-cookbook',
-        path: 'js-ts-cookbook',
-        routeBasePath: 'js-ts-cookbook',
-        sidebarPath: require.resolve('./sidebars.js'),
+        id: "WebApp-Cookbook",
+        path: "WebApp-Cookbook",
+        routeBasePath: "WebApp-Cookbook",
+        sidebarPath: require.resolve("./sidebars.js"),
         remarkPlugins: [math],
         rehypePlugins: [katex],
       },
@@ -261,15 +204,15 @@ const config = {
   markdown: {
     mermaid: true,
   },
-  themes: ['@docusaurus/theme-mermaid'],
+  themes: ["@docusaurus/theme-mermaid"],
 
   stylesheets: [
     {
-      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
-      type: 'text/css',
+      href: "https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css",
+      type: "text/css",
       integrity:
-        'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
-      crossorigin: 'anonymous',
+        "sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM",
+      crossorigin: "anonymous",
     },
   ],
 
@@ -277,96 +220,76 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
+      image: "img/docusaurus-social-card.jpg",
       navbar: {
-        title: 'Arch-Spatula의 레시피',
+        title: "Arch-Spatula의 레시피",
         logo: {
-          alt: 'Arch-Spatula blog Logo',
-          src: 'img/profile.png',
+          alt: "Arch-Spatula blog Logo",
+          src: "img/profile.png",
           width: 32,
           height: 32,
         },
         // style: "primary",
         hideOnScroll: true,
         items: [
-          { to: '/blog', label: '블로그', position: 'left' },
+          { to: "/blog", label: "블로그", position: "left" },
           {
-            type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
-            position: 'left',
-            label: '이런저런 레시피 시리즈',
+            type: "docSidebar",
+            sidebarId: "tutorialSidebar",
+            position: "left",
+            label: "이런저런 레시피 시리즈",
           },
           {
-            to: '/react-cookbook/intro',
-            label: '리액트 Cook-Book',
-            activeBaseRegex: `/react-cookbook/`,
-            position: 'left',
+            to: "/WebApp-Cookbook/intro",
+            label: "WebApp Cookbook",
+            activeBaseRegex: `/WebApp-Cookbook/`,
+            position: "left",
           },
           {
-            to: '/vue/intro',
-            label: '뷰 Cook-Book',
-            activeBaseRegex: `/vue/`,
-            position: 'left',
-          },
-          {
-            to: '/js-ts-cookbook/intro',
-            label: 'JS & TS Cook-Book',
-            activeBaseRegex: `/js-ts-cookbook/`,
-            position: 'left',
-          },
-          {
-            href: 'https://github.com/arch-spatula/arch-spatula.github.io',
-            label: 'GitHub',
-            position: 'right',
+            href: "https://github.com/arch-spatula/arch-spatula.github.io",
+            label: "GitHub",
+            position: "right",
           },
         ],
       },
       footer: {
-        style: 'dark',
+        style: "dark",
         links: [
           {
-            title: '이런저런 것',
+            title: "이런저런 것",
             items: [
               {
-                label: '블로그',
-                to: '/blog',
+                label: "블로그",
+                to: "/blog",
               },
               {
-                label: '이런저런 레시피 시리즈',
-                to: '/docs/intro',
+                label: "이런저런 레시피 시리즈",
+                to: "/docs/intro",
               },
               {
-                label: '리액트 Cook-Book',
-                to: '/react-cookbook/intro',
+                label: "WebApp Cookbook",
+                to: "/WebApp-Cookbook/intro",
               },
               {
-                label: '뷰 Cook-Book',
-                to: '/vue/intro',
-              },
-              {
-                label: 'JS & TS Cook-Book',
-                to: '/js-ts-cookbook/intro',
-              },
-              {
-                label: 'easter',
-                to: '/easter',
+                label: "easter",
+                to: "/easter",
               },
             ],
           },
           {
-            title: 'Community',
+            title: "Community",
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: "Stack Overflow",
+                href: "https://stackoverflow.com/questions/tagged/docusaurus",
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                label: "Discord",
+                href: "https://discordapp.com/invite/docusaurus",
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                label: "Twitter",
+                href: "https://twitter.com/docusaurus",
               },
             ],
           },
@@ -389,7 +312,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
-        additionalLanguages: ['lua', 'scss'],
+        additionalLanguages: ["lua", "scss"],
       },
     }),
 };

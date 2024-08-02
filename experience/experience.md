@@ -11,11 +11,11 @@ date: 1453-5-29
 
 - git & github
   - [x] git `add`, `commit`, `push`
-  - [ ] rebase merge
+  - [x] rebase merge
   - [x] git amend로 커밋 내역 수정
   - [x] git squash
   - [x] git prune
-  - [ ] git bisect
+  - [x] git bisect
   - [ ] git tag 활용
   - [x] github 프로젝트 활용
   - github actions 활용
@@ -81,9 +81,9 @@ date: 1453-5-29
     - Behavioral
       - [ ] Visitor
       - [ ] Template Method
-      - [ ] Strategy
+      - [x] Strategy
       - [ ] State
-      - [ ] Observer
+      - [x] Observer
       - [ ] Memento
       - [ ] Mediator
       - [ ] Iterator
