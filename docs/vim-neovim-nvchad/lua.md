@@ -176,3 +176,56 @@ end
 ```
 
 vim에 이런 충격적인 명령들이 있습니다. 아마 이런 명령은 C 컴파일 명령이랑 연결할 수 있을 것 같습니다.
+
+## lua kit을 활용한 브라우져
+
+https://news.hada.io/topic?id=15710
+
+https://luakit.github.io/
+
+
+## vim 기반 스프레드시트
+
+https://news.hada.io/topic?id=15697
+
+https://github.com/andmarti1424/sc-im
+
+## neovim 회사에서 사용가능하게 만들기
+
+- 놀랍게도 vue와 nestjs에서 사용할 수 있는 LSP는 모두 정상동작했습니다.
+  - 로컬 컴퓨터라 그냥 잘 동작할 수 있을 것입니다.
+  - 동작을 확실히 못하는 것은 formatter입니다.
+
+```lua
+-- NOTE: 공식 문서 내용
+-- https://github.com/vuejs/language-tools?tab=readme-ov-file#community-integration
+-- If you are using mason.nvim, you can get the ts_plugin_path like this
+local mason_registry = require("mason-registry")
+local vue_language_server_path = mason_registry.get_package("vue-language-server"):get_install_path()
+    .. "/node_modules/@vue/language-server"
+lspconfig.tsserver.setup({
+    init_options = {
+        plugins = {
+            {
+                name = "@vue/typescript-plugin",
+                location = vue_language_server_path,
+                languages = { "vue" },
+            },
+        },
+	},
+	filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+	capabilities = capabilities,
+})
+lspconfig.volar.setup({
+    capabilities = capabilities,
+})
+```
+
+위처럼 설정하니까 성공했습니다. 여기서 `..`은 연산자였습니다. 문자열을 이어붙이는 연산자에 해당합니다.
+
+## wezTerm 의 cmd + t 
+
+- wezTerm은 rust 기반으로 작성되어 있고 lua로 설정할 수 있고 기능을 확장할 수 있습니다.
+- cmd + T를 지원함 단지 안보이는 뿐 탭을 지원하고 있었습니다.
+- 시각적으로 Tab이 보이게 만들 필요가 생겼습니다.
+

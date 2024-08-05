@@ -461,3 +461,292 @@ export class HashTable<T> {
 - 오늘도 자바스크립트는 이상합니다.
 
 [MDN - Array.prototype.fill()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/fill)
+
+## Worker에서 DOM접근은 못해도 메시지로 넘겨주면 편집은 가능하지 않은가?
+
+- 생겨난 의문이기는 한데 Worker에서 DOM 조작은 못해도 DOM 객체를 생성, 편집은 가능하지 않은가?
+
+https://github.com/Shopify/quilt/blob/main/packages/react-web-worker/README.md 
+
+위처럼 상당히 특이한 라이브러리도 있습니다. 리액트는 자바스크립트로 VDOM을 만들고 처리하니까 활용하는 경우도 있을 것 같습니다.
+
+https://web.dev/learn/performance/welcome?hl=ko 
+
+위 페이지도 발견했습니다. 메시지로 DOM 객체를 주고 받는 것은 가능합니다. 하지만 Worker 컨텍스트에서 메시지로 전달 받은 DOM 객체는 갱신할 수 있습니다. 하지만 실제 DOM에서 생성과 삭제 작업을 처리해줘야 합니다. 이렇게 보면 업데이트 관련 로직의 시간복잡성이 높을 때만 사용해야 합니다.
+
+## Dayjs 일, 주, 월 순회
+
+1년 몇년은 53주인데 dayjs가 53주는 그 해 첫주 즉 2024의 첫번째 주로바꾸는 버그가 있습니다.
+
+페이지에 드레그하는 로직을 구현하기 위해 아래 테스트 케이스를 추가하고 통과시킬 함수를 구현했습니다.
+
+```ts
+describe("날짜 범위 보간", () => {
+  test("일단위 보간", () => {
+    const [start, end, aggregateType] = [
+      "2024-06-18",
+      "2024-06-24",
+      "Day",
+    ] as const;
+
+    const result = dateRange(start, end, aggregateType);
+
+    expect(result).toEqual([
+      "2024-06-18",
+      "2024-06-19",
+      "2024-06-20",
+      "2024-06-21",
+      "2024-06-22",
+      "2024-06-23",
+      "2024-06-24",
+    ]);
+  });
+
+  test("일단위 보간 - 처음과 끝이 같음", () => {
+    const [start, end, aggregateType] = [
+      "2024-06-24",
+      "2024-06-24",
+      "Day",
+    ] as const;
+
+    const result = dateRange(start, end, aggregateType);
+
+    expect(result).toEqual(["2024-06-24"]);
+  });
+
+  test("일단위 보간 - 월 바뀜", () => {
+    const [start, end, aggregateType] = [
+      "2024-06-28",
+      "2024-07-04",
+      "Day",
+    ] as const;
+
+    const result = dateRange(start, end, aggregateType);
+
+    expect(result).toEqual([
+      "2024-06-28",
+      "2024-06-29",
+      "2024-06-30",
+      "2024-07-01",
+      "2024-07-02",
+      "2024-07-03",
+      "2024-07-04",
+    ]);
+  });
+
+  test("일단위 보간 - 연 바뀜", () => {
+    const [start, end, aggregateType] = [
+      "2024-12-28",
+      "2025-01-04",
+      "Day",
+    ] as const;
+
+    const result = dateRange(start, end, aggregateType);
+
+    expect(result).toEqual([
+      "2024-12-28",
+      "2024-12-29",
+      "2024-12-30",
+      "2024-12-31",
+      "2025-01-01",
+      "2025-01-02",
+      "2025-01-03",
+      "2025-01-04",
+    ]);
+  });
+
+  test("주단위 보간", () => {
+    const [start, end, aggregateType] = ["2024W25", "2024W28", "Week"] as const;
+
+    const result = dateRange(start, end, aggregateType);
+
+    expect(result).toEqual(["2024W25", "2024W26", "2024W27", "2024W28"]);
+  });
+
+  test("주단위 보간 - 1개", () => {
+    const [start, end, aggregateType] = ["2024W28", "2024W28", "Week"] as const;
+
+    const result = dateRange(start, end, aggregateType);
+
+    expect(result).toEqual(["2024W28"]);
+  });
+
+  
+
+  test("주단위 보간 - 1년이 52주", () => {
+    const [start, end, aggregateType] = ["2024W50", "2025W02", "Week"] as const;
+
+    const result = dateRange(start, end, aggregateType);
+
+    expect(result).toEqual([
+      "2024W50",
+      "2024W51",
+      "2024W52",
+      "2025W01",
+      "2025W02",
+    ]);
+  });
+
+  
+
+  test("주단위 보간 - 1년이 51주", () => {
+    const [start, end, aggregateType] = ["2025W50", "2026W02", "Week"] as const;
+
+    const result = dateRange(start, end, aggregateType);
+
+    expect(result).toEqual([
+      "2025W50",
+      "2025W51",
+      "2025W52",
+      "2026W01",
+      "2026W02",
+    ]);
+  });
+
+  test("주단위 보간 - 1년이 53주", () => {
+    const [start, end, aggregateType] = ["2026W51", "2027W02", "Week"] as const;
+
+    const result = dateRange(start, end, aggregateType);
+
+    expect(result).toEqual([
+      "2026W51",
+      "2026W52",
+      "2026W53",
+      "2027W01",
+      "2027W02",
+    ]);
+  });
+
+  
+
+  test("월단위 보간", () => {
+    const [start, end, aggregateType] = [
+      "2024M03",
+      "2024M07",
+      "Month",
+    ] as const;
+
+    const result = dateRange(start, end, aggregateType);
+
+    expect(result).toEqual([
+      "2024M03",
+      "2024M04",
+      "2024M05",
+      "2024M06",
+      "2024M07",
+    ]);
+  });
+
+  
+
+  test("월단위 보간 - 같은 날", () => {
+    const [start, end, aggregateType] = [
+      "2024M07",
+      "2024M07",
+      "Month",
+    ] as const;
+
+    const result = dateRange(start, end, aggregateType);
+
+    expect(result).toEqual(["2024M07"]);
+  });
+
+  
+
+  test("월단위 보간 - 연도 넘어감", () => {
+    const [start, end, aggregateType] = [
+      "2024M11",
+      "2025M02",
+      "Month",
+    ] as const;
+
+    const result = dateRange(start, end, aggregateType);
+
+    expect(result).toEqual(["2024M11", "2024M12", "2025M01", "2025M02"]);
+  });
+});
+```
+
+```ts
+/**
+ * Day:   "2024-06-18"
+ * Week:  "2024W25"
+ * Month: "2024M06"
+ */
+const dateRange = (startDate: string, endDate: string, aggregateType: 'Day' | 'Week' | 'Month') => {
+  const range: string[] = [];
+  switch (aggregateType) {
+    case 'Day':
+      /**
+       * 일단위 순회
+       */
+      for (let day = dayjs(startDate); day.isBefore(dayjs(endDate).add(1, 'day')); day = day.add(1, 'day')) {
+        range.push(day.format('YYYY-MM-DD'));
+      }
+      break;
+    case 'Week':
+      /**
+       * 주단위 순회
+       * 52주에 해당하지 않는 연도 예외가 발생해서 dayjs로 계산
+       * 요일 제어로 off by one 방지
+       * 26년, 32년 예외처리
+       *
+       * @todo 1년이 53주에서 다음 연도 넘어갈 때 버그 발생
+       * @todo 1 ~ 2년 범위로 조회하는 경우 예외처리
+       */
+      let [startWeekYear, startWeek] = startDate.split('W').map(str => parseInt(str));
+      let [endWeekYear, endWeek] = endDate.split('W').map(str => parseInt(str));
+
+      const lastEndWeek = dayjs().year(endWeekYear).isoWeeksInYear();
+      const lastStartWeek = dayjs().year(startWeekYear).isoWeeksInYear();
+
+      if (endWeek === lastEndWeek) {
+        endWeekYear += 1;
+        endWeek = 1;
+      } else {
+        endWeek += 1;
+      }
+
+  
+
+      while (startWeekYear !== endWeekYear || startWeek !== endWeek) {
+        range.push(`${startWeekYear}W${startWeek.toString().padStart(2, '0')}`);
+        if (startWeek === lastStartWeek) {
+          startWeekYear += 1;
+          startWeek = 1;
+        } else {
+          startWeek += 1;
+        }
+      }
+      break;
+    case 'Month':
+      /**
+       * 월단위 순회
+       * 시작 일 마지막 일로 off by one 방지
+       */
+      let [startMonthYear, startMonth] = startDate.split('M').map(str => parseInt(str));
+      let [endMonthYear, endMonth] = endDate.split('M').map(str => parseInt(str));
+      if (endMonth === 12) {
+        endMonthYear += 1;
+        endMonth = 1;
+      } else {
+        endMonth += 1;
+      }
+
+      while (startMonthYear !== endMonthYear || startMonth !== endMonth) {
+        range.push(dayjs(`${startMonthYear}-${startMonth}-01`).format('YYYY[M]MM'));
+        if (startMonth === 12) {
+          startMonthYear += 1;
+          startMonth = 1;
+        } else {
+          startMonth += 1;
+        }
+      }
+      break;
+    default:
+      break;
+  }
+
+  return range;
+};
+```

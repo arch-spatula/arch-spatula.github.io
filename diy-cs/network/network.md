@@ -158,3 +158,7 @@ ping www.naver.com
 위 명령으로 IP 패킷 전송 후 응답 등을 알아 낼 수 있습니다.
 
 <!-- 이더넷 -->
+
+(번역) 웹 소켓 vs Server-Sent-Events vs 롱 폴링 vs WebRTC vs 웹 트랜스포트
+
+https://ricki-lee.medium.com/%EC%9B%B9-%EC%86%8C%EC%BC%93-vs-server-sent-events-vs-%EB%A1%B1-%ED%8F%B4%EB%A7%81-vs-webrtc-vs-%EC%9B%B9-%ED%8A%B8%EB%9E%9C%EC%8A%A4%ED%8F%AC%ED%8A%B8-25bb6be64904
