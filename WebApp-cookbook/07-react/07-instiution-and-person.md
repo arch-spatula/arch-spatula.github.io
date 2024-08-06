@@ -47,6 +47,14 @@ description: '리액트 및 리액트 생태계 관련된 기관과 사람 위�
 - React
 - Redux
 
+<!--
+
+ TODO: 아래 글 읽어보기
+
+- https://overreacted.io/things-i-dont-know-as-of-2018/
+
+-->
+
 [Andrew Clark](https://github.com/acdlite)
 
 - Redux

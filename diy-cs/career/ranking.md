@@ -114,6 +114,7 @@ tags: ['주관적인 랭킹', '커리어']
 [삼성 SDS](https://www.samsungsds.com/)
 
 - 우리나라 SI 기업의 정점에 해당합니다.
+- [삼성전자 github 레포](https://github.com/Samsung)는 있습니다.
 
 [SK C&C](https://www.skcc.co.kr/)
 

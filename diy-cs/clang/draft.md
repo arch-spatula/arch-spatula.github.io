@@ -165,3 +165,15 @@ CLI에서 문제가 있었는데 전판의 손패를 계속 들고 있는 버그
 Learn C Programming and OOP with Dr. Chuck (feat. classic book by Kernighan and Ritchie) 
 
 https://www.youtube.com/watch?v=PaPN51Mm5qQ
+
+## 발견한 과제
+
+https://www.youtube.com/watch?v=Cjt6QyfDdNo 
+
+비트연산만 활용해서 사칙연산과 나머지 연산을 구현하는 것입니다.
+
+그리고 int 자리수를 초과하는 수준에서 정수 계산하는 방법을 구하는 것입니다. 마찬가지로 타입만으로 해결하면 안됩니다. 계산결과도 정확해야 합니다.
+
+위 2가지 과제를 발견했습니다. 제출할 수 없지만 시도해봐도 괘찮을 것 같습니다.
+
+

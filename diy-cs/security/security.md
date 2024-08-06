@@ -41,6 +41,8 @@ https://www.youtube.com/watch?v=iRjdjck3obY
 
 성능과 비용 때문에 부하 제어를 했다고 했는데 처벌은 당연히 없습니다. 역시 법은 강해져야 유리하게 적용받습니다.
 
+https://news.hada.io/topic?id=15651
+
 ## 줍줍
 
 https://news.hada.io/topic?id=15528&utm_source=slack&utm_medium=bot&utm_campaign=T056MP5374J
@@ -527,3 +529,9 @@ app.listen(port, () => {
 | 비용 (상대적)      | Expensive | Cheap      |
 
 확장성은 토큰이 유리합니다. 하지만 보안이 상대적으로 낮습니다. 세션을 기술적인 부담과 비용이 존재합니다. 보안은 세션이 더 유리합니다. 토큰은 리프레쉬 토큰을 적용할 수 있지만 세션은 서버에서 처리할 수 있는 보안의 자유도가 높습니다. 비용은 인증을 서버에서 보관하기 때문에 더 비쌉니다.
+
+## Chrome Lost Your Passwords
+
+https://www.youtube.com/watch?v=7o7D__fGsr8
+
+https://github.com/keepassxreboot/keepassxc
