@@ -6,6 +6,10 @@ tags: ["디버깅", "커리어"]
 
 # 디버깅
 
+디버깅을 다루는 좋은 글이 있습니다. 
+
+[디버깅의 원칙](https://kciter.so/posts/principles-of-debugging/)부터 읽기 바랍니다.
+
 디버깅을 따로 다루는 이유는 기능 추가보단 버그 제거를 더 많이 할 가능성이 높습니다. 또 개인 프로젝트를 프로젝트 기간 혹은 작업 수명이 길면 디버깅 시간과 작업도 늘어납니다.
 
 <iframe className="codepen" src="https://www.youtube.com/embed/X3jw1JVNdPE" title="how to never write bug" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>

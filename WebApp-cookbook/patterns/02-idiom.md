@@ -77,6 +77,59 @@ function main(arg, foo) {
 main();
 ```
 
+## 플래그 컨트롤
+
+- Typescript의 타입 선언을 활용해서 코드를 정리할 수 있음.
+- 플래그가 상호 배타적이라는 것을 알면 `string literal`이 더 유리함
+
+```ts
+const foo = ref(true);
+const bar = ref(false);
+const baz = ref(false);
+```
+
+위처럼 선언하고 호출이 발생하는 지점마다 개별로 플래그 컨트롤하면 가독성과 제어 측면에서 불리합니다.
+
+```ts
+const onBazClick = () => {
+	foo.value = false;
+	bar.value = false;
+	baz.value = true;
+};
+```
+
+위처럼 작성하면 무엇을 키고 무엇을 끄는지 자세히 확인해야 합니다. 지금은 `onBazClick`를 살린다는 것을 알 수 있습니다.
+
+위와 비슷한 코드가 5개 정도 있습니다. 더 직관적인 방법은 `string literal`을 사용하고 어디로 바뀌는지 보여주는 것입니다.
+
+```ts
+type ShowType = 'foo' | 'bar' | 'baz';
+
+const show = ref<ShowType>('foo');
+
+const changeShow = (showType: ShowType) => {
+  show.value = showType;
+};
+```
+
+위처럼 선언하면 무엇을 변경하고 살릴지 더 선언적으로 제어할 수 있습니다.
+
+```ts
+const onBazClick = () => {
+  changeShow('baz');
+};
+```
+
+- 이전에 본 코드는 이렇게 1줄로 정리됩니다.
+
+
+```ts
+type PageType = 'list' | 'detail'
+```
+
+- 조금더 생각해보면 플래그 컨트롤할 때는 `true`, `false`로 제어하는 것보다 상태를 명시하는 것이 좋습니다.
+- 리스트 페이지, 상세 페이지 모달이 보이고 안보이고로 URL 변화 없이 제어해야 하는 상황이면 이런 것이 더 유리할 것입니다.
+
 <!--
 ## 메서드 쿼리
 

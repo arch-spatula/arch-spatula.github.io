@@ -58,3 +58,10 @@ CPU는 시간이 관건인데 얼마나 제공할지 메모리도 디스크에�
 효율성 문제도 있지만 부가적인 형편성 문제도 있습니다. 테스크 기아문제도 있습니다. 이런것을 방지하는 기업도 나중에 다룹니다.
 
 운영체제에 데드락 교착상태처럼 흥미로운 지식들이 많습니다.
+
+## Two Threads, One Core: How Simultaneous Multithreading Works Under the Hood
+
+https://blog.codingconfessions.com/p/simultaneous-multithreading
+
+https://news.hada.io/topic?id=16174&utm_source=slack&utm_medium=bot&utm_campaign=T056MP5374J
+
