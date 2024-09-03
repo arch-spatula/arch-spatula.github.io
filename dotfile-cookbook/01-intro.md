@@ -49,19 +49,3 @@ git은 고민입니다. github과 기능을 같이 쓰는 부분이 많은데 gi
 lua, neovim, nix를 다루면서 문서를 분리할 필요가 생긴 것 같습니다.
 
 -->
-
-## 유용한 툴
-
-[Oh My Zsh?](https://ohmyz.sh/)
-
-제공하는 기본설정이 상당히 좋습니다.
-
-## 터미널 툴
-
-[warp](https://www.warp.dev/)
-
-맥 전용으로 사용할 수 있는 간지나는 터미널입니다.
-
-> We have plans to support Linux, Windows, and the Web (WASM)!
-
-위는 공식 레포 README.md에서 따왔습니다. 계획만 갖고 있다고 합니다.
