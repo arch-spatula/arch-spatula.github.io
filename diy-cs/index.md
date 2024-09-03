@@ -122,6 +122,14 @@ Java는 1학년 2학기에 가르칠 것이라는 생각도 들었습니다. 2�
 - 임베디드 개발자로 로우레벨 지식을 많이 소개해주고 있습니다.
 - [독하게 시작하는 C 프로그래밍](https://www.yes24.com/Product/Goods/18732021)을 저술했습니다.
 
+The Art of Computer Programming 세트
+
+- [1권](https://www.hanbit.co.kr/store/books/look.php?p_code=B8068754595)
+- [2권](https://www.hanbit.co.kr/store/books/look.php?p_code=B5813900488)
+- [3권](https://www.hanbit.co.kr/store/books/look.php?p_code=B2390088475)
+- [4권](https://www.hanbit.co.kr/store/books/look.php?p_code=B3301714641)
+
+
 ### 기타 자료
 
 [Learn X in Y minutes](https://learnxinyminutes.com/)

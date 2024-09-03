@@ -199,6 +199,17 @@ const config = {
         rehypePlugins: [katex],
       },
     ],
+		[
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "dotfile-Cookbook",
+        path: "dotfile-Cookbook",
+        routeBasePath: "dotfile-Cookbook",
+        sidebarPath: require.resolve("./sidebars.js"),
+        remarkPlugins: [math],
+        rehypePlugins: [katex],
+      },
+    ],
   ],
 
   markdown: {
@@ -245,6 +256,12 @@ const config = {
             activeBaseRegex: `/WebApp-Cookbook/`,
             position: "left",
           },
+				{
+            to: "/dotfile-cookbook/intro",
+            label: ".dotfiles 레시피",
+            activeBaseRegex: `/dotfile-cookbook/`,
+            position: "left",
+          },
           {
             href: "https://github.com/arch-spatula/arch-spatula.github.io",
             label: "GitHub",
@@ -269,6 +286,10 @@ const config = {
               {
                 label: "WebApp Cookbook",
                 to: "/WebApp-Cookbook/intro",
+              },
+						  {
+                label: ".dotfiles 레시피",
+                to: "/dotfile-cookbook/intro",
               },
               {
                 label: "easter",

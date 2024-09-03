@@ -74,20 +74,6 @@ https://aseprite.org/
 
 직접 컴파일만 가능하면 무료 툴임(개발자에게는 무료)
 
-## UTM 
-
-https://namu.wiki/w/UTM 
-
-위는 macOS를 위한 운영체제 가상화 툴입니다. NixOS 설치시도를 해보고 싶었습니다. 먼저 연습하고 나중에 부트로더를 만들려고 합니다.
-
-위 시도를 먼저 해보고 macOS에서 마음에 드는 설정을 하면 해당하는 NixOS의 Nix 파일을 활용할 것입니다. 물론 생각에 불과합니다.
-
-Docker에서 사용할 때랑 그리고 듀얼 부트로더로 회사 컴퓨터를 2개의 운영체제를 운용할 수 있으면 현재의 저의 설정을 완전히 재현할 수 있을 것이라는 착각을 할 수 있습니다.
-
-https://nixos.org/download/
-
-위는 패키지 매니져랑 운영체제 설치를 알려줍니다.
-
 ## 줍줍 링크 
 
 https://www.yes24.com/Product/Goods/125577754
@@ -189,3 +175,37 @@ https://news.hada.io/topic?id=15661&utm_source=slack&utm_medium=bot&utm_campaign
 https://github.com/currenjin/site-for-developers
 
 - 개발자가 참고하면 좋은 대표적인 웹사이트를 모아놓은 북마크 저장소
+
+## 플랫폼 언어
+
+- nix를 보면서 든 생각은 운영체제 설정을 위한 언어이고 운영체제이고 shell이고 패키지메니져입니다.
+- 회사에서는 windows를 운영체제로 사용하고 있습니다.
+  - 옛날에는 VBA였던 것 같습니다. 지금은 C#으로 어플리케이션과 백엔드가 구성되어 있습니다.
+  - windows 어플리케이션을 만들고 싶으면 C#을 배우는 것이 방법이 될 것입니다.
+  - 게임개발을 위해 유니티의 언어이기 합니다.
+  - 물론 멀리하고 싶습니다.
+- 요즘 자주드는 생각은 swift로 mac 용 노트북, 휴대폰 앱을 직접 만드는 것입니다.
+  - 아마 미래에도 노트북을 또 구매하면 mac 북을 구매할 것 같습니다.
+    - 물론 WSL에 완전히 적응하고 개인 데스크 탑도 nixos로 구성한다면 thinkpad를 구매할지도 모릅니다.
+  - mac용 게임을 직접 만들 수 있지만 모든 것이 애플의 환경에 제한됩니다.
+  - 퇴근하고 제일 많이 사용하는 운영체제인데 직접 몇가지 툴을 만들어보고 싶여졌습니다.
+- kotlin을 사용하면 안드로이드 애플리케이션과 백엔드를 모두 만들 수 있습니다.
+  - 물론 1개의 언어 모바일 프론트엔드 백엔드가 가능합니다. 물론 가능하다고 해도 해야 할 것은 아닙니다.
+  - 상당히 유치한 생각입니다.
+- 가장 궁극의 플랫폼 언어는 결국 C/C++입니다.
+
+## 개발자용 서체
+
+https://goorm-sans.goorm.io/?utm_source=community&utm_medium=social&utm_content=eoplanet
+
+## SQLite 트랜잭션
+
+https://news.hada.io/topic?id=16105
+
+## SQLite 벡터 검색
+
+https://news.hada.io/topic?id=16174
+
+## ffmpage로 API 만들기
+
+https://news.hada.io/topic?id=16082
