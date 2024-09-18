@@ -54,11 +54,13 @@ const selectedTags = ref<string[]>([]);
         >
           <NuxtLink :to="blog._path" :class="$style.link">
             <h2>{{ blog.title }}</h2>
-            <p>{{ blog.description }}</p>
             <p>{{ blog.date.toString().split("T")[0] }}</p>
+            <p>{{ blog.description }}</p>
           </NuxtLink>
-          <div v-for="tag in blog.tags">
+          <div :class="$style['tag-warpper']">
             <button
+              v-for="tag in blog.tags"
+              :class="$style['button-tag']"
               @click="
                 () => {
                   const idx = selectedTags.findIndex((val) => val === tag);
@@ -109,5 +111,23 @@ const selectedTags = ref<string[]>([]);
 }
 .link:hover {
   color: #4f46e5;
+}
+
+.tag-warpper {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.button-tag {
+  cursor: pointer;
+  border: solid 1px black;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  background-color: #fff;
+}
+.button-tag:hover {
+  background-color: #e0e7ff;
 }
 </style>
