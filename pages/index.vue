@@ -39,11 +39,12 @@ const selectedTags = ref<string[]>([]);
 </script>
 
 <template>
-  <main>
+  <main :class="$style.main">
     <input :class="$style.input" v-model="search" />
     <ContentList :query="query" path="/blogs" v-slot="{ list }">
       <div v-for="blog in list" :key="blog._path">
         <div
+          :class="$style['blog-item']"
           v-show="
             (blog.title?.includes(search) ||
               blog.description?.includes(search)) &&
@@ -51,10 +52,10 @@ const selectedTags = ref<string[]>([]);
               selectedTags?.some((elem) => blog?.tags?.includes(elem)))
           "
         >
-          <NuxtLink :to="blog._path">
+          <NuxtLink :to="blog._path" :class="$style.link">
             <h2>{{ blog.title }}</h2>
             <p>{{ blog.description }}</p>
-            <p>{{ blog.date }}</p>
+            <p>{{ blog.date.toString().split("T")[0] }}</p>
           </NuxtLink>
           <div v-for="tag in blog.tags">
             <button
@@ -87,5 +88,26 @@ const selectedTags = ref<string[]>([]);
 }
 .input:focus {
   border: solid 2px #4f46e5;
+}
+
+.main {
+  margin: 0 auto;
+  max-width: 800px;
+  position: relative;
+  background-color: #fff;
+}
+
+.blog-item {
+  border-bottom: 1px solid #eee;
+  line-height: 20px;
+  padding: 20px 80px 20px 80px;
+  position: relative;
+}
+
+.link {
+  color: #020420;
+}
+.link:hover {
+  color: #4f46e5;
 }
 </style>
