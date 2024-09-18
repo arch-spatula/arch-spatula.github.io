@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['auth', 'regex']
 description: '버튼에 로딩 스피너를 추가하는 방법입니다.'
 toc_max_heading_level: 6
+date: 2023-06-19
 ---
 
 # 로그인, 회원가입 관련 유효성 검증

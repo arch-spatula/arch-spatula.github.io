@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['typescript', 'react-query', 'axios', 'error log']
 description: 'axios와 React-Query에 특히 Error에 타입지정하는 여정입니다.'
 toc_max_heading_level: 6
+date: 2023-07-24
 ---
 
 # axios, react-query 타입지정

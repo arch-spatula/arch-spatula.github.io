@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['auth', 'token', 'axios', 'jotai', 'refresh']
 description: '토큰 갱신을 위해서 interceptor를 구현한 이야기입니다.'
 toc_max_heading_level: 6
+date: 2023-06-19
 ---
 
 # 토큰 갱신 처리하기

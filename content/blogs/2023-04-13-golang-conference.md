@@ -2,7 +2,8 @@
 title: Go 언어 어디에 써야 할까? - 컨프런스 방문
 authors: [arch-spatula]
 tags: ['blog', '컨프런스', 'golang']
-description: golang 컴프런스를 다녀왔습니다.
+description: golang 컨프런스를 다녀왔습니다.
+date: 2023-04-13
 ---
 
 # Go 언어 어디에 써야 할까? - 컨프런스 방문

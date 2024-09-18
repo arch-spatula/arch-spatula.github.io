@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['react', 'custom hook']
 description: '스크롤을 정지하는 방법입니다.'
 toc_max_heading_level: 6
+date: 2023-07-07
 ---
 
 # useStopScroll

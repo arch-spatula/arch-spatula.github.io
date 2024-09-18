@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['deno', 'token', 'singleton']
 description: 싱글튼 패턴이 적당해보여서 활용했습니다.
 toc_max_heading_level: 6
+date: 2023-05-23
 ---
 
 # 토큰 싱글튼

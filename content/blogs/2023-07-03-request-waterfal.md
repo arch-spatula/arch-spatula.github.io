@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['react', 'custom hook']
 description: '로그인하고 홈페이지로 이동하면 하면 로딩 스피너가 보입니다. 잘 몰랐지만 상당히 기초가 없는 짓이라고 합니다.'
 toc_max_heading_level: 6
+date: 2023-07-03
 ---
 
 # request waterfall 해결

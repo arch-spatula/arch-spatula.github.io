@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['vite', 'react', 'vitest', 'React.dev', 'Alias 설정']
 description: '이유가 있다면 더 간소하고 성능이 더 좋습니다. HMR 지원이 상당히 빠릅니다.'
 toc_max_heading_level: 6
+date: 2023-06-11
 ---
 
 # 새 React 프로젝트는 vite를 활용해야 하는 이유

@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['dropdown menu', 'dropdown', 'menu', 'ui']
 description: 'dropdown menu 만들는 방법입니다. 의외로 별거 없습니다.'
 toc_max_heading_level: 6
+date: 2023-06-21
 ---
 
 # dropdown menu 만들기

@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['deno', 'auth', 'deno deploy']
 description: 'Deno Deploy로 배포하고 있는데 서버가 재시작하면 Module 스코프로 1번만 실행해야 할 함수 모두 재실행하고 서버의 키가 바뀌는 문제가 발생했습니다. 이 문제를 해결하기 위해서 항상 동일한 key를 만들도록 해결했습니다.'
 toc_max_heading_level: 6
+date: 2023-07-05
 ---
 
 # 서버 key 고정시키기

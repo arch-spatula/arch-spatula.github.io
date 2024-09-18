@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['react', 'error boundary', '예외처리']
 description: '리액트에서 컴포넌트 차원에서 예외처리하는 방법입니다. 에러를 발생할 수 있고 우아하게 처리하는 방법을 소개합니다.'
 toc_max_heading_level: 6
+date: 2023-07-27
 ---
 
 # 에러 바운더리 적용

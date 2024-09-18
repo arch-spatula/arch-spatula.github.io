@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['refactoring', 'JavaScript', 'switch case']
 description: 'switch case를 사용할 수 있는 상황이면 `map` 혹은 `object`를 사용할 수 있습니다.'
 toc_max_heading_level: 6
+date: 2023-06-23
 ---
 
 # switch case 리팩토링 전략

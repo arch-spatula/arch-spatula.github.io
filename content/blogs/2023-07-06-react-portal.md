@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['react', 'react portal']
 description: '지금 구현해야 하는 것은 삭제시 경고 modal(더 구체적으로 Dialog)입니다. 이 작업을 기록하는 이유는 react portal로 구현하는 것이 처음이기 때문에 기록합니다.'
 toc_max_heading_level: 6
+date: 2023-07-06
 ---
 
 # react portal

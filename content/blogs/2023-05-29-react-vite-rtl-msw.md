@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['vitest', 'axios', 'vite', 'react', 'msw', 'react testing library']
 description: vitest처럼 빠른 테스트러너에 RTL과 MSW를 같이 사용할 수 있게 설정하는 방법을 다룹니다.
 toc_max_heading_level: 6
+date: 2023-05-29
 ---
 
 # vitest, RTL, MSW 테스트 설정

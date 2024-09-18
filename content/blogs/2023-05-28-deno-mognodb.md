@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['deno', 'deno deploy', '공룡', '리액트 테스트 전략']
 description: deno 런타임에서 axios로 mongoDB랑 통신하는데 에러가 계속됩니다.
 toc_max_heading_level: 6
+date: 2023-05-28
 ---
 
 # 공룡이 좋아졌습니다.

@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['react', 'ux', 'auth']
 description: '이메일을 저장하는 방법입니다.'
 toc_max_heading_level: 6
+date: 2023-07-06
 ---
 
 # 이메일 저장하기

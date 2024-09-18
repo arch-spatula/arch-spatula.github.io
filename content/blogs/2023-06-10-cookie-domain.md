@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['cookie', '배포전략', '원티드 특강', 'domain']
 description: 우회할 방법은 cookie를 사용 안 하는 것 말고 없습니다.
 toc_max_heading_level: 6
+date: 2023-06-10
 ---
 
 # cookie는 도메인이 같아야 주고 받을 수 있습니다.

@@ -4,6 +4,7 @@ authors: [arch-spatula]
 tags: ['react', '코딩 컨벤션']
 description: '개인적으로 적용하고 있는 리액트 코딩 컨벤션입니다. 일부는 차용했습니다. 또 배운 것이 있으면 추가할 것입니다.'
 toc_max_heading_level: 6
+date: 2023-07-19
 ---
 
 # 리액트 코딩 컨벤션
