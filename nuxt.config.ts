@@ -8,5 +8,13 @@ export default defineNuxtConfig({
 		"/": { prerender: true },
 	},
 
+	content: {
+		experimental: {
+			search: {
+				filterQuery: { _draft: false },
+			},
+		},
+	},
+
 	compatibilityDate: "2024-09-18",
 });

@@ -7,7 +7,7 @@ const search = ref("");
 // name: arch-spatula
 // title: Cook-Book 많이 만듭니다
 // url: https://github.com/arch-spatula
-//image_url: https://github.com/arch-spatula.png
+// image_url: https://github.com/arch-spatula.png
 /**
  * TODO: 쿼리 파라미터 활용하기
  * 쿼리 파라미터를 기준으로 현재 선택한 태그 보여주기
@@ -53,9 +53,8 @@ const selectedTags = ref<string[]>([]);
           "
         >
           <NuxtLink :to="blog._path" :class="$style.link">
-            <h2>{{ blog.title }}</h2>
-            <p>{{ blog.date.toString().split("T")[0] }}</p>
-            <p>{{ blog.description }}</p>
+            <h2 :class="$style.title">{{ blog.title }}</h2>
+            <p :class="$style.description">{{ blog.description }}</p>
           </NuxtLink>
           <div :class="$style['tag-warpper']">
             <button
@@ -75,6 +74,9 @@ const selectedTags = ref<string[]>([]);
               {{ tag }}
             </button>
           </div>
+          <p :class="$style.date">
+            {{ blog.date.toString().split("T")[0] }}
+          </p>
         </div>
       </div>
     </ContentList>
@@ -82,7 +84,7 @@ const selectedTags = ref<string[]>([]);
 </template>
 <style module>
 .input {
-  border: solid 1px black;
+  border: solid 2px black;
   border-radius: 4px;
   height: 32px;
   box-sizing: border-box;
@@ -113,19 +115,34 @@ const selectedTags = ref<string[]>([]);
   color: #4f46e5;
 }
 
+.title {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 8px 0 4px;
+}
+.description {
+  font-size: 16px;
+}
+.date {
+  color: #6b7280;
+  font-size: 14px;
+}
+
 .tag-warpper {
-  margin-top: 8px;
+  margin: 8px 0;
   display: flex;
-  gap: 8px;
+  gap: 4px;
+  flex-wrap: wrap;
 }
 
 .button-tag {
   cursor: pointer;
-  border: solid 1px black;
+  border: solid 2px black;
   border-radius: 4px;
-  padding: 4px 8px;
+  padding: 2px 4px;
   font-size: 12px;
   background-color: #fff;
+  box-sizing: border-box;
 }
 .button-tag:hover {
   background-color: #e0e7ff;

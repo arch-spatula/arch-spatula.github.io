@@ -11,7 +11,7 @@ tags:
   ]
 description: '특정 route에 접근하면 리다이렉팅 깜박임을 제거하는 방법입니다.'
 toc_max_heading_level: 6
-draft: true
+_draft: true
 date: 2023-06-27
 ---
 
