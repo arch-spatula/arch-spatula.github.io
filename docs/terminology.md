@@ -73,6 +73,8 @@ type Date struct {
   - runtime configuration
 - OPSEC(Operations security): 운영보안입니다.
   - 직업 사이버 범죄로 장물, 마약 매매할 때 준수할 사항을 의미하는 경우도 있습니다.
+- Bikesheadding(바이크 쉐딩): 관리자가 중요하지 않은 하찮은 결정에 개입하는 것.
+  - [Law of triviality](https://en.wikipedia.org/wiki/Law_of_triviality)
 
 [^1]: [Out of the box (feature) - wikipedia](<https://en.wikipedia.org/wiki/Out_of_the_box_(feature)>)
 [^2]: [Eating your own dog food - wikipedia](https://en.wikipedia.org/wiki/Eating_your_own_dog_food)

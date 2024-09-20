@@ -16,11 +16,22 @@ const search = ref("");
 // TODO: 전체 태그를 사전에 모두 가져오기
 // 모든 태그는 언급횟수를 갖고 있음
 // tag ui에는 왼쪽에는 텍스트 오른쪽에는 숫자가 나옴
-const contentQuery = ref<string[]>([]);
+const tags = ref<Map<string, number>>(new Map());
 
-contentQuery.value = await queryContent("blogs")
+await queryContent("blogs")
   .find()
-  .then((res) => res.map((elem) => elem?.tags));
+  .then((res) => res.map((elem) => elem?.tags))
+  .then((res: string[][]) => {
+    res.sort().forEach((elems) => {
+      elems.forEach((elem) => {
+        if (tags.value.get(elem)) {
+          tags.value.set(elem, tags.value.get(elem) + 1);
+        } else {
+          tags.value.set(elem, 1);
+        }
+      });
+    });
+  });
 
 const query: QueryBuilderParams = {
   sort: [{ date: -1 }],
@@ -40,7 +51,18 @@ const selectedTags = ref<string[]>([]);
 
 <template>
   <main :class="$style.main">
-    <input :class="$style.input" v-model="search" />
+    <div>현재 블로그를 새롭게 단장하고 있습니다.</div>
+
+		{{ selectedTags }}
+
+    <div>
+      <input :class="$style.input" v-model="search" />
+    </div>
+    <div :class="$style['filter-warrper']">
+      <button :class="$style['button-tag']" v-for="tag in tags">
+        {{ tag[0] }} {{ tag[1] }}
+      </button>
+    </div>
     <ContentList :query="query" path="/blogs" v-slot="{ list }">
       <div v-for="blog in list" :key="blog._path">
         <div
@@ -73,6 +95,7 @@ const selectedTags = ref<string[]>([]);
             >
               {{ tag }}
             </button>
+
           </div>
           <p :class="$style.date">
             {{ blog.date.toString().split("T")[0] }}
@@ -96,28 +119,48 @@ const selectedTags = ref<string[]>([]);
 
 .main {
   margin: 0 auto;
-  max-width: 800px;
+  max-width: 890px;
   position: relative;
-  background-color: #fff;
+  /* background-color: #fff; */
 }
 
 .blog-item {
-  border-bottom: 1px solid #eee;
   line-height: 20px;
-  padding: 20px 80px 20px 80px;
+  padding: 32px 80px 8px 80px;
   position: relative;
+  /* background-color: #444c56b3; */
+  margin: 20px 0;
+  border-radius: 16px;
+  border: solid 2px #444c56b3;
+}
+
+.blog-item:hover {
+  border: solid 2px #c5d1de;
+  animation-duration: 0.3s;
+  animation-name: hoverin;
+}
+
+@keyframes hoverin {
+  from {
+    border: solid 2px #444c56b3;
+  }
+
+  to {
+    border: solid 2px #c5d1de;
+  }
 }
 
 .link {
-  color: #020420;
+  color: #c5d1de;
 }
 .link:hover {
-  color: #4f46e5;
+  color: #478be6;
 }
 
 .title {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.25;
+  font-weight: 600;
   margin: 8px 0 4px;
 }
 .description {
@@ -129,22 +172,41 @@ const selectedTags = ref<string[]>([]);
 }
 
 .tag-warpper {
-  margin: 8px 0;
+  margin: 4px 0 0;
   display: flex;
-  gap: 4px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
+.filter-warrper {
+  margin: 4px 0 0;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 0px 80px 20px;
+  /* border-bottom: solid 2px #ffffff; */
+  margin: 0 0 40px;
+}
+
 .button-tag {
+  all: unset;
   cursor: pointer;
-  border: solid 2px black;
-  border-radius: 4px;
-  padding: 2px 4px;
-  font-size: 12px;
-  background-color: #fff;
+  color: #c5d1de;
+  border: solid 2px #c5d1de;
+  border-radius: 8px;
+  height: 36px;
+  padding: 8px 12px 4px;
+  font-size: 16px;
+  line-height: 1.25;
+  background-color: none;
   box-sizing: border-box;
+  display: flex;
+  align-item: center;
+  justify-content: center;
 }
 .button-tag:hover {
-  background-color: #e0e7ff;
+  color: #478be6;
+  background-color: none;
+  border: solid 2px #478be6;
 }
 </style>

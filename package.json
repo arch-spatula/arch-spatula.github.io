@@ -13,7 +13,5 @@
     "nuxt": "^3.13.0"
   },
   "packageManager": "pnpm@8.10.5+sha1.4370a069f21873a0ad83c785b8048ed8caf6e6e9",
-  "devDependencies": {
-    "sass": "~1.79.1"
-  }
+  "devDependencies": {}
 }
