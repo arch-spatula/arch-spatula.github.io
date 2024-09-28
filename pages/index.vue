@@ -2,7 +2,9 @@
 import type { QueryBuilderParams } from "@nuxt/content";
 
 const search = ref("");
-
+useHead({
+  title: "Arch-Spatula의 레시피",
+});
 //arch-spatula:
 // name: arch-spatula
 // title: Cook-Book 많이 만듭니다
@@ -53,16 +55,32 @@ const selectedTags = ref<string[]>([]);
   <main :class="$style.main">
     <div>현재 블로그를 새롭게 단장하고 있습니다.</div>
 
-		{{ selectedTags }}
-
     <div>
       <input :class="$style.input" v-model="search" />
     </div>
     <div :class="$style['filter-warrper']">
-      <button :class="$style['button-tag']" v-for="tag in tags">
+      <button
+        :class="
+          selectedTags.includes(tag[0])
+            ? $style['selected-tag']
+            : $style['default-tag']
+        "
+        v-for="tag in tags"
+        @click="
+          () => {
+            const idx = selectedTags.findIndex((val) => val === tag[0]);
+            if (idx === -1) {
+              selectedTags.push(tag[0]);
+            } else {
+              selectedTags.splice(idx, 1);
+            }
+          }
+        "
+      >
         {{ tag[0] }} {{ tag[1] }}
       </button>
     </div>
+    {{ selectedTags }}
     <ContentList :query="query" path="/blogs" v-slot="{ list }">
       <div v-for="blog in list" :key="blog._path">
         <div
@@ -81,7 +99,11 @@ const selectedTags = ref<string[]>([]);
           <div :class="$style['tag-warpper']">
             <button
               v-for="tag in blog.tags"
-              :class="$style['button-tag']"
+              :class="
+                selectedTags.includes(tag)
+                  ? $style['selected-tag']
+                  : $style['default-tag']
+              "
               @click="
                 () => {
                   const idx = selectedTags.findIndex((val) => val === tag);
@@ -95,7 +117,6 @@ const selectedTags = ref<string[]>([]);
             >
               {{ tag }}
             </button>
-
           </div>
           <p :class="$style.date">
             {{ blog.date.toString().split("T")[0] }}
@@ -188,7 +209,7 @@ const selectedTags = ref<string[]>([]);
   margin: 0 0 40px;
 }
 
-.button-tag {
+.default-tag {
   all: unset;
   cursor: pointer;
   color: #c5d1de;
@@ -204,9 +225,31 @@ const selectedTags = ref<string[]>([]);
   align-item: center;
   justify-content: center;
 }
-.button-tag:hover {
+.default-tag:hover {
   color: #478be6;
   background-color: none;
   border: solid 2px #478be6;
+}
+
+.selected-tag {
+  all: unset;
+  cursor: pointer;
+  color: #478be6;
+  border: solid 2px #478be6;
+  border-radius: 8px;
+  height: 36px;
+  padding: 8px 12px 4px;
+  font-size: 16px;
+  line-height: 1.25;
+  background-color: none;
+  box-sizing: border-box;
+  display: flex;
+  align-item: center;
+  justify-content: center;
+}
+.selected-tag:hover {
+  color: color-mix(in oklab, #478be6 50%, #c5d1de);
+  background-color: none;
+  border: solid 2px color-mix(in oklab, #478be6 50%, #c5d1de);
 }
 </style>

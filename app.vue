@@ -3,6 +3,7 @@ useSeoMeta({
   ogImage: "/og-image.png",
 });
 useHead({
+	title: 'Arch-Spatula의 레시피',
   link: [{ rel: "icon", type: "image/svg+xml", href: "favicon.svg" }],
 });
 </script>

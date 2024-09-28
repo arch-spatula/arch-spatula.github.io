@@ -4,7 +4,6 @@ authors: [arch-spatula]
 tags: ["nuxt", "nuxtContent", "blog"]
 description: "nuxtContent로 블로그를 다시 만드는 과정"
 toc_max_heading_level: 5
-_draft: true
 date: 2024-09-20
 ---
 
@@ -13,14 +12,6 @@ date: 2024-09-20
 - tl;dr입니다.
   1. 검색과 코드 스니펫은 직접 구현했습니다. 내장기능과 래퍼런스가 있어서 의외로 쉬웠습니다.
   2. 블로그를 극단적으로 단순화하기로 했습니다. 이유는 긴 글을 쓰고 검색을 잘하는 것이 공개자료관리에 유리하기 때문입니다.
-
-```js [file.js]{4-6,7} meta-info=val
-export default () => {
-  console.log("Code block");
-};
-```
-
-- code 문구 시험 `Foo`, `Bar`
 
 ## auto tags 추가하기
 
@@ -284,7 +275,8 @@ const selectedTags = ref<string[]>([]);
   - 하지만 이메일을 통한 도용 대신에 하드웨어 취약점을 제공하고 가입없이 사용할 수 있는 라이브러리도 있습니다. [fusejs](https://www.fusejs.io/)
   - 저는 위 라이브러리를 발견했지만 저는 그냥 키워드랑 태그로 필터정도 할 수 있으면 충분합니다. 그래서 nuxtContent 내부 기능을 활용하기로 했습니다.
 
-```ts
+```vue
+<template>
   <main>
     <input :class="$style.input" v-model="search" />
     <ContentList path="/blogs" v-slot="{ list }">
@@ -321,6 +313,7 @@ const selectedTags = ref<string[]>([]);
       </div>
     </ContentList>
   </main>
+</template>
 ```
 
 - `v-if`로 그냥 보여주고 말고 여과하고 있습니다.
@@ -712,3 +705,5 @@ await queryContent("blogs")
   </div>
 </template>
 ```
+
+
