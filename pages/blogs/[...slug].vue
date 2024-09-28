@@ -4,8 +4,12 @@
       <template v-slot="{ doc }">
         <article>
           <!-- <h1>{{ doc.title }}</h1> -->
-          {{ doc?.tags ?? [] }}
-          {{ doc?.authors ?? [] }}
+          <div :class="$style['tag-warpper']">
+            <div v-for="tag in doc.tags ?? []" :class="$style['default-tag']">
+              {{ tag }}
+            </div>
+          </div>
+          <!-- {{ doc?.authors ?? [] }} -->
           <ContentRenderer
             id="DocContent"
             class="markdown-body dark_dimmed"
@@ -22,6 +26,13 @@
 
 <script setup lang="ts">
 /**
+ * @see https://stackoverflow.com/questions/6838104/pure-javascript-method-to-wrap-content-in-a-div
+ */
+function wrap(el: Element, wrapper: Element) {
+  if (el.parentNode) el.parentNode.insertBefore(wrapper, el);
+  wrapper.appendChild(el);
+}
+/**
  * 기능 자체는 동작함
  * TODO: 아이콘이 붙게 만들어야 함.
  */
@@ -30,14 +41,17 @@ const addBtn = (id: string) => {
   const preElements = docContent?.querySelectorAll("pre");
 
   preElements?.forEach(function (preElement) {
+    const codeblockWrapper = document.createElement("div");
+    codeblockWrapper.classList.add("code-block-wraper");
+
+    wrap(preElement, codeblockWrapper);
+
     const childDiv = preElement.querySelector("div");
     if (childDiv) return;
 
-    const warrper = document.createElement("div");
-    warrper.classList.add("copy-warrper");
-
     const button = document.createElement("button");
     button.classList.add("copyBtn");
+    button.classList.add("btn");
     button.ariaLabel = "copy button";
 
     button.addEventListener("click", function () {
@@ -53,9 +67,11 @@ const addBtn = (id: string) => {
       );
     });
 
-    warrper.appendChild(button);
+    const warrper = document.createElement("div");
+    warrper.classList.add("copy-warrper");
 
-    preElement.appendChild(warrper);
+    warrper.appendChild(button);
+    codeblockWrapper.appendChild(warrper);
   });
 };
 
@@ -78,5 +94,27 @@ onMounted(() => {
 }
 .content {
   width: 100%;
+}
+
+.tag-warpper {
+  margin: 0 0 24px 0;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.default-tag {
+  all: unset;
+  color: #c5d1de;
+  border: solid 2px #c5d1de;
+  border-radius: 8px;
+  height: 36px;
+  padding: 8px 12px 4px;
+  font-size: 16px;
+  line-height: 1.25;
+  background-color: none;
+  box-sizing: border-box;
+  display: flex;
+  align-item: center;
+  justify-content: center;
 }
 </style>

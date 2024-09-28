@@ -53,10 +53,9 @@ const selectedTags = ref<string[]>([]);
 
 <template>
   <main :class="$style.main">
-    <div>현재 블로그를 새롭게 단장하고 있습니다.</div>
 
-    <div>
-      <input :class="$style.input" v-model="search" />
+    <div :class="$style['input-warrper']">
+      <input placeholder="제목, 설명과 일치하는 부분을 남깁니다." :class="$style.input" v-model="search" />
     </div>
     <div :class="$style['filter-warrper']">
       <button
@@ -80,7 +79,6 @@ const selectedTags = ref<string[]>([]);
         {{ tag[0] }} {{ tag[1] }}
       </button>
     </div>
-    {{ selectedTags }}
     <ContentList :query="query" path="/blogs" v-slot="{ list }">
       <div v-for="blog in list" :key="blog._path">
         <div
@@ -127,15 +125,28 @@ const selectedTags = ref<string[]>([]);
   </main>
 </template>
 <style module>
+.input-warrper {
+	width: 730px;
+	margin: 40px 80px;
+}
 .input {
-  border: solid 2px black;
-  border-radius: 4px;
-  height: 32px;
+  all: unset;
+	width: 100%;
+  border: solid 2px #c5d1de;
+  border-radius: 8px;
+  height: 40px;
   box-sizing: border-box;
   padding: 8px 12px;
+  background-color: #22272e;
+  line-height: 1.25;
+  font-size: 16px;
+  color: #c5d1de;
+}
+.input:hover {
+  border: solid 2px #478be6;
 }
 .input:focus {
-  border: solid 2px #4f46e5;
+  border: solid 2px #478be6;
 }
 
 .main {

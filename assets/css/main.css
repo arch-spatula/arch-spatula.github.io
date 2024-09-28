@@ -40,7 +40,6 @@ body {
 /*}*/
 
 a {
-  color: #6366f1;
   text-decoration: none;
 }
 a:hover {
@@ -1176,16 +1175,22 @@ a:hover {
 }
 
 /* copy button */
-#DocContent pre {
-	z-index: 0;
+#DocContent .code-block-wraper {
+  z-index: 0;
   position: relative;
 }
-#DocContent pre:hover > div {
+
+#DocContent pre {
+}
+#DocContent .code-block-wraper:hover > .copy-warrper {
   display: block;
 }
 
-#DocContent pre div {
-  width: 36px;
+#DocContent .code-block-wraper > .copy-warrper {
+}
+
+.copy-warrper {
+  width: 36px !important;
   height: 36px;
   position: absolute;
   border-radius: 4px;
@@ -1193,15 +1198,14 @@ a:hover {
   right: 0;
   margin: 8px;
   display: none;
-}
-.copy-warrper {
-  width: 100%;
+
   aspect-ratio: 1 / 1;
 }
 .copy-warrper:hover {
   background-color: #22272e;
 }
-#DocContent pre div button {
+
+#DocContent .copy-warrper > .btn {
   all: unset;
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -1216,6 +1220,15 @@ a:hover {
 }
 
 .clickedCopyBtn {
-  background-color: #10b981 !important;
+  /* #10b981 */
+  background-color: #478be6 !important;
   mask: url(public/clipboard-check.svg) no-repeat center !important;
+}
+
+/* 
+* code block 가로스크롤 예외 처리
+* 오른쪽으로 스크롤 끝까지 가면 16px 만큼 추가해서 좌우 대칭 맞춤 
+*/
+code > .line > span:last-child {
+  padding: 0 16px 0 0;
 }

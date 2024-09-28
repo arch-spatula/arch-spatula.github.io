@@ -673,6 +673,22 @@ a:hover + div {
 }
 ```
 
+#### 가로스크롤 엣지 케이스 처리
+
+- 처리 자체는 했는데 감싸는 태그를 만드는 방법을 발견해서 공유하고자 합니다.
+
+```ts
+/**
+ * @see https://stackoverflow.com/questions/6838104/pure-javascript-method-to-wrap-content-in-a-div
+ */
+function wrap(el: Element, wrapper: Element) {
+  if (el.parentNode) el.parentNode.insertBefore(wrapper, el);
+  wrapper.appendChild(el);
+}
+```
+
+- 한번 감싸면서 귀찮게 CSS 조절을 해줘야 합니다.
+
 ## 전체 tag 목록과 개수 보여주기
 
 - 스크린샷은 귀찮아서 지금은 생략합니다.
