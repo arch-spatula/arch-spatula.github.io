@@ -3,6 +3,16 @@
     <ContentDoc>
       <template v-slot="{ doc }">
         <article>
+          <div :class="$style['toc-warpper']">
+            <div v-for="item in toc">
+              <NuxtLink
+                :class="$style['heading-link']"
+                :to="`#${item.heading}`"
+                :style="{ padding: `0 0 0 ${(item.depth - 1) * 24}px` }"
+                >{{ item.heading }}</NuxtLink
+              >
+            </div>
+          </div>
           <!-- <h1>{{ doc.title }}</h1> -->
           <div :class="$style['tag-warpper']">
             <div v-for="tag in doc.tags ?? []" :class="$style['default-tag']">
@@ -98,7 +108,7 @@ const addBtn = (id: string) => {
 };
 
 const route = useRoute();
-const { navPageFromPath, navDirFromPath } = useContentHelpers();
+const { navPageFromPath } = useContentHelpers();
 const { data: navigation } = await useAsyncData("blogs", () =>
   fetchContentNavigation(),
 );
@@ -134,6 +144,39 @@ for (let idx = 0; idx < navigation.value[0]?.children.length; idx++) {
   }
 }
 
+const { data } = await useAsyncData(
+  `${route.path}`,
+  queryContent(`${route.path}`).findOne,
+);
+const toc = ref<{ heading: string; depth: 1 | 2 | 3 | 4 | 5 | 6 }[]>([]);
+
+data.value.body.children.forEach(
+  (element: { tag: string; props: { id: string } }) => {
+    switch (element.tag) {
+      case "h1":
+        toc.value.push({ heading: element.props.id, depth: 1 });
+        break;
+      case "h2":
+        toc.value.push({ heading: element.props.id, depth: 2 });
+        break;
+      case "h3":
+        toc.value.push({ heading: element.props.id, depth: 3 });
+        break;
+      case "h4":
+        toc.value.push({ heading: element.props.id, depth: 4 });
+        break;
+      case "h5":
+        toc.value.push({ heading: element.props.id, depth: 5 });
+        break;
+      case "h6":
+        toc.value.push({ heading: element.props.id, depth: 6 });
+        break;
+      default:
+        break;
+    }
+  },
+);
+
 onMounted(() => {
   addBtn("DocContent");
 });
@@ -144,6 +187,7 @@ onMounted(() => {
   width: 890px;
   margin: 0 auto;
   padding: 45px;
+  z-index: 1;
   /*
   position: relative;
 
@@ -248,5 +292,26 @@ onMounted(() => {
     filter: invert(78%) sepia(55%) saturate(7134%) hue-rotate(193deg)
       brightness(95%) contrast(89%);
   }
+}
+
+.toc-warpper {
+  position: fixed;
+  top: 96px;
+  left: calc(50vw + 464px);
+  z-index: 0;
+}
+
+.heading-link {
+  color: #444c56b3;
+  text-decoration: underline;
+  font-size: 16px;
+  line-height: 1.5;
+
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+}
+.heading-link:hover {
+  color: #478be6;
 }
 </style>

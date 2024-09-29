@@ -3,6 +3,12 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * @see https://giscus.app/
+ * @see https://github.com/giscus/giscus-component
+ * 댓글 없는 동안 404는 어떻게 할 수 없음.
+ */
+
 const comment = useTemplateRef("comment");
 
 const utterancesSelector = "iframe.utterances-frame";
@@ -39,7 +45,6 @@ onMounted(() => {
     };
     utterancesEl.contentWindow.postMessage(message, "https://utteranc.es");
   };
-
   utterancesEl ? postThemeMessage() : createUtterancesEl();
 });
 </script>

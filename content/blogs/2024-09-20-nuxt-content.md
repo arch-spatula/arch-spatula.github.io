@@ -42,6 +42,11 @@ https://github.com/windwp/nvim-ts-autotag
 - 이런 자동완성 혜택으로 생산성을 높이고 말겠습니다.
 - 참고로 위에 있는 ts는 타입스크립트가 아니고 treesitter입니다.
 
+### nuxt LSP 이슈
+
+- auto-ts-tag만이 문제는 아니었습니다. 지금 거의다 작성해가는데 nuxt LSP도 설정하고 싶어졌습니다.
+- code 복사 버튼이랑 toc 기능도 LSP 없이 구현하기는 했습니다.
+
 ## 개발자 블로그 프레임워크 마이그레이션
 
 - 제가 개발자 블로그를 처음 만들때는 개발자가 되겠다는 결심이 들었을 때부터였습니다.
@@ -787,6 +792,8 @@ for (let idx = 0; idx < navigation.value[0]?.children.length; idx++) {
 
 ## 기존 댓글 컴포넌트 복구
 
+- 위에서 다시 돌아온다고 했습니다. 지금 여기서 다시 댓글 기능을 구현하겠습니다.
+
 ```vue
 <template>
   <div ref="comment"></div>
@@ -840,8 +847,125 @@ onMounted(() => {
 - 몇가지 발견한 것이 있습니다. 컴포넌트 레포가 있었습니다.
   - https://github.com/giscus/giscus-component
   - 기존 컴포넌트를 다시 참고 자료를 활용해서 다시 만들고자 합니다.
+  - 설치하든 다시 만들든 에러를 우아하게 catch 할 방법을 모르겠습니다.
+  - 라이브러리 내부에서 요청을 처리하는 것 같은데 제어할 방법을 모르겠습니다. 나중에 알게되면 추가하겠습니다.
+
+### 여기서 포기하지 않기
+
+- 여기서 포기하려다가 샤워하면서 생각났습니다. 결국 CDN으로 받고 코드를 브라우저로 받으면 원본 소스코드가 있다는 것입니다.
+- 핵심 부분만 fork 뜨면 저는 제가 원하는 방식으로 제어가 가능해집니다.
+  - 공식 [giscus](https://github.com/giscus/giscus)레포를 보고 요청을 날리는 핵심 부분을 찾으면 됩니다.
+  - 또 래포를 로컬에 다운 받고 에디터로 돌아 다녀야 합니다.
 
 ## DIY로 만드는 TOC
+
+```ts
+const route = useRoute();
+
+const { data } = await useAsyncData(
+  `${route.path}`,
+  queryContent(`${route.path}`).findOne,
+);
+```
+
+- 시작은 이렇게 하겠습니다. 현재 보고 있는 페이지에서 AST를 접근할 수 있습니다.
+
+```ts
+data.value.body.children.forEach(
+  (element: { tag: string; props: { id: string } }) => {
+    switch (element.tag) {
+      case "h1":
+      case "h2":
+      case "h3":
+      case "h4":
+      case "h5":
+      case "h6":
+        console.log(element.props.id);
+        break;
+      default:
+        break;
+    }
+  },
+);
+```
+
+- 다행인 점은 사실상 배열입니다.
+- 아쉬운 부분은 TOC 속성이 있는데 `data.value.body.toc`로 heading을 접근할 수 있습니다. 단점은 h2 만 접근할 수 있습니다. 그 아래 depth까지 접근을 안합니다. `nuxt.config.ts`를 편집해도 결과가 같습니다.
+
+```ts
+const toc = ref<{ heading: string; depth: 1 | 2 | 3 | 4 | 5 | 6 }[]>([]);
+
+data.value.body.children.forEach(
+  (element: { tag: string; props: { id: string } }) => {
+    switch (element.tag) {
+      case "h1":
+        toc.value.push({ heading: element.props.id, depth: 1 });
+        break;
+      case "h2":
+        toc.value.push({ heading: element.props.id, depth: 2 });
+        break;
+      case "h3":
+        toc.value.push({ heading: element.props.id, depth: 3 });
+        break;
+      case "h4":
+        toc.value.push({ heading: element.props.id, depth: 4 });
+        break;
+      case "h5":
+        toc.value.push({ heading: element.props.id, depth: 5 });
+        break;
+      case "h6":
+        toc.value.push({ heading: element.props.id, depth: 6 });
+        break;
+      default:
+        break;
+    }
+  },
+);
+```
+
+- 이렇게 해서 로직을 구현하는 부분은 단순했습니다.
+- 안 단순한 부분은 스타일링입니다.
+
+```vue
+<template>
+  <div :class="$style['toc-warpper']">
+    <div v-for="item in toc">
+      <NuxtLink
+        :class="$style['heading-link']"
+        :to="`#${item.heading}`"
+        :style="{ padding: `0 0 0 ${(item.depth - 1) * 24}px` }"
+        >{{ item.heading }}</NuxtLink
+      >
+    </div>
+  </div>
+</template>
+<style module>
+.toc-warpper {
+  position: fixed;
+  top: 96px;
+  left: calc(50vw + 464px);
+  z-index: 0;
+}
+
+.heading-link {
+  color: #444c56b3;
+  text-decoration: underline;
+  font-size: 16px;
+  line-height: 1.5;
+
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+}
+.heading-link:hover {
+  color: #478be6;
+}
+</style>
+```
+
+- 스크롤하면서 따라와야 합니다.
+- 오른쪽에 위치해야 글에 더 집중하기 쉬워집니다.
+- 링크 비슷하게 보여야 합니다.
 
 ## github actions
 
