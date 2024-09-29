@@ -9,6 +9,12 @@ export default defineNuxtConfig({
 	},
 
 	content: {
+		navigator: {
+			navigator: {
+				fields: ["date"],
+			},
+		},
+
 		markdown: {
 			mdc: true,
 			toc: {
