@@ -785,11 +785,63 @@ for (let idx = 0; idx < navigation.value[0]?.children.length; idx++) {
 
 - 위처럼하면 페이지 전후 접근이 가능합니다. 이제 스타일링 남았습니다.
 
-## DIY로 만드는 TOC
-
 ## 기존 댓글 컴포넌트 복구
 
--
+```vue
+<template>
+  <div ref="comment"></div>
+</template>
+
+<script setup lang="ts">
+const comment = useTemplateRef("comment");
+
+const utterancesSelector = "iframe.utterances-frame";
+// ligth, dark, github-light, github-dark, dark_dimmed
+const theme = "dark_dimmed";
+
+onMounted(() => {
+  const utterancesEl = comment.value.querySelector(utterancesSelector);
+  const createUtterancesEl = () => {
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute("data-repo", "arch-spatula/arch-spatula.github.io");
+    script.setAttribute("data-repo-id", "R_kgDOImK9Dg");
+    script.setAttribute("data-category", "General");
+    script.setAttribute("data-category-id", "DIC_kwDOImK9Ds4CUzIZ");
+    script.setAttribute("data-mapping", "pathname");
+    script.setAttribute("data-strict", "0");
+    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute("data-input-position", "bottom");
+    script.setAttribute("data-lang", "ko");
+    script.setAttribute("crossorigin", "anonymous");
+    script.setAttribute("data-theme", theme);
+    script.setAttribute("data-loading", "lazy");
+
+    script.async = true;
+    comment.value.appendChild(script);
+  };
+
+  const postThemeMessage = () => {
+    const message = {
+      type: "set-theme",
+      theme: theme,
+    };
+    utterancesEl.contentWindow.postMessage(message, "https://utteranc.es");
+  };
+
+  utterancesEl ? postThemeMessage() : createUtterancesEl();
+});
+</script>
+```
+
+- 기존 코드를 vue에 맞게 수정을 했습니다. 그리고 모드 전환을 제공하지 않을 예정이라 그냥 다크모드로 제공하려고 합니다.
+- 취미로는 무시해도 되고 직업적으로 무시하기 곤란한 404가 보였습니다. 라이브러리 영역에서 발견한 코드이고 이 코드를 조금 더 우아하게 처리하는 방법이 있을까? 고민이 되었습니다.
+- 몇가지 발견한 것이 있습니다. 컴포넌트 레포가 있었습니다.
+  - https://github.com/giscus/giscus-component
+  - 기존 컴포넌트를 다시 참고 자료를 활용해서 다시 만들고자 합니다.
+
+## DIY로 만드는 TOC
 
 ## github actions
 

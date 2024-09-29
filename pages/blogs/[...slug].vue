@@ -42,6 +42,7 @@
         />
       </NuxtLink>
     </div>
+    <Comment />
   </main>
 </template>
 
@@ -179,7 +180,7 @@ onMounted(() => {
   display: flex;
   gap: 16px;
   width: 890px;
-  margin: 40px 0;
+  margin: 40px 0 24px;
 }
 .nav-item {
   /* height: 224px; */
