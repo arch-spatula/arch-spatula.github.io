@@ -3,6 +3,9 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 	modules: ["@nuxt/content", "@nuxt/image"],
 	css: ["~/assets/css/main.css"],
+	app: {
+		baseURL: "arch-spatula.github.io",
+	},
 
 	routeRules: {
 		"/": { prerender: true },
