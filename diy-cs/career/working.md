@@ -470,6 +470,15 @@ Busy work: 시간을 보내고 바쁘게 지내기 위해 수행되는 활동이
 
 <!-- ## 문해력 -->
 
+## 엔지니어링 리더로서 기억력/인지력 감퇴에 대처하는 방법은 무엇인가요?
+
+https://news.hada.io/topic?id=15661
+
+1. 수면관리
+
+- 수면의 질이 안 좋으면 인지와 기억력이 나빠집니다.
+  - 완전히 어두운 방에 백색소음, 안대를 활용하는 것도 하나의 방법입니다.
+
 [^1]: [협업을 잘하는 개발자가 되어보자 - 프로그래머가 아니라 문제 해결사가 되자!](https://velog.io/@teo/collaboration)
 [^2]: [코드 리뷰어를 하며 저지른 실수 7가지](https://yozm.wishket.com/magazine/detail/2095/)
 [^3]: [How to Be a 10x Software Engineer - 원문](https://medium.com/@_michaellin/how-to-be-a-10x-engineer-fdac2a5a1bd5) [10X 개발자와 주니어 개발자의 3가지 차이점 - 번역](https://velog.io/@eddy_song/10X-engineer)

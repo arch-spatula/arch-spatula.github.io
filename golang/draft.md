@@ -3,7 +3,6 @@ sidebar_position: 99
 description: '이런 저런 golang 미정'
 tags: ['golang', 'hobby', 'draft']
 ---
-
 ## Golang installation and hello world
 
 https://www.youtube.com/watch?v=62qGe9yhiJI
@@ -150,3 +149,51 @@ ls
 - mvdan.cc
 
 나중에 다루지만 여기서 캐시가 중요합니다.
+
+## 공식문서 문해력 이슈
+
+- https://go.dev/tour/methods/23 
+- 이 예제를 풀어보려면 그냥 읽어보고 위키도 읽어보면 풀 수 있는 문제였습니다.
+- Read 메서드를 구현하는 것이었으면 시그니쳐까지 예제코드에 포함할 것 같은데 친절함이 부족한 것이라고 착각하고 있습니다.
+  - Read 메서드의 인터페이스를 모르면 안되기 때문입니다.
+- 결국 제가 해결은 못했습니다. 검색을 해서 해결했습니다.
+- `io.Reader`는 압축과 비압축을 처리하는 명세인데 아직도 이해를 잘 못하고 있습니다. 물론 JSON과 서버 요청응답 처리하는 상황 말고 자세히 볼 상황이 별로 없기는 합니다.
+- 요즘 문자열을 명세를 자세히 보고 정리하고 싶은 생각이 듭니다.
+
+```go 
+package main
+
+import (
+	"io"
+	"os"
+	"strings"
+)
+
+type rot13Reader struct {
+	r io.Reader
+}
+
+func (r rot13Reader) Read(b []byte) (int, error) {
+	n, e := r.r.Read(b)
+	if e != nil {
+		return 0, e
+	}
+	for i := range b {
+		switch {
+		case b[i] >= 'A' && b[i] <= 'Z':
+			b[i] = ((b[i] - 'A' + 13) % 26) + 'A'
+		case b[i] >= 'a' && b[i] <= 'z':
+			b[i] = ((b[i] - 'a' + 13) % 26) + 'a'
+		default:
+		}
+
+	}
+	return n, nil
+}
+
+func main() {
+	s := strings.NewReader("Lbh penpxrq gur pbqr!")
+	r := rot13Reader{s}
+	io.Copy(os.Stdout, &r)
+}
+```

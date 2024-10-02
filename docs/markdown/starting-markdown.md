@@ -120,6 +120,10 @@ tree -I node_modules
 
 tree로 디렉토리 표현 명령을 합니다. `node_modules`은 숨깁니다.
 
+## latex
+
+[How I take notes as a Math major using Vim + LaTeX](https://www.youtube.com/watch?v=DOtM1mrWjUo)
+
 ## codepen.io 임베드
 
 github pages에서만 가능한 장점은 `iframe` 임베드가 가능합니다.

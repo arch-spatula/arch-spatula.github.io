@@ -19,15 +19,7 @@ date: 1453-5-29
 
 [Python](/python)
 
-[주니어가 다루는 거 보면 신뢰도가 떨어져 보이는 NestJS](/nestjs)
-
-<!-- @todo: 시니어가 되면 Spring 따라하는 NestJS라고 수정하기 -->
-
 [DB 줍줍](/db)
-
-[디자인 시스템 위키](/design-system-wiki)
-
-[HTML & CSS](/html-css)
 
 [DIY-CS](/diy-cs)
 
