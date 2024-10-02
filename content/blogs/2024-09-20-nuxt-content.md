@@ -4,8 +4,13 @@ authors: [arch-spatula]
 tags: ["nuxt", "nuxtContent", "blog"]
 description: "nuxtContent로 블로그를 다시 만드는 과정"
 toc_max_heading_level: 5
+_draft: true
 date: 2024-09-20
 ---
+
+<!--
+NOTE: 글쓰기 단계 - 탈고
+-->
 
 # nuxtContent로 블로그 마이그레션
 
@@ -46,8 +51,13 @@ https://github.com/windwp/nvim-ts-autotag
 
 - auto-ts-tag만이 문제는 아니었습니다. 지금 거의다 작성해가는데 nuxt LSP도 설정하고 싶어졌습니다.
 - code 복사 버튼이랑 toc 기능도 LSP 없이 구현하기는 했습니다.
+- 이런 내용은 nuxt, vue를 위한 neovim 설정 과정으로 따로 옮기도록 하겠습니다.
 
 ## 개발자 블로그 프레임워크 마이그레이션
+
+<!--
+NOTE: 글쓰기 단계 - 탈고
+-->
 
 - 제가 개발자 블로그를 처음 만들때는 개발자가 되겠다는 결심이 들었을 때부터였습니다.
   - 부트캠프를 다니기 전부터 저는 개발자 블로그를 만들려는 시도를 했습니다.
@@ -434,6 +444,8 @@ content: {
 - 애증의 nuxt인지 모르겠습니다.
 - https://github.com/nuxt-modules/mdc로 마크다운을 처리한다는 사실을 알게되었습니다.
 - 이런면서 css 초기화를 조금 조심스럽게 다뤄야 할 것 같습니다. 이미 있는 스타일에 제가 초기화로 모두 제거하는 꼴이되고 있었습니다.
+- 이런 생각을 갖게 된 이유가 잠시 있었습니다. 지금 제가 모든 것을 일일이 스타일링하기 번거롭고 귀찮습니다. 이미 어느정도 만들어져있으면서 유니크한 것을 원했습니다.
+  - 결국 유니크한 방법을 찾았습니다. 조금더 정확히 유니크하게 만들어내는 방법을 알아냈습니다.
 
 ## nvchad 참고
 
@@ -534,8 +546,6 @@ const addBtn = (id: string) => {
     button.addEventListener("click", function () {
       button.classList.replace("copyBtn", "clickedCopyBtn");
 
-      console.log("foo");
-
       const content = preElement.textContent ?? "";
       navigator.clipboard.writeText(content);
 
@@ -549,6 +559,7 @@ const addBtn = (id: string) => {
     preElement.appendChild(button);
   });
 };
+</script>
 ```
 
 - 위처럼 작성하면 버튼을 추가할 수 있습니다.
@@ -585,7 +596,7 @@ const addBtn = (id: string) => {
 ```
 
 - 생김새가 이렇습니다.
-- 저는 unocss도 사용 안하고 위 스타일을 CSS에 적용할지 찾아야 합니다.
+- 저는 `unocss`도 사용 안하고 위 스타일을 CSS에 적용할지 찾아야 합니다.
 
 ```css
 body {
@@ -698,6 +709,11 @@ function wrap(el: Element, wrapper: Element) {
 
 ## 전체 tag 목록과 개수 보여주기
 
+<!--
+NOTE: 글쓰기 단계 - 초고
+TODO: 스크린샷 추가
+-->
+
 - 스크린샷은 귀찮아서 지금은 생략합니다.
 
 ```vue
@@ -730,6 +746,11 @@ await queryContent("blogs")
 ```
 
 ## 이전글 다음글 이동
+
+<!--
+NOTE: 글쓰기 단계 - 초고
+TODO: 스크린샷 추가
+-->
 
 - 이 기능은 nuxtContent의 hook에 의존해야 합니다.
   - https://content.nuxt.com/document-driven/use-content
@@ -791,6 +812,11 @@ for (let idx = 0; idx < navigation.value[0]?.children.length; idx++) {
 - 위처럼하면 페이지 전후 접근이 가능합니다. 이제 스타일링 남았습니다.
 
 ## 기존 댓글 컴포넌트 복구
+
+<!--
+NOTE: 글쓰기 단계 - 초고
+TODO: 스크린샷 추가
+-->
 
 - 위에서 다시 돌아온다고 했습니다. 지금 여기서 다시 댓글 기능을 구현하겠습니다.
 
@@ -858,6 +884,11 @@ onMounted(() => {
   - 또 래포를 로컬에 다운 받고 에디터로 돌아 다녀야 합니다.
 
 ## DIY로 만드는 TOC
+
+<!--
+NOTE: 글쓰기 단계 - 초고
+TODO: 스크린샷 추가
+-->
 
 ```ts
 const route = useRoute();
@@ -969,4 +1000,148 @@ data.value.body.children.forEach(
 
 ## github actions
 
--
+<!--
+NOTE: 글쓰기 단계 - 아이디어
+-->
+
+- 2가지 actions를 수행해야 합니다. 하나는 commit push 마다 빌드 시도를 해야 합니다. 다른 하나는 main에 merge가 되면 빌드한 파일을 배포해야 합니다.
+- https://nuxt.com/deploy/github-pages 여기 자료를 활용하는 것도 방법입니다.
+- 마지막 이부분의 작업 방식은 기존 작업이 끝나면 PR을 천천히 올리고 합치는 방식에서 자주 PR을 올리거나 커밋을 바로 하는 방식으로 전환했습니다.
+- 저는 github에서 잘 모르는 부분 중 하나는 github actions입니다. 
+  - 이런 상황에서는 무엇을 모르는지 정리해야 합니다.
+  - `uses: actions/checkout@v3`은 무엇을 의미하는지 모르겠습니다. 무슨 node 버전을 갖고 있는지 무슨 pnpm 버전을 갖고 있는지 어떻게 알 수 있는지 알아내야 합니다. 
+  - `actions/setup-node`안에 무엇이 들었는지도 모르겠습니다.
+
+```yml
+name: Test deployment
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-deploy:
+    name: Test deployment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Test build website
+        run: yarn build
+```
+
+```yml
+name: Test deployment
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-deploy:
+    name: Test deployment
+    runs-on: ubuntu-latest
+    steps:
+        uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Test build website
+        run: pnpm generate
+```
+
+- 위처럼 하면 될 것 같다는 생각이 듭니다.
+- 물론 한계가 분명있을 것입니다.
+
+```yml
+name: Deploy to GitHub Pages
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: corepack enable
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      # Pick your own package manager and build script
+      - run: npm install
+      - run: npx nuxt build --preset github_pages
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./.output/public
+
+  # Deployment job
+  deploy:
+    # Add a dependency to the build job
+    needs: build
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+    # Deploy to the github_pages environment
+    environment:
+      name: github_pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+- 위는 공식 문서가 보여준 `yml`입니다.
+- 응용을 하면 테스트용도로 `jobs`에서 `build`만 남기고 기존 main에 PR에 실행하는 액션만 유지하면 될 것 같습니다.
+
+```sh
+npx nuxt build --preset github_pages
+```
+
+- 이 명령을 로컬에서 시도해봤습니다. 문제가 전혀 없었습니다.
+
+> If you are not using a custom domain, you need to set NUXT_APP_BASE_URL to your repository-slug for your build step. Example: https://<user>.github.io/<repository>/: NUXT_APP_BASE_URL=/<repository>/ npx nuxt build --preset github_pages
+
+- 공식문서에서는 위처럼 설명했습니다. 여기서 NUXT_APP_BASE_URL은 환경변수처럼 생겼는데 배포는 레포에 있는 actions에서 처리하는데 어떻게 공유하는가? 의문이 들었습니다.
+- repository-slug라는 키워드에 주의해야 하는데
+- https://github.com/arch-spatula/arch-spatula.github.io
+  - `arch-spatula/arch-spatula.github.io`이 repository-slug를 지칭하는 말인 것 같습니다.
+- https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+
+## 결론
+
+- nuxt로 잠시 버티고 더 단순한 방법을 결국 찾아낼 것입니다. 
+  - 가능하면 잠시가 5년은 갔으면 좋겠습니다.
+- 아마 https://www.daleseo.com/unified-remark-rehype/에서 말하는 라이브러리를 활용해서 최대한 html, css, js 계층에 가깝게 만들어내고자 합니다.
+- 이과정이 꽤 재미있었습니다. 작업을 진행하면서 모르는 자료들을 찾아보고 문제를 해결하는 과정이었습니다.
+  - 가끔은 있지도 않은 문제를 허위로 만들어내고 과장하고 성과를 포장해야 하는 프로젝트들이 있는데 이번에 이 프로젝트는 아니었습니다.
+  - 저는 개발을 직업으로도 하지만 취미로 하는 개발도 있는 사람입니다. 저를 더 뛰어나게 해주는 것과 무관하다는 것은 당연히 알고 있습니다. 그저 제가 여가를 보내는 한가지 방식입니다.
+- 원래 사용하던 블로그 프레임워크에서 벗어나 제가 원하는 방식으로 제어하기 시작했습니다.
+  - 숨겨진 위키 페이지들도 이제는 사라지게 됩니다. 물론 소스코드로 접근하는 방법은 알게 되지만 실제 소스코드를 보는 사람들은 극히 일부에 불과합니다.
+

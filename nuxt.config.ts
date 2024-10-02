@@ -18,11 +18,11 @@ export default defineNuxtConfig({
 		markdown: {
 			mdc: true,
 			toc: {
-				depth: 6,
-				searchDepth: 6,
+				depth: 5,
+				searchDepth: 5,
 			},
 			anchorLinks: {
-				depth: 6,
+				depth: 5,
 			},
 		},
 		//remarkPlugins: {
@@ -58,6 +58,9 @@ export default defineNuxtConfig({
 				"tsx",
 				"vue",
 				"json",
+				"yml",
+				"md",
+				"astro",
 			],
 		},
 		//experimental: {
