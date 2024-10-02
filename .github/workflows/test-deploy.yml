@@ -18,6 +18,6 @@ jobs:
         with:
           node-version: "20"
       # Pick your own package manager and build script
-      - run: pnpm install
-      - run: npx nuxt build --preset github_pages
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build --preset github_pages
 
