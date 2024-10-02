@@ -1,33 +1,42 @@
-# Arch-Spatula의 레시피
+# Content v2 Minimal Starter
 
-이 사이트는 저의 개발자 블로그입니다.
+Look at the [Content documentation](https://content.nuxt.com/) to learn more.
 
-[Arch-Spatula의 레시피](https://arch-spatula.github.io/)
+## Setup
 
-## 설치 명령
+Make sure to install the dependencies:
 
-```
-yarn
-```
+```bash
+# yarn
+yarn install
 
-## 개발 시작 명령
+# npm
+npm install
 
-```
-yarn start
-```
-
-## 거의 할 일 없는 빌드 명령
-
-```
-yarn build
+# pnpm
+pnpm install
 ```
 
-## 배포 명령
+## Development Server
 
+Start the development server on http://localhost:3000
+
+```bash
+npm run dev
 ```
-yarn deploy
+
+## Production
+
+Build the application for production:
+
+```bash
+npm run build
 ```
 
-## 참고
+Locally preview production build:
 
-[Docusaurus 2](https://docusaurus.io/)릍 통해 만들어졌습니다.
+```bash
+npm run preview
+```
+
+Checkout the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
