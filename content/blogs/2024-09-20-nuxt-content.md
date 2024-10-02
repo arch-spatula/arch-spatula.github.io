@@ -1005,12 +1005,114 @@ NOTE: 글쓰기 단계 - 아이디어
 -->
 
 - 2가지 actions를 수행해야 합니다. 하나는 commit push 마다 빌드 시도를 해야 합니다. 다른 하나는 main에 merge가 되면 빌드한 파일을 배포해야 합니다.
-- https://nuxt.com/deploy/github-pages 여기 자료를 활용하는 것도 방법입니다.
 - 마지막 이부분의 작업 방식은 기존 작업이 끝나면 PR을 천천히 올리고 합치는 방식에서 자주 PR을 올리거나 커밋을 바로 하는 방식으로 전환했습니다.
-- 저는 github에서 잘 모르는 부분 중 하나는 github actions입니다. 
+
+### 공식 문서 확인
+
+- https://nuxt.com/deploy/github-pages 여기 자료를 먼저 활용하기로 했습니다.
+
+```yml
+name: Deploy to GitHub Pages
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: corepack enable
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      # Pick your own package manager and build script
+      - run: npm install
+      - run: npx nuxt build --preset github_pages
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./.output/public
+
+  # Deployment job
+  deploy:
+    # Add a dependency to the build job
+    needs: build
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+    # Deploy to the github_pages environment
+    environment:
+      name: github_pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+- 위는 공식 문서가 보여준 `yml`입니다. 꽤 긴 코드입니다.
+- 모르는 것을 순서대로 확인하고 질문해야 합니다.
+  - `on:`은 실행 시점을 제어하는 키워드로 보입니다.  
+    - `main` 브랜치에 `push`되면 실행하는 것 같습니다.
+    - https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+    - github 공식 문서를 확인하면 꽤 다양한 실행 조건을 알아낼 수 있었습니다.
+  - `jobs`는 수행할 작업들인 것 같습니다.
+    - `build`, `deploy` 2단계로 나누는 것 같습니다.
+    - `runs-on: ubuntu-latest`은 실행하는 운영체제 같습니다. 최신은 뭐 보안취약점을 극복할지도 모르고 만들지도 모릅니다.
+    - `steps:`가 난해합니다. 수행하는 작업과 사용할 설정들 같습니다. `uses:` 키워드를 사용한다고 하는데 사용이라는 점에서 직관적입니다. 하지만 각각의 `uses:`의 값은 무엇을 설정하고 사용한다는지 모르겠습니다.
+    - `actions/checkout@v3`, `actions/setup-node@v3`, `actions/upload-pages-artifact@v3`, `actions/deploy-pages@v4`
+- 정말 필요한 것은 아마 테스트 레포였던 것 같습니다.
+  - https://www.daleseo.com/github-actions-checkout/을 보니까 이렇게 시도를 해볼 생각을 안했습니다.
+- https://pnpm.io/continuous-integration 에서 CI 설정을 발견했습니다.
+
+```yml
+name: pnpm Example Workflow
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+    - name: Install dependencies
+      run: pnpm install
+```
+
+- 워 코드를 보고 응용하면 될 것 같습니다.
+
+### actions란 무엇인가?
+
+- 저는 github에서 잘 모르는 부분 중 하나는 github actions입니다.
   - 이런 상황에서는 무엇을 모르는지 정리해야 합니다.
   - `uses: actions/checkout@v3`은 무엇을 의미하는지 모르겠습니다. 무슨 node 버전을 갖고 있는지 무슨 pnpm 버전을 갖고 있는지 어떻게 알 수 있는지 알아내야 합니다. 
   - `actions/setup-node`안에 무엇이 들었는지도 모르겠습니다.
+
+```sh
+npx nuxt build --preset github_pages
+```
+
+- 이 명령을 로컬에서 시도해봤습니다. 문제가 전혀 없었습니다.
+- 저는 이명령을 활용해서 기존 `Test deployment`를 대체하고자 합니다.
+  - 응용을 하면 테스트용도로 `jobs`에서 `build`만 남기고 기존 main에 PR에 실행하는 액션만 유지하면 될 것 같습니다.
+
 
 ```yml
 name: Test deployment
@@ -1072,59 +1174,6 @@ jobs:
 
 - 위처럼 하면 될 것 같다는 생각이 듭니다.
 - 물론 한계가 분명있을 것입니다.
-
-```yml
-name: Deploy to GitHub Pages
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: corepack enable
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "20"
-      # Pick your own package manager and build script
-      - run: npm install
-      - run: npx nuxt build --preset github_pages
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./.output/public
-
-  # Deployment job
-  deploy:
-    # Add a dependency to the build job
-    needs: build
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-    permissions:
-      pages: write # to deploy to Pages
-      id-token: write # to verify the deployment originates from an appropriate source
-    # Deploy to the github_pages environment
-    environment:
-      name: github_pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    # Specify runner + deployment step
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-```
-
-- 위는 공식 문서가 보여준 `yml`입니다.
-- 응용을 하면 테스트용도로 `jobs`에서 `build`만 남기고 기존 main에 PR에 실행하는 액션만 유지하면 될 것 같습니다.
-
-```sh
-npx nuxt build --preset github_pages
-```
-
-- 이 명령을 로컬에서 시도해봤습니다. 문제가 전혀 없었습니다.
 
 > If you are not using a custom domain, you need to set NUXT_APP_BASE_URL to your repository-slug for your build step. Example: https://<user>.github.io/<repository>/: NUXT_APP_BASE_URL=/<repository>/ npx nuxt build --preset github_pages
 
