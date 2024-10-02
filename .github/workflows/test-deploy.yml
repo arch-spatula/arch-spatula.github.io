@@ -18,6 +18,6 @@ jobs:
         with:
           node-version: "20"
       # Pick your own package manager and build script
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install
       - run: pnpm build --preset github_pages
 
