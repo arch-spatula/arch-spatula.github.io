@@ -19,5 +19,5 @@ jobs:
           node-version: "20"
       # Pick your own package manager and build script
       - run: pnpm install
-      - run: pnpm build --preset github_pages
+      - run: pnpm generate
 

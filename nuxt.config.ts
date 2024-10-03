@@ -8,16 +8,16 @@ export default defineNuxtConfig({
 	/**
 	 * @see https://velog.io/@devmini1203/Nuxt3-Nuxt3-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EB%A5%BC-GitHub-Pages%EC%97%90-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0
 	 */
-	ssr: false,
-	nitro: {
-		preset: 'github-pages'
-	},
+	//ssr: false,
+	//nitro: {
+		//preset: 'github-pages'
+	//},
 	/**
 	 * 환경 변수는 github repo에서 설정함
 	 */
-	//app: {
+	app: {
 		//baseURL: development ? '/arch-spatula.github.io/' : undefined
-	//},
+	},
 
 	routeRules: {
 		"/": { prerender: true },
