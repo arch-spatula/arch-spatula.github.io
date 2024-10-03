@@ -17,7 +17,8 @@ jobs:
           node-version: "20"
       # Pick your own package manager and build script
       - run: pnpm install
-      - run: pnpm build --preset github_pages
+      - run: pnpm generate --preset github_pages
+      - run: touch .output/public/.nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

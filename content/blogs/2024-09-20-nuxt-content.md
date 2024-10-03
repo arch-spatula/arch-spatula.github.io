@@ -1183,6 +1183,25 @@ jobs:
   - `arch-spatula/arch-spatula.github.io`이 repository-slug를 지칭하는 말인 것 같습니다.
 - https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
+### 아직 남은 시도
+
+- 2가지 정도 남은 것 같습니다.
+  - `baseURL` 값을 `process.env.NUXT_API_BASE`으로 설정하는 것입니다.
+    - 내부에서 자동처리한다는데 아닌 것 같습니다.
+  - 유튜브에서 generate를 사용해서 배포는데 이것을 활용하는 것입니다.
+    - 모든 정적 사이트에서 가능하다고 하니까 시도해보고자 합니다.
+- https://www.youtube.com/watch?v=OJq1W4Ti1sk
+- 위에서 알려주는 방식을 사용하고자 합니다. 이렇게라도 하면 뭔가 가능할 것이라는 착각이라도 듭니다.
+- 위 방법도 안된다면  
+
+https://velog.io/@devmini1203/Nuxt3-Nuxt3-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EB%A5%BC-GitHub-Pages%EC%97%90-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0
+
+https://stackoverflow.com/questions/76937061/branch-master-is-not-allowed-to-deploy-to-github-pages-due-to-environment-prot
+
+- 나중에 하려던 짓거리를 지금하고자 합니다. 꽤나 장기 프로젝트가 될 것 같습니다.
+
+
+
 ## 결론
 
 - nuxt로 잠시 버티고 더 단순한 방법을 결국 찾아낼 것입니다. 
