@@ -1,4 +1,4 @@
-# Content v2 Minimal Starter
+# Arch-spatu
 
 Look at the [Content documentation](https://content.nuxt.com/) to learn more.
 
