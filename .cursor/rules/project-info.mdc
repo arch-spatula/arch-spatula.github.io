@@ -3,10 +3,10 @@ alwaysApply: false
 ---
 
 - github pages로 만든 개발자 블로그.
+- 패키지 메니저로 pnpm을 사용함.
 - 최대한 프레임워크 없이 직접 개발함.
     - node.js로 빌드를 처리.
     - typescript로 로직을 작성.
 - 테스트 전략
     - vitest로 로직을 테스트. 
     - playwright로 UI DOM 요소를 테스트.
-    
