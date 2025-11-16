@@ -2,8 +2,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsx build.ts",
-    "dev": "tsx --watch build.ts",
+    "build": "tsx app/build.ts",
+    "dev": "tsx --watch app/build.ts",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:e2e": "pnpm exec playwright test",
