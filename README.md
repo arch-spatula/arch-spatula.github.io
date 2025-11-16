@@ -1,42 +1,6 @@
-# Arch-spatu
+# Arch-Spatula의 개발 레시피
 
-Look at the [Content documentation](https://content.nuxt.com/) to learn more.
-
-## Setup
-
-Make sure to install the dependencies:
-
-```bash
-# yarn
-yarn install
-
-# npm
-npm install
-
-# pnpm
-pnpm install
-```
-
-## Development Server
-
-Start the development server on http://localhost:3000
-
-```bash
-npm run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Checkout the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- 개발자 블로그를 최소한의 개발 의존성으로 만들고자 함.
+- node.js로 빌드를 처리.
+- typescript로 로직을 처리.
+- pnpm으로 패키지 매니징.
