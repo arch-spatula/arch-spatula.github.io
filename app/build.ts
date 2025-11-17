@@ -6,37 +6,62 @@
  * @todo 쓰기 로직 구현
  */
 
-import { readdir,  } from "fs";
+import { readdir,  } from "fs/promises";
 import path, { join } from "path";
 
+interface BlogPost {
+    slug: string;
+    filePath: string;
+    dirPath: string | null;
+    isInFolder: boolean;
+    isProcessed: boolean;
+}
+
+/**
+ * @param dirPath 디렉토리 경로
+ * @param baseDir 기본 디렉토리 경로
+ * @returns 블로그 포스트 목록을 반환함
+ *   - 파일 내 정보는 다른 함수에서 처리함
+ */
 const  findMarkdownFiles  = async (
     dirPath: string,
     baseDir: string = dirPath
   )   => {
 
-    readdir(dirPath, { withFileTypes: true }, (err, files) => {
-        if (err) {
-            console.error(err);
-            return [];
-        }
-        // console.log(files);
-        files.forEach(file => {
-            if (file.isDirectory()) {
-                findMarkdownFiles(`${dirPath}/${file.name}`, baseDir);
-            } else if (file.isFile() && path.extname(file.name) === '.md') {
-                console.log(`${dirPath}/${file.name}`);
-            }
-        });
-        // return files;
-    })
-    // const posts: BlogPost[] = []
-  
+    const posts: BlogPost[] = []
 
+    const entries = await readdir(dirPath, { withFileTypes: true })
+    
+    for (const entry of entries) {
+        const fullPath = join(dirPath, entry.name)
+        
+        if (entry.isDirectory()) {
+            // 재귀적으로 하위 디렉토리 탐색
+            const subPosts = await findMarkdownFiles(fullPath, baseDir)
+            posts.push(...subPosts)
+        } else if (entry.isFile() && path.extname(entry.name) === '.md') {
+            const isInFolder = dirPath !== baseDir
+            const slug = isInFolder 
+                ? path.basename(dirPath)
+                : path.basename(entry.name, '.md')
+            
+            posts.push({
+                slug,
+                filePath: fullPath,
+                dirPath: isInFolder ? dirPath : null,
+                isInFolder,
+                isProcessed: false,
+            })
+        }
+    }
+
+    return posts;
   }
 
 const readMarkdownFiles = async (dirPath: string) => {
   //
   const files = await findMarkdownFiles(dirPath);
+  console.log(files);
 }
 
 const processMarkdownFiles = async () => {
