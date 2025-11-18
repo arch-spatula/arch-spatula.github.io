@@ -72,21 +72,45 @@ const markdownToHtml = (markdownSource: string) => {
   return '';
 };
 
-const processMarkdownFiles = async (files: BlogPost[], writeHtmlFiles: () => {}) => {
-  //
-  const content = await readFileSync(files[0].filePath, 'utf8');
-  /** ---으로 시작하고 ---으로 끝나는 부분을 찾아서 분리 */
+/** ---으로 시작하고 ---으로 끝나는 부분을 찾아서 분리 */
+const splitMetadataAndContent = (content: string) => {
   const start = content.indexOf('---');
   const end = content.lastIndexOf('---');
-  const frontmatter = content.slice(start + 4, end);
-  const markdownContent = content.slice(end + 4);
+  /** 메타정보를 입력하지 않은 경우 빈 문자열을 반환 */
+  if (start === -1 || end === -1) {
+    return { metadata: '', markdownContent: content };
+  }
+  const metadata = content.slice(start + 4, end).trim();
+  const markdownContent = content.slice(end + 4).trim();
+  return { metadata, markdownContent };
+};
 
-  console.log(frontmatter);
-  console.log(markdownContent);
+/**
+ * metadata 파싱
+ * 허용하지 않은 키가 있으면 에러를 발생시킴
+ * 필수키가 없으면 에러를 발생시킴
+ */
+const parseMetadata = (metadata: string) => {
+  const metadataObject = {};
+  const metadataLines = metadata.split('\n');
+  for (const line of metadataLines) {
+    const [key, value] = line.split(':');
+    metadataObject[key] = value;
+  }
+  return metadataObject;
+};
 
-  const html_text = await markdownToHtml(markdownContent);
-  console.log(html_text);
+const processMarkdownFiles = async (files: BlogPost[], writeHtmlFiles: () => {}) => {
+  //
   for (const file of files) {
+    const content = await readFileSync(file.filePath, 'utf8');
+    const { metadata, markdownContent } = splitMetadataAndContent(content);
+
+    console.log(metadata);
+    console.log(markdownContent);
+
+    const html_text = await markdownToHtml(markdownContent);
+    console.log(html_text);
     // console.log(file);
     // const content = await readFile(file.filePath, 'utf8');
     // console.log(const)
