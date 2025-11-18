@@ -1,0 +1,21 @@
+{
+    "$schema": "https://json.schemastore.org/prettierrc",
+    "printWidth": 120,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "bracketSameLine": false,
+    "overrides": [
+      {
+        "files": "*.ts,*.vue",
+        "options": {
+          "parser": "typescript",
+          "trailingComma": "all"
+        }
+      }
+    ]
+  }
