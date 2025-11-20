@@ -57,9 +57,9 @@ const findMarkdownFiles = async (dirPath: string, baseDir: string = dirPath) => 
   return posts;
 };
 
-const readMarkdownFiles = async (dirPath: string) => {
-  const files = await findMarkdownFiles(dirPath);
-  return files;
+const readMarkdownFile = async (dirPath: string) => {
+  const content = await readFileSync(dirPath, 'utf8');
+  return content;
 };
 
 const markdownToHtml = (markdownSource: string) => {
@@ -72,12 +72,19 @@ const markdownToHtml = (markdownSource: string) => {
   return '';
 };
 
-/** ---으로 시작하고 ---으로 끝나는 부분을 찾아서 분리 */
+/**
+ * ---으로 시작하고 ---으로 끝나는 부분을 찾아서 분리
+ * 메타정보를 입력하지 않은 경우 빈 문자열을 반환
+ * 파일이 ---으로 시작하면 2번째 ---으로 끝나는 부분을 찾아서 분리
+ */
 const splitMetadataAndContent = (content: string) => {
   const start = content.indexOf('---');
-  const end = content.lastIndexOf('---');
-  /** 메타정보를 입력하지 않은 경우 빈 문자열을 반환 */
-  if (start === -1 || end === -1) {
+  if (start === -1 || start !== 0) {
+    return { metadata: '', markdownContent: content };
+  }
+  // 2번째 ---으로 끝나는 부분을 찾아서 분리
+  const end = content.indexOf('---', start + 4);
+  if (end === -1) {
     return { metadata: '', markdownContent: content };
   }
   const metadata = content.slice(start + 4, end).trim();
@@ -100,31 +107,46 @@ const parseMetadata = (metadata: string) => {
   return metadataObject;
 };
 
-const processMarkdownFiles = async (files: BlogPost[], writeHtmlFiles: () => {}) => {
-  //
-  for (const file of files) {
-    const content = await readFileSync(file.filePath, 'utf8');
-    const { metadata, markdownContent } = splitMetadataAndContent(content);
-
-    console.log(metadata);
-    console.log(markdownContent);
-
-    const html_text = await markdownToHtml(markdownContent);
-    console.log(html_text);
-    // console.log(file);
-    // const content = await readFile(file.filePath, 'utf8');
-    // console.log(const)
-    // const html = await markdownToHtml(content);
-    // await writeFile(file.filePath, html);
-  }
+const processMarkdownFile = async (content: string) => {
+  const { metadata, markdownContent } = splitMetadataAndContent(content);
+  const htmlContent = markdownToHtml(markdownContent);
+  const parsedMetadata = parseMetadata(metadata);
+  return { htmlContent, metadata };
 };
 
 const writeHtmlFiles = async () => {
   //
 };
 
+const listUpMarkdownFiles = async (dirPath: string, baseDir: string = dirPath) => {
+  const posts: { filePath: string; isProcessed: boolean }[] = [];
+
+  const entries = await readdir(dirPath, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const fullPath = join(dirPath, entry.name);
+
+    if (entry.isDirectory()) {
+      // 재귀적으로 하위 디렉토리 탐색
+      const subPosts = await listUpMarkdownFiles(fullPath, baseDir);
+      posts.push(...subPosts);
+    } else if (entry.isFile() && path.extname(entry.name) === '.md') {
+      posts.push({
+        filePath: fullPath,
+        isProcessed: false,
+      });
+    }
+  }
+  return posts;
+};
+
 /**
  * 모든 빌드 로직의 호출을 처리하는 함수
+ *
+ * 2단계 빌드 로직
+ * 1. 마크다운 파일들 리스트업하기
+ * 2. 리스트업된 파일들 읽고, 처리하고, html로 파일 쓰기
+ *
  * 3계층 구조를 유지하고자 함
  * 1. 마크다운 파일 읽기 계층:
  *   - 마크 다운 파일들을 찾고 처리할 대상들을 기록함
@@ -136,20 +158,13 @@ const writeHtmlFiles = async () => {
 const build = async () => {
   // content/blogs의 모든 마크다운 파일 가져오기
   const blogsDir = join(process.cwd(), 'blogs');
-  const files = await readMarkdownFiles(blogsDir);
-  await processMarkdownFiles(files, writeHtmlFiles);
-  //   const files = await readdir(blogsDir, (err, files) => {
-  //     if (err) {
-  //       console.error(err);
-  //       return [];
-  //     }
-  //     console.log(files);
-  //     // return files;
-  //   });
-  // const markdownFiles = files.filter((file) => file.endsWith('.md'));
-
-  // console.log(`총 ${markdownFiles.length}개의 블로그 포스트 발견`);
-  // markdownFiles.forEach(file => console.log(`  - ${file}`));
+  const markdownfiles = await listUpMarkdownFiles(blogsDir);
+  for (const file of markdownfiles) {
+    const content = await readMarkdownFile(file.filePath);
+    const processedContent = await processMarkdownFile(content);
+    // @todo 처리된 내용을 파일로 쓰기
+    file.isProcessed = true;
+  }
 };
 
 build();
