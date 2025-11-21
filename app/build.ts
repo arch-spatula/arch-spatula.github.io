@@ -10,10 +10,7 @@ import listUpMarkdownFiles from './listUpMarkdownFiles/listUpMarkdownFiles';
 import readMarkdownFile from './readMarkdownFile/readMarkdownFile';
 import processMarkdownFile from './processMarkdownFile/processMarkdownFile';
 import { Metadata } from './types';
-
-const writeHtmlFiles = async () => {
-  //
-};
+import writeHtmlFile from './writeHtmlFile/writeHtmlFile';
 
 /**
  * 모든 빌드 로직의 호출을 처리하는 함수
@@ -38,12 +35,13 @@ const build = async () => {
   const markdownfiles = await listUpMarkdownFiles(blogsDir);
   for (const file of markdownfiles) {
     const content = await readMarkdownFile(file.filePath);
-    const { metadata } = await processMarkdownFile(content);
+    const { metadata, htmlContent } = await processMarkdownFile(content);
     if (metadata.draft) {
       file.isProcessed = true;
       continue;
     }
     metaJson.push(metadata);
+    await writeHtmlFile(file.filePath, htmlContent);
     // @todo 처리된 내용을 파일로 쓰기
     // post 템플릿 활용해서 처리된 내용을 파일로 쓰기
     file.isProcessed = true;
