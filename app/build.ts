@@ -1,8 +1,10 @@
 /**
  * @fileoverview 빌드를 처리하는 루트 파일
  *
- * @todo 처리 로직 구현
  * @todo 쓰기 로직 구현
+ * @todo meta.json 파일 쓰기
+ * @todo index.html 파일 쓰기
+ * @todo html 템플릿 활용해서 처리된 내용을 파일로 쓰기
  */
 
 import { join } from 'path';
@@ -11,6 +13,8 @@ import readMarkdownFile from './readMarkdownFile/readMarkdownFile';
 import processMarkdownFile from './processMarkdownFile/processMarkdownFile';
 import { Metadata } from './types';
 import writeHtmlFile from './writeHtmlFile/writeHtmlFile';
+import { rm } from 'fs/promises';
+import { mkdirSync } from 'fs';
 
 /**
  * 모든 빌드 로직의 호출을 처리하는 함수
@@ -33,6 +37,12 @@ const build = async () => {
   // content/blogs의 모든 마크다운 파일 가져오기
   const blogsDir = join(process.cwd(), 'blogs');
   const markdownfiles = await listUpMarkdownFiles(blogsDir);
+
+  // dist 폴더 내용 초기화하기
+  await rm(join(process.cwd(), 'dist'), { recursive: true, force: true });
+  mkdirSync(join(process.cwd(), 'dist'), { recursive: true });
+
+  // 마크다운 파일들 처리하기
   for (const file of markdownfiles) {
     const content = await readMarkdownFile(file.filePath);
     const { metadata, htmlContent } = await processMarkdownFile(content);
