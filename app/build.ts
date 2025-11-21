@@ -9,6 +9,7 @@ import { join } from 'path';
 import listUpMarkdownFiles from './listUpMarkdownFiles/listUpMarkdownFiles';
 import readMarkdownFile from './readMarkdownFile/readMarkdownFile';
 import processMarkdownFile from './processMarkdownFile/processMarkdownFile';
+import { Metadata } from './types';
 
 const writeHtmlFiles = async () => {
   //
@@ -30,15 +31,25 @@ const writeHtmlFiles = async () => {
  *   - 처리된 html 파일을 dist 폴더에 쓰기
  */
 const build = async () => {
+  const metaJson: Metadata[] = [];
+
   // content/blogs의 모든 마크다운 파일 가져오기
   const blogsDir = join(process.cwd(), 'blogs');
   const markdownfiles = await listUpMarkdownFiles(blogsDir);
   for (const file of markdownfiles) {
     const content = await readMarkdownFile(file.filePath);
-    const processedContent = await processMarkdownFile(content);
+    const { metadata } = await processMarkdownFile(content);
+    if (metadata.draft) {
+      file.isProcessed = true;
+      continue;
+    }
+    metaJson.push(metadata);
     // @todo 처리된 내용을 파일로 쓰기
+    // post 템플릿 활용해서 처리된 내용을 파일로 쓰기
     file.isProcessed = true;
   }
+  // @todo dist/meta.json 파일로 쓰기
+  // @todo 블로그 글 목록 index.html 파일로 쓰기
 };
 
 build();
