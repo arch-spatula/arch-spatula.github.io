@@ -2,6 +2,7 @@ import { unified } from 'unified';
 import markdown from 'remark-parse';
 import remark2rehype from 'remark-rehype';
 import html from 'rehype-stringify';
+import type { Metadata } from '../types';
 
 const convertMarkdownToHtml = (markdownSource: string) => {
   const htmlText = unified().use(markdown).use(remark2rehype).use(html).processSync(markdownSource);
@@ -39,7 +40,7 @@ export const splitMetadataAndContent = (content: string) => {
  * 필수키가 없으면 에러를 발생시킴
  */
 export const parseMetadata = (metadata: string) => {
-  const metadataObject: Record<string, any> = {};
+  const metadataObject: Metadata = {};
   const metadataLines = metadata.split('\n');
 
   let i = 0;
@@ -129,13 +130,27 @@ export const parseMetadata = (metadata: string) => {
   return metadataObject;
 };
 
+/**
+ *
+ * @param content - 마크다운 파일 내용
+ * @example
+ * const content = `
+ * ---
+ * title: Test Title
+ * date: 2021-01-01
+ * tags: [blog, wanted]
+ * description: Test Description
+ * `;
+ * const { htmlContent, metadata } = processMarkdownFile(content);
+ * console.log('htmlContent: ', htmlContent);
+ * console.log('metadata: ', metadata);
+ */
 const processMarkdownFile = async (content: string) => {
   const { metadata, markdownContent } = splitMetadataAndContent(content);
   const htmlContent = convertMarkdownToHtml(markdownContent);
   // TODO: parsedMetadata를 사용할지 결정 필요
   const parsedMetadata = parseMetadata(metadata);
-  console.log('parsedMetadata: ', parsedMetadata);
-  return { htmlContent, metadata };
+  return { htmlContent, metadata: parsedMetadata };
 };
 
 export default processMarkdownFile;
