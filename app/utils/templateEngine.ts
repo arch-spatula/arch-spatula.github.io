@@ -111,4 +111,3 @@ export const render = (template: string, data: Record<string, any>): string => {
 
   return result;
 };
-
