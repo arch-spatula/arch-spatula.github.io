@@ -18,19 +18,23 @@ const convertMarkdownToHtml = (markdownSource: string) => {
  * ---으로 시작하고 ---으로 끝나는 부분을 찾아서 분리
  * 메타정보를 입력하지 않은 경우 빈 문자열을 반환
  * 파일이 ---으로 시작하면 2번째 ---으로 끝나는 부분을 찾아서 분리
+ * 앞뒤 공백은 무시
  */
 export const splitMetadataAndContent = (content: string) => {
-  const start = content.indexOf('---');
+  // 앞뒤 공백 제거
+  const trimmedContent = content.trim();
+
+  const start = trimmedContent.indexOf('---');
   if (start === -1 || start !== 0) {
     return { metadata: '', markdownContent: content };
   }
   // 2번째 ---으로 끝나는 부분을 찾아서 분리
-  const end = content.indexOf('---', start + 4);
+  const end = trimmedContent.indexOf('---', start + 4);
   if (end === -1) {
     return { metadata: '', markdownContent: content };
   }
-  const metadata = content.slice(start + 4, end).trim();
-  const markdownContent = content.slice(end + 4).trim();
+  const metadata = trimmedContent.slice(start + 4, end).trim();
+  const markdownContent = trimmedContent.slice(end + 4).trim();
   return { metadata, markdownContent };
 };
 
@@ -123,7 +127,12 @@ export const parseMetadata = (metadata: string) => {
     }
 
     // 일반 문자열 값
-    metadataObject[key] = value;
+    // 따옴표로 감싸진 경우 제거
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      metadataObject[key] = value.slice(1, -1);
+    } else {
+      metadataObject[key] = value;
+    }
     i++;
   }
 
@@ -145,11 +154,33 @@ export const parseMetadata = (metadata: string) => {
  * console.log('htmlContent: ', htmlContent);
  * console.log('metadata: ', metadata);
  */
-const processMarkdownFile = async (content: string) => {
+const processMarkdownFile = async (content: string, filePath: string) => {
   const { metadata, markdownContent } = splitMetadataAndContent(content);
   const htmlContent = convertMarkdownToHtml(markdownContent);
-  // TODO: parsedMetadata를 사용할지 결정 필요
   const parsedMetadata = parseMetadata(metadata);
+
+  // 날짜가 없으면 파일 경로에서 추출함
+  if (!parsedMetadata.date) {
+    // 파일명에서 YYYY-MM-DD 패턴 찾기
+    const dateMatch = filePath.match(/(\d{4}-\d{2}-\d{2})/);
+    if (dateMatch) {
+      parsedMetadata.date = dateMatch[1];
+    }
+  }
+
+  // 메타 정보의 title이 없으면 content의 가장 먼저 오는 h1 태그를 제목으로 간주함
+  if (!parsedMetadata.title) {
+    // HTML에서 첫 번째 h1 태그의 내용 추출
+    const h1Match = htmlContent.match(/<h1[^>]*>(.*?)<\/h1>/i);
+    if (h1Match) {
+      // HTML 태그 제거하고 텍스트만 추출
+      const titleText = h1Match[1].replace(/<[^>]+>/g, '').trim();
+      if (titleText) {
+        parsedMetadata.title = titleText;
+      }
+    }
+  }
+
   return { htmlContent, metadata: parsedMetadata };
 };
 
