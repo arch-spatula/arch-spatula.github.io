@@ -4,6 +4,7 @@
   "scripts": {
     "build": "tsx app/build.ts",
     "dev": "tsx --watch app/build.ts",
+    "preview": "tsx app/preview.ts",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:e2e": "pnpm exec playwright test",
