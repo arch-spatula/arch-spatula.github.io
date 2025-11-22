@@ -45,7 +45,7 @@ const build = async () => {
   // 마크다운 파일들 처리하기
   for (const file of markdownfiles) {
     const content = await readMarkdownFile(file.filePath);
-    const { metadata, htmlContent } = await processMarkdownFile(content);
+    const { metadata, htmlContent } = await processMarkdownFile(content, file.filePath);
     if (metadata.draft) {
       file.isProcessed = true;
       continue;
