@@ -180,7 +180,11 @@ const processMarkdownFile = async (content: string, filePath: string) => {
       }
     }
   }
-  parsedMetadata.filePath = filePath;
+
+  // HTML 파일 경로 생성 (상대 경로)
+  // 파일 경로에서 파일명만 추출하고 .md를 .html로 변경
+  const fileName = filePath.split('/').pop()?.replace('.md', '.html') ?? '';
+  parsedMetadata.filePath = `/${fileName}`;
 
   return { htmlContent, metadata: parsedMetadata };
 };

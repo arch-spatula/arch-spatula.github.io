@@ -52,14 +52,8 @@ const build = async () => {
       continue;
     }
 
-    // HTML 파일 경로 생성 (상대 경로)
-    const fileName = `${file.filePath.split('/').pop()?.replace('.md', '.html') ?? ''}`;
-    metadata.filePath = `/${fileName}`;
-
     metaJson.push(metadata);
     await writeHtmlFile(file.filePath, htmlContent, metadata);
-    // @todo 처리된 내용을 파일로 쓰기
-    // post 템플릿 활용해서 처리된 내용을 파일로 쓰기
     file.isProcessed = true;
   }
 
