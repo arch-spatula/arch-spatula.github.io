@@ -13,7 +13,7 @@ import readMarkdownFile from './readMarkdownFile/readMarkdownFile';
 import processMarkdownFile from './processMarkdownFile/processMarkdownFile';
 import { Metadata } from './types';
 import writeHtmlFile from './writeHtmlFile/writeHtmlFile';
-import { readFile, rm } from 'fs/promises';
+import { cp, readFile, rm } from 'fs/promises';
 import { mkdirSync, writeFileSync } from 'fs';
 import { render } from './utils/templateEngine';
 
@@ -43,6 +43,9 @@ const build = async () => {
   await rm(join(process.cwd(), 'dist'), { recursive: true, force: true });
   mkdirSync(join(process.cwd(), 'dist'), { recursive: true });
 
+  // asset 폴더 내용 복사하기
+  await cp(join(process.cwd(), 'app', 'asset'), join(process.cwd(), 'dist'), { recursive: true });
+
   // 마크다운 파일들 처리하기
   for (const file of markdownfiles) {
     const content = await readMarkdownFile(file.filePath);
@@ -61,7 +64,7 @@ const build = async () => {
   // @todo 블로그 글 목록 index.html 파일로 쓰기
   const appHtml = await readFile(join(process.cwd(), 'app', 'templates', 'app.html'), 'utf8');
   const mainHtml = await readFile(join(process.cwd(), 'app', 'templates', 'main.html'), 'utf8');
-  const finalMainHtml = render(mainHtml, { posts: metaJson });
+  const finalMainHtml = render(mainHtml, { posts: metaJson.reverse() });
   const finalAppHtml = render(appHtml, { body: finalMainHtml });
   writeFileSync(join(process.cwd(), 'dist', 'index.html'), finalAppHtml, 'utf8');
 };
