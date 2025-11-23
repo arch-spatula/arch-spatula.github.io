@@ -13,8 +13,9 @@ import readMarkdownFile from './readMarkdownFile/readMarkdownFile';
 import processMarkdownFile from './processMarkdownFile/processMarkdownFile';
 import { Metadata } from './types';
 import writeHtmlFile from './writeHtmlFile/writeHtmlFile';
-import { rm } from 'fs/promises';
-import { mkdirSync } from 'fs';
+import { readFile, rm } from 'fs/promises';
+import { mkdirSync, writeFileSync } from 'fs';
+import { render } from './utils/templateEngine';
 
 /**
  * 모든 빌드 로직의 호출을 처리하는 함수
@@ -50,14 +51,25 @@ const build = async () => {
       file.isProcessed = true;
       continue;
     }
+
+    // HTML 파일 경로 생성 (상대 경로)
+    const fileName = `${file.filePath.split('/').pop()?.replace('.md', '.html') ?? ''}`;
+    metadata.filePath = `/${fileName}`;
+
     metaJson.push(metadata);
-    await writeHtmlFile(file.filePath, htmlContent);
+    await writeHtmlFile(file.filePath, htmlContent, metadata);
     // @todo 처리된 내용을 파일로 쓰기
     // post 템플릿 활용해서 처리된 내용을 파일로 쓰기
     file.isProcessed = true;
   }
+
   // @todo dist/meta.json 파일로 쓰기
   // @todo 블로그 글 목록 index.html 파일로 쓰기
+  const appHtml = await readFile(join(process.cwd(), 'app', 'templates', 'app.html'), 'utf8');
+  const mainHtml = await readFile(join(process.cwd(), 'app', 'templates', 'main.html'), 'utf8');
+  const finalMainHtml = render(mainHtml, { posts: metaJson });
+  const finalAppHtml = render(appHtml, { body: finalMainHtml });
+  writeFileSync(join(process.cwd(), 'dist', 'index.html'), finalAppHtml, 'utf8');
 };
 
 build();
