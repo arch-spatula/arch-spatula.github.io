@@ -1,15 +1,15 @@
 <main id="main">
-  <ul>
+  <ul class="blog-list">
     {{#each posts}}
-    <li>
-      <a href="{{filePath}}">
-        <h2>{{title}}</h2>
-        <p>{{description}}</p>
-        <p>{{date}}</p>
+    <li class="blog-item">
+      <a href="{{filePath}}" class="blog-link">
+        <h2 class="blog-title">{{title}}</h2>
+        <p class="blog-description">{{description}}</p>
+        <p class="blog-date">{{date}}</p>
       </a>
-      <ul>
+      <ul class="tag-list">
         {{#each tags}}
-        <li>{{this}}</li>
+        <li class="tag-item"><a href="{{this}}" class="tag-link">{{this}}</a></li>
         {{/each}}
       </ul>
     </li>
