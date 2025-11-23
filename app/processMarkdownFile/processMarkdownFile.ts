@@ -3,6 +3,7 @@ import markdown from 'remark-parse';
 import remark2rehype from 'remark-rehype';
 import html from 'rehype-stringify';
 import type { Metadata } from '../types';
+import { render } from '../utils/templateEngine';
 
 const convertMarkdownToHtml = (markdownSource: string) => {
   const htmlText = unified().use(markdown).use(remark2rehype).use(html).processSync(markdownSource);
@@ -154,7 +155,7 @@ export const parseMetadata = (metadata: string) => {
  * console.log('htmlContent: ', htmlContent);
  * console.log('metadata: ', metadata);
  */
-const processMarkdownFile = async (content: string, filePath: string) => {
+const processMarkdownFile = async (content: string, filePath: string, appTemplate: string, postTemplate: string) => {
   const { metadata, markdownContent } = splitMetadataAndContent(content);
   const htmlContent = convertMarkdownToHtml(markdownContent);
   const parsedMetadata = parseMetadata(metadata);
@@ -186,7 +187,17 @@ const processMarkdownFile = async (content: string, filePath: string) => {
   const fileName = filePath.split('/').pop()?.replace('.md', '.html') ?? '';
   parsedMetadata.filePath = `/${fileName}`;
 
-  return { htmlContent, metadata: parsedMetadata };
+  const bodyHtml = render(postTemplate, { content: htmlContent });
+  const appHtml = render(appTemplate, {
+    body: bodyHtml,
+    title: ` - ${parsedMetadata.title ?? ''}`,
+    description: parsedMetadata.description ?? '',
+    tags: parsedMetadata.tags?.join(', ') ?? '',
+    authors: parsedMetadata.authors?.join(', ') ?? '',
+    date: parsedMetadata.date ?? '',
+  });
+
+  return { htmlContent: appHtml, metadata: parsedMetadata };
 };
 
 export default processMarkdownFile;

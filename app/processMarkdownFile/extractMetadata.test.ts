@@ -11,7 +11,7 @@ This is content without frontmatter.
       `;
       const filePath = '/path/to/blogs/2023-04-12.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.date).toBe('2023-04-12');
     });
@@ -20,7 +20,7 @@ This is content without frontmatter.
       const content = `# Test Post`;
       const filePath = '/path/to/blogs/2023-12-25-christmas.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.date).toBe('2023-12-25');
     });
@@ -35,7 +35,7 @@ date: 2024-01-01
       `;
       const filePath = '/path/to/blogs/2023-04-12.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.date).toBe('2024-01-01');
     });
@@ -44,7 +44,7 @@ date: 2024-01-01
       const content = `# Test Title`;
       const filePath = '/path/to/blogs/random-post.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.date).toBeUndefined();
     });
@@ -53,7 +53,7 @@ date: 2024-01-01
       const content = `# Test`;
       const filePath = '/path/2024-02-29/blog-post.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.date).toBe('2024-02-29');
     });
@@ -68,7 +68,7 @@ This is the content.
       `;
       const filePath = '/path/to/post.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.title).toBe('Hello World');
     });
@@ -83,7 +83,7 @@ title: Frontmatter Title
       `;
       const filePath = '/path/to/post.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.title).toBe('Frontmatter Title');
     });
@@ -96,7 +96,7 @@ Some content here.
       `;
       const filePath = '/path/to/post.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.title).toBeUndefined();
     });
@@ -105,7 +105,7 @@ Some content here.
       const content = `# Title with **bold** and *italic*`;
       const filePath = '/path/to/post.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.title).toBeTruthy();
       expect(result.metadata.title).toContain('Title');
@@ -123,7 +123,7 @@ More content.
       `;
       const filePath = '/path/to/post.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.title).toBe('First Title');
     });
@@ -132,7 +132,7 @@ More content.
       const content = `# Title with <code>code</code> tag`;
       const filePath = '/path/to/post.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       // The title should have the inline code converted to <code> by markdown processor
       // but our extractor should handle it
@@ -151,7 +151,7 @@ Content goes here.
       `;
       const filePath = '/path/to/2023-06-15-my-post.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.date).toBe('2023-06-15');
       expect(result.metadata.title).toBe('My Blog Post');
@@ -169,7 +169,7 @@ Content.
       `;
       const filePath = '/path/to/2023-06-15.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.date).toBe('2023-06-15');
       expect(result.metadata.title).toBe('Custom Title');
@@ -189,7 +189,7 @@ Content here.
       `;
       const filePath = '/path/to/2023-12-31-ignored.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.title).toBe('Complete Post');
       expect(result.metadata.date).toBe('2024-01-01');
@@ -202,7 +202,7 @@ Content here.
       const content = '';
       const filePath = '/path/to/2023-01-01.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.date).toBe('2023-01-01');
       expect(result.htmlContent).toBe('');
@@ -217,7 +217,7 @@ date: 2023-01-01
       `;
       const filePath = '/path/to/post.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.title).toBe('Only Frontmatter');
       expect(result.metadata.date).toBe('2023-01-01');
@@ -227,7 +227,7 @@ date: 2023-01-01
       const content = `# Test`;
       const filePath = '/path/to/2023-13-45-invalid.md'; // Invalid date
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       // Still extracts the pattern even if invalid date
       expect(result.metadata.date).toBe('2023-13-45');
@@ -237,7 +237,7 @@ date: 2023-01-01
       const content = `#   Title with spaces   `;
       const filePath = '/path/to/post.md';
 
-      const result = await processMarkdownFile(content, filePath);
+      const result = await processMarkdownFile(content, filePath, '', '');
 
       expect(result.metadata.title).toBe('Title with spaces');
     });
