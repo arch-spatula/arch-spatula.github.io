@@ -1,8 +1,8 @@
 ---
-title: "nuxtContent로 블로그 마이그레션"
+title: 'nuxtContent로 블로그 마이그레션'
 authors: [arch-spatula]
-tags: ["nuxt", "nuxtContent", "blog"]
-description: "nuxtContent로 블로그를 다시 만드는 과정"
+tags: ['nuxt', 'nuxtContent', 'blog']
+description: 'nuxtContent로 블로그를 다시 만드는 과정'
 toc_max_heading_level: 5
 date: 2024-09-20
 ---
@@ -62,7 +62,7 @@ NOTE: 글쓰기 단계 - 편집
     - 위키는 저혼자 봐야 하는 것입니다. 저의 결점을 세상에 알리면 안됩니다. 나중에 면접관이 된 상황에서도 수준낮은 지원자들이 저의 수준낮은 자료를 보고 지원해도 괜찮다고 착각할 것입니다.
   - 아직도 아쉽게 블로그를 제 자신을 위해 작성하기 보단 다른 사람들에게 보여주기 위해 작성하고 있습니다. 그리고 아마 시니어이고 취업시장에서 불리한 편견이 사라질 수 있는 네임드 개발자가 되기 전까지는 이 태세를 유지해야 합니다.
 - 글의 수준을 높이고 몇개의 글만 보이도록 바꿔야 합니다. 수준 낮고 남들이 매일 다루는 테크트렌드는 더이상 다룰 필요가 없습니다. 기술 트렌드말고 기술 깊이를 보여줄 수 있어야 합니다.
-  - 이런 환경에서 글을 쓰기 위해서는 평소에 해결하는 문제가 생각의 깊이가 필요한 문제를 해결하기 위한 시도가 필요합니다. 그래야 블로그 글을 작성할 수 있는 소재가 생깁니다. 
+  - 이런 환경에서 글을 쓰기 위해서는 평소에 해결하는 문제가 생각의 깊이가 필요한 문제를 해결하기 위한 시도가 필요합니다. 그래야 블로그 글을 작성할 수 있는 소재가 생깁니다.
   - 위키는 회사 기술과 개인 기술로 구분해서 정리하고자합니다.
 - 마지막은 세월을 인내할 수 있는 블로그를 만들고 싶습니다.
   - 블로그의 하위호환성을 고려하고 싶어졌습니다. 너무 많은 기능을 너무 빠른 시간에 고치기 번거롭고 싶지 않습니다.
@@ -161,19 +161,19 @@ function Comment() {
 export default Comment;
 ```
 
-<!-- 
+<!--
 
 script.setAttribute('data-repo', 'arch-spatula/arch-spatula.github.io');
 script.setAttribute('data-repo-id', 'R_kgDOImK9Dg');
-script.setAttribute('data-category-id', 'DIC_kwDOImK9Ds4CUzIZ'); 
+script.setAttribute('data-category-id', 'DIC_kwDOImK9Ds4CUzIZ');
 
 -->
 
 - 중간에 가졌던 의문이 있는데 지금 제가 작성하는 것처럼 이렇게 키값이 공개되도 괜찮은지 찾아봤습니다.
 - [향로님 블로그를 확인](https://jojoldu.tistory.com/704)해보니까 여기도 키값이 공개 되어 있어서 괜찮은 것 같습니다. ~~당연히 저의 무지성 무비판적인 접근입니다.~~
 - 지금은 먼저 보존하는데 집중하기 바랍니다. 본인이 만든 설정이랑 키 바뀌는 것은 꽤 귀찮고 번거로울 것입니다.
-<!--- 저는 nuxt를 사용하고 있기 때문에 mount 라이프 사이클에 추가하면 될 것 같습니다. 자세한 응용은 이따 다시 다루겠습니다.-->
-  <!--- 일단 여러분은 보존한다는 것 자체에 집중하기 바랍니다.-->
+  <!--- 저는 nuxt를 사용하고 있기 때문에 mount 라이프 사이클에 추가하면 될 것 같습니다. 자세한 응용은 이따 다시 다루겠습니다.-->
+    <!--- 일단 여러분은 보존한다는 것 자체에 집중하기 바랍니다.-->
 
 ### 기존 댓글 컴포넌트 vue에 맞게 변환
 
@@ -192,16 +192,16 @@ TODO: 스크린샷 추가
 </template>
 
 <script setup lang="ts">
-const comment = useTemplateRef("comment");
+const comment = useTemplateRef('comment');
 
-const utterancesSelector = "iframe.utterances-frame";
+const utterancesSelector = 'iframe.utterances-frame';
 // ligth, dark, github-light, github-dark, dark_dimmed
-const theme = "dark_dimmed";
+const theme = 'dark_dimmed';
 
 onMounted(() => {
   const utterancesEl = comment.value.querySelector(utterancesSelector);
   const createUtterancesEl = () => {
-    const script = document.createElement("script");
+    const script = document.createElement('script');
     script.src = 'https://giscus.app/client.js';
     script.setAttribute('data-repo', '유저이름/블로그_레포이름'); // 예: arch-spatula/arch-spatula.github.io
     script.setAttribute('data-repo-id', '본인레포_아이디'); // 여기
@@ -217,18 +217,16 @@ onMounted(() => {
     script.setAttribute('data-theme', utterancesTheme);
     script.setAttribute('data-loading', 'lazy');
 
-
-
     script.async = true;
     comment.value.appendChild(script);
   };
 
   const postThemeMessage = () => {
     const message = {
-      type: "set-theme",
+      type: 'set-theme',
       theme: theme,
     };
-    utterancesEl.contentWindow.postMessage(message, "https://utteranc.es");
+    utterancesEl.contentWindow.postMessage(message, 'https://utteranc.es');
   };
 
   utterancesEl ? postThemeMessage() : createUtterancesEl();
@@ -266,7 +264,7 @@ NOTE: 글쓰기 단계 - 아이디어
 ```ts
 // index.vue
 useHead({
-  link: [{ rel: "icon", type: "image/svg+xml", href: "favicon.svg" }],
+  link: [{ rel: 'icon', type: 'image/svg+xml', href: 'favicon.svg' }],
 });
 ```
 
@@ -283,7 +281,7 @@ https://nuxt.com/docs/getting-started/styling#css-modules
 - 문서를 찾아보다가 발견한 것인데 modules css를 지원합니다. 옛날 react 생각납니다. 지나고 보면 modules css가 그렇게 나쁜 선택이 아니라고 생각이 듭니다. 오히려 스타일 격리에 더 유리했던 것 같습니다.
   - 다니고있는 회사의 CSS의 아쉬운 점은 뒤로 하겠습니다...
 
-<!-- 
+<!--
 
 ```sh
 Deprecation [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
@@ -342,7 +340,7 @@ pnpm install -D sass
 
 ```ts
 export default defineNuxtConfig({
-  css: ["~/assets/css/main.css"],
+  css: ['~/assets/css/main.css'],
 });
 ```
 
@@ -353,7 +351,7 @@ export default defineNuxtConfig({
 ### nvchad에 스타일링 참고
 
 - 위처럼 작성하고 끝난 것은 아닙니다. 블로그가 너무 못생겨서 단장을 하고 싶었습니다.
-  - 원래는 [nvchad](https://github.com/NvChad/nvchad.github.io)처럼 단장도 하고 싶어졌습니다. 이 갬성을 원했습니다. 또 [기계인간 John Grib](https://johngrib.github.io/) 블로그도 참고했습니다. 단순하고 검색 접근이 쉬워보였습니다. 저는 이것이 강력한 블로그의 형태라고 봤습니다. 물론 이쁘지는 않습니다. 
+  - 원래는 [nvchad](https://github.com/NvChad/nvchad.github.io)처럼 단장도 하고 싶어졌습니다. 이 갬성을 원했습니다. 또 [기계인간 John Grib](https://johngrib.github.io/) 블로그도 참고했습니다. 단순하고 검색 접근이 쉬워보였습니다. 저는 이것이 강력한 블로그의 형태라고 봤습니다. 물론 이쁘지는 않습니다.
   - nvchad 스타일을 상당히 부러워하고 있었습니다. 그래서 내부 소스코드를 읽어보면서 이런저런 것들을 발견했습니다.
   - [hyrious의 github-markdown-css](https://github.com/hyrious/github-markdown-css)에서 스타일을 참고하고 있었습니다.
     - 스타일링의 잭팟은 여기였습니다.
@@ -406,7 +404,7 @@ content: {
 - 저는 `/pages` 폴더에서 `[...slug].vue`를 활용하는 대신에 `index.vue`를 활용하기로 했습니다. 하위에 공용으로 적용하는 로직을 사용안 할 것입니다. 블로그 글을 읽기 시작할 때부터는 검색을 다시 접근할 이유가 없습니다.
 
 ```ts
-const search = ref("");
+const search = ref('');
 
 /**
  * NOTE: 없으면 전체 선택
@@ -436,10 +434,8 @@ const selectedTags = ref<string[]>([]);
       <div v-for="blog in list" :key="blog._path">
         <div
           v-if="
-            (blog.title?.includes(search) ||
-              blog.description?.includes(search)) &&
-            (!selectedTags.length ||
-              selectedTags?.some((elem) => blog?.tags?.includes(elem)))
+            (blog.title?.includes(search) || blog.description?.includes(search)) &&
+            (!selectedTags.length || selectedTags?.some((elem) => blog?.tags?.includes(elem)))
           "
         >
           <NuxtLink :to="blog._path">
@@ -512,24 +508,24 @@ const query: QueryBuilderParams = {
 ```js
 export default (id) => {
   const docContent = document.getElementById(id);
-  const preElements = docContent?.querySelectorAll("pre");
+  const preElements = docContent?.querySelectorAll('pre');
 
   preElements?.forEach(function (preElement) {
-    const childDiv = preElement.querySelector("div");
+    const childDiv = preElement.querySelector('div');
     if (childDiv) return;
 
-    const button = document.createElement("div");
-    button.classList = "copyBtn";
-    button.ariaLabel = "copy button";
+    const button = document.createElement('div');
+    button.classList = 'copyBtn';
+    button.ariaLabel = 'copy button';
 
-    button.addEventListener("click", function () {
-      button.classList = "clickedCopyBtn";
+    button.addEventListener('click', function () {
+      button.classList = 'clickedCopyBtn';
 
       const content = preElement.textContent;
       navigator.clipboard.writeText(content);
 
       // reset to old copyIcon after 1s
-      setTimeout(() => (button.classList = "copyBtn"), 2000);
+      setTimeout(() => (button.classList = 'copyBtn'), 2000);
     });
 
     preElement.appendChild(button);
@@ -548,11 +544,7 @@ export default (id) => {
       <!-- <h1>{{ doc.title }}</h1> -->
       {{ doc?.tags ?? [] }}
       {{ doc?.authors ?? [] }}
-      <ContentRenderer
-        id="DocContent"
-        class="markdown-body dark_dimmed"
-        :value="doc"
-      />
+      <ContentRenderer id="DocContent" class="markdown-body dark_dimmed" :value="doc" />
     </article>
   </template>
 </template>
@@ -564,28 +556,25 @@ export default (id) => {
  */
 const addBtn = (id: string) => {
   const docContent = document.getElementById(id);
-  const preElements = docContent?.querySelectorAll("pre");
+  const preElements = docContent?.querySelectorAll('pre');
 
   preElements?.forEach(function (preElement) {
-    const childDiv = preElement.querySelector("div");
+    const childDiv = preElement.querySelector('div');
     if (childDiv) return;
 
     // const button = document.createElement("div");
-    const button = document.createElement("button");
-    button.classList.add("copyBtn");
-    button.ariaLabel = "copy button";
+    const button = document.createElement('button');
+    button.classList.add('copyBtn');
+    button.ariaLabel = 'copy button';
 
-    button.addEventListener("click", function () {
-      button.classList.replace("copyBtn", "clickedCopyBtn");
+    button.addEventListener('click', function () {
+      button.classList.replace('copyBtn', 'clickedCopyBtn');
 
-      const content = preElement.textContent ?? "";
+      const content = preElement.textContent ?? '';
       navigator.clipboard.writeText(content);
 
       // reset to old copyIcon after 1s
-      setTimeout(
-        () => button.classList.replace("clickedCopyBtn", "copyBtn"),
-        2000,
-      );
+      setTimeout(() => button.classList.replace('clickedCopyBtn', 'copyBtn'), 2000);
     });
 
     preElement.appendChild(button);
@@ -789,7 +778,7 @@ TODO: 스크린샷 추가
 <script lang="ts" setup>
 const tags = ref<Map<string, number>>(new Map());
 
-await queryContent("blogs")
+await queryContent('blogs')
   .find()
   .then((res) => res.map((elem) => elem?.tags))
   .then((res: string[][]) => {
@@ -807,14 +796,10 @@ await queryContent("blogs")
 
 <template>
   <div :class="$style['tag-warpper']">
-    <button :class="$style['button-tag']" v-for="tag in tags">
-      {{ tag[0] }} {{ tag[1] }}
-    </button>
+    <button :class="$style['button-tag']" v-for="tag in tags">{{ tag[0] }} {{ tag[1] }}</button>
   </div>
 </template>
 ```
-
-
 
 ### 이전글 다음글 이동
 
@@ -833,14 +818,12 @@ TODO: 스크린샷 추가
 ```ts
 const route = useRoute();
 const { navPageFromPath, navDirFromPath } = useContentHelpers();
-const { data: navigation } = await useAsyncData("blogs", () =>
-  fetchContentNavigation(),
-);
+const { data: navigation } = await useAsyncData('blogs', () => fetchContentNavigation());
 
 type PageItem = {
   title: string;
   _path: string;
-  _draft?: boolean;
+  draft?: boolean;
 };
 
 const prevPage = ref<{ title: string; _path: string } | null>(null);
@@ -892,31 +875,26 @@ TODO: 스크린샷 추가
 ```ts
 const route = useRoute();
 
-const { data } = await useAsyncData(
-  `${route.path}`,
-  queryContent(`${route.path}`).findOne,
-);
+const { data } = await useAsyncData(`${route.path}`, queryContent(`${route.path}`).findOne);
 ```
 
 - 시작은 이렇게 하겠습니다. 현재 보고 있는 페이지에서 AST를 접근할 수 있습니다.
 
 ```ts
-data.value.body.children.forEach(
-  (element: { tag: string; props: { id: string } }) => {
-    switch (element.tag) {
-      case "h1":
-      case "h2":
-      case "h3":
-      case "h4":
-      case "h5":
-      case "h6":
-        console.log(element.props.id);
-        break;
-      default:
-        break;
-    }
-  },
-);
+data.value.body.children.forEach((element: { tag: string; props: { id: string } }) => {
+  switch (element.tag) {
+    case 'h1':
+    case 'h2':
+    case 'h3':
+    case 'h4':
+    case 'h5':
+    case 'h6':
+      console.log(element.props.id);
+      break;
+    default:
+      break;
+  }
+});
 ```
 
 - 다행인 점은 사실상 배열입니다.
@@ -925,32 +903,30 @@ data.value.body.children.forEach(
 ```ts
 const toc = ref<{ heading: string; depth: 1 | 2 | 3 | 4 | 5 | 6 }[]>([]);
 
-data.value.body.children.forEach(
-  (element: { tag: string; props: { id: string } }) => {
-    switch (element.tag) {
-      case "h1":
-        toc.value.push({ heading: element.props.id, depth: 1 });
-        break;
-      case "h2":
-        toc.value.push({ heading: element.props.id, depth: 2 });
-        break;
-      case "h3":
-        toc.value.push({ heading: element.props.id, depth: 3 });
-        break;
-      case "h4":
-        toc.value.push({ heading: element.props.id, depth: 4 });
-        break;
-      case "h5":
-        toc.value.push({ heading: element.props.id, depth: 5 });
-        break;
-      case "h6":
-        toc.value.push({ heading: element.props.id, depth: 6 });
-        break;
-      default:
-        break;
-    }
-  },
-);
+data.value.body.children.forEach((element: { tag: string; props: { id: string } }) => {
+  switch (element.tag) {
+    case 'h1':
+      toc.value.push({ heading: element.props.id, depth: 1 });
+      break;
+    case 'h2':
+      toc.value.push({ heading: element.props.id, depth: 2 });
+      break;
+    case 'h3':
+      toc.value.push({ heading: element.props.id, depth: 3 });
+      break;
+    case 'h4':
+      toc.value.push({ heading: element.props.id, depth: 4 });
+      break;
+    case 'h5':
+      toc.value.push({ heading: element.props.id, depth: 5 });
+      break;
+    case 'h6':
+      toc.value.push({ heading: element.props.id, depth: 6 });
+      break;
+    default:
+      break;
+  }
+});
 ```
 
 - 이렇게 해서 로직을 구현하는 부분은 단순했습니다.
@@ -1008,19 +984,19 @@ data.value.body.children.forEach(
 - tl;dr: draft 기능은 `_draft: true`으로 설정해야 가려집니다.
 - 스택오버플로우를 검색해보니 이런 글을 발견했습니다.
   - [NuxtJS 3 Generates draft content](https://stackoverflow.com/questions/77170327/nuxtjs-3-generates-draft-content)
-  - 내용을 보니 저랑 비슷한 케이스였습니다. Nuxt를 사용해서 블로그를 만들고 있었습니다. 
+  - 내용을 보니 저랑 비슷한 케이스였습니다. Nuxt를 사용해서 블로그를 만들고 있었습니다.
 
 > This is a known issue, open for about a year now: https://github.com/nuxt/content/issues/1523
 
 - 위 이슈를 확인해보니까 [이 PR](https://github.com/nuxt/content/pull/2738)에 반영될 것입니다.
-  - 해당 PR이 merge 되기 전입니다. 하나는 nuxtContent를 준수하고 앞에 `_draft` 접두어를 붙이는 방법이 있습니다.
+  - 해당 PR이 merge 되기 전입니다. 하나는 nuxtContent를 준수하고 앞에 `draft` 접두어를 붙이는 방법이 있습니다.
   - 블로그를 편집하면서 미래에서 보니 이 PR은 merge 되었습니다. 아마 다음 릴리즈 버전에 고쳐질 것 같습니다.
 - neovim 기능에 전체 바꾸기 기능을 추가해야 할 것 같습니다. 하지만 이것은 이번 글의 범위를 벗어나는 것 같습니다.
-<!--- 궁극적으로는 빌드타임에 키를 확인해보고 제외하는 방식을 선택해야 할 것 같습니다.-->
-<!--- 다른 방법은 라이프사이클 hook을 제어하는 방법을 알아내고 적용하는 것입니다.-->
-<!--  - 회사에서 vue 쓴다고 nuxt를 알아내는 것이 이 블로그 만들기의 목적은 아닙니다.-->
-<!--  - 차라리 SSR, SSG를 직접 구현하는 방법을 알아내는 것도 가치가 있었을지 모르겠습니다.-->
-<!--- 이 기능은 내일 이어서 만들고 문제를 해결해보도록 하겠습니다.-->
+  <!--- 궁극적으로는 빌드타임에 키를 확인해보고 제외하는 방식을 선택해야 할 것 같습니다.-->
+  <!--- 다른 방법은 라이프사이클 hook을 제어하는 방법을 알아내고 적용하는 것입니다.-->
+  <!--  - 회사에서 vue 쓴다고 nuxt를 알아내는 것이 이 블로그 만들기의 목적은 아닙니다.-->
+  <!--  - 차라리 SSR, SSG를 직접 구현하는 방법을 알아내는 것도 가치가 있었을지 모르겠습니다.-->
+  <!--- 이 기능은 내일 이어서 만들고 문제를 해결해보도록 하겠습니다.-->
 
 ### 개발자 블로그 빌드 실패
 
@@ -1056,10 +1032,10 @@ pnpm run generate
 NOTE: 글쓰기 단계 - 아이디어
 -->
 
-- 2가지 actions를 수행해야 합니다. 
+- 2가지 actions를 수행해야 합니다.
   - 하나는 `dev`에 `commit push` 마다 테스트를 위해 빌드 시도를 해야 합니다.
   - 다른 하나는 `main`에 `merge`가 되면 빌드한 파일을 배포해야 합니다.
-<!--- 마지막 이부분의 작업 방식은 기존 작업이 끝나면 PR을 천천히 올리고 합치는 방식에서 자주 PR을 올리거나 커밋을 바로 하는 방식으로 전환했습니다.-->
+  <!--- 마지막 이부분의 작업 방식은 기존 작업이 끝나면 PR을 천천히 올리고 합치는 방식에서 자주 PR을 올리거나 커밋을 바로 하는 방식으로 전환했습니다.-->
 
 #### 공식 문서 확인
 
@@ -1080,7 +1056,7 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v3
         with:
-          node-version: "20"
+          node-version: '20'
       # Pick your own package manager and build script
       - run: npm install
       - run: npx nuxt build --preset github_pages
@@ -1111,7 +1087,7 @@ jobs:
 
 - 위는 공식 문서가 보여준 `yml`입니다. 꽤 긴 코드입니다.
 - 모르는 것을 순서대로 확인하고 질문해야 합니다.
-  - `on:`은 실행 시점을 제어하는 키워드로 보입니다.  
+  - `on:`은 실행 시점을 제어하는 키워드로 보입니다.
     - `main` 브랜치에 `push`되면 실행하는 것 같습니다.
     - [on에 대한 github 공식 문서](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on)를 확인하면 꽤 다양한 실행 조건을 알아낼 수 있었습니다. 지금 문서를 보면 `main` 브랜치에 PR 합쳐지거나 `commit push`가 있으면 실행될 것입니다.
   - `jobs`는 수행할 작업들인 것 같습니다.
@@ -1120,8 +1096,8 @@ jobs:
     - `steps:`가 난해합니다. 수행하는 작업과 사용할 설정들 같습니다. `uses:` 키워드를 사용한다고 하는데 사용이라는 점에서 직관적입니다. 하지만 각각의 `uses:`의 값은 무엇을 설정하고 사용한다는지 모르겠습니다.
     - `actions/checkout@v3`, `actions/setup-node@v3`, `actions/upload-pages-artifact@v3`, `actions/deploy-pages@v4`
 - 정말 필요한 것은 아마 테스트 레포였던 것 같습니다.
-  <!--- [daleseo의 GitHub Actions의 체크아웃(Checkout) 액션으로 코드 내려받기](https://www.daleseo.com/github-actions-checkout/)를 보니까 이렇게 시도를 해볼 생각을 안했습니다.-->
-<!--- https://pnpm.io/continuous-integration 에서 CI 설정을 발견했습니다.-->
+    <!--- [daleseo의 GitHub Actions의 체크아웃(Checkout) 액션으로 코드 내려받기](https://www.daleseo.com/github-actions-checkout/)를 보니까 이렇게 시도를 해볼 생각을 안했습니다.-->
+  <!--- https://pnpm.io/continuous-integration 에서 CI 설정을 발견했습니다.-->
 
 ```sh
 npx nuxt build --preset github_pages
@@ -1130,7 +1106,7 @@ npx nuxt build --preset github_pages
 - 또 하지만 이 명령을 활용하는데 이런 저런 모순이 있었습니다.
 - 로컬에서는 빌드가 성공했지만 실제 배포를 처리하는 코드에서는 실패했습니다. 공식문서에서 권장하는 기준을 활용하면 실패했습니다.
 
-<!-- 
+<!--
 
 ```yml
 name: pnpm Example Workflow
@@ -1161,12 +1137,12 @@ jobs:
 - 워 코드를 보고 응용하면 될 것 같습니다.
 -->
 
-<!-- 
+<!--
 ### actions란 무엇인가?
 
 - 저는 github에서 잘 모르는 부분 중 하나는 github actions입니다.
   - 이런 상황에서는 무엇을 모르는지 정리해야 합니다.
-  - `uses: actions/checkout@v3`은 무엇을 의미하는지 모르겠습니다. 무슨 node 버전을 갖고 있는지 무슨 pnpm 버전을 갖고 있는지 어떻게 알 수 있는지 알아내야 합니다. 
+  - `uses: actions/checkout@v3`은 무엇을 의미하는지 모르겠습니다. 무슨 node 버전을 갖고 있는지 무슨 pnpm 버전을 갖고 있는지 어떻게 알 수 있는지 알아내야 합니다.
   - `actions/setup-node`안에 무엇이 들었는지도 모르겠습니다.
 
 ```sh
@@ -1261,7 +1237,7 @@ jobs:
     - 모든 정적 사이트에서 가능하다고 하니까 시도해보고자 합니다.
 - https://www.youtube.com/watch?v=OJq1W4Ti1sk
 - 위에서 알려주는 방식을 사용하고자 합니다. 이렇게라도 하면 뭔가 가능할 것이라는 착각이라도 듭니다.
-- 위 방법도 안된다면  
+- 위 방법도 안된다면
 
 https://velog.io/@devmini1203/Nuxt3-Nuxt3-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EB%A5%BC-GitHub-Pages%EC%97%90-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0
 
@@ -1290,7 +1266,7 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v3
         with:
-          node-version: "20"
+          node-version: '20'
       # Pick your own package manager and build script
       - run: pnpm install
       - run: pnpm generate
@@ -1316,7 +1292,7 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: '20'
       # Pick your own package manager and build script
       - run: pnpm install
       - run: pnpm generate --preset github_pages
@@ -1331,8 +1307,8 @@ jobs:
     needs: build
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
     # Deploy to the github_pages environment
     environment:
       name: github_pages
@@ -1343,17 +1319,16 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
 ```
 
-- 블로그 배포는 위처럼 처리하니까 잘 배포했습니다. 
-- `touch .output/public/.nojekyll`을 추가하는 것도 해줬습니다. 
+- 블로그 배포는 위처럼 처리하니까 잘 배포했습니다.
+- `touch .output/public/.nojekyll`을 추가하는 것도 해줬습니다.
   - github이 ruby on rails로 만들다보니 jekyll로 개발자 블로그를 만드는 것을 특별대우해주고 있던 것이었습니다. 저희는 2급 시민답게 우리의 jekyll 완장을 보여줍시다.
 - 결국 이렇게 배포해서 저는 저의 두번째 요구사항을 달성했습니다.
 
 ## 결론
 
-- nuxt로 잠시 버티고 더 단순한 방법을 결국 찾아낼 것입니다. 
+- nuxt로 잠시 버티고 더 단순한 방법을 결국 찾아낼 것입니다.
   - 가능하면 잠시가 5년은 갔으면 좋겠습니다.
 - 아마 [unified-remark-rehype](https://www.daleseo.com/unified-remark-rehype/)에서 말하는 라이브러리를 활용해서 최대한 html, css, js 계층에 가깝게 만들어내고자 합니다.
 - 이과정이 꽤 재미있었습니다. 작업을 진행하면서 모르는 자료들을 찾아보고 문제를 해결하는 과정이었습니다.
@@ -1361,4 +1336,3 @@ jobs:
   - 저는 개발을 직업으로도 하지만 취미로 하는 개발도 있는 사람입니다. 저를 더 뛰어나게 해주는 것과 무관하다는 것은 당연히 알고 있습니다. 그저 제가 여가를 보내는 한가지 방식입니다.
 - 원래 사용하던 블로그 프레임워크에서 벗어나 제가 원하는 방식으로 제어하기 시작했습니다.
   - 숨겨진 위키 페이지들도 이제는 사라지게 됩니다. 물론 소스코드로 접근하는 방법은 알게 되지만 실제 소스코드를 보는 사람들은 극히 일부에 불과합니다.
-

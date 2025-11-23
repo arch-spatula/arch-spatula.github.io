@@ -1,17 +1,10 @@
 ---
 title: 'Protected Route'
 authors: [arch-spatula]
-tags:
-  [
-    'react',
-    'react-router-dom',
-    'protected route',
-    'refactoring',
-    'design pattern',
-  ]
+tags: ['react', 'react-router-dom', 'protected route', 'refactoring', 'design pattern']
 description: '특정 route에 접근하면 리다이렉팅 깜박임을 제거하는 방법입니다.'
 toc_max_heading_level: 6
-_draft: true
+draft: true
 date: 2023-06-27
 ---
 
@@ -339,10 +332,7 @@ export default Router;
 import { STORAGE_KEY } from '@/constant/config';
 
 export function checkLogin() {
-  return Boolean(
-    localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN) &&
-      sessionStorage.getItem(STORAGE_KEY.SESSION_TOKEN)
-  );
+  return Boolean(localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN) && sessionStorage.getItem(STORAGE_KEY.SESSION_TOKEN));
 }
 ```
 
@@ -369,7 +359,7 @@ export function useLogin() {
       sessionStorage.setItem(STORAGE_KEY.SESSION_TOKEN, sessionToken);
       setIsLoggedIn(checkLogin());
     },
-    [setIsLoggedIn]
+    [setIsLoggedIn],
   );
 
   const emptyTokens = useCallback(() => {

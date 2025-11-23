@@ -1,10 +1,10 @@
 ---
-title: "nuxt, vue를 위한 neovim 설정 과정"
+title: 'nuxt, vue를 위한 neovim 설정 과정'
 authors: [arch-spatula]
-tags: ["vue", "neovim", "Dotfile"]
-description: "nuxt, vue로 개발하기 위한 neovim 설정"
+tags: ['vue', 'neovim', 'Dotfile']
+description: 'nuxt, vue로 개발하기 위한 neovim 설정'
 toc_max_heading_level: 5
-_draft: true
+draft: true
 date: 2024-10-04
 ---
 
