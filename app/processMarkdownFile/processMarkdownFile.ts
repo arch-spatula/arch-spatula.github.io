@@ -180,6 +180,7 @@ const processMarkdownFile = async (content: string, filePath: string) => {
       }
     }
   }
+  parsedMetadata.filePath = filePath;
 
   return { htmlContent, metadata: parsedMetadata };
 };

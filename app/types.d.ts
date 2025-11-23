@@ -5,4 +5,5 @@ export type Metadata = {
   description?: string;
   authors?: string[];
   draft?: boolean;
+  filePath?: string;
 };

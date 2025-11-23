@@ -49,6 +49,54 @@ export const renderConditional = (template: string, data: Record<string, any>): 
 };
 
 /**
+ * 중첩된 {{#each}}...{{/each}} 블록을 올바르게 찾기
+ * @param template - 템플릿 문자열
+ * @param startIndex - 검색 시작 위치
+ * @returns 매칭 정보 또는 null
+ */
+const findEachBlock = (
+  template: string,
+  startIndex = 0,
+): { key: string; content: string; fullMatch: string; start: number; end: number } | null => {
+  const openPattern = /{{#each\s+(\w+)}}/g;
+  openPattern.lastIndex = startIndex;
+  const openMatch = openPattern.exec(template);
+
+  if (!openMatch) return null;
+
+  const key = openMatch[1];
+  const contentStart = openPattern.lastIndex;
+  let depth = 1;
+  let i = contentStart;
+
+  // 매칭되는 닫는 태그를 찾기 위해 depth 카운팅
+  while (i < template.length && depth > 0) {
+    if (template.slice(i, i + 8) === '{{#each ') {
+      depth++;
+      i += 8;
+    } else if (template.slice(i, i + 9) === '{{/each}}') {
+      depth--;
+      if (depth === 0) {
+        const content = template.slice(contentStart, i);
+        const fullMatch = template.slice(openMatch.index, i + 9);
+        return {
+          key,
+          content,
+          fullMatch,
+          start: openMatch.index,
+          end: i + 9,
+        };
+      }
+      i += 9;
+    } else {
+      i++;
+    }
+  }
+
+  return null;
+};
+
+/**
  * 배열 렌더링을 처리
  * {{#each ARRAY}}...{{/each}} 형태의 반복문 처리
  * @param template - 템플릿 문자열
@@ -57,26 +105,57 @@ export const renderConditional = (template: string, data: Record<string, any>): 
  */
 export const renderEach = (template: string, data: Record<string, any>): string => {
   let result = template;
+  let hasMatch = true;
 
-  // {{#each KEY}}...{{/each}} 패턴 찾기
-  const eachPattern = /{{#each\s+(\w+)}}([\s\S]*?){{\/each}}/g;
+  // 모든 each 블록을 처리할 때까지 반복
+  while (hasMatch) {
+    const match = findEachBlock(result);
 
-  result = result.replace(eachPattern, (match, key, content) => {
+    if (!match) {
+      hasMatch = false;
+      break;
+    }
+
+    const { key, content, fullMatch } = match;
     const array = data[key];
 
-    // 배열이 아니거나 비어있으면 빈 문자열 반환
+    // 배열이 아니거나 비어있으면 빈 문자열로 치환
     if (!Array.isArray(array) || array.length === 0) {
-      return '';
+      result = result.replace(fullMatch, '');
+      continue;
     }
 
     // 배열의 각 항목에 대해 템플릿 렌더링
-    return array
-      .map((item) =>
-        // {{this}}를 현재 항목으로 치환
-        content.replace(/{{this}}/g, String(item)),
-      )
+    const rendered = array
+      .map((item) => {
+        let itemContent = content;
+
+        if (typeof item === 'object' && item !== null) {
+          // 객체인 경우, 중첩된 each를 먼저 처리
+          itemContent = renderEach(itemContent, item);
+
+          // 객체의 각 속성을 플레이스홀더로 치환
+          Object.entries(item).forEach(([itemKey, itemValue]) => {
+            const placeholder = new RegExp(`{{${itemKey}}}`, 'g');
+            if (Array.isArray(itemValue)) {
+              itemContent = itemContent.replace(placeholder, itemValue.join(', '));
+            } else if (typeof itemValue === 'object' && itemValue !== null) {
+              itemContent = itemContent.replace(placeholder, JSON.stringify(itemValue));
+            } else {
+              itemContent = itemContent.replace(placeholder, String(itemValue ?? ''));
+            }
+          });
+        } else {
+          // 원시 값인 경우 {{this}}로 치환
+          itemContent = itemContent.replace(/{{this}}/g, String(item));
+        }
+
+        return itemContent;
+      })
       .join('');
-  });
+
+    result = result.replace(fullMatch, rendered);
+  }
 
   return result;
 };
