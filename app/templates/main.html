@@ -1,0 +1,18 @@
+<main id="main">
+  <ul>
+    {{#each posts}}
+    <li>
+      <a href="{{filePath}}">
+        <h2>{{title}}</h2>
+        <p>{{description}}</p>
+        <p>{{date}}</p>
+      </a>
+      <ul>
+        {{#each tags}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </li>
+    {{/each}}
+  </ul>
+</main>
