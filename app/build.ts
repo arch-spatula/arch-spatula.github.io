@@ -35,6 +35,10 @@ import { render } from './utils/templateEngine';
 const build = async () => {
   const metaJson: Metadata[] = [];
 
+  const appTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'app.html'), 'utf8');
+  const postTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'post.html'), 'utf8');
+  const mainTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'main.html'), 'utf8');
+
   // content/blogs의 모든 마크다운 파일 가져오기
   const blogsDir = join(process.cwd(), 'blogs');
   const markdownfiles = await listUpMarkdownFiles(blogsDir);
@@ -49,24 +53,22 @@ const build = async () => {
   // 마크다운 파일들 처리하기
   for (const file of markdownfiles) {
     const content = await readMarkdownFile(file.filePath);
-    const { metadata, htmlContent } = await processMarkdownFile(content, file.filePath);
+    const { metadata, htmlContent } = await processMarkdownFile(content, file.filePath, appTemplate, postTemplate);
     if (metadata.draft) {
       file.isProcessed = true;
       continue;
     }
 
     metaJson.push(metadata);
-    await writeHtmlFile(file.filePath, htmlContent, metadata);
+    await writeHtmlFile(file.filePath, htmlContent);
     file.isProcessed = true;
   }
 
   // @todo dist/meta.json 파일로 쓰기
   // @todo 블로그 글 목록 index.html 파일로 쓰기
-  const appHtml = await readFile(join(process.cwd(), 'app', 'templates', 'app.html'), 'utf8');
-  const mainHtml = await readFile(join(process.cwd(), 'app', 'templates', 'main.html'), 'utf8');
-  const finalMainHtml = render(mainHtml, { posts: metaJson.reverse() });
-  const finalAppHtml = render(appHtml, { body: finalMainHtml });
-  writeFileSync(join(process.cwd(), 'dist', 'index.html'), finalAppHtml, 'utf8');
+  const MainHtml = render(mainTemplate, { posts: metaJson.reverse() });
+  const AppHtml = render(appTemplate, { body: MainHtml });
+  writeFileSync(join(process.cwd(), 'dist', 'index.html'), AppHtml, 'utf8');
 };
 
 build();
