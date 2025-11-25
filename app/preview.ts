@@ -48,8 +48,17 @@ const preview = async () => {
       const ext = extname(filePath);
       const mimeType = MIME_TYPES[ext] || 'text/plain';
 
+      // 개발 환경에 적합한 캐시 헤더 설정
+      const headers: Record<string, string> = {
+        'Content-Type': mimeType,
+        // 캐시 무효화: 항상 최신 버전 확인
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        Pragma: 'no-cache',
+        Expires: '0',
+      };
+
       // 응답
-      res.writeHead(200, { 'Content-Type': mimeType });
+      res.writeHead(200, headers);
       res.end(content);
 
       console.log(`✅ Served: ${filePath}`);
