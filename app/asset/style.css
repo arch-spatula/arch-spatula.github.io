@@ -17,9 +17,10 @@ body {
 }
 /* 상단 네비게이션 */
 #nav {
+  max-width: 800px;
+  margin: 0 auto 12px;
   border-bottom: 1px solid #3d444db3;
   height: 64px;
-  margin: 0 0 12px;
 }
 .blog-logo-container {
   height: 100%;
