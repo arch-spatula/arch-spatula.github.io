@@ -2,16 +2,19 @@
   <ul class="blog-list">
     {{#each posts}}
     <li class="blog-item">
-      <a href="{{filePath}}" class="blog-link">
-        <h2 class="blog-title">{{title}}</h2>
-        <p class="blog-description">{{description}}</p>
+      <div>
+        <a href="{{filePath}}" class="blog-link">{{title}}</a>
         <p class="blog-date">{{date}}</p>
-      </a>
-      <ul class="tag-list">
-        {{#each tags}}
-        <li class="tag-item"><a href="{{this}}" class="tag-link">{{this}}</a></li>
-        {{/each}}
-      </ul>
+        <ul class="tag-list">
+          {{#each tags}}
+          <li class="tag-item" data-id="{{this}}">
+            <a href="{{this}}" class="tag-text">#{{this}}</a>
+          </li>
+          {{/each}}
+        </ul>
+        <p class="blog-description">{{description}}</p>
+        <hr class="blog-divider" />
+      </div>
     </li>
     {{/each}}
   </ul>
