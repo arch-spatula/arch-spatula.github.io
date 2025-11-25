@@ -15,11 +15,18 @@
     <nav id="nav">
       <ul>
         <li class="blog-logo-container">
-          <a href="/" class="blog-logo">
-            <img class="logo-img" src="/logo.svg" alt="blog logo" />
-            <p>home</p>
-          </a>
+          <a class="blog-logo" href="/"
+            ><img class="logo-img" src="/vite.svg" alt="blog logo" />
+            <p>home</p></a
+          >
         </li>
+        <li>
+          <button id="popup-btn">
+            <img class="icon" src="/search.svg" alt="search" />
+            <p class="popup-text">Ctrl + k</p>
+          </button>
+        </li>
+        <li class="github-link"><a href="https://github.com" target="_blank">GitHub</a></li>
       </ul>
     </nav>
     <div id="app">{{body}}</div>
