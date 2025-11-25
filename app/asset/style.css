@@ -24,7 +24,7 @@ body {
 }
 .blog-logo-container {
   height: 100%;
-  padding: 0 8px;
+  /* padding: 0 8px; */
 }
 .blog-logo {
   display: flex;
@@ -34,8 +34,8 @@ body {
   gap: 12px;
 }
 .logo-img {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
 }
 #nav ul {
   display: flex;
@@ -91,6 +91,7 @@ body {
 .tag-list {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 .tag-item {
   box-sizing: border-box;
