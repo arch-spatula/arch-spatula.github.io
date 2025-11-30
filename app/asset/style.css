@@ -4,6 +4,12 @@
   margin: 0;
   padding: 0;
 }
+
+/* Utility classes */
+.hidden {
+  display: none !important;
+}
+
 body {
   background-color: #212830;
 
