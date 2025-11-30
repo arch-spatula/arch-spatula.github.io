@@ -5,7 +5,7 @@ const globals = require('globals');
 module.exports = [
   {
     files: ['**/*.js', '**/*.ts'],
-    ignores: ['node_modules/**'],
+    ignores: ['node_modules/**', 'dist/**'],
     languageOptions: {
       parser: typescriptParser,
       ecmaVersion: 'latest',
@@ -184,6 +184,7 @@ module.exports = [
 
       /**
        * [style rules]
+       * indent: 들여쓰기를 2칸으로 강제
        * camelcase: 변수 이름에 카멜 케이스를 요구하며, 객체 속성에는 적용하지 않음
        * func-names: 함수 이름을 요구
        * no-nested-ternary: 중첩된 삼항 연산자 금지
@@ -198,6 +199,7 @@ module.exports = [
        * one-var: 함수 내에서 한 번에 하나의 변수 선언만 허용
        * unicode-bom: 유니코드 바이트 순서 표식을 허용하지 않음
        */
+      indent: ['error', 2, { SwitchCase: 1 }],
       camelcase: ['warn', { properties: 'never' }],
       'func-names': 'warn',
       'no-nested-ternary': 'warn',
@@ -226,6 +228,13 @@ module.exports = [
       //  */
       'no-delete-var': 'warn',
       'no-shadow': 'error',
+    },
+  },
+  // 클라이언트 코드에서는 console 허용
+  {
+    files: ['app/client/**/*.ts', 'app/client/**/*.js'],
+    rules: {
+      'no-console': 'off',
     },
   },
 ];
