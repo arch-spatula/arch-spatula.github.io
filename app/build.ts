@@ -16,6 +16,7 @@ import writeHtmlFile from './writeHtmlFile/writeHtmlFile';
 import { cp, readFile, rm } from 'fs/promises';
 import { mkdirSync, writeFileSync } from 'fs';
 import { render } from './utils/templateEngine';
+import * as esbuild from 'esbuild';
 
 /**
  * 모든 빌드 로직의 호출을 처리하는 함수
@@ -49,6 +50,16 @@ const build = async () => {
 
   // asset 폴더 내용 복사하기
   await cp(join(process.cwd(), 'app', 'asset'), join(process.cwd(), 'dist'), { recursive: true });
+
+  // client TypeScript를 JavaScript로 빌드하기
+  await esbuild.build({
+    entryPoints: [join(process.cwd(), 'app', 'client', 'script.ts')],
+    bundle: true,
+    minify: true,
+    outfile: join(process.cwd(), 'dist', 'script.js'),
+    target: 'es2020',
+    platform: 'browser',
+  });
 
   // 마크다운 파일들 처리하기
   for (const file of markdownfiles) {
