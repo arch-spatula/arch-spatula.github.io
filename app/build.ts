@@ -39,6 +39,7 @@ const build = async () => {
   const appTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'app.html'), 'utf8');
   const postTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'post.html'), 'utf8');
   const mainTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'main.html'), 'utf8');
+  const searchTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'search.html'), 'utf8');
 
   // content/blogs의 모든 마크다운 파일 가져오기
   const blogsDir = join(process.cwd(), 'blogs');
@@ -75,10 +76,30 @@ const build = async () => {
     file.isProcessed = true;
   }
 
+  // 태그 정보 수집 (태그별 개수 포함)
+  const tagMap = new Map<string, number>();
+  metaJson.forEach((meta) => {
+    if (meta.tags) {
+      meta.tags.forEach((tag) => {
+        tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
+      });
+    }
+  });
+
+  // 태그를 배열로 변환 (count 포함)
+  const tags = Array.from(tagMap.entries())
+    .map(([tag, count]) => ({ name: tag, count }))
+    .sort((a, b) => b.count - a.count); // 많이 사용된 태그 순으로 정렬
+
   // @todo dist/meta.json 파일로 쓰기
+  writeFileSync(join(process.cwd(), 'dist', 'meta.json'), JSON.stringify(metaJson.reverse(), null, 2), 'utf8');
+
+  // 검색 템플릿 렌더링
+  const SearchHtml = render(searchTemplate, { tags, posts: metaJson });
+
   // @todo 블로그 글 목록 index.html 파일로 쓰기
-  const MainHtml = render(mainTemplate, { posts: metaJson.reverse() });
-  const AppHtml = render(appTemplate, { body: MainHtml });
+  const MainHtml = render(mainTemplate, { posts: metaJson });
+  const AppHtml = render(appTemplate, { body: MainHtml, search: SearchHtml });
   writeFileSync(join(process.cwd(), 'dist', 'index.html'), AppHtml, 'utf8');
 };
 
