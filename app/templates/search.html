@@ -1,0 +1,29 @@
+<div id="search-popup">
+  <div id="popup-container">
+    <form id="search-form">
+      <img id="search-icon" src="/search.svg" alt="search" /><input
+        id="search-input"
+        type="search"
+        name="search-input"
+        placeholder="Search"
+        autocomplete="off"
+      />
+      <div></div>
+    </form>
+    <ul id="search-tag-list">
+      {{#each tags}}
+      <li class="search-tag-item">
+        <a class="tag-link" href="?search=open&amp;tags={{name}}">#{{name}} - {{count}}</a>
+      </li>
+      {{/each}}
+    </ul>
+    <ul id="search-blog-list">
+      {{#each posts}}
+      <li class="search-item">
+        <a href="{{filePath}}" class="search-item-focus search-item-link">{{title}}</a>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
+<div id="overlay"></div>
