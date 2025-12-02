@@ -1,10 +1,6 @@
 /**
  * @fileoverview 빌드를 처리하는 루트 파일
  *
- * @todo 쓰기 로직 구현
- * @todo meta.json 파일 쓰기
- * @todo index.html 파일 쓰기
- * @todo html 템플릿 활용해서 처리된 내용을 파일로 쓰기
  */
 
 import { join } from 'path';

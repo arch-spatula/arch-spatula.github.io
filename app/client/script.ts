@@ -1,6 +1,15 @@
-console.log('Hello from client TypeScript!');
+/**
+ * @fileoverview 클라이언트 스크립트
+ *
+ * @todo 태그를 누르면 url에 태그 정보를 추가하는 로직 구현
+ *   - url은 해시로 처리해서 클라이언트로만 처리하기
+ * @todo 검색 텍스트를 확인하고 검색 결과를 추천하는 로직 구현
+ */
 
-// 검색 팝업 관련 함수들
+/**
+ * 검색 팝업 관련 함수들
+ * @returns
+ */
 const initSearchPopup = (): void => {
   const popupBtn = document.getElementById('popup-btn');
   const searchElement = document.getElementById('search');
@@ -96,13 +105,13 @@ const initSearchPopup = (): void => {
 };
 
 document.addEventListener('DOMContentLoaded', (): void => {
-  console.log('DOM이 로드되었습니다!');
+  // console.log('DOM이 로드되었습니다!');
 
   // 검색 팝업 초기화
   initSearchPopup();
 
-  const app: HTMLElement | null = document.getElementById('app');
-  if (app) {
-    console.log('App element found:', app);
-  }
+  // const app: HTMLElement | null = document.getElementById('app');
+  // if (app) {
+  // console.log('App element found:', app);
+  // }
 });
