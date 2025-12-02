@@ -39,7 +39,7 @@ const initSearchPopup = (): void => {
 
   // 해시 확인 함수
   const checkHash = (): void => {
-    const isOpen = window.location.hash.startsWith('#search=open');
+    const isOpen = window.location.hash.includes('#search=open');
     if (isOpen) {
       searchElement.classList.remove('hidden');
       searchInput.focus();
@@ -116,21 +116,20 @@ const initSearchPopup = (): void => {
 
   // 초기 로드 시 해시 확인
   checkHash();
+};
 
-  // 태그 클릭 이벤트 처리
-  const searchTagList = document.getElementById('search-tag-list');
-  if (!searchTagList) {
-    console.warn('Search tag list not found');
-    return;
-  }
-  searchTagList.addEventListener('click', (e) => {
+/**
+ * 태그 클릭 이벤트 처리 (document 레벨에서 data-tag 속성을 가진 모든 요소에 적용)
+ */
+const initTagClick = (): void => {
+  document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
-    const tagLink = target.closest('.tag-link') as HTMLAnchorElement;
-    if (!tagLink) {
+    const tagElement = target.closest('[data-tag]') as HTMLElement;
+    if (!tagElement) {
       return;
     }
     e.preventDefault();
-    const clickedTag = tagLink.dataset.tag;
+    const clickedTag = tagElement.dataset.tag;
     if (!clickedTag) return;
 
     // 태그 토글 로직
@@ -160,6 +159,9 @@ document.addEventListener('DOMContentLoaded', (): void => {
 
   // 검색 팝업 초기화
   initSearchPopup();
+
+  // 태그 클릭 초기화
+  initTagClick();
 
   const app: HTMLElement | null = document.getElementById('app');
   if (app) {
