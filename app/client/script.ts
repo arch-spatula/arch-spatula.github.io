@@ -105,13 +105,13 @@ const initSearchPopup = (): void => {
 };
 
 document.addEventListener('DOMContentLoaded', (): void => {
-  // console.log('DOM이 로드되었습니다!');
+  console.log('DOM이 로드되었습니다!');
 
   // 검색 팝업 초기화
   initSearchPopup();
 
-  // const app: HTMLElement | null = document.getElementById('app');
-  // if (app) {
-  // console.log('App element found:', app);
-  // }
+  const app: HTMLElement | null = document.getElementById('app');
+  if (app) {
+    console.log('App element found:', app);
+  }
 });
