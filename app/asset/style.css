@@ -5,6 +5,32 @@
   padding: 0;
 }
 
+/* 스크롤바 스타일링 */
+/* Webkit 브라우저 (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3d444d;
+  border-radius: 4px;
+}
+
+/* ::-webkit-scrollbar-thumb:hover {
+  background: #478be6;
+} */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3d444d transparent;
+}
+
 /* Utility classes */
 .hidden {
   display: none !important;
@@ -182,6 +208,10 @@ input[type='search']::-webkit-search-results-decoration {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  max-height: 256px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #3d444db3 transparent;
 }
 
 #popup-container #search-blog-list .search-item {
@@ -236,7 +266,20 @@ input[type='search']::-webkit-search-results-decoration {
   margin: 8px 0 0 0;
   max-height: 256px;
   overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: #3d444db3 transparent;
 }
+/* scrollbar */
+/* #search-tag-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#search-tag-list::-webkit-scrollbar-thumb {
+  background: #9198a1;
+  border-radius: 4px;
+} */
+
 #search-tag-list .search-tag-item {
   text-decoration: none;
   list-style-type: none;

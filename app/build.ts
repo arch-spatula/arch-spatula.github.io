@@ -1,6 +1,9 @@
 /**
  * @fileoverview 빌드를 처리하는 루트 파일
  *
+ * @todo 메타 정보를 모두 먼저 처리하고 나서 파일을 처리하도록 수정
+ * @todo post에 search 템플릿이 적용되도록 수정
+ *
  */
 
 import { join } from 'path';
@@ -37,7 +40,7 @@ const build = async () => {
   const mainTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'main.html'), 'utf8');
   const searchTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'search.html'), 'utf8');
 
-  // content/blogs의 모든 마크다운 파일 가져오기
+  // /blogs의 모든 마크다운 파일 가져오기
   const blogsDir = join(process.cwd(), 'blogs');
   const markdownfiles = await listUpMarkdownFiles(blogsDir);
 
