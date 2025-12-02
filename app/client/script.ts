@@ -39,7 +39,7 @@ const initSearchPopup = (): void => {
 
   // 해시 확인 함수
   const checkHash = (): void => {
-    const isOpen = window.location.hash === '#search=open';
+    const isOpen = window.location.hash.startsWith('#search=open');
     if (isOpen) {
       searchElement.classList.remove('hidden');
       searchInput.focus();
@@ -55,31 +55,45 @@ const initSearchPopup = (): void => {
     }
   };
 
-  // 팝업 버튼 클릭 - 해시 변경
+  // 팝업 버튼 클릭 - search=open으로 변경하고 tags 유지
   popupBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    window.location.hash = '#search=open';
+    const hashParams = new URLSearchParams(window.location.hash.slice(1));
+    hashParams.set('search', 'open');
+    window.location.hash = hashParams.toString();
   });
 
-  // 오버레이 클릭 시 닫기 - 해시 제거
+  // 오버레이 클릭 시 닫기 - search=close로 변경하고 tags 유지
   overlay.addEventListener('click', () => {
-    history.pushState('', document.title, window.location.pathname);
-    checkHash();
+    const hashParams = new URLSearchParams(window.location.hash.slice(1));
+    hashParams.set('search', 'close');
+    window.location.hash = hashParams.toString();
   });
 
-  // ESC 키로 닫기 - 해시 제거
+  // ESC 키로 닫기 - search=close로 변경하고 tags 유지
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && window.location.hash === '#search=open') {
-      history.pushState('', document.title, window.location.pathname);
-      checkHash();
+    if (e.key === 'Escape' && window.location.hash.includes('#search=open')) {
+      const hashParams = new URLSearchParams(window.location.hash.slice(1));
+      hashParams.set('search', 'close');
+      window.location.hash = hashParams.toString();
     }
   });
 
-  // Ctrl+K 또는 Cmd+K로 열기 - 해시 변경
+  // Ctrl+K 또는 Cmd+K로 열기 - search=open으로 변경하고 tags 유지
   document.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
       e.preventDefault();
-      window.location.hash = '#search=open';
+      if (!window.location.hash.includes('#search=open')) {
+        // 열려있지 않으면 열기
+        const hashParams = new URLSearchParams(window.location.hash.slice(1));
+        hashParams.set('search', 'open');
+        window.location.hash = hashParams.toString();
+      } else {
+        // 이미 열려있으면 닫기
+        const hashParams = new URLSearchParams(window.location.hash.slice(1));
+        hashParams.set('search', 'close');
+        window.location.hash = hashParams.toString();
+      }
     }
   });
 
@@ -102,6 +116,43 @@ const initSearchPopup = (): void => {
 
   // 초기 로드 시 해시 확인
   checkHash();
+
+  // 태그 클릭 이벤트 처리
+  const searchTagList = document.getElementById('search-tag-list');
+  if (!searchTagList) {
+    console.warn('Search tag list not found');
+    return;
+  }
+  searchTagList.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const tagLink = target.closest('.tag-link') as HTMLAnchorElement;
+    if (!tagLink) {
+      return;
+    }
+    e.preventDefault();
+    const clickedTag = tagLink.dataset.tag;
+    if (!clickedTag) return;
+
+    // 태그 토글 로직
+    const hashParams = new URLSearchParams(window.location.hash.slice(1));
+    const currentTags = hashParams.get('tags')?.split(',').filter(Boolean) || [];
+
+    if (currentTags.includes(clickedTag)) {
+      // 이미 있으면 제거
+      const newTags = currentTags.filter((t) => t !== clickedTag);
+      if (newTags.length > 0) {
+        hashParams.set('tags', newTags.join(','));
+      } else {
+        hashParams.delete('tags');
+      }
+    } else {
+      // 없으면 추가
+      currentTags.push(clickedTag);
+      hashParams.set('tags', currentTags.join(','));
+    }
+
+    window.location.hash = hashParams.toString();
+  });
 };
 
 document.addEventListener('DOMContentLoaded', (): void => {
