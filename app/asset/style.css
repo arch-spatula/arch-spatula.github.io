@@ -134,7 +134,8 @@ body {
 #popup-container {
   position: absolute;
   width: 50vw;
-  top: 25vh;
+  /* top: 25vh; */
+  top: 0;
   left: 25vw;
   background-color: #f0f6fc;
   border-radius: 6px;
@@ -233,6 +234,8 @@ input[type='search']::-webkit-search-results-decoration {
   flex-wrap: wrap;
   gap: 8px;
   margin: 8px 0 0 0;
+  max-height: 256px;
+  overflow-y: auto;
 }
 #search-tag-list .search-tag-item {
   text-decoration: none;
