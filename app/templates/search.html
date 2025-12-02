@@ -13,7 +13,7 @@
     <ul id="search-tag-list">
       {{#each tags}}
       <li class="search-tag-item">
-        <a class="tag-link" href="?search=open&amp;tags={{name}}">#{{name}} - {{count}}</a>
+        <a class="tag-link" href="#" data-tag="{{name}}">#{{name}} - {{count}}</a>
       </li>
       {{/each}}
     </ul>
