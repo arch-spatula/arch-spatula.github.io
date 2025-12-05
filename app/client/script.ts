@@ -173,14 +173,18 @@ const filterPostsByTags = (): void => {
   const selectedTags = getSelectedTags();
   const posts = document.querySelectorAll('.blog-item');
   const allTagItems = document.querySelectorAll('.tag-item');
+  const allTagLinks = document.querySelectorAll('.tag-link');
 
-  // 선택된 태그가 없으면 모든 글 표시
+  // 선택된 태그가 없으면 모든 글 표시 및 강조 해제
   if (selectedTags.length === 0) {
     posts.forEach((post) => {
       (post as HTMLElement).classList.remove('hidden');
     });
     allTagItems.forEach((tagItem) => {
       tagItem.classList.remove('selected-tag-item');
+    });
+    allTagLinks.forEach((tagLink) => {
+      tagLink.classList.remove('selected');
     });
     return;
   }
@@ -203,13 +207,23 @@ const filterPostsByTags = (): void => {
     (post as HTMLElement).classList.toggle('hidden', !hasMatchingTag);
   });
 
-  // 선택된 태그 강조
+  // 블로그 글 목록의 태그 강조 (.tag-item)
   allTagItems.forEach((tagItem) => {
     const tagId = (tagItem as HTMLElement).dataset.id;
     if (tagId && selectedTags.includes(tagId)) {
       tagItem.classList.add('selected-tag-item');
     } else {
       tagItem.classList.remove('selected-tag-item');
+    }
+  });
+
+  // 검색 팝업의 태그 강조 (.tag-link)
+  allTagLinks.forEach((tagLink) => {
+    const tagName = (tagLink as HTMLElement).dataset.tag;
+    if (tagName && selectedTags.includes(tagName)) {
+      tagLink.classList.add('selected');
+    } else {
+      tagLink.classList.remove('selected');
     }
   });
 };
