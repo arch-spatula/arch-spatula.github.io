@@ -39,7 +39,7 @@ const initSearchPopup = (): void => {
 
   // 해시 확인 함수
   const checkHash = (): void => {
-    const isOpen = window.location.hash.includes('#search=open');
+    const isOpen = window.location.hash.includes('search=open');
     if (isOpen) {
       searchElement.classList.remove('hidden');
       searchInput.focus();
@@ -72,7 +72,7 @@ const initSearchPopup = (): void => {
 
   // ESC 키로 닫기 - search=close로 변경하고 tags 유지
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && window.location.hash.includes('#search=open')) {
+    if (e.key === 'Escape' && window.location.hash.includes('search=open')) {
       const hashParams = new URLSearchParams(window.location.hash.slice(1));
       hashParams.set('search', 'close');
       window.location.hash = hashParams.toString();
@@ -83,7 +83,7 @@ const initSearchPopup = (): void => {
   document.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
       e.preventDefault();
-      if (!window.location.hash.includes('#search=open')) {
+      if (!window.location.hash.includes('search=open')) {
         // 열려있지 않으면 열기
         const hashParams = new URLSearchParams(window.location.hash.slice(1));
         hashParams.set('search', 'open');
@@ -120,6 +120,7 @@ const initSearchPopup = (): void => {
 
 /**
  * 태그 클릭 이벤트 처리 (document 레벨에서 data-tag 속성을 가진 모든 요소에 적용)
+ * MPA 스타일: URL 해시 변경 후 페이지 새로고침
  */
 const initTagClick = (): void => {
   document.addEventListener('click', (e) => {
@@ -150,7 +151,66 @@ const initTagClick = (): void => {
       hashParams.set('tags', currentTags.join(','));
     }
 
-    window.location.hash = hashParams.toString();
+    // MPA 스타일: URL 해시 변경 후 페이지 새로고침
+    const newHash = hashParams.toString();
+    window.location.hash = newHash;
+    window.location.reload();
+  });
+};
+
+/**
+ * URL 해시에서 선택된 태그를 파싱
+ */
+const getSelectedTags = (): string[] => {
+  const hashParams = new URLSearchParams(window.location.hash.slice(1));
+  return hashParams.get('tags')?.split(',').filter(Boolean) || [];
+};
+
+/**
+ * URL을 확인하고 태그에 따라 게시글을 필터링하고 선택된 태그를 강조
+ */
+const filterPostsByTags = (): void => {
+  const selectedTags = getSelectedTags();
+  const posts = document.querySelectorAll('.blog-item');
+  const allTagItems = document.querySelectorAll('.tag-item');
+
+  // 선택된 태그가 없으면 모든 글 표시
+  if (selectedTags.length === 0) {
+    posts.forEach((post) => {
+      (post as HTMLElement).classList.remove('hidden');
+    });
+    allTagItems.forEach((tagItem) => {
+      tagItem.classList.remove('selected-tag-item');
+    });
+    return;
+  }
+
+  // 각 블로그 글을 순회하며 필터링
+  posts.forEach((post) => {
+    const postTagItems = post.querySelectorAll('.tag-item');
+    const postTags: string[] = [];
+
+    // 글의 태그 목록 추출
+    postTagItems.forEach((tagItem) => {
+      const tagId = (tagItem as HTMLElement).dataset.id;
+      if (tagId) {
+        postTags.push(tagId);
+      }
+    });
+
+    // 선택된 태그 중 하나라도 포함되면 표시, 아니면 숨김
+    const hasMatchingTag = selectedTags.some((tag) => postTags.includes(tag));
+    (post as HTMLElement).classList.toggle('hidden', !hasMatchingTag);
+  });
+
+  // 선택된 태그 강조
+  allTagItems.forEach((tagItem) => {
+    const tagId = (tagItem as HTMLElement).dataset.id;
+    if (tagId && selectedTags.includes(tagId)) {
+      tagItem.classList.add('selected-tag-item');
+    } else {
+      tagItem.classList.remove('selected-tag-item');
+    }
   });
 };
 
@@ -162,6 +222,8 @@ document.addEventListener('DOMContentLoaded', (): void => {
 
   // 태그 클릭 초기화
   initTagClick();
+
+  filterPostsByTags();
 
   const app: HTMLElement | null = document.getElementById('app');
   if (app) {

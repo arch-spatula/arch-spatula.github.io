@@ -97,7 +97,7 @@ body {
 .blog-item {
   border-bottom: 1px solid #3d444db3;
 }
-.blog-item.hide {
+.blog-item.hidden {
   display: none;
 }
 .blog-link {
