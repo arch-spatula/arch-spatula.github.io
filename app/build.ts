@@ -19,6 +19,8 @@ import { cp, readFile, rm } from 'fs/promises';
 import { mkdirSync, writeFileSync } from 'fs';
 import { render } from './utils/templateEngine';
 import * as esbuild from 'esbuild';
+import processMetaData from './processMetaData/processMetaData';
+import { splitMetadataAndContent } from './utils/splitMetadataAndContent';
 
 /**
  * 모든 빌드 로직의 호출을 처리하는 함수
@@ -64,18 +66,21 @@ const build = async () => {
     platform: 'browser',
   });
 
-  // 마크다운 파일들 처리하기
+  // 메타 정보와 마크다운 콘텐츠를 저장할 맵 (파일 경로 기준)
+  const contentMap = new Map<string, string>();
+
+  // 메타 정보 처리하기
   for (const file of markdownfiles) {
     const content = await readMarkdownFile(file.filePath);
-    const { metadata, htmlContent } = await processMarkdownFile(content, file.filePath, appTemplate, postTemplate);
+    const { metadata } = processMetaData(content, file.filePath);
     if (metadata.draft) {
       file.isProcessed = true;
       continue;
     }
-
+    // 마크다운 콘텐츠도 함께 저장
+    const { markdownContent } = splitMetadataAndContent(content);
+    contentMap.set(file.filePath, markdownContent);
     metaJson.push(metadata);
-    await writeHtmlFile(file.filePath, htmlContent);
-    file.isProcessed = true;
   }
 
   // 태그 정보 수집 (태그별 개수 포함)
@@ -98,6 +103,24 @@ const build = async () => {
 
   // 검색 템플릿 렌더링
   const SearchHtml = render(searchTemplate, { tags, posts: metaJson });
+
+  // 마크다운 파일 쓰기
+  for (const file of markdownfiles) {
+    const markdownContent = contentMap.get(file.filePath);
+    if (!markdownContent && markdownContent !== '') {
+      continue; // draft이거나 콘텐츠가 없는 경우 스킵
+    }
+    // 파일 경로에서 HTML 파일 경로 생성하여 메타데이터 찾기
+    const fileName = file.filePath.split('/').pop()?.replace('.md', '.html') ?? '';
+    const htmlFilePath = `/${fileName}`;
+    const targetMeta = metaJson.find((meta) => meta.filePath === htmlFilePath);
+    if (!targetMeta) {
+      continue;
+    }
+    const htmlContent = processMarkdownFile(markdownContent, targetMeta, appTemplate, postTemplate, SearchHtml);
+    await writeHtmlFile(file.filePath, htmlContent);
+    file.isProcessed = true;
+  }
 
   // @todo 블로그 글 목록 index.html 파일로 쓰기
   const MainHtml = render(mainTemplate, { posts: metaJson });
