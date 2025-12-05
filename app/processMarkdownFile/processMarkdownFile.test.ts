@@ -1,145 +1,37 @@
 import { describe, it, expect } from 'vitest';
-import processMarkdownFile, { parseMetadata, splitMetadataAndContent } from './processMarkdownFile';
+import processMarkdownFile, { convertMarkdownToHtml } from './processMarkdownFile';
 
-describe('splitMetadataAndContent', () => {
-  it('should return the metadata and markdown content', () => {
-    const content = `---
-title: Test Title
-date: 2021-01-01
----
-# Test Content`;
-
-    const { metadata, markdownContent } = splitMetadataAndContent(content);
-
-    expect(metadata).toBe('title: Test Title\ndate: 2021-01-01');
-    expect(markdownContent).toBe('# Test Content');
-  });
-});
-
-describe('parseMetadata', () => {
-  it('should return the metadata object', () => {
-    const metadata = `title: Test Title
-date: 2021-01-01
-tags: [blog, wanted]
-description: Test Description`;
-    const metadataObject = parseMetadata(metadata);
-    expect(metadataObject).toEqual({
-      title: 'Test Title',
-      date: '2021-01-01',
-      tags: ['blog', 'wanted'],
-      description: 'Test Description',
-    });
+describe('convertMarkdownToHtml', () => {
+  it('should convert markdown heading to HTML', () => {
+    const markdown = '# Heading 1';
+    const html = convertMarkdownToHtml(markdown);
+    expect(html).toBe('<h1>Heading 1</h1>');
   });
 
-  it('should return the metadata object with multiple tags', () => {
-    const metadata = `title: 원티드 프리온보딩 과제 - 6일차
-authors: [arch-spatula]
-tags:
-  [
-    'blog',
-    'wanted',
-    'pre-on-boarding',
-    'Cannot use import statement outside a module',
-    'Jest Mocking',
-    'jest',
-    'try-catch error type',
-  ]
-description: 원티드 과제 진행과정
-date: 2023-04-15`;
-    const metadataObject = parseMetadata(metadata);
-    expect(metadataObject).toEqual({
-      title: '원티드 프리온보딩 과제 - 6일차',
-      authors: ['arch-spatula'],
-      tags: [
-        'blog',
-        'wanted',
-        'pre-on-boarding',
-        'Cannot use import statement outside a module',
-        'Jest Mocking',
-        'jest',
-        'try-catch error type',
-      ],
-      description: '원티드 과제 진행과정',
-      date: '2023-04-15',
-    });
+  it('should convert markdown list to HTML', () => {
+    const markdown = `- List item 1
+- List item 2`;
+    const html = convertMarkdownToHtml(markdown);
+    expect(html).toContain('<li>List item 1</li>');
+    expect(html).toContain('<li>List item 2</li>');
+  });
+
+  it('should convert markdown bold to HTML', () => {
+    const markdown = '**Bold text**';
+    const html = convertMarkdownToHtml(markdown);
+    expect(html).toContain('<strong>Bold text</strong>');
+  });
+
+  it('should handle empty content', () => {
+    const markdown = '';
+    const html = convertMarkdownToHtml(markdown);
+    expect(html).toBe('');
   });
 });
 
 describe('processMarkdownFile', () => {
-  it('should generate HTML file path from markdown file path', async () => {
-    const content = `---
-title: Test Post
-description: Test description
-tags: [test, blog]
----
-# Test Content
-
-This is a test.`;
-    const filePath = '/path/to/blogs/2023-04-12.md';
-
-    const { metadata } = await processMarkdownFile(content, filePath, '', '');
-
-    expect(metadata.filePath).toBe('/2023-04-12.html');
-  });
-
-  it('should generate HTML file path for nested directories', async () => {
-    const content = `---
-title: Test Post
----
-# Content`;
-    const filePath = '/Users/user/project/blogs/2024-01-15/2024-01-15-post.md';
-
-    const { metadata } = await processMarkdownFile(content, filePath, '', '');
-
-    expect(metadata.filePath).toBe('/2024-01-15-post.html');
-  });
-
-  it('should extract date from filename when metadata has no date', async () => {
-    const content = `---
-title: Post without date
----
-# Content`;
-    const filePath = '/path/to/2023-12-25-christmas.md';
-
-    const { metadata } = await processMarkdownFile(content, filePath, '', '');
-
-    expect(metadata.date).toBe('2023-12-25');
-    expect(metadata.filePath).toBe('/2023-12-25-christmas.html');
-  });
-
-  it('should use metadata date when provided', async () => {
-    const content = `---
-title: Post with date
-date: 2023-11-11
----
-# Content`;
-    const filePath = '/path/to/some-file.md';
-
-    const { metadata } = await processMarkdownFile(content, filePath, '', '');
-
-    expect(metadata.date).toBe('2023-11-11');
-  });
-
-  it('should extract title from h1 when metadata has no title', async () => {
-    const content = `---
-description: Description only
----
-# This is the Title
-
-Content here.`;
-    const filePath = '/path/to/test.md';
-
-    const { metadata } = await processMarkdownFile(content, filePath, '', '');
-
-    expect(metadata.title).toBe('This is the Title');
-    expect(metadata.filePath).toBe('/test.html');
-  });
-
-  it('should convert markdown content to HTML', async () => {
-    const content = `---
-title: Test
----
-# Heading 1
+  it('should convert markdown content to HTML with templates', () => {
+    const markdownContent = `# Heading 1
 
 ## Heading 2
 
@@ -147,13 +39,12 @@ title: Test
 - List item 2
 
 **Bold text**`;
-    const filePath = '/path/to/test.md';
-
-    // 간단한 템플릿을 사용하여 변환된 HTML 콘텐츠를 확인
+    const metadata = { title: 'Test', date: '2023-01-01' };
     const postTemplate = '{{content}}';
     const appTemplate = '{{body}}';
+    const searchTemplate = '{{search}}';
 
-    const { htmlContent } = await processMarkdownFile(content, filePath, appTemplate, postTemplate);
+    const htmlContent = processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
 
     expect(htmlContent).toContain('<h1>Heading 1</h1>');
     expect(htmlContent).toContain('<h2>Heading 2</h2>');
@@ -161,32 +52,89 @@ title: Test
     expect(htmlContent).toContain('<strong>Bold text</strong>');
   });
 
-  it('should handle complete blog post structure', async () => {
-    const content = `---
-title: 원티드 프리온보딩 과제 - 3일차
-authors: [arch-spatula]
-tags: ['blog', 'wanted', 'pre-on-boarding']
-description: 원티드 과제 진행과정
-date: 2023-04-12
----
+  it('should render metadata into template', () => {
+    const markdownContent = '# Test Content';
+    const metadata = {
+      title: 'My Title',
+      description: 'My Description',
+      tags: ['tag1', 'tag2'],
+      authors: ['author1'],
+      date: '2023-04-12',
+    };
+    const postTemplate = '<article>{{content}}</article>';
+    const appTemplate = `<html>
+<head>
+  <title>{{title}}</title>
+  <meta name="description" content="{{description}}">
+</head>
+<body>{{body}}</body>
+</html>`;
+    const searchTemplate = '{{search}}';
+    const htmlContent = processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
 
-# 원티드 프리온보딩 과제 - 3일차
+    expect(htmlContent).toContain('<title> - My Title</title>');
+    expect(htmlContent).toContain('content="My Description"');
+    expect(htmlContent).toContain('<article>');
+    expect(htmlContent).toContain('<h1>Test Content</h1>');
+  });
+
+  it('should handle empty metadata fields', () => {
+    const markdownContent = '# Content';
+    const metadata = {};
+    const postTemplate = '{{content}}';
+    const appTemplate = '<title>{{title}}</title>{{body}}';
+    const searchTemplate = '{{search}}';
+
+    const htmlContent = processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
+
+    expect(htmlContent).toContain('<title> - </title>');
+    expect(htmlContent).toContain('<h1>Content</h1>');
+  });
+
+  it('should join tags with comma', () => {
+    const markdownContent = '# Content';
+    const metadata = { tags: ['blog', 'test', 'typescript'] };
+    const postTemplate = '{{content}}';
+    const appTemplate = '<meta name="keywords" content="{{tags}}">{{body}}';
+    const searchTemplate = '{{search}}';
+
+    const htmlContent = processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
+
+    expect(htmlContent).toContain('content="blog, test, typescript"');
+  });
+
+  it('should join authors with comma', () => {
+    const markdownContent = '# Content';
+    const metadata = { authors: ['author1', 'author2'] };
+    const postTemplate = '{{content}}';
+    const appTemplate = '<meta name="authors" content="{{authors}}">{{body}}';
+    const searchTemplate = '{{search}}';
+
+    const htmlContent = processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
+
+    expect(htmlContent).toContain('content="author1, author2"');
+  });
+
+  it('should handle complete blog post rendering', () => {
+    const markdownContent = `# 원티드 프리온보딩 과제 - 3일차
 
 This is the content.`;
-    const filePath = '/path/to/blogs/2023-04-12.md';
+    const metadata = {
+      title: '원티드 프리온보딩 과제 - 3일차',
+      authors: ['arch-spatula'],
+      tags: ['blog', 'wanted', 'pre-on-boarding'],
+      description: '원티드 과제 진행과정',
+      date: '2023-04-12',
+      filePath: '/2023-04-12.html',
+    };
+    const postTemplate = '<main>{{content}}</main>';
+    const appTemplate = '<!DOCTYPE html><html><body>{{body}}</body></html>';
+    const searchTemplate = '{{search}}';
 
-    // 간단한 템플릿을 사용하여 변환된 HTML 콘텐츠를 확인
-    const postTemplate = '{{content}}';
-    const appTemplate = '{{body}}';
+    const htmlContent = processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
 
-    const { metadata, htmlContent } = await processMarkdownFile(content, filePath, appTemplate, postTemplate);
-
-    expect(metadata.title).toBe('원티드 프리온보딩 과제 - 3일차');
-    expect(metadata.authors).toEqual(['arch-spatula']);
-    expect(metadata.tags).toEqual(['blog', 'wanted', 'pre-on-boarding']);
-    expect(metadata.description).toBe('원티드 과제 진행과정');
-    expect(metadata.date).toBe('2023-04-12');
-    expect(metadata.filePath).toBe('/2023-04-12.html');
     expect(htmlContent).toContain('<h1>원티드 프리온보딩 과제 - 3일차</h1>');
+    expect(htmlContent).toContain('<main>');
+    expect(htmlContent).toContain('<!DOCTYPE html>');
   });
 });
