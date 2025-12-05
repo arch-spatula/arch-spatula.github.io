@@ -8,7 +8,6 @@
 
 /**
  * 검색 팝업 관련 함수들
- * @returns
  */
 const initSearchPopup = (): void => {
   const popupBtn = document.getElementById('popup-btn');
@@ -22,38 +21,151 @@ const initSearchPopup = (): void => {
     return;
   }
 
-  // 검색 기능
-  const handleSearch = (query: string): void => {
-    const lowerQuery = query.toLowerCase().trim();
-    const items = searchBlogList.querySelectorAll('.search-item');
+  // 현재 선택된 인덱스 (보이는 항목 기준)
+  let currentFocusIndex = 0;
 
-    items.forEach((item) => {
-      const htmlItem = item as HTMLLIElement;
-      const link = htmlItem.querySelector('.search-item-link');
-      if (link) {
-        const text = link.textContent?.toLowerCase() || '';
-        htmlItem.classList.toggle('hidden', !text.includes(lowerQuery));
+  /**
+   * 원본 제목을 data-title 속성에 저장
+   */
+  const storeOriginalTitles = (): void => {
+    const links = searchBlogList.querySelectorAll('.search-item-link');
+    links.forEach((link) => {
+      const htmlLink = link as HTMLAnchorElement;
+      if (!htmlLink.dataset.title) {
+        htmlLink.dataset.title = htmlLink.textContent || '';
       }
     });
   };
 
-  // 해시 확인 함수
+  /**
+   * 검색어와 일치하는 부분을 하이라이트하여 HTML 생성
+   * @param text - 원본 텍스트
+   * @param query - 검색어 (대소문자 구분 없음)
+   * @returns 하이라이트된 HTML 문자열
+   */
+  const highlightText = (text: string, query: string): string => {
+    if (!query) {
+      return `<span>${text}</span>`;
+    }
+
+    const lowerText = text.toLowerCase();
+    const lowerQuery = query.toLowerCase();
+    const result: string[] = [];
+    let lastIndex = 0;
+
+    let index = lowerText.indexOf(lowerQuery, lastIndex);
+    while (index !== -1) {
+      // 일치 전 부분
+      if (index > lastIndex) {
+        result.push(`<span>${text.slice(lastIndex, index)}</span>`);
+      }
+      // 일치하는 부분 (원본 대소문자 유지)
+      result.push(`<span class="search-highlight">${text.slice(index, index + query.length)}</span>`);
+      lastIndex = index + query.length;
+      index = lowerText.indexOf(lowerQuery, lastIndex);
+    }
+
+    // 나머지 부분
+    if (lastIndex < text.length) {
+      result.push(`<span>${text.slice(lastIndex)}</span>`);
+    }
+
+    return result.join('');
+  };
+
+  /**
+   * 보이는 항목 목록 반환
+   */
+  const getVisibleItems = (): HTMLLIElement[] => {
+    const items = searchBlogList.querySelectorAll('.search-item');
+    return Array.from(items).filter((item) => !(item as HTMLElement).classList.contains('hidden')) as HTMLLIElement[];
+  };
+
+  /**
+   * 포커스 클래스 업데이트 및 스크롤
+   */
+  const updateFocusClass = (): void => {
+    const allLinks = searchBlogList.querySelectorAll('.search-item-link');
+    allLinks.forEach((link) => link.classList.remove('search-item-focus'));
+
+    const visibleItems = getVisibleItems();
+    if (visibleItems.length > 0 && currentFocusIndex >= 0 && currentFocusIndex < visibleItems.length) {
+      const focusedItem = visibleItems[currentFocusIndex];
+      const focusedLink = focusedItem.querySelector('.search-item-link');
+      focusedLink?.classList.add('search-item-focus');
+
+      // 선택된 항목이 보이도록 스크롤
+      focusedItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  };
+
+  /**
+   * 검색 기능 - 필터링 및 하이라이트
+   */
+  const handleSearch = (query: string): void => {
+    const trimmedQuery = query.trim();
+    const lowerQuery = trimmedQuery.toLowerCase();
+    const items = searchBlogList.querySelectorAll('.search-item');
+
+    items.forEach((item) => {
+      const htmlItem = item as HTMLLIElement;
+      const link = htmlItem.querySelector('.search-item-link') as HTMLAnchorElement;
+      if (link) {
+        const originalTitle = link.dataset.title || '';
+        const lowerTitle = originalTitle.toLowerCase();
+
+        // 일치 여부 확인 (대소문자 구분 없음)
+        const isMatch = !trimmedQuery || lowerTitle.includes(lowerQuery);
+        htmlItem.classList.toggle('hidden', !isMatch);
+
+        // 하이라이트 적용
+        link.innerHTML = highlightText(originalTitle, trimmedQuery);
+      }
+    });
+
+    // 검색어 변경 시 첫 번째 보이는 항목으로 선택 초기화
+    currentFocusIndex = 0;
+    updateFocusClass();
+  };
+
+  /**
+   * 검색 결과 및 상태 초기화
+   */
+  const resetSearch = (): void => {
+    const items = searchBlogList.querySelectorAll('.search-item');
+    items.forEach((item) => {
+      const htmlItem = item as HTMLLIElement;
+      htmlItem.classList.remove('hidden');
+      const link = htmlItem.querySelector('.search-item-link') as HTMLAnchorElement;
+      if (link) {
+        const originalTitle = link.dataset.title || '';
+        link.innerHTML = `<span>${originalTitle}</span>`;
+        link.classList.remove('search-item-focus');
+      }
+    });
+    currentFocusIndex = 0;
+  };
+
+  /**
+   * 해시 확인 및 팝업 상태 업데이트
+   */
   const checkHash = (): void => {
     const isOpen = window.location.hash.includes('search=open');
     if (isOpen) {
       searchElement.classList.remove('hidden');
       searchInput.focus();
+      // 팝업 열릴 때 첫 번째 항목 선택
+      currentFocusIndex = 0;
+      updateFocusClass();
     } else {
       searchElement.classList.add('hidden');
       searchInput.value = '';
-      // 검색 결과 초기화
-      const items = searchBlogList.querySelectorAll('.search-item');
-      items.forEach((item) => {
-        const htmlItem = item as HTMLLIElement;
-        htmlItem.classList.remove('hidden');
-      });
+      resetSearch();
     }
   };
+
+  // 원본 제목 저장 (초기화)
+  storeOriginalTitles();
 
   // 팝업 버튼 클릭 - search=open으로 변경하고 tags 유지
   popupBtn.addEventListener('click', (e) => {
@@ -70,30 +182,64 @@ const initSearchPopup = (): void => {
     window.location.hash = hashParams.toString();
   });
 
-  // ESC 키로 닫기 - search=close로 변경하고 tags 유지
+  // 키보드 이벤트 처리 (ESC, Ctrl+K, 위/아래/Enter)
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && window.location.hash.includes('search=open')) {
+    const isPopupOpen = window.location.hash.includes('search=open');
+
+    // ESC 키로 닫기
+    if (e.key === 'Escape' && isPopupOpen) {
       const hashParams = new URLSearchParams(window.location.hash.slice(1));
       hashParams.set('search', 'close');
       window.location.hash = hashParams.toString();
+      return;
     }
-  });
 
-  // Ctrl+K 또는 Cmd+K로 열기 - search=open으로 변경하고 tags 유지
-  document.addEventListener('keydown', (e) => {
+    // Ctrl+K 또는 Cmd+K로 열기/닫기
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
       e.preventDefault();
-      if (!window.location.hash.includes('search=open')) {
-        // 열려있지 않으면 열기
-        const hashParams = new URLSearchParams(window.location.hash.slice(1));
+      const hashParams = new URLSearchParams(window.location.hash.slice(1));
+      if (!isPopupOpen) {
         hashParams.set('search', 'open');
-        window.location.hash = hashParams.toString();
       } else {
-        // 이미 열려있으면 닫기
-        const hashParams = new URLSearchParams(window.location.hash.slice(1));
         hashParams.set('search', 'close');
-        window.location.hash = hashParams.toString();
       }
+      window.location.hash = hashParams.toString();
+      return;
+    }
+
+    // 팝업이 열려있을 때만 키보드 네비게이션
+    if (!isPopupOpen) return;
+
+    const visibleItems = getVisibleItems();
+    if (visibleItems.length === 0) return;
+
+    // 위 화살표
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      currentFocusIndex = currentFocusIndex > 0 ? currentFocusIndex - 1 : visibleItems.length - 1;
+      updateFocusClass();
+      return;
+    }
+
+    // 아래 화살표
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      currentFocusIndex = currentFocusIndex < visibleItems.length - 1 ? currentFocusIndex + 1 : 0;
+      updateFocusClass();
+      return;
+    }
+
+    // Enter 키 - 선택된 항목으로 이동
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const focusedItem = visibleItems[currentFocusIndex];
+      if (focusedItem) {
+        const link = focusedItem.querySelector('.search-item-link') as HTMLAnchorElement;
+        if (link?.href) {
+          window.location.href = link.href;
+        }
+      }
+      return;
     }
   });
 
