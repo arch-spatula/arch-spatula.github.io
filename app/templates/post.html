@@ -1,1 +1,8 @@
+<ul class="tag-list">
+  {{#each tags}}
+  <li class="tag-item" data-id="{{this}}">
+    <a href="#" data-tag="{{this}}" class="tag-text">#{{this}}</a>
+  </li>
+  {{/each}}
+</ul>
 <div id="content" class="markdown-body">{{content}}</div>
