@@ -2,14 +2,22 @@ import { unified } from 'unified';
 import markdown from 'remark-parse';
 import remark2rehype from 'remark-rehype';
 import html from 'rehype-stringify';
+import rehypeShiki from '@shikijs/rehype';
 import type { Metadata } from '../types';
 import { render } from '../utils/templateEngine';
 
 /**
- * 마크다운 콘텐츠를 HTML로 변환
+ * 마크다운 콘텐츠를 HTML로 변환 (shiki 코드 하이라이팅 적용)
  */
-export const convertMarkdownToHtml = (markdownSource: string) => {
-  const htmlText = unified().use(markdown).use(remark2rehype).use(html).processSync(markdownSource);
+export const convertMarkdownToHtml = async (markdownSource: string) => {
+  const htmlText = await unified()
+    .use(markdown)
+    .use(remark2rehype)
+    .use(rehypeShiki, {
+      theme: 'catppuccin-mocha',
+    })
+    .use(html)
+    .process(markdownSource);
 
   if (typeof htmlText.value === 'string') {
     return htmlText.value;
@@ -30,16 +38,16 @@ export const convertMarkdownToHtml = (markdownSource: string) => {
  * @example
  * const markdownContent = `# Test Title\n\nThis is content.`;
  * const metadata = { title: 'Test Title', date: '2021-01-01' };
- * const htmlContent = processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate);
+ * const htmlContent = await processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate);
  */
-const processMarkdownFile = (
+const processMarkdownFile = async (
   markdownContent: string,
   metadata: Metadata,
   appTemplate: string,
   postTemplate: string,
   searchTemplate: string,
 ) => {
-  const htmlContent = convertMarkdownToHtml(markdownContent);
+  const htmlContent = await convertMarkdownToHtml(markdownContent);
 
   const bodyHtml = render(postTemplate, { content: htmlContent });
   const appHtml = render(appTemplate, {
