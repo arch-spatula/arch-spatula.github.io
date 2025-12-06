@@ -2,35 +2,35 @@ import { describe, it, expect } from 'vitest';
 import processMarkdownFile, { convertMarkdownToHtml } from './processMarkdownFile';
 
 describe('convertMarkdownToHtml', () => {
-  it('should convert markdown heading to HTML', () => {
+  it('should convert markdown heading to HTML', async () => {
     const markdown = '# Heading 1';
-    const html = convertMarkdownToHtml(markdown);
+    const html = await convertMarkdownToHtml(markdown);
     expect(html).toBe('<h1>Heading 1</h1>');
   });
 
-  it('should convert markdown list to HTML', () => {
+  it('should convert markdown list to HTML', async () => {
     const markdown = `- List item 1
 - List item 2`;
-    const html = convertMarkdownToHtml(markdown);
+    const html = await convertMarkdownToHtml(markdown);
     expect(html).toContain('<li>List item 1</li>');
     expect(html).toContain('<li>List item 2</li>');
   });
 
-  it('should convert markdown bold to HTML', () => {
+  it('should convert markdown bold to HTML', async () => {
     const markdown = '**Bold text**';
-    const html = convertMarkdownToHtml(markdown);
+    const html = await convertMarkdownToHtml(markdown);
     expect(html).toContain('<strong>Bold text</strong>');
   });
 
-  it('should handle empty content', () => {
+  it('should handle empty content', async () => {
     const markdown = '';
-    const html = convertMarkdownToHtml(markdown);
+    const html = await convertMarkdownToHtml(markdown);
     expect(html).toBe('');
   });
 });
 
 describe('processMarkdownFile', () => {
-  it('should convert markdown content to HTML with templates', () => {
+  it('should convert markdown content to HTML with templates', async () => {
     const markdownContent = `# Heading 1
 
 ## Heading 2
@@ -44,7 +44,7 @@ describe('processMarkdownFile', () => {
     const appTemplate = '{{body}}';
     const searchTemplate = '{{search}}';
 
-    const htmlContent = processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
+    const htmlContent = await processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
 
     expect(htmlContent).toContain('<h1>Heading 1</h1>');
     expect(htmlContent).toContain('<h2>Heading 2</h2>');
@@ -52,7 +52,7 @@ describe('processMarkdownFile', () => {
     expect(htmlContent).toContain('<strong>Bold text</strong>');
   });
 
-  it('should render metadata into template', () => {
+  it('should render metadata into template', async () => {
     const markdownContent = '# Test Content';
     const metadata = {
       title: 'My Title',
@@ -70,7 +70,7 @@ describe('processMarkdownFile', () => {
 <body>{{body}}</body>
 </html>`;
     const searchTemplate = '{{search}}';
-    const htmlContent = processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
+    const htmlContent = await processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
 
     expect(htmlContent).toContain('<title> - My Title</title>');
     expect(htmlContent).toContain('content="My Description"');
@@ -78,44 +78,44 @@ describe('processMarkdownFile', () => {
     expect(htmlContent).toContain('<h1>Test Content</h1>');
   });
 
-  it('should handle empty metadata fields', () => {
+  it('should handle empty metadata fields', async () => {
     const markdownContent = '# Content';
     const metadata = {};
     const postTemplate = '{{content}}';
     const appTemplate = '<title>{{title}}</title>{{body}}';
     const searchTemplate = '{{search}}';
 
-    const htmlContent = processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
+    const htmlContent = await processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
 
     expect(htmlContent).toContain('<title> - </title>');
     expect(htmlContent).toContain('<h1>Content</h1>');
   });
 
-  it('should join tags with comma', () => {
+  it('should join tags with comma', async () => {
     const markdownContent = '# Content';
     const metadata = { tags: ['blog', 'test', 'typescript'] };
     const postTemplate = '{{content}}';
     const appTemplate = '<meta name="keywords" content="{{tags}}">{{body}}';
     const searchTemplate = '{{search}}';
 
-    const htmlContent = processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
+    const htmlContent = await processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
 
     expect(htmlContent).toContain('content="blog, test, typescript"');
   });
 
-  it('should join authors with comma', () => {
+  it('should join authors with comma', async () => {
     const markdownContent = '# Content';
     const metadata = { authors: ['author1', 'author2'] };
     const postTemplate = '{{content}}';
     const appTemplate = '<meta name="authors" content="{{authors}}">{{body}}';
     const searchTemplate = '{{search}}';
 
-    const htmlContent = processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
+    const htmlContent = await processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
 
     expect(htmlContent).toContain('content="author1, author2"');
   });
 
-  it('should handle complete blog post rendering', () => {
+  it('should handle complete blog post rendering', async () => {
     const markdownContent = `# 원티드 프리온보딩 과제 - 3일차
 
 This is the content.`;
@@ -131,7 +131,7 @@ This is the content.`;
     const appTemplate = '<!DOCTYPE html><html><body>{{body}}</body></html>';
     const searchTemplate = '{{search}}';
 
-    const htmlContent = processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
+    const htmlContent = await processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
 
     expect(htmlContent).toContain('<h1>원티드 프리온보딩 과제 - 3일차</h1>');
     expect(htmlContent).toContain('<main>');

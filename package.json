@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
+    "@shikijs/rehype": "^3.19.0",
     "@types/node": "^24.10.1",
     "@typescript-eslint/eslint-plugin": "^8.47.0",
     "@typescript-eslint/parser": "^8.47.0",
@@ -28,6 +29,7 @@
     "rehype-stringify": "^10.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
+    "shiki": "^3.19.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "unified": "^11.0.5",

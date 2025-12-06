@@ -117,7 +117,7 @@ const build = async () => {
     if (!targetMeta) {
       continue;
     }
-    const htmlContent = processMarkdownFile(markdownContent, targetMeta, appTemplate, postTemplate, SearchHtml);
+    const htmlContent = await processMarkdownFile(markdownContent, targetMeta, appTemplate, postTemplate, SearchHtml);
     await writeHtmlFile(file.filePath, htmlContent);
     file.isProcessed = true;
   }
