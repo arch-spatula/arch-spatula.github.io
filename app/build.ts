@@ -58,7 +58,7 @@ const build = async () => {
 
   // client TypeScript를 JavaScript로 빌드하기
   await esbuild.build({
-    entryPoints: [join(process.cwd(), 'app', 'client', 'script.ts')],
+    entryPoints: [join(process.cwd(), 'app', 'client', 'index.ts')],
     bundle: true,
     minify: true,
     outfile: join(process.cwd(), 'dist', 'script.js'),
