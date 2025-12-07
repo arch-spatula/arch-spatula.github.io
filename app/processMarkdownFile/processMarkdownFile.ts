@@ -49,7 +49,7 @@ const processMarkdownFile = async (
 ) => {
   const htmlContent = await convertMarkdownToHtml(markdownContent);
 
-  const bodyHtml = render(postTemplate, { content: htmlContent });
+  const bodyHtml = render(postTemplate, { content: htmlContent, tags: metadata.tags ?? [] });
   const appHtml = render(appTemplate, {
     body: bodyHtml,
     title: ` - ${metadata.title ?? ''}`,
