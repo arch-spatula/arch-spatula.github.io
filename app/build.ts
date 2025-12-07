@@ -7,7 +7,7 @@ import { join, basename } from 'path';
 import listUpMarkdownFiles from './listUpMarkdownFiles/listUpMarkdownFiles';
 import listUpImageFiles from './listUpImageFiles/listUpImageFiles';
 import readMarkdownFile from './readMarkdownFile/readMarkdownFile';
-import processMarkdownFile from './processMarkdownFile/processMarkdownFile';
+import processMarkdownFile, { PostNavigation } from './processMarkdownFile/processMarkdownFile';
 import { Metadata } from './types';
 import writeHtmlFile from './writeHtmlFile/writeHtmlFile';
 import { cp, readFile, rm } from 'fs/promises';
@@ -115,11 +115,43 @@ const build = async () => {
     // 파일 경로에서 HTML 파일 경로 생성하여 메타데이터 찾기
     const fileName = file.filePath.split('/').pop()?.replace('.md', '.html') ?? '';
     const htmlFilePath = `/${fileName}`;
-    const targetMeta = metaJson.find((meta) => meta.filePath === htmlFilePath);
-    if (!targetMeta) {
+    const targetMetaIndex = metaJson.findIndex((meta) => meta.filePath === htmlFilePath);
+    if (targetMetaIndex === -1) {
       continue;
     }
-    const htmlContent = await processMarkdownFile(markdownContent, targetMeta, appTemplate, postTemplate, SearchHtml);
+    const targetMeta = metaJson[targetMetaIndex];
+
+    // 이전/다음 글 정보 계산 (metaJson은 최신순으로 정렬되어 있음)
+    let previousPost: PostNavigation | undefined;
+    let nextPost: PostNavigation | undefined;
+
+    // 이전 글 (더 오래된 글 = 인덱스가 더 큼)
+    if (targetMetaIndex < metaJson.length - 1) {
+      const prevMeta = metaJson[targetMetaIndex + 1];
+      previousPost = {
+        filePath: prevMeta.filePath,
+        title: prevMeta.title,
+      };
+    }
+
+    // 다음 글 (더 최신 글 = 인덱스가 더 작음)
+    if (targetMetaIndex > 0) {
+      const nextMeta = metaJson[targetMetaIndex - 1];
+      nextPost = {
+        filePath: nextMeta.filePath,
+        title: nextMeta.title,
+      };
+    }
+
+    const htmlContent = await processMarkdownFile(
+      markdownContent,
+      targetMeta,
+      appTemplate,
+      postTemplate,
+      SearchHtml,
+      previousPost,
+      nextPost,
+    );
     await writeHtmlFile(file.filePath, htmlContent);
     file.isProcessed = true;
   }

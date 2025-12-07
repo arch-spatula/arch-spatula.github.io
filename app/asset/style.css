@@ -1555,3 +1555,50 @@ code > .line > span:last-child {
 .markdown-body > *:first-child > .heading-element:first-child {
   margin-top: 0 !important;
 }
+
+/* Post Navigation */
+.post-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #30363d;
+}
+
+.post-navigation .previous-post,
+.post-navigation .next-post {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 45%;
+}
+
+.post-navigation .previous-post {
+  align-items: flex-start;
+}
+
+.post-navigation .next-post {
+  align-items: flex-end;
+  margin-left: auto;
+}
+
+.post-navigation .nav-label {
+  font-size: 0.875rem;
+  color: #8b949e;
+}
+
+.post-navigation .nav-link {
+  color: #58a6ff;
+  text-decoration: none;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.post-navigation .nav-link:hover {
+  text-decoration: underline;
+}
+
+.post-navigation .next-post .nav-link {
+  text-align: right;
+}
