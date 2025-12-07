@@ -115,7 +115,7 @@ const build = async () => {
   // 마크다운 파일 쓰기
   for (const file of markdownfiles) {
     const markdownContent = contentMap.get(file.filePath);
-    if (!markdownContent && markdownContent !== '') {
+    if (!markdownContent) {
       continue; // draft이거나 콘텐츠가 없는 경우 스킵
     }
     // 파일 경로에서 HTML 파일 경로 생성하여 메타데이터 찾기
