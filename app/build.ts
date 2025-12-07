@@ -9,8 +9,9 @@
  *
  */
 
-import { join } from 'path';
+import { join, basename } from 'path';
 import listUpMarkdownFiles from './listUpMarkdownFiles/listUpMarkdownFiles';
+import listUpImageFiles from './listUpImageFiles/listUpImageFiles';
 import readMarkdownFile from './readMarkdownFile/readMarkdownFile';
 import processMarkdownFile from './processMarkdownFile/processMarkdownFile';
 import { Metadata } from './types';
@@ -55,6 +56,13 @@ const build = async () => {
 
   // asset 폴더 내용 복사하기
   await cp(join(process.cwd(), 'app', 'asset'), join(process.cwd(), 'dist'), { recursive: true });
+
+  // blogs 폴더의 이미지 파일들을 dist로 복사
+  const imageFiles = await listUpImageFiles(blogsDir);
+  for (const imagePath of imageFiles) {
+    const fileName = basename(imagePath);
+    await cp(imagePath, join(process.cwd(), 'dist', fileName));
+  }
 
   // client TypeScript를 JavaScript로 빌드하기
   await esbuild.build({
