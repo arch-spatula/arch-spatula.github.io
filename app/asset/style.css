@@ -1602,3 +1602,56 @@ code > .line > span:last-child {
 .post-navigation .next-post .nav-link {
   text-align: right;
 }
+
+/* ==================== Callout Styles ==================== */
+.callout {
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-left: 4px solid;
+  border-radius: 0 8px 8px 0;
+  background-color: #21262d;
+}
+
+.callout p {
+  margin: 0;
+}
+
+.callout p + p {
+  margin-top: 0.75rem;
+}
+
+/* Info callout - 파란색 */
+.callout-info {
+  background-color: rgba(56, 139, 253, 0.1);
+  border-color: #388bfd;
+}
+
+/* Tip callout - 초록색 */
+.callout-tip {
+  background-color: rgba(63, 185, 80, 0.1);
+  border-color: #3fb950;
+}
+
+/* Note callout - 보라색 */
+.callout-note {
+  background-color: rgba(163, 113, 247, 0.1);
+  border-color: #a371f7;
+}
+
+/* Caution callout - 노란색 */
+.callout-caution {
+  background-color: rgba(210, 153, 34, 0.1);
+  border-color: #d29922;
+}
+
+/* Warning callout - 주황색 */
+.callout-warning {
+  background-color: rgba(219, 109, 40, 0.1);
+  border-color: #db6d28;
+}
+
+/* Danger callout - 빨간색 */
+.callout-danger {
+  background-color: rgba(248, 81, 73, 0.1);
+  border-color: #f85149;
+}
