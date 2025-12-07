@@ -26,6 +26,11 @@ export const convertMarkdownToHtml = async (markdownSource: string) => {
   return '';
 };
 
+export type PostNavigation = {
+  filePath?: string;
+  title?: string;
+};
+
 /**
  * 마크다운 콘텐츠를 HTML로 변환하고 템플릿에 렌더링하는 함수
  *
@@ -33,12 +38,15 @@ export const convertMarkdownToHtml = async (markdownSource: string) => {
  * @param metadata - 이미 파싱된 메타데이터
  * @param appTemplate - 앱 템플릿
  * @param postTemplate - 포스트 템플릿
+ * @param searchTemplate - 검색 템플릿
+ * @param previousPost - 이전 글 정보
+ * @param nextPost - 다음 글 정보
  * @returns 렌더링된 HTML 콘텐츠
  *
  * @example
  * const markdownContent = `# Test Title\n\nThis is content.`;
  * const metadata = { title: 'Test Title', date: '2021-01-01' };
- * const htmlContent = await processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate);
+ * const htmlContent = await processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate, previousPost, nextPost);
  */
 const processMarkdownFile = async (
   markdownContent: string,
@@ -46,10 +54,21 @@ const processMarkdownFile = async (
   appTemplate: string,
   postTemplate: string,
   searchTemplate: string,
+  previousPost?: PostNavigation,
+  nextPost?: PostNavigation,
 ) => {
   const htmlContent = await convertMarkdownToHtml(markdownContent);
 
-  const bodyHtml = render(postTemplate, { content: htmlContent, tags: metadata.tags ?? [] });
+  const bodyHtml = render(postTemplate, {
+    content: htmlContent,
+    tags: metadata.tags ?? [],
+    previousPost: !!previousPost,
+    previousPostFilePath: previousPost?.filePath ?? '',
+    previousPostTitle: previousPost?.title ?? '',
+    nextPost: !!nextPost,
+    nextPostFilePath: nextPost?.filePath ?? '',
+    nextPostTitle: nextPost?.title ?? '',
+  });
   const appHtml = render(appTemplate, {
     body: bodyHtml,
     title: ` - ${metadata.title ?? ''}`,

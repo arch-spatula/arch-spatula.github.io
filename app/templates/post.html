@@ -6,6 +6,19 @@
   {{/each}}
 </ul>
 <div id="content" class="markdown-body">{{content}}</div>
+<nav class="post-navigation">
+  {{#if previousPost}}
+  <div class="previous-post">
+    <span class="nav-label">← 이전 글</span>
+    <a href="{{previousPostFilePath}}" class="nav-link">{{previousPostTitle}}</a>
+  </div>
+  {{/if}} {{#if nextPost}}
+  <div class="next-post">
+    <span class="nav-label">다음 글 →</span>
+    <a href="{{nextPostFilePath}}" class="nav-link">{{nextPostTitle}}</a>
+  </div>
+  {{/if}}
+</nav>
 <div id="comments">
   <script
     src="https://giscus.app/client.js"
