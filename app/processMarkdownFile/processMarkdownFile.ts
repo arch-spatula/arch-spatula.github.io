@@ -1,5 +1,6 @@
 import { unified } from 'unified';
 import markdown from 'remark-parse';
+import remarkGfm from 'remark-gfm';
 import remark2rehype from 'remark-rehype';
 import html from 'rehype-stringify';
 import rehypeShiki from '@shikijs/rehype';
@@ -12,6 +13,7 @@ import { render } from '../utils/templateEngine';
 export const convertMarkdownToHtml = async (markdownSource: string) => {
   const htmlText = await unified()
     .use(markdown)
+    .use(remarkGfm)
     .use(remark2rehype)
     .use(rehypeShiki, {
       theme: 'catppuccin-mocha',
