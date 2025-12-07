@@ -1,11 +1,36 @@
 import { unified } from 'unified';
 import markdown from 'remark-parse';
 import remarkGfm from 'remark-gfm';
+import remarkDirective from 'remark-directive';
+import { visit } from 'unist-util-visit';
 import remark2rehype from 'remark-rehype';
 import html from 'rehype-stringify';
 import rehypeShiki from '@shikijs/rehype';
 import type { Metadata } from '../types';
 import { render } from '../utils/templateEngine';
+import type { Root } from 'mdast';
+
+// Callout 타입 정의
+const CALLOUT_TYPES = ['info', 'caution', 'warning', 'tip', 'note', 'danger'];
+
+/**
+ * directive를 HTML callout 요소로 변환하는 플러그인
+ * :::info, :::caution, :::warning 등의 문법을 지원
+ */
+function remarkCallout() {
+  return (tree: Root) => {
+    visit(tree, (node) => {
+      if (node.type === 'containerDirective' && CALLOUT_TYPES.includes((node as { name: string }).name)) {
+        const directiveNode = node as { name: string; data?: Record<string, unknown> };
+        const data = directiveNode.data || (directiveNode.data = {});
+        data.hName = 'div';
+        data.hProperties = {
+          className: ['callout', `callout-${directiveNode.name}`],
+        };
+      }
+    });
+  };
+}
 
 /**
  * 마크다운 콘텐츠를 HTML로 변환 (shiki 코드 하이라이팅 적용)
@@ -14,6 +39,8 @@ export const convertMarkdownToHtml = async (markdownSource: string) => {
   const htmlText = await unified()
     .use(markdown)
     .use(remarkGfm)
+    .use(remarkDirective)
+    .use(remarkCallout)
     .use(remark2rehype)
     .use(rehypeShiki, {
       theme: 'catppuccin-mocha',
