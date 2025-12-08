@@ -1,5 +1,6 @@
 import { Metadata } from '../types';
 import { splitMetadataAndContent } from '../utils/splitMetadataAndContent';
+import { basename } from 'path';
 
 /**
  * metadata 파싱
@@ -159,7 +160,7 @@ const processMetaData = (content: string, filePath: string) => {
   }
 
   // HTML 파일 경로 생성 (파일명에서 .md를 .html로 변경)
-  const fileName = filePath.split('/').pop()?.replace('.md', '.html') ?? '';
+  const fileName = basename(filePath).replace('.md', '.html');
   parsedMetadata.filePath = `/${fileName}`;
 
   return { metadata: parsedMetadata };
