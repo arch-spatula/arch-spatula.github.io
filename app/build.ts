@@ -113,7 +113,7 @@ const build = async () => {
       continue; // draft이거나 콘텐츠가 없는 경우 스킵
     }
     // 파일 경로에서 HTML 파일 경로 생성하여 메타데이터 찾기
-    const fileName = file.filePath.split('/').pop()?.replace('.md', '.html') ?? '';
+    const fileName = basename(file.filePath).replace('.md', '.html');
     const htmlFilePath = `/${fileName}`;
     const targetMetaIndex = metaJson.findIndex((meta) => meta.filePath === htmlFilePath);
     if (targetMetaIndex === -1) {

@@ -136,7 +136,7 @@ const buildAll = async () => {
       continue;
     }
     // 파일 경로에서 HTML 파일 경로 생성하여 메타데이터 찾기
-    const fileName = file.filePath.split('/').pop()?.replace('.md', '.html') ?? '';
+    const fileName = basename(file.filePath).replace('.md', '.html');
     const htmlFilePath = `/${fileName}`;
     const targetMetaIndex = metaJson.findIndex((meta) => meta.filePath === htmlFilePath);
     if (targetMetaIndex === -1) {
@@ -207,7 +207,7 @@ const rebuildFile = async (filePath: string) => {
     const { markdownContent } = splitMetadataAndContent(content);
 
     // 파일명에서 HTML 파일 경로 생성
-    const fileName = filePath.split('/').pop()?.replace('.md', '.html') ?? '';
+    const fileName = basename(filePath).replace('.md', '.html');
     const htmlFilePath = `/${fileName}`;
 
     // 메타데이터 업데이트
