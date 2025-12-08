@@ -3,6 +3,7 @@
  *
  */
 
+/* eslint-disable no-console */
 import { join, basename } from 'path';
 import listUpMarkdownFiles from './listUpMarkdownFiles/listUpMarkdownFiles';
 import listUpImageFiles from './listUpImageFiles/listUpImageFiles';
@@ -16,6 +17,7 @@ import { render } from './utils/templateEngine';
 import * as esbuild from 'esbuild';
 import processMetaData from './processMetaData/processMetaData';
 import { splitMetadataAndContent } from './utils/splitMetadataAndContent';
+import { findBrokenImageLinks, reportBrokenImageLinks, BrokenImageLink } from './utils/imageValidator';
 
 /**
  * 모든 빌드 로직의 호출을 처리하는 함수
@@ -71,6 +73,10 @@ const build = async () => {
   // 메타 정보와 마크다운 콘텐츠를 저장할 맵 (파일 경로 기준)
   const contentMap = new Map<string, string>();
 
+  // 깨진 이미지 링크 수집용 배열
+  const allBrokenImageLinks: BrokenImageLink[] = [];
+  const assetDir = join(process.cwd(), 'app', 'asset');
+
   // 메타 정보 처리하기
   for (const file of markdownfiles) {
     const content = await readMarkdownFile(file.filePath);
@@ -83,7 +89,14 @@ const build = async () => {
     const { markdownContent } = splitMetadataAndContent(content);
     contentMap.set(file.filePath, markdownContent);
     metaJson.push(metadata);
+
+    // 이미지 유효성 검사 (빌드 후 dist에 복사될 이미지 기준)
+    const brokenLinks = findBrokenImageLinks(markdownContent, file.filePath, blogsDir, assetDir);
+    allBrokenImageLinks.push(...brokenLinks);
   }
+
+  // 깨진 이미지 링크 출력
+  reportBrokenImageLinks(allBrokenImageLinks);
 
   // 태그 정보 수집 (태그별 개수 포함)
   const tagMap = new Map<string, number>();

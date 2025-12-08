@@ -20,6 +20,7 @@ import { splitMetadataAndContent } from './utils/splitMetadataAndContent';
 import writeHtmlFile from './writeHtmlFile/writeHtmlFile';
 import { render } from './utils/templateEngine';
 import { Metadata } from './types';
+import { findBrokenImageLinks, reportBrokenImageLinks, BrokenImageLink } from './utils/imageValidator';
 
 const PORT = 3000;
 
@@ -98,6 +99,10 @@ const buildAll = async () => {
   // 메타 정보와 마크다운 콘텐츠를 저장할 맵 (파일 경로 기준)
   const contentMap = new Map<string, string>();
 
+  // 깨진 이미지 링크 수집용 배열
+  const allBrokenImageLinks: BrokenImageLink[] = [];
+  const assetDir = join(process.cwd(), 'app', 'asset');
+
   // 메타 정보 처리하기 (draft 필터링 없음!)
   for (const file of markdownfiles) {
     const content = await readMarkdownFile(file.filePath);
@@ -106,7 +111,14 @@ const buildAll = async () => {
     const { markdownContent } = splitMetadataAndContent(content);
     contentMap.set(file.filePath, markdownContent);
     metaJson.push(metadata);
+
+    // 이미지 유효성 검사 (빌드 후 dist에 복사될 이미지 기준)
+    const brokenLinks = findBrokenImageLinks(markdownContent, file.filePath, blogsDir, assetDir);
+    allBrokenImageLinks.push(...brokenLinks);
   }
+
+  // 깨진 이미지 링크 출력
+  reportBrokenImageLinks(allBrokenImageLinks);
 
   // 태그 정보 수집 (태그별 개수 포함)
   const tagMap = new Map<string, number>();
@@ -205,6 +217,11 @@ const rebuildFile = async (filePath: string) => {
     const content = await readMarkdownFile(filePath);
     const { metadata } = processMetaData(content, filePath);
     const { markdownContent } = splitMetadataAndContent(content);
+
+    // 이미지 유효성 검사 (빌드 후 dist에 복사될 이미지 기준)
+    const assetDir = join(process.cwd(), 'app', 'asset');
+    const brokenLinks = findBrokenImageLinks(markdownContent, filePath, blogsDir, assetDir);
+    reportBrokenImageLinks(brokenLinks);
 
     // 파일명에서 HTML 파일 경로 생성
     const fileName = basename(filePath).replace('.md', '.html');
