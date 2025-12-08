@@ -298,8 +298,13 @@ const watchFiles = () => {
 const startServer = () => {
   const server = createServer(async (req, res) => {
     try {
-      // URL에서 경로 추출
+      // URL에서 경로 추출 및 디코딩 (한글 파일명 지원)
       let filePath = req.url || '/';
+      try {
+        filePath = decodeURIComponent(filePath);
+      } catch {
+        // 이미 디코딩된 경로이거나 잘못된 인코딩인 경우 그대로 사용
+      }
 
       // 루트 경로는 index.html로
       if (filePath === '/') {
