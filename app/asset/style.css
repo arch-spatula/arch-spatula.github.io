@@ -1655,3 +1655,70 @@ code > .line > span:last-child {
   background-color: rgba(248, 81, 73, 0.1);
   border-color: #f85149;
 }
+
+/* ==================== TOC Styles ==================== */
+#toc {
+  position: fixed;
+  /* #app(800px) 오른쪽 여백에 배치 */
+  left: calc(50% + 400px + 24px);
+  top: 100px;
+  width: 200px;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+}
+
+/* 화면이 좁으면 숨김 (TOC 공간 부족 시) */
+@media (max-width: 1100px) {
+  #toc {
+    display: none;
+  }
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toc-item {
+  line-height: 1.4;
+}
+
+.toc-item a {
+  display: block;
+  color: #9198a1;
+  text-decoration: none;
+  font-size: 14px;
+  /* 말줄임표 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toc-item a:hover {
+  color: #478be6;
+}
+
+/* 레벨별 들여쓰기 */
+.toc-level-2 {
+  padding-left: 0;
+}
+
+.toc-level-3 {
+  padding-left: 12px;
+}
+
+.toc-level-4 {
+  padding-left: 24px;
+}
+
+.toc-level-5 {
+  padding-left: 36px;
+}
+
+.toc-level-6 {
+  padding-left: 48px;
+}

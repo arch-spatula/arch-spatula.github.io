@@ -5,7 +5,7 @@ describe('convertMarkdownToHtml', () => {
   it('should convert markdown heading to HTML', async () => {
     const markdown = '# Heading 1';
     const html = await convertMarkdownToHtml(markdown);
-    expect(html).toBe('<h1>Heading 1</h1>');
+    expect(html).toContain('<h1 id="heading-1">Heading 1</h1>');
   });
 
   it('should convert markdown list to HTML', async () => {
@@ -46,8 +46,8 @@ describe('processMarkdownFile', () => {
 
     const htmlContent = await processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
 
-    expect(htmlContent).toContain('<h1>Heading 1</h1>');
-    expect(htmlContent).toContain('<h2>Heading 2</h2>');
+    expect(htmlContent).toContain('<h1 id="heading-1">Heading 1</h1>');
+    expect(htmlContent).toContain('<h2 id="heading-2">Heading 2</h2>');
     expect(htmlContent).toContain('<li>List item 1</li>');
     expect(htmlContent).toContain('<strong>Bold text</strong>');
   });
@@ -75,7 +75,7 @@ describe('processMarkdownFile', () => {
     expect(htmlContent).toContain('<title> - My Title</title>');
     expect(htmlContent).toContain('content="My Description"');
     expect(htmlContent).toContain('<article>');
-    expect(htmlContent).toContain('<h1>Test Content</h1>');
+    expect(htmlContent).toContain('<h1 id="test-content">Test Content</h1>');
   });
 
   it('should handle empty metadata fields', async () => {
@@ -88,7 +88,7 @@ describe('processMarkdownFile', () => {
     const htmlContent = await processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
 
     expect(htmlContent).toContain('<title> - </title>');
-    expect(htmlContent).toContain('<h1>Content</h1>');
+    expect(htmlContent).toContain('<h1 id="content">Content</h1>');
   });
 
   it('should join tags with comma', async () => {
@@ -133,7 +133,7 @@ This is the content.`;
 
     const htmlContent = await processMarkdownFile(markdownContent, metadata, appTemplate, postTemplate, searchTemplate);
 
-    expect(htmlContent).toContain('<h1>원티드 프리온보딩 과제 - 3일차</h1>');
+    expect(htmlContent).toContain('<h1 id="원티드-프리온보딩-과제---3일차">원티드 프리온보딩 과제 - 3일차</h1>');
     expect(htmlContent).toContain('<main>');
     expect(htmlContent).toContain('<!DOCTYPE html>');
   });

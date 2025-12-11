@@ -6,9 +6,11 @@ import { visit } from 'unist-util-visit';
 import remark2rehype from 'remark-rehype';
 import html from 'rehype-stringify';
 import rehypeShiki from '@shikijs/rehype';
+import rehypeSlug from 'rehype-slug';
 import type { Metadata } from '../types';
 import { render } from '../utils/templateEngine';
 import type { Root } from 'mdast';
+import { extractToc } from '../utils/extractToc';
 
 // Callout 타입 정의
 const CALLOUT_TYPES = ['info', 'caution', 'warning', 'tip', 'note', 'danger'];
@@ -42,6 +44,7 @@ export const convertMarkdownToHtml = async (markdownSource: string) => {
     .use(remarkDirective)
     .use(remarkCallout)
     .use(remark2rehype)
+    .use(rehypeSlug)
     .use(rehypeShiki, {
       theme: 'catppuccin-mocha',
     })
@@ -87,10 +90,12 @@ const processMarkdownFile = async (
   nextPost?: PostNavigation,
 ) => {
   const htmlContent = await convertMarkdownToHtml(markdownContent);
+  const toc = extractToc(htmlContent);
 
   const bodyHtml = render(postTemplate, {
     content: htmlContent,
     tags: metadata.tags ?? [],
+    toc,
     previousPost: !!previousPost,
     previousPostFilePath: previousPost?.filePath ?? '',
     previousPostTitle: previousPost?.title ?? '',
