@@ -7,6 +7,7 @@ interface SearchElements {
   overlay: HTMLElement;
   searchInput: HTMLInputElement;
   searchBlogList: HTMLElement;
+  searchTagList: HTMLElement;
   searchForm?: HTMLElement | null;
 }
 
@@ -28,11 +29,21 @@ export class SearchPopup {
    * 원본 제목을 data-title 속성에 저장
    */
   private storeOriginalTitles(): void {
-    const links = this.elements.searchBlogList.querySelectorAll('.search-item-link');
-    links.forEach((link) => {
+    // 블로그 목록 원본 제목 저장
+    const blogLinks = this.elements.searchBlogList.querySelectorAll('.search-item-link');
+    blogLinks.forEach((link) => {
       const htmlLink = link as HTMLAnchorElement;
       if (!htmlLink.dataset.title) {
         htmlLink.dataset.title = htmlLink.textContent || '';
+      }
+    });
+
+    // 태그 목록 원본 텍스트 저장
+    const tagLinks = this.elements.searchTagList.querySelectorAll('.tag-link');
+    tagLinks.forEach((link) => {
+      const htmlLink = link as HTMLAnchorElement;
+      if (!htmlLink.dataset.tagText) {
+        htmlLink.dataset.tagText = htmlLink.textContent || '';
       }
     });
   }
@@ -69,9 +80,10 @@ export class SearchPopup {
   handleSearch(query: string): void {
     const trimmedQuery = query.trim();
     const lowerQuery = trimmedQuery.toLowerCase();
-    const items = this.elements.searchBlogList.querySelectorAll('.search-item');
 
-    items.forEach((item) => {
+    // 블로그 목록 필터링
+    const blogItems = this.elements.searchBlogList.querySelectorAll('.search-item');
+    blogItems.forEach((item) => {
       const htmlItem = item as HTMLLIElement;
       const link = htmlItem.querySelector('.search-item-link') as HTMLAnchorElement;
       if (link) {
@@ -87,6 +99,25 @@ export class SearchPopup {
       }
     });
 
+    // 태그 목록 필터링
+    const tagItems = this.elements.searchTagList.querySelectorAll('.search-tag-item');
+    tagItems.forEach((item) => {
+      const htmlItem = item as HTMLLIElement;
+      const link = htmlItem.querySelector('.tag-link') as HTMLAnchorElement;
+      if (link) {
+        const tagName = link.dataset.tag || '';
+        const lowerTagName = tagName.toLowerCase();
+        const originalText = link.dataset.tagText || '';
+
+        // 태그명 기준으로 일치 여부 확인 (대소문자 구분 없음)
+        const isMatch = !trimmedQuery || lowerTagName.includes(lowerQuery);
+        htmlItem.classList.toggle('hidden', !isMatch);
+
+        // 하이라이트 적용
+        link.innerHTML = highlightText(originalText, trimmedQuery);
+      }
+    });
+
     // 검색어 변경 시 첫 번째 보이는 항목으로 선택 초기화
     this.currentFocusIndex = 0;
     this.updateFocusClass();
@@ -96,8 +127,9 @@ export class SearchPopup {
    * 검색 결과 및 상태 초기화
    */
   resetSearch(): void {
-    const items = this.elements.searchBlogList.querySelectorAll('.search-item');
-    items.forEach((item) => {
+    // 블로그 목록 초기화
+    const blogItems = this.elements.searchBlogList.querySelectorAll('.search-item');
+    blogItems.forEach((item) => {
       const htmlItem = item as HTMLLIElement;
       htmlItem.classList.remove('hidden');
       const link = htmlItem.querySelector('.search-item-link') as HTMLAnchorElement;
@@ -107,6 +139,19 @@ export class SearchPopup {
         link.classList.remove('search-item-focus');
       }
     });
+
+    // 태그 목록 초기화
+    const tagItems = this.elements.searchTagList.querySelectorAll('.search-tag-item');
+    tagItems.forEach((item) => {
+      const htmlItem = item as HTMLLIElement;
+      htmlItem.classList.remove('hidden');
+      const link = htmlItem.querySelector('.tag-link') as HTMLAnchorElement;
+      if (link) {
+        const originalText = link.dataset.tagText || '';
+        link.innerHTML = `<span>${originalText}</span>`;
+      }
+    });
+
     this.currentFocusIndex = 0;
   }
 
@@ -243,9 +288,10 @@ export const initSearchPopup = (): SearchPopup | null => {
   const overlay = document.getElementById('overlay');
   const searchInput = document.getElementById('search-input') as HTMLInputElement;
   const searchBlogList = document.getElementById('search-blog-list');
+  const searchTagList = document.getElementById('search-tag-list');
   const searchForm = document.getElementById('search-form');
 
-  if (!popupBtn || !searchElement || !overlay || !searchInput || !searchBlogList) {
+  if (!popupBtn || !searchElement || !overlay || !searchInput || !searchBlogList || !searchTagList) {
     console.warn('Search elements not found');
     return null;
   }
@@ -256,6 +302,7 @@ export const initSearchPopup = (): SearchPopup | null => {
     overlay,
     searchInput,
     searchBlogList,
+    searchTagList,
     searchForm,
   });
 };
