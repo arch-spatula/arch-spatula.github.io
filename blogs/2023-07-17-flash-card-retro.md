@@ -1,7 +1,7 @@
 ---
 title: 'flash card 회고'
 authors: [arch-spatula]
-tags: ['회고', '블로그', 'flash card']
+tags: ['회고', 'blog', 'flash card']
 description: 'flash card 프로젝트 회고입니다.'
 toc_max_heading_level: 6
 date: 2023-07-17
