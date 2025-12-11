@@ -245,6 +245,18 @@ input[type='search']::-webkit-search-results-decoration {
   font-weight: 500;
 }
 
+#popup-container #search-blog-list .search-item .search-item-link .search-highlight {
+  background-color: #478be6;
+  color: #f0f6fc;
+  font-weight: 500;
+}
+
+#popup-container #search-tag-list .search-tag-item .tag-link .search-highlight {
+  background-color: #478be6;
+  color: #f0f6fc;
+  font-weight: 500;
+}
+
 #search-form:has(#search-input:hover) {
   border: solid 1px #6cb6ff;
 }
