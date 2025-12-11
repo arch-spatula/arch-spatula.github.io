@@ -133,7 +133,7 @@ const buildAll = async () => {
   // 태그를 배열로 변환 (count 포함)
   const tags = Array.from(tagMap.entries())
     .map(([tag, count]) => ({ name: tag, count }))
-    .sort((a, b) => b.count - a.count);
+    .sort((a, b) => a.name.localeCompare(b.name)); // 알파벳 순으로 정렬
 
   // meta.json 파일 쓰기
   writeFileSync(join(process.cwd(), 'dist', 'meta.json'), JSON.stringify(metaJson.reverse(), null, 2), 'utf8');
