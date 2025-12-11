@@ -7,19 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      hast-util-to-string:
-        specifier: ^3.0.1
-        version: 3.0.1
-      rehype-slug:
-        specifier: ^6.0.0
-        version: 6.0.0
-      remark-directive:
-        specifier: ^4.0.0
-        version: 4.0.0
-      unist-util-visit:
-        specifier: ^5.0.0
-        version: 5.0.0
     devDependencies:
       '@playwright/test':
         specifier: ^1.56.1
@@ -54,12 +41,21 @@ importers:
       happy-dom:
         specifier: ^20.0.11
         version: 20.0.11
+      hast-util-to-string:
+        specifier: ^3.0.1
+        version: 3.0.1
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
+      rehype-slug:
+        specifier: ^6.0.0
+        version: 6.0.0
       rehype-stringify:
         specifier: ^10.0.1
         version: 10.0.1
+      remark-directive:
+        specifier: ^4.0.0
+        version: 4.0.0
       remark-gfm:
         specifier: ^4.0.1
         version: 4.0.1
@@ -81,6 +77,9 @@ importers:
       unified:
         specifier: ^11.0.5
         version: 11.0.5
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
       vitest:
         specifier: ^4.0.9
         version: 4.0.9(@types/debug@4.1.12)(@types/node@24.10.1)(happy-dom@20.0.11)(tsx@4.20.6)
