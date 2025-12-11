@@ -1,6 +1,5 @@
-import { existsSync } from 'fs';
+import { existsSync, readdirSync } from 'fs';
 import { join, dirname, basename } from 'path';
-import { readdirSync, statSync } from 'fs';
 
 // 마크다운 이미지 링크 패턴
 // ![alt text](image.png) 또는 ![alt text](/img/path/image.png)
