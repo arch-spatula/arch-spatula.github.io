@@ -3,7 +3,6 @@
  *
  */
 
-/* eslint-disable no-console */
 import { join, basename } from 'path';
 import listUpMarkdownFiles from './listUpMarkdownFiles/listUpMarkdownFiles';
 import listUpImageFiles from './listUpImageFiles/listUpImageFiles';
@@ -111,7 +110,7 @@ const build = async () => {
   // 태그를 배열로 변환 (count 포함)
   const tags = Array.from(tagMap.entries())
     .map(([tag, count]) => ({ name: tag, count }))
-    .sort((a, b) => b.count - a.count); // 많이 사용된 태그 순으로 정렬
+    .sort((a, b) => a.name.localeCompare(b.name)); // 알파벳 순으로 정렬
 
   // @todo dist/meta.json 파일로 쓰기
   writeFileSync(join(process.cwd(), 'dist', 'meta.json'), JSON.stringify(metaJson.reverse(), null, 2), 'utf8');
