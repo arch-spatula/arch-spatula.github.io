@@ -10,7 +10,7 @@ import rehypeSlug from 'rehype-slug';
 import type { Metadata } from '../types';
 import { render } from '../utils/templateEngine';
 import type { Root } from 'mdast';
-import { extractToc } from '../utils/extractToc';
+import { rehypeExtractToc, type TocItem } from '../utils/extractToc';
 
 // Callout 타입 정의
 const CALLOUT_TYPES = ['info', 'caution', 'warning', 'tip', 'note', 'danger'];
@@ -36,8 +36,11 @@ function remarkCallout() {
 
 /**
  * 마크다운 콘텐츠를 HTML로 변환 (shiki 코드 하이라이팅 적용)
+ * @returns HTML 문자열과 TOC 데이터를 포함한 객체
  */
-export const convertMarkdownToHtml = async (markdownSource: string) => {
+export const convertMarkdownToHtml = async (markdownSource: string): Promise<{ html: string; toc: TocItem[] }> => {
+  const toc: TocItem[] = [];
+
   const htmlText = await unified()
     .use(markdown)
     .use(remarkGfm)
@@ -45,6 +48,7 @@ export const convertMarkdownToHtml = async (markdownSource: string) => {
     .use(remarkCallout)
     .use(remark2rehype)
     .use(rehypeSlug)
+    .use(rehypeExtractToc, { toc })
     .use(rehypeShiki, {
       theme: 'catppuccin-mocha',
     })
@@ -52,10 +56,10 @@ export const convertMarkdownToHtml = async (markdownSource: string) => {
     .process(markdownSource);
 
   if (typeof htmlText.value === 'string') {
-    return htmlText.value;
+    return { html: htmlText.value, toc };
   }
 
-  return '';
+  return { html: '', toc: [] };
 };
 
 export type PostNavigation = {
@@ -89,8 +93,7 @@ const processMarkdownFile = async (
   previousPost?: PostNavigation,
   nextPost?: PostNavigation,
 ) => {
-  const htmlContent = await convertMarkdownToHtml(markdownContent);
-  const toc = extractToc(htmlContent);
+  const { html: htmlContent, toc } = await convertMarkdownToHtml(markdownContent);
 
   const bodyHtml = render(postTemplate, {
     content: htmlContent,
