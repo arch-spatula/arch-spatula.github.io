@@ -730,7 +730,7 @@ function wrap(el: Element, wrapper: Element) {
 
 ## 기타 기능
 
-- 손이 의외로 별로 안든 기능은 몰아서 설명하겠습니다.
+- 의외로 노력이 별로 안든 기능들은 몰아서 설명하겠습니다.
 
 ### nav 추가
 
