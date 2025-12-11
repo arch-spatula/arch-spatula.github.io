@@ -1,16 +1,7 @@
 ---
 title: 도메인 객체
 authors: [arch-spatula]
-tags:
-  [
-    'frontend',
-    'domain object',
-    'font',
-    'QDD',
-    'frontend testing',
-    'BDD',
-    'Given-When-Then 패턴',
-  ]
+tags: ['frontend', 'domain object', 'font', 'QDD', 'frontend testing', 'BDD', 'Given-When-Then 패턴']
 description: 토큰을 생성, 검증하는 테스트 코드를 작성하는 방법입니다. token을 싱글튼으로 제어하는 것은 일반적이지 않은 패턴입니다. 이부분을 리팩토링하고 테스트합니다.
 toc_max_heading_level: 6
 date: 2023-06-07
@@ -62,9 +53,7 @@ class Account {
 }
 
 function App() {
-  const [account, setAccount] = useState(
-    new Account('123456', 'John Doe', 1000)
-  );
+  const [account, setAccount] = useState(new Account('123456', 'John Doe', 1000));
   const [amount, setAmount] = useState(0);
 
   const handleDeposit = () => {
@@ -85,11 +74,7 @@ function App() {
       <p>Balance: {account.balance}</p>
 
       <h2>Transaction</h2>
-      <input
-        type="number"
-        value={amount}
-        onChange={(e) => setAmount(Number(e.target.value))}
-      />
+      <input type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
       <button onClick={handleDeposit}>Deposit</button>
       <button onClick={handleWithdraw}>Withdraw</button>
     </div>
@@ -138,9 +123,7 @@ export class Account {
 // hooks/useAccount.js
 import { Account } from '../models/Account.js';
 export function useAccount(accountNumber, ownerName, balance) {
-  const [account, setAccount] = useState(
-    new Account(accountNumber, ownerName, balance)
-  );
+  const [account, setAccount] = useState(new Account(accountNumber, ownerName, balance));
   const [amount, setAmount] = useState(0);
 
   const handleDeposit = () => {
@@ -158,8 +141,7 @@ export function useAccount(accountNumber, ownerName, balance) {
 
 ```js
 function App() {
-  const { account, amount, setAmount, handleDeposit, handleWithdraw } =
-    useAccount('123456', 'John Doe', 1000);
+  const { account, amount, setAmount, handleDeposit, handleWithdraw } = useAccount('123456', 'John Doe', 1000);
 
   return (
     <div>
@@ -169,11 +151,7 @@ function App() {
       <p>Balance: {account.balance}</p>
 
       <h2>Transaction</h2>
-      <input
-        type="number"
-        value={amount}
-        onChange={(e) => setAmount(Number(e.target.value))}
-      />
+      <input type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
       <button onClick={handleDeposit}>Deposit</button>
       <button onClick={handleWithdraw}>Withdraw</button>
     </div>
@@ -198,9 +176,7 @@ class AccountCollection {
   }
 
   deleteAccount(accountNumber) {
-    this.accounts = this.accounts.filter(
-      (account) => account.accountNumber !== accountNumber
-    );
+    this.accounts = this.accounts.filter((account) => account.accountNumber !== accountNumber);
   }
 
   // 필요한 다른 계좌 관련 메서드들...
@@ -211,9 +187,7 @@ import { useState, useEffect } from 'react';
 import { fetchAccounts } from './api'; // API 통신을 위한 함수
 
 export function useAccountCollection() {
-  const [accountCollection, setAccountCollection] = useState(
-    new AccountCollection()
-  );
+  const [accountCollection, setAccountCollection] = useState(new AccountCollection());
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -246,8 +220,7 @@ function AccountListView() {
       <ul>
         {accountCollection.accounts.map((account) => (
           <li key={account.accountNumber}>
-            Account Number: {account.accountNumber}, Owner: {account.ownerName},
-            Balance: {account.balance}
+            Account Number: {account.accountNumber}, Owner: {account.ownerName}, Balance: {account.balance}
           </li>
         ))}
       </ul>
@@ -304,9 +277,7 @@ class AccountCollection {
   }
 
   deleteAccount(accountNumber) {
-    this.accounts = this.accounts.filter(
-      (account) => account.accountNumber !== accountNumber
-    );
+    this.accounts = this.accounts.filter((account) => account.accountNumber !== accountNumber);
   }
 
   // 필요한 다른 계좌 관련 메서드들...
@@ -321,9 +292,7 @@ import { useState, useEffect } from 'react';
 import { fetchAccounts } from './api'; // API 통신을 위한 함수
 
 export function useAccountCollection() {
-  const [accountCollection, setAccountCollection] = useState(
-    new AccountCollection()
-  );
+  const [accountCollection, setAccountCollection] = useState(new AccountCollection());
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -358,8 +327,7 @@ function AccountListView() {
       <ul>
         {accountCollection.accounts.map((account) => (
           <li key={account.accountNumber}>
-            Account Number: {account.accountNumber}, Owner: {account.ownerName},
-            Balance: {account.balance}
+            Account Number: {account.accountNumber}, Owner: {account.ownerName}, Balance: {account.balance}
           </li>
         ))}
       </ul>
@@ -381,7 +349,7 @@ function App() {
 
 ## font 고르고 설정하기
 
-:::info 참고
+:::info
 
 여기서는 편의를 위해 서체 대신 폰트라고 부르겠습니다.
 
@@ -414,11 +382,7 @@ UX/UI 디자이너였을 때 가장 포괄적으로 사용할 수 있는 폰트�
 적용할 때는 html head에 넣어서 적용하도록 합니다.
 
 ```html
-<link
-  href="//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css"
-  rel="stylesheet"
-  type="text/css"
-/>
+<link href="//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css" rel="stylesheet" type="text/css" />
 ```
 
 ```tsx

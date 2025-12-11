@@ -1,7 +1,7 @@
 ---
 sidebar_position: 98
-description: "컴파일러 & 인터프리터"
-tags: ["컴파일러 & 인터프리터"]
+description: '컴파일러 & 인터프리터'
+tags: ['컴파일러 & 인터프리터']
 draft: true
 ---
 
@@ -11,7 +11,7 @@ draft: true
 <!-- [밑바닥부터 만드는 인터프리터 in Go](https://www.yes24.com/Product/Goods/103157156) -->
 <!-- [Crafting Interpreters 로버트 나이스트롬의 인터프리터 in Java, C](https://www.yes24.com/Product/Goods/123859288) -->
 
-:::info 참고
+:::info
 
 컴파일러 & 인터프린터는 면접질문의 단골 주제는 아닙니다. 2024년 프론트엔드 엔지니어에게는 상당히 트렌디한 지식이지만 프론트엔드 답게 다시 식어버릴 것입니다.
 
@@ -75,10 +75,10 @@ https://drop.rooi.dev/posts/2024/02/10/01/
 
 파서 제너레이터는 상용 언어를 구현할 때는 사용하지만 학습용으로는 직접 파싱 기능을 구현할 것을 권장합니다.
 
-<!-- 
+<!--
 
 https://github.com/PLTEAM1/lisp-interpreter
 
 위랑 같은 것이 정상적인 프로그래머의 실력입니다.
 
---> 
+-->
