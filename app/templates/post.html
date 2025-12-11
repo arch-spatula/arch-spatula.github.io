@@ -6,6 +6,15 @@
   {{/each}}
 </ul>
 <div id="content" class="markdown-body">{{content}}</div>
+<aside id="toc">
+  <ul class="toc-list">
+    {{#each toc}}
+    <li class="toc-item toc-level-{{level}}">
+      <a href="#{{id}}">{{heading}}</a>
+    </li>
+    {{/each}}
+  </ul>
+</aside>
 <nav class="post-navigation">
   {{#if previousPost}}
   <div class="previous-post">
