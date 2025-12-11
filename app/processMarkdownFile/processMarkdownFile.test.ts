@@ -4,28 +4,44 @@ import processMarkdownFile, { convertMarkdownToHtml } from './processMarkdownFil
 describe('convertMarkdownToHtml', () => {
   it('should convert markdown heading to HTML', async () => {
     const markdown = '# Heading 1';
-    const html = await convertMarkdownToHtml(markdown);
+    const { html } = await convertMarkdownToHtml(markdown);
     expect(html).toContain('<h1 id="heading-1">Heading 1</h1>');
   });
 
   it('should convert markdown list to HTML', async () => {
     const markdown = `- List item 1
 - List item 2`;
-    const html = await convertMarkdownToHtml(markdown);
+    const { html } = await convertMarkdownToHtml(markdown);
     expect(html).toContain('<li>List item 1</li>');
     expect(html).toContain('<li>List item 2</li>');
   });
 
   it('should convert markdown bold to HTML', async () => {
     const markdown = '**Bold text**';
-    const html = await convertMarkdownToHtml(markdown);
+    const { html } = await convertMarkdownToHtml(markdown);
     expect(html).toContain('<strong>Bold text</strong>');
   });
 
   it('should handle empty content', async () => {
     const markdown = '';
-    const html = await convertMarkdownToHtml(markdown);
+    const { html } = await convertMarkdownToHtml(markdown);
     expect(html).toBe('');
+  });
+
+  it('should extract TOC from headings', async () => {
+    const markdown = `# Title
+
+## Section 1
+
+### Subsection 1.1
+
+## Section 2`;
+    const { toc } = await convertMarkdownToHtml(markdown);
+
+    expect(toc).toHaveLength(3);
+    expect(toc[0]).toEqual({ id: 'section-1', heading: 'Section 1', level: 2 });
+    expect(toc[1]).toEqual({ id: 'subsection-11', heading: 'Subsection 1.1', level: 3 });
+    expect(toc[2]).toEqual({ id: 'section-2', heading: 'Section 2', level: 2 });
   });
 });
 
