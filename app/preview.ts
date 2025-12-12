@@ -41,7 +41,8 @@ const preview = async () => {
       // 파일이 존재하는지 확인
       if (!existsSync(fullPath)) {
         res.writeHead(404, { 'Content-Type': 'text/html' });
-        res.end('<h1>404 - Page Not Found</h1>');
+        // res.end('<h1>404 - Page Not Found</h1>');
+        res.end(await readFile(join(process.cwd(), 'dist', '404.html')));
         console.log(`❌ 404: ${filePath}`);
         return;
       }
