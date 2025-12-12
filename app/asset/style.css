@@ -276,7 +276,7 @@ input[type='search']::-webkit-search-results-decoration {
   flex-wrap: wrap;
   gap: 8px;
   margin: 8px 0 0 0;
-  max-height: 256px;
+  max-height: 248px;
   overflow-y: auto;
 
   scrollbar-width: thin;
