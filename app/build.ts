@@ -172,6 +172,12 @@ const build = async () => {
   const MainHtml = render(mainTemplate, { posts: metaJson });
   const AppHtml = render(appTemplate, { body: MainHtml, search: SearchHtml });
   writeFileSync(join(process.cwd(), 'dist', 'index.html'), AppHtml, 'utf8');
+
+  const NotFoundHtml = render(appTemplate, {
+    body: '<h1 style="text-align: center; margin-top: 100px; color: #D1D7E0;">404 - Page Not Found</h1>',
+    search: SearchHtml,
+  });
+  writeFileSync(join(process.cwd(), 'dist', '404.html'), NotFoundHtml, 'utf8');
 };
 
 build();
