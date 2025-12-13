@@ -1,6 +1,5 @@
 import { Metadata } from '../types';
 import { splitMetadataAndContent } from '../utils/splitMetadataAndContent';
-import { basename } from 'path';
 
 /**
  * metadata 파싱
@@ -136,9 +135,10 @@ export const extractTitleFromMarkdown = (markdownContent: string): string | unde
  * 마크다운 파일의 메타데이터를 처리하는 함수
  * @param content - 마크다운 파일 전체 내용
  * @param filePath - 마크다운 파일 경로
+ * @param blogsDir - blogs 폴더의 절대 경로
  * @returns 파싱된 메타데이터와 마크다운 콘텐츠
  */
-const processMetaData = (content: string, filePath: string) => {
+const processMetaData = (content: string, filePath: string, blogsDir: string) => {
   const { metadata, markdownContent } = splitMetadataAndContent(content);
   const parsedMetadata = parseMetadata(metadata);
 
@@ -159,9 +159,9 @@ const processMetaData = (content: string, filePath: string) => {
     }
   }
 
-  // HTML 파일 경로 생성 (파일명에서 .md를 .html로 변경)
-  const fileName = basename(filePath).replace('.md', '.html');
-  parsedMetadata.filePath = `/${fileName}`;
+  // HTML 파일 경로 생성 (blogs/ 기준 상대 경로 유지)
+  const relativePath = filePath.replace(`${blogsDir}/`, '').replace('.md', '.html');
+  parsedMetadata.filePath = `/${relativePath}`;
 
   return { metadata: parsedMetadata };
 };
