@@ -109,6 +109,8 @@ More content.
 });
 
 describe('processMetaData', () => {
+  const blogsDir = '/path/to/blogs';
+
   describe('date extraction from filepath', () => {
     it('should extract date from filename in YYYY-MM-DD format', () => {
       const content = `
@@ -118,7 +120,7 @@ This is content without frontmatter.
       `;
       const filePath = '/path/to/blogs/2023-04-12.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.date).toBe('2023-04-12');
     });
@@ -127,7 +129,7 @@ This is content without frontmatter.
       const content = `# Test Post`;
       const filePath = '/path/to/blogs/2023-12-25-christmas.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.date).toBe('2023-12-25');
     });
@@ -142,7 +144,7 @@ date: 2024-01-01
       `;
       const filePath = '/path/to/blogs/2023-04-12.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.date).toBe('2024-01-01');
     });
@@ -151,7 +153,7 @@ date: 2024-01-01
       const content = `# Test Title`;
       const filePath = '/path/to/blogs/random-post.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.date).toBeUndefined();
     });
@@ -160,7 +162,7 @@ date: 2024-01-01
       const content = `# Test`;
       const filePath = '/path/2024-02-29/blog-post.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, '/path');
 
       expect(result.metadata.date).toBe('2024-02-29');
     });
@@ -173,9 +175,9 @@ date: 2024-01-01
 
 This is the content.
       `;
-      const filePath = '/path/to/post.md';
+      const filePath = '/path/to/blogs/post.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.title).toBe('Hello World');
     });
@@ -188,9 +190,9 @@ title: Frontmatter Title
 
 # Markdown Title
       `;
-      const filePath = '/path/to/post.md';
+      const filePath = '/path/to/blogs/post.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.title).toBe('Frontmatter Title');
     });
@@ -201,9 +203,9 @@ title: Frontmatter Title
 
 Some content here.
       `;
-      const filePath = '/path/to/post.md';
+      const filePath = '/path/to/blogs/post.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.title).toBeUndefined();
     });
@@ -218,9 +220,9 @@ Some content.
 
 More content.
       `;
-      const filePath = '/path/to/post.md';
+      const filePath = '/path/to/blogs/post.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.title).toBe('First Title');
     });
@@ -238,21 +240,23 @@ tags: [test, blog]
 This is a test.`;
       const filePath = '/path/to/blogs/2023-04-12.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.filePath).toBe('/2023-04-12.html');
     });
 
-    it('should generate HTML file path for nested directories', () => {
+    it('should generate HTML file path for nested directories (preserving folder structure)', () => {
       const content = `---
 title: Test Post
 ---
 # Content`;
+      const nestedBlogsDir = '/Users/user/project/blogs';
       const filePath = '/Users/user/project/blogs/2024-01-15/2024-01-15-post.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, nestedBlogsDir);
 
-      expect(result.metadata.filePath).toBe('/2024-01-15-post.html');
+      // 폴더 구조를 유지하므로 /2024-01-15/2024-01-15-post.html 이 됨
+      expect(result.metadata.filePath).toBe('/2024-01-15/2024-01-15-post.html');
     });
   });
 
@@ -263,9 +267,9 @@ title: Test Post
 
 Content goes here.
       `;
-      const filePath = '/path/to/2023-06-15-my-post.md';
+      const filePath = '/path/to/blogs/2023-06-15-my-post.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.date).toBe('2023-06-15');
       expect(result.metadata.title).toBe('My Blog Post');
@@ -281,9 +285,9 @@ title: Custom Title
 
 Content.
       `;
-      const filePath = '/path/to/2023-06-15.md';
+      const filePath = '/path/to/blogs/2023-06-15.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.date).toBe('2023-06-15');
       expect(result.metadata.title).toBe('Custom Title');
@@ -301,9 +305,9 @@ tags: [test, blog]
 
 Content here.
       `;
-      const filePath = '/path/to/2023-12-31-ignored.md';
+      const filePath = '/path/to/blogs/2023-12-31-ignored.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.title).toBe('Complete Post');
       expect(result.metadata.date).toBe('2024-01-01');
@@ -314,9 +318,9 @@ Content here.
   describe('edge cases', () => {
     it('should handle empty content', () => {
       const content = '';
-      const filePath = '/path/to/2023-01-01.md';
+      const filePath = '/path/to/blogs/2023-01-01.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.date).toBe('2023-01-01');
     });
@@ -328,9 +332,9 @@ title: Only Frontmatter
 date: 2023-01-01
 ---
       `;
-      const filePath = '/path/to/post.md';
+      const filePath = '/path/to/blogs/post.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.title).toBe('Only Frontmatter');
       expect(result.metadata.date).toBe('2023-01-01');
@@ -338,9 +342,9 @@ date: 2023-01-01
 
     it('should handle malformed date in filename', () => {
       const content = `# Test`;
-      const filePath = '/path/to/2023-13-45-invalid.md'; // Invalid date
+      const filePath = '/path/to/blogs/2023-13-45-invalid.md'; // Invalid date
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       // Still extracts the pattern even if invalid date
       expect(result.metadata.date).toBe('2023-13-45');
@@ -362,7 +366,7 @@ date: 2023-04-12
 This is the content.`;
       const filePath = '/path/to/blogs/2023-04-12.md';
 
-      const result = processMetaData(content, filePath);
+      const result = processMetaData(content, filePath, blogsDir);
 
       expect(result.metadata.title).toBe('원티드 프리온보딩 과제 - 3일차');
       expect(result.metadata.authors).toEqual(['arch-spatula']);

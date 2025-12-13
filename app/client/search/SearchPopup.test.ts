@@ -21,6 +21,14 @@ describe('SearchPopup', () => {
             <a href="/post3.html" class="search-item-link">React Testing</a>
           </li>
         </ul>
+        <ul id="search-tag-list">
+          <li class="tag-item">
+            <a href="#tag=react" class="tag-link">react</a>
+          </li>
+          <li class="tag-item">
+            <a href="#tag=typescript" class="tag-link">typescript</a>
+          </li>
+        </ul>
       </div>
       <div id="overlay"></div>
     `;
@@ -34,6 +42,7 @@ describe('SearchPopup', () => {
       overlay: document.getElementById('overlay')!,
       searchInput: document.getElementById('search-input') as HTMLInputElement,
       searchBlogList: document.getElementById('search-blog-list')!,
+      searchTagList: document.getElementById('search-tag-list')!,
       searchForm: document.getElementById('search-form'),
     });
 
