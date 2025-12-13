@@ -4,6 +4,7 @@ import { initHashPreserver } from './preserveHash';
 describe('initHashPreserver', () => {
   let mockLocationHref: string;
   let mockLocationHash: string;
+  const mockOrigin = 'http://localhost:3000';
 
   beforeEach(() => {
     // window.location 모킹
@@ -24,6 +25,9 @@ describe('initHashPreserver', () => {
         set hash(value: string) {
           mockLocationHash = value;
         },
+        get origin() {
+          return mockOrigin;
+        },
       },
       writable: true,
       configurable: true,
@@ -39,7 +43,7 @@ describe('initHashPreserver', () => {
 
   it('should preserve hash when clicking link with hash present', () => {
     window.location.hash = '#tags=blog';
-    document.body.innerHTML = '<a href="/page1.html">Link 1</a>';
+    document.body.innerHTML = `<a href="${mockOrigin}/page1.html">Link 1</a>`;
 
     initHashPreserver();
 
@@ -55,7 +59,7 @@ describe('initHashPreserver', () => {
 
   it('should not prevent default when no hash is present', () => {
     window.location.hash = '';
-    document.body.innerHTML = '<a href="/page1.html">Link 1</a>';
+    document.body.innerHTML = `<a href="${mockOrigin}/page1.html">Link 1</a>`;
 
     initHashPreserver();
 
@@ -70,7 +74,7 @@ describe('initHashPreserver', () => {
 
   it('should replace existing hash in link with current hash', () => {
     window.location.hash = '#tags=blog';
-    document.body.innerHTML = '<a href="/page1.html#oldHash">Link 1</a>';
+    document.body.innerHTML = `<a href="${mockOrigin}/page1.html#oldHash">Link 1</a>`;
 
     initHashPreserver();
 
@@ -85,7 +89,7 @@ describe('initHashPreserver', () => {
     expect(mockLocationHref).not.toContain('oldHash');
   });
 
-  it('should handle absolute URLs', () => {
+  it('should not preserve hash for external links (different origin)', () => {
     window.location.hash = '#tags=blog,test';
     document.body.innerHTML = '<a href="https://example.com/page.html">External Link</a>';
 
@@ -93,32 +97,21 @@ describe('initHashPreserver', () => {
 
     const link = document.querySelector('a') as HTMLAnchorElement;
     const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
+    const preventDefaultSpy = vi.spyOn(clickEvent, 'preventDefault');
 
     link.dispatchEvent(clickEvent);
 
-    expect(mockLocationHref).toBe('https://example.com/page.html#tags=blog,test');
-  });
-
-  it('should handle relative URLs', () => {
-    window.location.hash = '#search=open';
-    document.body.innerHTML = '<a href="../parent/page.html">Relative Link</a>';
-
-    initHashPreserver();
-
-    const link = document.querySelector('a') as HTMLAnchorElement;
-    const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
-
-    link.dispatchEvent(clickEvent);
-
-    // 상대 경로는 현재 origin을 기준으로 해석됨
-    expect(mockLocationHref).toContain('#search=open');
+    // 외부 링크는 preventDefault가 호출되지 않음 (기본 동작 유지)
+    expect(preventDefaultSpy).not.toHaveBeenCalled();
+    // href가 변경되지 않음
+    expect(mockLocationHref).toBe('');
   });
 
   it('should handle multiple links', () => {
     window.location.hash = '#tags=blog';
     document.body.innerHTML = `
-      <a href="/page1.html">Link 1</a>
-      <a href="/page2.html">Link 2</a>
+      <a href="${mockOrigin}/page1.html">Link 1</a>
+      <a href="${mockOrigin}/page2.html">Link 2</a>
     `;
 
     initHashPreserver();
@@ -138,9 +131,9 @@ describe('initHashPreserver', () => {
     expect(resultUrl.hash).toBe('#tags=blog');
   });
 
-  it('should prevent default when hash is present', () => {
+  it('should prevent default when hash is present and same origin', () => {
     window.location.hash = '#tags=blog';
-    document.body.innerHTML = '<a href="/page1.html">Link 1</a>';
+    document.body.innerHTML = `<a href="${mockOrigin}/page1.html">Link 1</a>`;
 
     initHashPreserver();
 
@@ -151,5 +144,23 @@ describe('initHashPreserver', () => {
     link.dispatchEvent(clickEvent);
 
     expect(preventDefaultSpy).toHaveBeenCalled();
+  });
+
+  it('should preserve hash for same origin absolute URL', () => {
+    window.location.hash = '#tags=blog';
+    document.body.innerHTML = `<a href="${mockOrigin}/page1.html">Same Origin Link</a>`;
+
+    initHashPreserver();
+
+    const link = document.querySelector('a') as HTMLAnchorElement;
+    const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
+    const preventDefaultSpy = vi.spyOn(clickEvent, 'preventDefault');
+
+    link.dispatchEvent(clickEvent);
+
+    expect(preventDefaultSpy).toHaveBeenCalled();
+    const resultUrl = new URL(mockLocationHref);
+    expect(resultUrl.pathname).toBe('/page1.html');
+    expect(resultUrl.hash).toBe('#tags=blog');
   });
 });
