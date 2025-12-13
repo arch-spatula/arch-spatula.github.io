@@ -1,9 +1,8 @@
 /**
  * @fileoverview 빌드를 처리하는 루트 파일
- *
  */
 
-import { join, basename } from 'path';
+import { join, dirname } from 'path';
 import listUpMarkdownFiles from './listUpMarkdownFiles/listUpMarkdownFiles';
 import listUpImageFiles from './listUpImageFiles/listUpImageFiles';
 import readMarkdownFile from './readMarkdownFile/readMarkdownFile';
@@ -52,11 +51,14 @@ const build = async () => {
   // asset 폴더 내용 복사하기
   await cp(join(process.cwd(), 'app', 'asset'), join(process.cwd(), 'dist'), { recursive: true });
 
-  // blogs 폴더의 이미지 파일들을 dist로 복사
+  // blogs 폴더의 이미지 파일들을 dist로 복사 (폴더 구조 유지)
   const imageFiles = await listUpImageFiles(blogsDir);
   for (const imagePath of imageFiles) {
-    const fileName = basename(imagePath);
-    await cp(imagePath, join(process.cwd(), 'dist', fileName));
+    // blogs/ 기준 상대 경로 유지
+    const relativePath = imagePath.replace(`${blogsDir}/`, '');
+    const destPath = join(process.cwd(), 'dist', relativePath);
+    mkdirSync(dirname(destPath), { recursive: true });
+    await cp(imagePath, destPath);
   }
 
   // client TypeScript를 JavaScript로 빌드하기
@@ -79,7 +81,7 @@ const build = async () => {
   // 메타 정보 처리하기
   for (const file of markdownfiles) {
     const content = await readMarkdownFile(file.filePath);
-    const { metadata } = processMetaData(content, file.filePath);
+    const { metadata } = processMetaData(content, file.filePath, blogsDir);
     if (metadata.draft) {
       file.isProcessed = true;
       continue;
@@ -124,9 +126,9 @@ const build = async () => {
     if (!markdownContent) {
       continue; // draft이거나 콘텐츠가 없는 경우 스킵
     }
-    // 파일 경로에서 HTML 파일 경로 생성하여 메타데이터 찾기
-    const fileName = basename(file.filePath).replace('.md', '.html');
-    const htmlFilePath = `/${fileName}`;
+    // 파일 경로에서 HTML 파일 경로 생성하여 메타데이터 찾기 (폴더 구조 유지)
+    const relativePath = file.filePath.replace(`${blogsDir}/`, '').replace('.md', '.html');
+    const htmlFilePath = `/${relativePath}`;
     const targetMetaIndex = metaJson.findIndex((meta) => meta.filePath === htmlFilePath);
     if (targetMetaIndex === -1) {
       continue;
@@ -164,7 +166,7 @@ const build = async () => {
       previousPost,
       nextPost,
     );
-    await writeHtmlFile(file.filePath, htmlContent);
+    await writeHtmlFile(file.filePath, htmlContent, blogsDir);
     file.isProcessed = true;
   }
 

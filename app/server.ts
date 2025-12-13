@@ -8,7 +8,7 @@
 /* eslint-disable no-console */
 import { createServer } from 'http';
 import { readFile, cp, rm } from 'fs/promises';
-import { join, basename, extname } from 'path';
+import { join, extname, dirname } from 'path';
 import { existsSync, mkdirSync, writeFileSync, watch } from 'fs';
 import * as esbuild from 'esbuild';
 import listUpMarkdownFiles from './listUpMarkdownFiles/listUpMarkdownFiles';
@@ -79,11 +79,14 @@ const buildAll = async () => {
   // asset 폴더 내용 복사하기
   await cp(join(process.cwd(), 'app', 'asset'), join(process.cwd(), 'dist'), { recursive: true });
 
-  // blogs 폴더의 이미지 파일들을 dist로 복사
+  // blogs 폴더의 이미지 파일들을 dist로 복사 (폴더 구조 유지)
   const imageFiles = await listUpImageFiles(blogsDir);
   for (const imagePath of imageFiles) {
-    const fileName = basename(imagePath);
-    await cp(imagePath, join(process.cwd(), 'dist', fileName));
+    // blogs/ 기준 상대 경로 유지
+    const relativePath = imagePath.replace(`${blogsDir}/`, '');
+    const destPath = join(process.cwd(), 'dist', relativePath);
+    mkdirSync(dirname(destPath), { recursive: true });
+    await cp(imagePath, destPath);
   }
 
   // client TypeScript를 JavaScript로 빌드하기
@@ -106,7 +109,7 @@ const buildAll = async () => {
   // 메타 정보 처리하기 (draft 필터링 없음!)
   for (const file of markdownfiles) {
     const content = await readMarkdownFile(file.filePath);
-    const { metadata } = processMetaData(content, file.filePath);
+    const { metadata } = processMetaData(content, file.filePath, blogsDir);
     // draft 여부와 관계없이 모두 처리
     const { markdownContent } = splitMetadataAndContent(content);
     contentMap.set(file.filePath, markdownContent);
@@ -147,9 +150,9 @@ const buildAll = async () => {
     if (!markdownContent) {
       continue;
     }
-    // 파일 경로에서 HTML 파일 경로 생성하여 메타데이터 찾기
-    const fileName = basename(file.filePath).replace('.md', '.html');
-    const htmlFilePath = `/${fileName}`;
+    // 파일 경로에서 HTML 파일 경로 생성하여 메타데이터 찾기 (폴더 구조 유지)
+    const relativePath = file.filePath.replace(`${blogsDir}/`, '').replace('.md', '.html');
+    const htmlFilePath = `/${relativePath}`;
     const targetMetaIndex = metaJson.findIndex((meta) => meta.filePath === htmlFilePath);
     if (targetMetaIndex === -1) {
       continue;
@@ -187,7 +190,7 @@ const buildAll = async () => {
       previousPost,
       nextPost,
     );
-    await writeHtmlFile(file.filePath, htmlContent);
+    await writeHtmlFile(file.filePath, htmlContent, blogsDir);
     file.isProcessed = true;
   }
 
@@ -221,7 +224,7 @@ const rebuildFile = async (filePath: string) => {
 
     // 마크다운 파일 읽기
     const content = await readMarkdownFile(filePath);
-    const { metadata } = processMetaData(content, filePath);
+    const { metadata } = processMetaData(content, filePath, blogsDir);
     const { markdownContent } = splitMetadataAndContent(content);
 
     // 이미지 유효성 검사 (빌드 후 dist에 복사될 이미지 기준)
@@ -229,9 +232,9 @@ const rebuildFile = async (filePath: string) => {
     const brokenLinks = findBrokenImageLinks(markdownContent, filePath, blogsDir, assetDir);
     reportBrokenImageLinks(brokenLinks);
 
-    // 파일명에서 HTML 파일 경로 생성
-    const fileName = basename(filePath).replace('.md', '.html');
-    const htmlFilePath = `/${fileName}`;
+    // 파일 경로에서 HTML 파일 경로 생성 (폴더 구조 유지)
+    const relativePath = filePath.replace(`${blogsDir}/`, '').replace('.md', '.html');
+    const htmlFilePath = `/${relativePath}`;
 
     // 메타데이터 업데이트
     const existingIndex = metaJson.findIndex((meta) => meta.filePath === htmlFilePath);
@@ -272,9 +275,9 @@ const rebuildFile = async (filePath: string) => {
       previousPost,
       nextPost,
     );
-    await writeHtmlFile(filePath, htmlContent);
+    await writeHtmlFile(filePath, htmlContent, blogsDir);
 
-    console.log(`✅ Rebuilt: ${fileName}`);
+    console.log(`✅ Rebuilt: ${relativePath}`);
   } catch (error) {
     console.error(`❌ Error rebuilding ${filePath}:`, error);
   }
