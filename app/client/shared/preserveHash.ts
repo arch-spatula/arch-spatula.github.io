@@ -1,28 +1,69 @@
+import { parseHashParams, toHashString } from './hashParams';
+
 /**
- * 링크 클릭 시 URL 해시를 유지하는 기능
- * 같은 origin일 때만 해시를 유지하고, 외부 링크는 해시를 유지하지 않음
- *
- * @todo 사이드바를 클릭하면 첫번째는 이동하고 두번째는 이동하지 않는 버그가 있음
- *   - `2024-09-20-nuxt-content.html#가로스크롤-엣지-케이스-처리`으로 url이 변경된 이후 다른 사이드바를 클릭하면 이동하지 않는 버그가 있음
- *   - 해시를 보존하는 로직이 보존하지 말아야 할 부분을 보존하고 있음
- *   - tags, search 파라미터만 보존해야 하고 그 외에는 제거해야 함
- *   - scroll 위치 저장
- *     - url에서 사이드바를 클릭해서 해시가 비워지면 스크롤 최상단으로 이동하는 버그가 있음
+ * 해시가 순수 앵커인지 확인 (파라미터가 아닌 경우)
+ * 앵커: #section-name (= 포함하지 않음)
+ * 파라미터: #tags=blog (= 포함)
+ */
+const isAnchorHash = (hash: string): boolean => {
+  if (!hash || hash === '#') return false;
+  return !hash.includes('=');
+};
+
+/**
+ * 링크 클릭 시 URL 해시의 tags, search 파라미터를 유지하는 기능
+ * - 같은 origin일 때만 파라미터를 유지
+ * - 같은 페이지 내 앵커 링크 클릭 시: 앵커로 스크롤 + 파라미터 유지
+ * - 다른 페이지 링크 클릭 시: 파라미터만 유지
  */
 export const initHashPreserver = (): void => {
   document.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', (e) => {
-      if (!window.location.hash) return;
+      const currentParams = parseHashParams(window.location.hash);
+      const tagsParam = currentParams.get('tags');
+      const searchParam = currentParams.get('search');
+
+      // 보존할 파라미터(tags, search)가 없으면 기본 동작 유지
+      if (!tagsParam && !searchParam) return;
 
       const url = new URL(link.href);
       const isSameOrigin = url.origin === window.location.origin;
 
-      if (isSameOrigin) {
+      if (!isSameOrigin) return;
+
+      const isSamePage = url.pathname === window.location.pathname;
+      const hasAnchorHash = isAnchorHash(url.hash);
+
+      if (isSamePage && hasAnchorHash) {
+        // 같은 페이지 내 앵커 링크 (TOC 등)
         e.preventDefault();
-        url.hash = window.location.hash;
+
+        // # 제거 + 디코딩 (한글 앵커 이중 인코딩 방지)
+        const anchorId = decodeURIComponent(url.hash.slice(1));
+        const newParams = new URLSearchParams();
+        newParams.set('anchor', anchorId);
+        if (tagsParam) newParams.set('tags', tagsParam);
+        if (searchParam) newParams.set('search', searchParam);
+
+        // URL 변경 (페이지 리로드 없이)
+        history.pushState(null, '', window.location.pathname + toHashString(newParams));
+
+        // 앵커로 스크롤
+        const targetElement = document.getElementById(anchorId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'instant' });
+        }
+      } else {
+        // 다른 페이지로 이동
+        e.preventDefault();
+
+        const linkParams = parseHashParams(url.hash);
+        if (tagsParam) linkParams.set('tags', tagsParam);
+        if (searchParam) linkParams.set('search', searchParam);
+
+        url.hash = toHashString(linkParams);
         window.location.href = url.toString();
       }
-      // 외부 링크는 기본 동작 유지 (해시 없이 이동)
     });
   });
 };
