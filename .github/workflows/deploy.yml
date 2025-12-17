@@ -1,3 +1,4 @@
+# GitHub Pages 배포 워크플로우 (권장 구성)
 # https://github.com/actions/deploy-pages#usage
 name: Deploy to GitHub Pages
 
@@ -6,37 +7,66 @@ on:
   push:
     branches:
       - main
+# 중복 배포 방지 (같은 브랜치에서 최신 실행만 유지)
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: corepack enable
-      - uses: actions/setup-node@v4
+      # 저장소 체크아웃
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # corepack 활성화 (pnpm 사용)
+      - name: Enable Corepack
+        run: corepack enable
+
+      # Node.js 설정 (pnpm 캐시 활성화)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
+          cache: 'pnpm'
+
       # Pick your own package manager and build script
-      - run: pnpm install
-      - run: pnpm generate --preset github_pages
-      - run: touch .output/public/.nojekyll
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      # 의존성 설치
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # 빌드 실행
+      - name: Build
+        run: pnpm build
+
+      # Jekyll 비활성화 (정적 사이트 그대로 배포)
+      - name: Disable Jekyll
+      - run: touch ./dist/.nojekyll
+
+      # GitHub Pages 아티팩트 업로드 (v4)
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
         with:
-          path: ./.output/public
+          path: ./dist
+
   # Deployment job
   deploy:
     # Add a dependency to the build job
     needs: build
+    runs-on: ubuntu-latest
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    # Pages 배포에 필요한 최소 권한
     permissions:
       pages: write # to deploy to Pages
       id-token: write # to verify the deployment originates from an appropriate source
     # Deploy to the github_pages environment
+    # GitHub Pages 환경 지정
     environment:
       name: github_pages
       url: ${{ steps.deployment.outputs.page_url }}
     # Specify runner + deployment step
-    runs-on: ubuntu-latest
+    # GitHub Pages 배포
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
