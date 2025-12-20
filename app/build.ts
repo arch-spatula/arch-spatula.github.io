@@ -114,7 +114,7 @@ const build = async () => {
     .map(([tag, count]) => ({ name: tag, count }))
     .sort((a, b) => a.name.localeCompare(b.name)); // 알파벳 순으로 정렬
 
-  // @todo dist/meta.json 파일로 쓰기
+  // dist/meta.json 파일로 쓰기
   writeFileSync(join(process.cwd(), 'dist', 'meta.json'), JSON.stringify(metaJson.reverse(), null, 2), 'utf8');
 
   // 검색 템플릿 렌더링
