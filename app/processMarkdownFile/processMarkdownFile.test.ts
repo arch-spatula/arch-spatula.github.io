@@ -1,5 +1,33 @@
 import { describe, it, expect } from 'vitest';
-import processMarkdownFile, { convertMarkdownToHtml } from './processMarkdownFile';
+import processMarkdownFile, { convertMarkdownToHtml, escapeTemplateSyntax } from './processMarkdownFile';
+
+describe('escapeTemplateSyntax', () => {
+  it('should escape double curly braces', () => {
+    const input = '{{variable}}';
+    const result = escapeTemplateSyntax(input);
+    expect(result).toBe('&#123;&#123;variable&#125;&#125;');
+  });
+
+  it('should escape multiple template syntax', () => {
+    const input = '{{#each items}}{{this}}{{/each}}';
+    const result = escapeTemplateSyntax(input);
+    expect(result).toBe('&#123;&#123;#each items&#125;&#125;&#123;&#123;this&#125;&#125;&#123;&#123;/each&#125;&#125;');
+  });
+
+  it('should not modify text without template syntax', () => {
+    const input = '<p>Normal text</p>';
+    const result = escapeTemplateSyntax(input);
+    expect(result).toBe('<p>Normal text</p>');
+  });
+
+  it('should escape template syntax in code examples', () => {
+    const input = '<code>{{#each posts}}<li>{{title}}</li>{{/each}}</code>';
+    const result = escapeTemplateSyntax(input);
+    expect(result).toBe(
+      '<code>&#123;&#123;#each posts&#125;&#125;<li>&#123;&#123;title&#125;&#125;</li>&#123;&#123;/each&#125;&#125;</code>',
+    );
+  });
+});
 
 describe('convertMarkdownToHtml', () => {
   it('should convert markdown heading to HTML', async () => {
@@ -42,6 +70,22 @@ describe('convertMarkdownToHtml', () => {
     expect(toc[0]).toEqual({ id: 'section-1', heading: 'Section 1', level: 2 });
     expect(toc[1]).toEqual({ id: 'subsection-11', heading: 'Subsection 1.1', level: 3 });
     expect(toc[2]).toEqual({ id: 'section-2', heading: 'Section 2', level: 2 });
+  });
+
+  it('should escape template syntax in converted HTML', async () => {
+    const markdown = '`{{variable}}`';
+    const { html } = await convertMarkdownToHtml(markdown);
+    // 템플릿 문법이 HTML 엔티티로 이스케이프되어야 함
+    expect(html).toContain('&#123;&#123;variable&#125;&#125;');
+    expect(html).not.toContain('{{variable}}');
+  });
+
+  it('should escape template syntax in code blocks', async () => {
+    const markdown = '```html\n{{#each items}}\n<li>{{this}}</li>\n{{/each}}\n```';
+    const { html } = await convertMarkdownToHtml(markdown);
+    // 코드 블록 내의 템플릿 문법도 이스케이프되어야 함
+    expect(html).toContain('&#123;&#123;#each items&#125;&#125;');
+    expect(html).not.toContain('{{#each items}}');
   });
 });
 

@@ -666,4 +666,27 @@ describe('templateEngine', () => {
       expect(result).toContain('<li>blog</li>');
     });
   });
+
+  describe('render with escaped template syntax', () => {
+    it('should not process escaped template syntax', () => {
+      // 마크다운에서 변환된 HTML은 {{ }}가 HTML 엔티티로 이스케이프됨
+      const template =
+        '<p>Normal {{VAR}}</p><code>&#123;&#123;#each items&#125;&#125;&#123;&#123;this&#125;&#125;&#123;&#123;/each&#125;&#125;</code>';
+      const data = { VAR: 'value' };
+      const result = render(template, data);
+
+      // 일반 템플릿은 처리되고, 이스케이프된 것은 그대로 유지
+      expect(result).toContain('<p>Normal value</p>');
+      expect(result).toContain('&#123;&#123;#each items&#125;&#125;');
+    });
+
+    it('should process real templates but ignore escaped ones', () => {
+      const template = `{{#each items}}<span>{{this}}</span>{{/each}}<code>&#123;&#123;#each items&#125;&#125;&#123;&#123;this&#125;&#125;&#123;&#123;/each&#125;&#125;</code>`;
+      const data = { items: ['A', 'B'] };
+      const result = render(template, data);
+
+      expect(result).toContain('<span>A</span><span>B</span>');
+      expect(result).toContain('&#123;&#123;#each items&#125;&#125;');
+    });
+  });
 });

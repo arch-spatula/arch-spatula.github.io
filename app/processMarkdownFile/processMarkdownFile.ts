@@ -35,6 +35,16 @@ function remarkCallout() {
 }
 
 /**
+ * 템플릿 문법을 HTML 엔티티로 이스케이프
+ * 마크다운에서 변환된 HTML 내의 {{ }}가 템플릿 엔진에서 처리되지 않도록 함
+ * 브라우저에서는 {{ }}로 정상 표시됨
+ * @param str - 이스케이프할 문자열
+ * @returns 이스케이프된 문자열
+ */
+export const escapeTemplateSyntax = (str: string): string =>
+  str.replace(/\{\{/g, '&#123;&#123;').replace(/\}\}/g, '&#125;&#125;');
+
+/**
  * 마크다운 콘텐츠를 HTML로 변환 (shiki 코드 하이라이팅 적용)
  * @returns HTML 문자열과 TOC 데이터를 포함한 객체
  */
@@ -56,7 +66,8 @@ export const convertMarkdownToHtml = async (markdownSource: string): Promise<{ h
     .process(markdownSource);
 
   if (typeof htmlText.value === 'string') {
-    return { html: htmlText.value, toc };
+    // 템플릿 문법을 이스케이프하여 템플릿 엔진에서 처리되지 않도록 함
+    return { html: escapeTemplateSyntax(htmlText.value), toc };
   }
 
   return { html: '', toc: [] };
