@@ -7,6 +7,8 @@ import remark2rehype from 'remark-rehype';
 import html from 'rehype-stringify';
 import rehypeShiki from '@shikijs/rehype';
 import rehypeSlug from 'rehype-slug';
+import rehypeMermaid from 'rehype-mermaid';
+import type { BrowserType } from 'playwright';
 import type { Metadata } from '../types';
 import { render } from '../utils/templateEngine';
 import type { Root } from 'mdast';
@@ -46,9 +48,14 @@ export const escapeTemplateSyntax = (str: string): string =>
 
 /**
  * 마크다운 콘텐츠를 HTML로 변환 (shiki 코드 하이라이팅 적용)
+ * @param markdownSource - 마크다운 소스 문자열
+ * @param browserType - Mermaid 다이어그램 렌더링에 사용할 Playwright BrowserType
  * @returns HTML 문자열과 TOC 데이터를 포함한 객체
  */
-export const convertMarkdownToHtml = async (markdownSource: string): Promise<{ html: string; toc: TocItem[] }> => {
+export const convertMarkdownToHtml = async (
+  markdownSource: string,
+  browserType?: BrowserType,
+): Promise<{ html: string; toc: TocItem[] }> => {
   const toc: TocItem[] = [];
 
   const htmlText = await unified()
@@ -59,6 +66,10 @@ export const convertMarkdownToHtml = async (markdownSource: string): Promise<{ h
     .use(remark2rehype)
     .use(rehypeSlug)
     .use(rehypeExtractToc, { toc })
+    .use(rehypeMermaid, {
+      strategy: 'inline-svg',
+      browserType,
+    })
     .use(rehypeShiki, {
       theme: 'catppuccin-mocha',
     })
@@ -88,6 +99,7 @@ export type PostNavigation = {
  * @param searchTemplate - 검색 템플릿
  * @param previousPost - 이전 글 정보
  * @param nextPost - 다음 글 정보
+ * @param browserType - Mermaid 다이어그램 렌더링에 사용할 Playwright BrowserType
  * @returns 렌더링된 HTML 콘텐츠
  *
  * @example
@@ -103,8 +115,9 @@ const processMarkdownFile = async (
   searchTemplate: string,
   previousPost?: PostNavigation,
   nextPost?: PostNavigation,
+  browserType?: BrowserType,
 ) => {
-  const { html: htmlContent, toc } = await convertMarkdownToHtml(markdownContent);
+  const { html: htmlContent, toc } = await convertMarkdownToHtml(markdownContent, browserType);
 
   const bodyHtml = render(postTemplate, {
     content: htmlContent,

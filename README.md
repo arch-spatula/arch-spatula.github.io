@@ -12,7 +12,11 @@ git clone https://github.com/arch-spatula/arch-spatula.github.io.git
 ```
 
 ```sh
-pnpm run i # 패키지 설치
+pnpm install # 패키지 설치
+```
+
+```sh
+npx playwright install chromium # Mermaid 다이어그램 빌드에 필요한 Chromium 브라우저 설치
 ```
 
 ## 클라이언트 구조
