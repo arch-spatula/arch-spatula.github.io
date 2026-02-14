@@ -21,6 +21,7 @@ import writeHtmlFile from './writeHtmlFile/writeHtmlFile';
 import { render } from './utils/templateEngine';
 import { Metadata } from './types';
 import { findBrokenImageLinks, reportBrokenImageLinks, BrokenImageLink } from './utils/imageValidator';
+import { chromium, type BrowserType } from 'playwright';
 
 const PORT = 3000;
 
@@ -60,8 +61,9 @@ const loadTemplates = async () => {
 /**
  * 초기 빌드 함수 - draft 포함
  * build.ts와 유사하지만 draft 필터링을 하지 않음
+ * @param reusableBrowserType - Mermaid 렌더링에 사용할 BrowserType (브라우저 재사용 래퍼)
  */
-const buildAll = async () => {
+const buildAll = async (reusableBrowserType: BrowserType) => {
   console.log('🔨 Building all files (including drafts)...');
 
   metaJson = [];
@@ -189,6 +191,7 @@ const buildAll = async () => {
       searchHtml,
       previousPost,
       nextPost,
+      reusableBrowserType,
     );
     await writeHtmlFile(file.filePath, htmlContent, blogsDir);
     file.isProcessed = true;
@@ -211,8 +214,10 @@ const buildAll = async () => {
 /**
  * 단일 파일 재빌드 함수
  * 파일 변경 시 해당 파일만 재빌드
+ * @param filePath - 재빌드할 마크다운 파일 경로
+ * @param reusableBrowserType - Mermaid 렌더링에 사용할 BrowserType (브라우저 재사용 래퍼)
  */
-const rebuildFile = async (filePath: string) => {
+const rebuildFile = async (filePath: string, reusableBrowserType: BrowserType) => {
   try {
     // 파일이 존재하는지 확인
     if (!existsSync(filePath)) {
@@ -274,6 +279,7 @@ const rebuildFile = async (filePath: string) => {
       searchHtml,
       previousPost,
       nextPost,
+      reusableBrowserType,
     );
     await writeHtmlFile(filePath, htmlContent, blogsDir);
 
@@ -285,8 +291,9 @@ const rebuildFile = async (filePath: string) => {
 
 /**
  * 파일 변경 감시 설정
+ * @param reusableBrowserType - Mermaid 렌더링에 사용할 BrowserType (브라우저 재사용 래퍼)
  */
-const watchFiles = () => {
+const watchFiles = (reusableBrowserType: BrowserType) => {
   console.log(`👀 Watching for changes in: ${blogsDir}`);
 
   watch(blogsDir, { recursive: true }, async (eventType, filename) => {
@@ -295,7 +302,7 @@ const watchFiles = () => {
       const fullPath = join(blogsDir, filename);
       // 디바운스: 짧은 시간 내 여러 이벤트 무시
       setTimeout(async () => {
-        await rebuildFile(fullPath);
+        await rebuildFile(fullPath, reusableBrowserType);
       }, 100);
     }
   });
@@ -371,11 +378,35 @@ const startServer = () => {
  * 서버를 실행하는 메인 함수
  */
 const serve = async () => {
+  /**
+   * Mermaid는 D3.js를 사용해 SVG를 렌더링하며, D3.js는 DOM API에 의존합니다.
+   * Node.js에는 DOM이 없으므로, Playwright로 헤드리스 Chromium 브라우저를 실행하여
+   * Mermaid가 SVG를 생성할 수 있는 브라우저 환경을 제공합니다.
+   * 개발 서버 실행 시 브라우저를 한 번만 실행하여 초기 빌드와 파일 변경 감지 재빌드에 재사용합니다.
+   *
+   * 브라우저 실행이 실패하면 Chromium이 설치되지 않은 것입니다:
+   * npx playwright install chromium
+   */
+  const browser = await chromium.launch();
+
+  /**
+   * mermaid-isomorphic은 내부적으로 browserType.launch()를 호출하여 브라우저를 생성합니다.
+   * 이 래퍼는 이미 실행된 브라우저를 재사용하도록 하여 브라우저가 1번만 실행되게 합니다.
+   * 래퍼의 launch()는 기존 브라우저의 newContext만 위임하고, close()는 무시합니다.
+   * 실제 브라우저는 개발 서버 프로세스가 종료될 때 함께 종료됩니다.
+   */
+  const reusableBrowserType = {
+    launch: async () => ({
+      newContext: (options: object) => browser.newContext(options),
+      close: async () => {},
+    }),
+  } as unknown as BrowserType;
+
   // 1. 초기 빌드 (draft 포함)
-  await buildAll();
+  await buildAll(reusableBrowserType);
 
   // 2. 파일 변경 감시 시작
-  watchFiles();
+  watchFiles(reusableBrowserType);
 
   // 3. HTTP 서버 시작
   startServer();
