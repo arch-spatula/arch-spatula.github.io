@@ -16,6 +16,7 @@ import * as esbuild from 'esbuild';
 import processMetaData from './processMetaData/processMetaData';
 import { splitMetadataAndContent } from './utils/splitMetadataAndContent';
 import { findBrokenImageLinks, reportBrokenImageLinks, BrokenImageLink } from './utils/imageValidator';
+import { chromium, type BrowserType } from 'playwright';
 
 /**
  * 모든 빌드 로직의 호출을 처리하는 함수
@@ -33,153 +34,182 @@ import { findBrokenImageLinks, reportBrokenImageLinks, BrokenImageLink } from '.
  *   - 처리된 html 파일을 dist 폴더에 쓰기
  */
 const build = async () => {
-  const metaJson: Metadata[] = [];
+  /**
+   * Mermaid는 D3.js를 사용해 SVG를 렌더링하며, D3.js는 DOM API에 의존합니다.
+   * Node.js에는 DOM이 없으므로, Playwright로 헤드리스 Chromium 브라우저를 실행하여
+   * Mermaid가 SVG를 생성할 수 있는 브라우저 환경을 제공합니다.
+   * 빌드 전체에서 브라우저를 한 번만 실행하여 모든 마크다운 파일 처리에 재사용합니다.
+   *
+   * 브라우저 실행이 실패하면 Chromium이 설치되지 않은 것입니다:
+   * npx playwright install chromium
+   */
+  const browser = await chromium.launch();
 
-  const appTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'app.html'), 'utf8');
-  const postTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'post.html'), 'utf8');
-  const mainTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'main.html'), 'utf8');
-  const searchTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'search.html'), 'utf8');
+  /**
+   * mermaid-isomorphic은 내부적으로 browserType.launch()를 호출하여 브라우저를 생성합니다.
+   * 이 래퍼는 이미 실행된 브라우저를 재사용하도록 하여 브라우저가 1번만 실행되게 합니다.
+   * 래퍼의 launch()는 기존 브라우저의 newContext만 위임하고, close()는 무시합니다.
+   * 실제 브라우저 종료는 빌드 완료 후 finally 블록에서 처리합니다.
+   */
+  const reusableBrowserType = {
+    launch: async () => ({
+      newContext: (options: object) => browser.newContext(options),
+      close: async () => {},
+    }),
+  } as unknown as BrowserType;
 
-  // /blogs의 모든 마크다운 파일 가져오기
-  const blogsDir = join(process.cwd(), 'blogs');
-  const markdownfiles = await listUpMarkdownFiles(blogsDir);
+  try {
+    const metaJson: Metadata[] = [];
 
-  // dist 폴더 내용 초기화하기
-  await rm(join(process.cwd(), 'dist'), { recursive: true, force: true });
-  mkdirSync(join(process.cwd(), 'dist'), { recursive: true });
+    const appTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'app.html'), 'utf8');
+    const postTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'post.html'), 'utf8');
+    const mainTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'main.html'), 'utf8');
+    const searchTemplate = await readFile(join(process.cwd(), 'app', 'templates', 'search.html'), 'utf8');
 
-  // asset 폴더 내용 복사하기
-  await cp(join(process.cwd(), 'app', 'asset'), join(process.cwd(), 'dist'), { recursive: true });
+    // /blogs의 모든 마크다운 파일 가져오기
+    const blogsDir = join(process.cwd(), 'blogs');
+    const markdownfiles = await listUpMarkdownFiles(blogsDir);
 
-  // blogs 폴더의 이미지 파일들을 dist로 복사 (폴더 구조 유지)
-  const imageFiles = await listUpImageFiles(blogsDir);
-  for (const imagePath of imageFiles) {
-    // blogs/ 기준 상대 경로 유지
-    const relativePath = imagePath.replace(`${blogsDir}/`, '');
-    const destPath = join(process.cwd(), 'dist', relativePath);
-    mkdirSync(dirname(destPath), { recursive: true });
-    await cp(imagePath, destPath);
-  }
+    // dist 폴더 내용 초기화하기
+    await rm(join(process.cwd(), 'dist'), { recursive: true, force: true });
+    mkdirSync(join(process.cwd(), 'dist'), { recursive: true });
 
-  // client TypeScript를 JavaScript로 빌드하기
-  await esbuild.build({
-    entryPoints: [join(process.cwd(), 'app', 'client', 'index.ts')],
-    bundle: true,
-    minify: true,
-    outfile: join(process.cwd(), 'dist', 'script.js'),
-    target: 'es2020',
-    platform: 'browser',
-  });
+    // asset 폴더 내용 복사하기
+    await cp(join(process.cwd(), 'app', 'asset'), join(process.cwd(), 'dist'), { recursive: true });
 
-  // 메타 정보와 마크다운 콘텐츠를 저장할 맵 (파일 경로 기준)
-  const contentMap = new Map<string, string>();
+    // blogs 폴더의 이미지 파일들을 dist로 복사 (폴더 구조 유지)
+    const imageFiles = await listUpImageFiles(blogsDir);
+    for (const imagePath of imageFiles) {
+      // blogs/ 기준 상대 경로 유지
+      const relativePath = imagePath.replace(`${blogsDir}/`, '');
+      const destPath = join(process.cwd(), 'dist', relativePath);
+      mkdirSync(dirname(destPath), { recursive: true });
+      await cp(imagePath, destPath);
+    }
 
-  // 깨진 이미지 링크 수집용 배열
-  const allBrokenImageLinks: BrokenImageLink[] = [];
-  const assetDir = join(process.cwd(), 'app', 'asset');
+    // client TypeScript를 JavaScript로 빌드하기
+    await esbuild.build({
+      entryPoints: [join(process.cwd(), 'app', 'client', 'index.ts')],
+      bundle: true,
+      minify: true,
+      outfile: join(process.cwd(), 'dist', 'script.js'),
+      target: 'es2020',
+      platform: 'browser',
+    });
 
-  // 메타 정보 처리하기
-  for (const file of markdownfiles) {
-    const content = await readMarkdownFile(file.filePath);
-    const { metadata } = processMetaData(content, file.filePath, blogsDir);
-    if (metadata.draft) {
+    // 메타 정보와 마크다운 콘텐츠를 저장할 맵 (파일 경로 기준)
+    const contentMap = new Map<string, string>();
+
+    // 깨진 이미지 링크 수집용 배열
+    const allBrokenImageLinks: BrokenImageLink[] = [];
+    const assetDir = join(process.cwd(), 'app', 'asset');
+
+    // 메타 정보 처리하기
+    for (const file of markdownfiles) {
+      const content = await readMarkdownFile(file.filePath);
+      const { metadata } = processMetaData(content, file.filePath, blogsDir);
+      if (metadata.draft) {
+        file.isProcessed = true;
+        continue;
+      }
+      // 마크다운 콘텐츠도 함께 저장
+      const { markdownContent } = splitMetadataAndContent(content);
+      contentMap.set(file.filePath, markdownContent);
+      metaJson.push(metadata);
+
+      // 이미지 유효성 검사 (빌드 후 dist에 복사될 이미지 기준)
+      const brokenLinks = findBrokenImageLinks(markdownContent, file.filePath, blogsDir, assetDir);
+      allBrokenImageLinks.push(...brokenLinks);
+    }
+
+    // 깨진 이미지 링크 출력
+    reportBrokenImageLinks(allBrokenImageLinks);
+
+    // 태그 정보 수집 (태그별 개수 포함)
+    const tagMap = new Map<string, number>();
+    metaJson.forEach((meta) => {
+      if (meta.tags) {
+        meta.tags.forEach((tag) => {
+          tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
+        });
+      }
+    });
+
+    // 태그를 배열로 변환 (count 포함)
+    const tags = Array.from(tagMap.entries())
+      .map(([tag, count]) => ({ name: tag, count }))
+      .sort((a, b) => a.name.localeCompare(b.name)); // 알파벳 순으로 정렬
+
+    // dist/meta.json 파일로 쓰기
+    writeFileSync(join(process.cwd(), 'dist', 'meta.json'), JSON.stringify(metaJson.reverse(), null, 2), 'utf8');
+
+    // 검색 템플릿 렌더링
+    const SearchHtml = render(searchTemplate, { tags, posts: metaJson });
+
+    // 마크다운 파일 쓰기
+    for (const file of markdownfiles) {
+      const markdownContent = contentMap.get(file.filePath);
+      if (!markdownContent) {
+        continue; // draft이거나 콘텐츠가 없는 경우 스킵
+      }
+      // 파일 경로에서 HTML 파일 경로 생성하여 메타데이터 찾기 (폴더 구조 유지)
+      const relativePath = file.filePath.replace(`${blogsDir}/`, '').replace('.md', '.html');
+      const htmlFilePath = `/${relativePath}`;
+      const targetMetaIndex = metaJson.findIndex((meta) => meta.filePath === htmlFilePath);
+      if (targetMetaIndex === -1) {
+        continue;
+      }
+      const targetMeta = metaJson[targetMetaIndex];
+
+      // 이전/다음 글 정보 계산 (metaJson은 최신순으로 정렬되어 있음)
+      let previousPost: PostNavigation | undefined;
+      let nextPost: PostNavigation | undefined;
+
+      // 이전 글 (더 오래된 글 = 인덱스가 더 큼)
+      if (targetMetaIndex < metaJson.length - 1) {
+        const prevMeta = metaJson[targetMetaIndex + 1];
+        previousPost = {
+          filePath: prevMeta.filePath,
+          title: prevMeta.title,
+        };
+      }
+
+      // 다음 글 (더 최신 글 = 인덱스가 더 작음)
+      if (targetMetaIndex > 0) {
+        const nextMeta = metaJson[targetMetaIndex - 1];
+        nextPost = {
+          filePath: nextMeta.filePath,
+          title: nextMeta.title,
+        };
+      }
+
+      const htmlContent = await processMarkdownFile(
+        markdownContent,
+        targetMeta,
+        appTemplate,
+        postTemplate,
+        SearchHtml,
+        previousPost,
+        nextPost,
+        reusableBrowserType,
+      );
+      await writeHtmlFile(file.filePath, htmlContent, blogsDir);
       file.isProcessed = true;
-      continue;
     }
-    // 마크다운 콘텐츠도 함께 저장
-    const { markdownContent } = splitMetadataAndContent(content);
-    contentMap.set(file.filePath, markdownContent);
-    metaJson.push(metadata);
 
-    // 이미지 유효성 검사 (빌드 후 dist에 복사될 이미지 기준)
-    const brokenLinks = findBrokenImageLinks(markdownContent, file.filePath, blogsDir, assetDir);
-    allBrokenImageLinks.push(...brokenLinks);
+    // @todo 블로그 글 목록 index.html 파일로 쓰기
+    const MainHtml = render(mainTemplate, { posts: metaJson });
+    const AppHtml = render(appTemplate, { body: MainHtml, search: SearchHtml });
+    writeFileSync(join(process.cwd(), 'dist', 'index.html'), AppHtml, 'utf8');
+
+    const NotFoundHtml = render(appTemplate, {
+      body: '<h1 style="text-align: center; margin-top: 100px; color: #D1D7E0;">404 - Page Not Found</h1>',
+      search: SearchHtml,
+    });
+    writeFileSync(join(process.cwd(), 'dist', '404.html'), NotFoundHtml, 'utf8');
+  } finally {
+    await browser.close();
   }
-
-  // 깨진 이미지 링크 출력
-  reportBrokenImageLinks(allBrokenImageLinks);
-
-  // 태그 정보 수집 (태그별 개수 포함)
-  const tagMap = new Map<string, number>();
-  metaJson.forEach((meta) => {
-    if (meta.tags) {
-      meta.tags.forEach((tag) => {
-        tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
-      });
-    }
-  });
-
-  // 태그를 배열로 변환 (count 포함)
-  const tags = Array.from(tagMap.entries())
-    .map(([tag, count]) => ({ name: tag, count }))
-    .sort((a, b) => a.name.localeCompare(b.name)); // 알파벳 순으로 정렬
-
-  // dist/meta.json 파일로 쓰기
-  writeFileSync(join(process.cwd(), 'dist', 'meta.json'), JSON.stringify(metaJson.reverse(), null, 2), 'utf8');
-
-  // 검색 템플릿 렌더링
-  const SearchHtml = render(searchTemplate, { tags, posts: metaJson });
-
-  // 마크다운 파일 쓰기
-  for (const file of markdownfiles) {
-    const markdownContent = contentMap.get(file.filePath);
-    if (!markdownContent) {
-      continue; // draft이거나 콘텐츠가 없는 경우 스킵
-    }
-    // 파일 경로에서 HTML 파일 경로 생성하여 메타데이터 찾기 (폴더 구조 유지)
-    const relativePath = file.filePath.replace(`${blogsDir}/`, '').replace('.md', '.html');
-    const htmlFilePath = `/${relativePath}`;
-    const targetMetaIndex = metaJson.findIndex((meta) => meta.filePath === htmlFilePath);
-    if (targetMetaIndex === -1) {
-      continue;
-    }
-    const targetMeta = metaJson[targetMetaIndex];
-
-    // 이전/다음 글 정보 계산 (metaJson은 최신순으로 정렬되어 있음)
-    let previousPost: PostNavigation | undefined;
-    let nextPost: PostNavigation | undefined;
-
-    // 이전 글 (더 오래된 글 = 인덱스가 더 큼)
-    if (targetMetaIndex < metaJson.length - 1) {
-      const prevMeta = metaJson[targetMetaIndex + 1];
-      previousPost = {
-        filePath: prevMeta.filePath,
-        title: prevMeta.title,
-      };
-    }
-
-    // 다음 글 (더 최신 글 = 인덱스가 더 작음)
-    if (targetMetaIndex > 0) {
-      const nextMeta = metaJson[targetMetaIndex - 1];
-      nextPost = {
-        filePath: nextMeta.filePath,
-        title: nextMeta.title,
-      };
-    }
-
-    const htmlContent = await processMarkdownFile(
-      markdownContent,
-      targetMeta,
-      appTemplate,
-      postTemplate,
-      SearchHtml,
-      previousPost,
-      nextPost,
-    );
-    await writeHtmlFile(file.filePath, htmlContent, blogsDir);
-    file.isProcessed = true;
-  }
-
-  // @todo 블로그 글 목록 index.html 파일로 쓰기
-  const MainHtml = render(mainTemplate, { posts: metaJson });
-  const AppHtml = render(appTemplate, { body: MainHtml, search: SearchHtml });
-  writeFileSync(join(process.cwd(), 'dist', 'index.html'), AppHtml, 'utf8');
-
-  const NotFoundHtml = render(appTemplate, {
-    body: '<h1 style="text-align: center; margin-top: 100px; color: #D1D7E0;">404 - Page Not Found</h1>',
-    search: SearchHtml,
-  });
-  writeFileSync(join(process.cwd(), 'dist', '404.html'), NotFoundHtml, 'utf8');
 };
 
 build();
