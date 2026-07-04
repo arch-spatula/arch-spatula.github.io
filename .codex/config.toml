@@ -1,0 +1,11 @@
+# ~/.codex/config.toml
+# 작업공간 안에서는 파일 읽기·수정과 로컬 명령 실행을 허용합니다.
+sandbox_mode = "workspace-write"
+# 샌드박스 경계를 넘어야 할 때 사용자에게 승인을 요청합니다.
+approval_policy = "on-request"
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@latest"]
+default_tools_approval_mode = "approve"
+
