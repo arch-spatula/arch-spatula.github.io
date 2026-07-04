@@ -44,11 +44,13 @@ body {
     'Segoe UI Emoji';
 }
 #app {
+  width: calc(100% - 24px);
   max-width: 800px;
   margin: auto;
 }
 /* 상단 네비게이션 */
 #nav {
+  width: calc(100% - 24px);
   max-width: 800px;
   margin: 0 auto 12px;
   border-bottom: 1px solid #3d444db3;
