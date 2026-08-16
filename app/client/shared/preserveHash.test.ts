@@ -149,7 +149,7 @@ describe('initHashPreserver', () => {
     expect(pushedUrl).toContain('tags=blog');
 
     // scrollIntoView가 호출되어야 함
-    expect(scrollIntoViewSpy).toHaveBeenCalledWith({ behavior: 'smooth' });
+    expect(scrollIntoViewSpy).toHaveBeenCalledWith({ behavior: 'instant' });
   });
 
   it('should preserve both tags and search when clicking same-page anchor link', () => {
@@ -202,7 +202,7 @@ describe('initHashPreserver', () => {
     link.dispatchEvent(clickEvent);
 
     // scrollIntoView가 호출되어야 함 (한글 앵커 요소를 찾아야 함)
-    expect(scrollIntoViewSpy).toHaveBeenCalledWith({ behavior: 'smooth' });
+    expect(scrollIntoViewSpy).toHaveBeenCalledWith({ behavior: 'instant' });
 
     // URL에는 인코딩된 앵커가 저장되어야 함 (이중 인코딩 아님)
     expect(pushStateSpy).toHaveBeenCalled();
