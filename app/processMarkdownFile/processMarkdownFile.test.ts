@@ -50,6 +50,14 @@ describe('convertMarkdownToHtml', () => {
     expect(html).toContain('<strong>Bold text</strong>');
   });
 
+  it('should render Mermaid as an inline SVG', async () => {
+    const markdown = '```mermaid\ngraph TD\n  A --> B\n```';
+    const { html } = await convertMarkdownToHtml(markdown);
+
+    expect(html).toContain('<svg');
+    expect(html).not.toContain('language-mermaid');
+  });
+
   it('should handle empty content', async () => {
     const markdown = '';
     const { html } = await convertMarkdownToHtml(markdown);
