@@ -36,6 +36,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Mermaid를 inline SVG로 정적 렌더링할 빌드 환경 준비
+      - name: Install build Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
       # 빌드 실행
       - name: Build
         run: pnpm build
