@@ -210,7 +210,7 @@ export class SearchPopup {
 
     this.elements.closeBtn?.addEventListener('click', () => {
       window.location.hash = setHashParam(window.location.hash, 'search', 'close');
-      popupBtn.focus();
+      popupBtn.focus({ preventScroll: true });
     });
 
     // 팝업 버튼 클릭
