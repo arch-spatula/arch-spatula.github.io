@@ -175,6 +175,10 @@ body {
   z-index: 2;
 }
 
+#search-close {
+  display: none;
+}
+
 #search-form {
   border: solid 1px #9198a1;
   border-radius: 4px;
@@ -1739,4 +1743,67 @@ code > .line > span:last-child {
 
 .toc-level-6 {
   padding-left: 48px;
+}
+
+@media (max-width: 600px) {
+  body:has(#search:not(.hidden)) {
+    overflow: hidden;
+  }
+
+  #search-popup {
+    inset: 0;
+  }
+
+  #popup-container {
+    position: absolute;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    max-height: none;
+    box-sizing: border-box;
+    border-radius: 0;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  #search-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+
+  #search-form {
+    flex-shrink: 0;
+  }
+
+  #search-input {
+    min-width: 0;
+  }
+
+  #popup-container #search-tag-list {
+    max-height: 25dvh;
+    flex-shrink: 0;
+  }
+
+  #popup-container #search-tag-list .tag-link {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  #popup-container #search-blog-list {
+    flex: 1;
+    min-height: 0;
+    max-height: none;
+    overscroll-behavior: contain;
+  }
 }
