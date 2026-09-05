@@ -23,11 +23,11 @@
 
 중앙은 우선 브라우저 뷰포트의 가로·세로 중심으로 해석한다. 팝업의 패딩을 포함한 외곽 사각형을 기준으로 측정한다. 허용 오차와 화면 목록은 기존 구현에서 선택한 검증 기준이며, 명세 검토 시 확정한다.
 
-| 연결 요구 | 수용 기준 초안                                                                | 기존 증거                                                                                                                      |
-| --------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| POP-01    | URL로 팝업을 열면 팝업 중심과 뷰포트 중심의 차이가 각 축에서 1 CSS px 이내다. | [Playwright 테스트](../../tests/search-popup.spec.ts)                                                                          |
-| POP-02    | 아래 7개 뷰포트에서 각각 중앙 정렬을 확인하고 화면 전체를 촬영한다.           | [스크린샷 및 측정 기록](../screenshots/center-popup/README.md)                                                                 |
-| POP-03    | 수정 전·후 동일한 1470 × 776 화면을 비교할 수 있다.                           | [수정 전](../screenshots/center-popup/before-1470x776.png), [수정 후](../screenshots/center-popup/after-1470x776.png), PR #362 |
+| 연결 요구 | 수용 기준 초안                                                                | 기존 증거                                                                                                                                                                                                                                                                    |
+| --------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| POP-01    | URL로 팝업을 열면 팝업 중심과 뷰포트 중심의 차이가 각 축에서 1 CSS px 이내다. | [Playwright 테스트](https://github.com/arch-spatula/arch-spatula.github.io/blob/d5d60c05/tests/search-popup.spec.ts)                                                                                                                                                         |
+| POP-02    | 아래 7개 뷰포트에서 각각 중앙 정렬을 확인하고 화면 전체를 촬영한다.           | [스크린샷 및 측정 기록](https://github.com/arch-spatula/arch-spatula.github.io/blob/d5d60c05/docs/screenshots/center-popup/README.md)                                                                                                                                        |
+| POP-03    | 수정 전·후 동일한 1470 × 776 화면을 비교할 수 있다.                           | [수정 전](https://github.com/arch-spatula/arch-spatula.github.io/blob/d5d60c05/docs/screenshots/center-popup/before-1470x776.png), [수정 후](https://github.com/arch-spatula/arch-spatula.github.io/blob/d5d60c05/docs/screenshots/center-popup/after-1470x776.png), PR #362 |
 
 | 뷰포트 (CSS px) | 용도 / 비율        |
 | --------------- | ------------------ |
@@ -61,6 +61,8 @@
 [기존 Vitest 테스트](../../app/client/search/SearchPopup.test.ts)는 검색 필터·강조, 선택 이동·순환, 초기화, 해시에 따른 열림·닫힘 등을 검증한다. 버튼·단축키·포커스 복귀 등 전체 사용자 흐름의 E2E 검증을 대신하지 않는다.
 
 ## 모바일 사용성 문제
+
+관련 이슈: [모바일 검색 팝업 사용성 개선 #364](https://github.com/arch-spatula/arch-spatula.github.io/issues/364)
 
 360 × 800 CSS px 뷰포트에서 `http://localhost:3000/#search=open`을 Playwright로 촬영했다.
 
