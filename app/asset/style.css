@@ -126,6 +126,7 @@ body {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  margin: 0 0 8px 0;
 }
 .tag-item {
   box-sizing: border-box;
@@ -384,9 +385,9 @@ input[type='search']::-webkit-search-results-decoration {
   mask: url(/clipboard-check.svg) no-repeat center !important;
 }
 
-/* 
+/*
   * code block 가로스크롤 예외 처리
-  * 오른쪽으로 스크롤 끝까지 가면 16px 만큼 추가해서 좌우 대칭 맞춤 
+  * 오른쪽으로 스크롤 끝까지 가면 16px 만큼 추가해서 좌우 대칭 맞춤
   */
 code > .line > span:last-child {
   padding: 0 16px 0 0;
