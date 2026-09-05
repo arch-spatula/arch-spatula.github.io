@@ -155,16 +155,19 @@ body {
 
 #search-popup {
   position: fixed;
-  top: 25vh;
+  top: 50dvh;
+  left: 50vw;
   z-index: 2;
 }
 
 #popup-container {
   position: absolute;
   width: 50vw;
-  /* top: 25vh; */
   top: 0;
-  left: 25vw;
+  left: 0;
+  transform: translate(-50%, -50%);
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
   background-color: #f0f6fc;
   border-radius: 6px;
   padding: 12px;
