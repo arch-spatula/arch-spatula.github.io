@@ -9,6 +9,7 @@ interface SearchElements {
   searchBlogList: HTMLElement;
   searchTagList: HTMLElement;
   searchForm?: HTMLElement | null;
+  closeBtn?: HTMLElement | null;
 }
 
 /**
@@ -207,6 +208,11 @@ export class SearchPopup {
   private bindEvents(): void {
     const { popupBtn, overlay, searchInput, searchForm } = this.elements;
 
+    this.elements.closeBtn?.addEventListener('click', () => {
+      window.location.hash = setHashParam(window.location.hash, 'search', 'close');
+      popupBtn.focus();
+    });
+
     // 팝업 버튼 클릭
     popupBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -241,6 +247,7 @@ export class SearchPopup {
 
       // 팝업이 열려있을 때만 키보드 네비게이션
       if (!isPopupOpen) return;
+      if (e.target === this.elements.closeBtn) return;
 
       if (e.key === 'ArrowUp') {
         e.preventDefault();
@@ -304,5 +311,6 @@ export const initSearchPopup = (): SearchPopup | null => {
     searchBlogList,
     searchTagList,
     searchForm,
+    closeBtn: document.getElementById('search-close'),
   });
 };
