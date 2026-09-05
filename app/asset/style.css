@@ -126,6 +126,8 @@ body {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+}
+.tag-list.post-header {
   margin: 0 0 8px 0;
 }
 .tag-item {
