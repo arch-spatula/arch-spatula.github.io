@@ -50,6 +50,21 @@ describe('convertMarkdownToHtml', () => {
     expect(html).toContain('<strong>Bold text</strong>');
   });
 
+  it('should highlight a language loaded on demand', async () => {
+    const { html } = await convertMarkdownToHtml('```ts\nconst count: number = 1;\n```');
+
+    expect(html).toContain('class="shiki');
+    expect(html).toContain('<span style="color:');
+  });
+
+  it.each(['env', 'title=".env"'])('should preserve unsupported %s code blocks as text', async (language) => {
+    const { html } = await convertMarkdownToHtml(`\`\`\`${language}\nAPP_NAME=blog\n\`\`\``);
+
+    expect(html).toContain('APP_NAME=blog');
+    expect(html).toContain('<pre');
+    expect(html).toContain('<code');
+  });
+
   it('should render Mermaid as an inline SVG', async () => {
     const markdown = '```mermaid\ngraph TD\n  A --> B\n```';
     const { html } = await convertMarkdownToHtml(markdown);
