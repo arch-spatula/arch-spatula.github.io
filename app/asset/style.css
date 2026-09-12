@@ -128,6 +128,9 @@ body {
   flex-wrap: wrap;
   margin: 0 0 8px 0;
 }
+.tag-list.post-header {
+  margin: 0 0 8px 0;
+}
 .tag-item {
   box-sizing: border-box;
   font-size: 16px;
@@ -175,6 +178,10 @@ body {
   z-index: 2;
 }
 
+#search-close {
+  display: none;
+}
+
 #search-form {
   border: solid 1px #9198a1;
   border-radius: 4px;
@@ -183,11 +190,13 @@ body {
   align-items: center;
   padding: 0 12px;
 }
+#search-close img,
+#search-icon {
+  filter: invert(62%) sepia(14%) saturate(192%) hue-rotate(174deg) brightness(93%) contrast(94%);
+}
+
 #search-icon {
   margin: 4px;
-
-  filter: invert(62%) sepia(14%) saturate(192%) hue-rotate(174deg) brightness(93%) contrast(94%);
-
   width: 20px;
   height: 20px;
 }
@@ -266,14 +275,16 @@ input[type='search']::-webkit-search-results-decoration {
 #search-form:has(#search-input:hover) {
   border: solid 1px #6cb6ff;
 }
-#search-form:has(#search-input:hover) #search-icon {
+#search-form:has(#search-input:hover) #search-icon,
+#search-close:hover img {
   filter: invert(79%) sepia(29%) saturate(7152%) hue-rotate(185deg) brightness(105%) contrast(101%);
 }
 
 #search-form:has(#search-input:focus) {
   border: solid 1px #478be6;
 }
-#search-form:has(#search-input:focus) #search-icon {
+#search-form:has(#search-input:focus) #search-icon,
+#search-close:focus-visible img {
   filter: invert(50%) sepia(98%) saturate(1953%) hue-rotate(194deg) brightness(95%) contrast(90%);
 }
 
@@ -1739,4 +1750,75 @@ code > .line > span:last-child {
 
 .toc-level-6 {
   padding-left: 48px;
+}
+
+@media (max-width: 600px) {
+  html:has(#search:not(.hidden)),
+  body:has(#search:not(.hidden)) {
+    overflow: hidden;
+  }
+
+  #search-popup {
+    inset: 0;
+  }
+
+  #popup-container {
+    position: absolute;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    max-height: none;
+    box-sizing: border-box;
+    border-radius: 0;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  #search-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  #search-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  #search-form {
+    flex: 1;
+    min-width: 0;
+  }
+
+  #search-input {
+    min-width: 0;
+  }
+
+  #popup-container #search-tag-list {
+    max-height: 25dvh;
+    flex-shrink: 0;
+  }
+
+  #popup-container #search-tag-list .tag-link {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  #popup-container #search-blog-list {
+    flex: 1;
+    min-height: 0;
+    max-height: none;
+    overscroll-behavior: contain;
+  }
 }
