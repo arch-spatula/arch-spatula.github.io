@@ -72,6 +72,9 @@ export const convertMarkdownToHtml = async (
     })
     .use(rehypeShiki, {
       theme: 'catppuccin-mocha',
+      langs: [],
+      lazy: true,
+      fallbackLanguage: 'text',
     })
     .use(html)
     .process(markdownSource);

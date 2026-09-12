@@ -126,6 +126,7 @@ body {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  margin: 0 0 8px 0;
 }
 .tag-item {
   box-sizing: border-box;
@@ -155,16 +156,19 @@ body {
 
 #search-popup {
   position: fixed;
-  top: 25vh;
+  top: 50dvh;
+  left: 50vw;
   z-index: 2;
 }
 
 #popup-container {
   position: absolute;
   width: 50vw;
-  /* top: 25vh; */
   top: 0;
-  left: 25vw;
+  left: 0;
+  transform: translate(-50%, -50%);
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
   background-color: #f0f6fc;
   border-radius: 6px;
   padding: 12px;
@@ -381,9 +385,9 @@ input[type='search']::-webkit-search-results-decoration {
   mask: url(/clipboard-check.svg) no-repeat center !important;
 }
 
-/* 
+/*
   * code block 가로스크롤 예외 처리
-  * 오른쪽으로 스크롤 끝까지 가면 16px 만큼 추가해서 좌우 대칭 맞춤 
+  * 오른쪽으로 스크롤 끝까지 가면 16px 만큼 추가해서 좌우 대칭 맞춤
   */
 code > .line > span:last-child {
   padding: 0 16px 0 0;
