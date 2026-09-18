@@ -127,6 +127,9 @@ body {
   gap: 8px;
   flex-wrap: wrap;
 }
+.tag-list.post-header {
+  margin: 0 0 8px 0;
+}
 .tag-item {
   box-sizing: border-box;
   font-size: 16px;
@@ -155,20 +158,27 @@ body {
 
 #search-popup {
   position: fixed;
-  top: 25vh;
+  top: 50dvh;
+  left: 50vw;
   z-index: 2;
 }
 
 #popup-container {
   position: absolute;
   width: 50vw;
-  /* top: 25vh; */
   top: 0;
-  left: 25vw;
+  left: 0;
+  transform: translate(-50%, -50%);
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
   background-color: #f0f6fc;
   border-radius: 6px;
   padding: 12px;
   z-index: 2;
+}
+
+#search-close {
+  display: none;
 }
 
 #search-form {
@@ -179,11 +189,13 @@ body {
   align-items: center;
   padding: 0 12px;
 }
+#search-close img,
+#search-icon {
+  filter: invert(62%) sepia(14%) saturate(192%) hue-rotate(174deg) brightness(93%) contrast(94%);
+}
+
 #search-icon {
   margin: 4px;
-
-  filter: invert(62%) sepia(14%) saturate(192%) hue-rotate(174deg) brightness(93%) contrast(94%);
-
   width: 20px;
   height: 20px;
 }
@@ -262,14 +274,16 @@ input[type='search']::-webkit-search-results-decoration {
 #search-form:has(#search-input:hover) {
   border: solid 1px #6cb6ff;
 }
-#search-form:has(#search-input:hover) #search-icon {
+#search-form:has(#search-input:hover) #search-icon,
+#search-close:hover img {
   filter: invert(79%) sepia(29%) saturate(7152%) hue-rotate(185deg) brightness(105%) contrast(101%);
 }
 
 #search-form:has(#search-input:focus) {
   border: solid 1px #478be6;
 }
-#search-form:has(#search-input:focus) #search-icon {
+#search-form:has(#search-input:focus) #search-icon,
+#search-close:focus-visible img {
   filter: invert(50%) sepia(98%) saturate(1953%) hue-rotate(194deg) brightness(95%) contrast(90%);
 }
 
@@ -381,9 +395,9 @@ input[type='search']::-webkit-search-results-decoration {
   mask: url(/clipboard-check.svg) no-repeat center !important;
 }
 
-/* 
+/*
   * code block 가로스크롤 예외 처리
-  * 오른쪽으로 스크롤 끝까지 가면 16px 만큼 추가해서 좌우 대칭 맞춤 
+  * 오른쪽으로 스크롤 끝까지 가면 16px 만큼 추가해서 좌우 대칭 맞춤
   */
 code > .line > span:last-child {
   padding: 0 16px 0 0;
@@ -1735,4 +1749,75 @@ code > .line > span:last-child {
 
 .toc-level-6 {
   padding-left: 48px;
+}
+
+@media (max-width: 600px) {
+  html:has(#search:not(.hidden)),
+  body:has(#search:not(.hidden)) {
+    overflow: hidden;
+  }
+
+  #search-popup {
+    inset: 0;
+  }
+
+  #popup-container {
+    position: absolute;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    max-height: none;
+    box-sizing: border-box;
+    border-radius: 0;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  #search-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  #search-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  #search-form {
+    flex: 1;
+    min-width: 0;
+  }
+
+  #search-input {
+    min-width: 0;
+  }
+
+  #popup-container #search-tag-list {
+    max-height: 25dvh;
+    flex-shrink: 0;
+  }
+
+  #popup-container #search-tag-list .tag-link {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  #popup-container #search-blog-list {
+    flex: 1;
+    min-height: 0;
+    max-height: none;
+    overscroll-behavior: contain;
+  }
 }

@@ -16,7 +16,8 @@ import * as esbuild from 'esbuild';
 import processMetaData from './processMetaData/processMetaData';
 import { splitMetadataAndContent } from './utils/splitMetadataAndContent';
 import { findBrokenImageLinks, reportBrokenImageLinks, BrokenImageLink } from './utils/imageValidator';
-import { chromium, type BrowserType } from 'playwright';
+import { chromium } from 'playwright';
+import { createReusableBrowser } from './utils/reusableBrowser';
 
 /**
  * 모든 빌드 로직의 호출을 처리하는 함수
@@ -49,14 +50,9 @@ const build = async () => {
    * mermaid-isomorphic은 내부적으로 browserType.launch()를 호출하여 브라우저를 생성합니다.
    * 이 래퍼는 이미 실행된 브라우저를 재사용하도록 하여 브라우저가 1번만 실행되게 합니다.
    * 래퍼의 launch()는 기존 브라우저의 newContext만 위임하고, close()는 무시합니다.
-   * 실제 브라우저 종료는 빌드 완료 후 finally 블록에서 처리합니다.
+   * 실제 브라우저 종료는 finally 블록에서 컨텍스트 종료가 완료된 뒤 처리합니다.
    */
-  const reusableBrowserType = {
-    launch: async () => ({
-      newContext: (options: object) => browser.newContext(options),
-      close: async () => {},
-    }),
-  } as unknown as BrowserType;
+  const reusableBrowser = createReusableBrowser(browser);
 
   try {
     const metaJson: Metadata[] = [];
@@ -191,7 +187,7 @@ const build = async () => {
         SearchHtml,
         previousPost,
         nextPost,
-        reusableBrowserType,
+        reusableBrowser.browserType,
       );
       await writeHtmlFile(file.filePath, htmlContent, blogsDir);
       file.isProcessed = true;
@@ -208,7 +204,7 @@ const build = async () => {
     });
     writeFileSync(join(process.cwd(), 'dist', '404.html'), NotFoundHtml, 'utf8');
   } finally {
-    await browser.close();
+    await reusableBrowser.close();
   }
 };
 
