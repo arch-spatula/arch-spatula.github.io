@@ -19,6 +19,10 @@ pnpm install # 패키지 설치
 pnpm exec playwright install chromium # Mermaid inline SVG 정적 빌드에 필요한 Chromium 설치
 ```
 
+## 디버깅
+
+[VS Code / NvChad 디버깅 설정과 사용 방법](docs/debugging/README.md)
+
 ## 클라이언트 구조
 
 ```

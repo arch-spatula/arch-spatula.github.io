@@ -2,21 +2,75 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach",
-      "port": 9229,
-      "request": "attach",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
+      "name": "Browser (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/dist",
+      "sourceMaps": true
     },
     {
+      "name": "Build",
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "skipFiles": ["<node_internals>/**"],
-      "runtimeExecutable": "tsx",
-      "runtimeArgs": ["--inspect-brk"],
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--import",
+        "tsx"
+      ],
       "program": "${workspaceFolder}/app/build.ts",
+      "cwd": "${workspaceFolder}",
+      "sourceMaps": true,
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
       "console": "integratedTerminal"
+    },
+    {
+      "name": "Dev server",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--import",
+        "tsx"
+      ],
+      "program": "${workspaceFolder}/app/server.ts",
+      "cwd": "${workspaceFolder}",
+      "sourceMaps": true,
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Preview server",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--import",
+        "tsx"
+      ],
+      "program": "${workspaceFolder}/app/preview.ts",
+      "cwd": "${workspaceFolder}",
+      "sourceMaps": true,
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Attach :9229",
+      "type": "node",
+      "request": "attach",
+      "address": "127.0.0.1",
+      "port": 9229,
+      "cwd": "${workspaceFolder}",
+      "sourceMaps": true,
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
     }
   ]
 }
