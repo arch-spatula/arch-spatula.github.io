@@ -575,6 +575,15 @@ code > .line > span:last-child {
   box-sizing: content-box;
 }
 
+.markdown-body iframe[src^='https://www.youtube.com/embed/']
+{
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
 .markdown-body code,
 .markdown-body kbd,
 .markdown-body pre,
