@@ -63,7 +63,7 @@ export const convertMarkdownToHtml = async (
     .use(remarkGfm)
     .use(remarkDirective)
     .use(remarkCallout)
-    .use(remark2rehype)
+    .use(remark2rehype, { allowDangerousHtml: true })
     .use(rehypeSlug)
     .use(rehypeExtractToc, { toc })
     .use(rehypeMermaid, {
@@ -76,7 +76,7 @@ export const convertMarkdownToHtml = async (
       lazy: true,
       fallbackLanguage: 'text',
     })
-    .use(html)
+    .use(html, { allowDangerousHtml: true })
     .process(markdownSource);
 
   if (typeof htmlText.value === 'string') {
@@ -125,7 +125,10 @@ const processMarkdownFile = async (
   const bodyHtml = render(postTemplate, {
     content: htmlContent,
     tags: metadata.tags ?? [],
-    toc,
+    toc: toc.map((item) => ({
+      ...item,
+      heading: item.heading.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+    })),
     previousPost: !!previousPost,
     previousPostFilePath: previousPost?.filePath ?? '',
     previousPostTitle: previousPost?.title ?? '',
