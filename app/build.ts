@@ -88,6 +88,7 @@ const build = async () => {
       entryPoints: [join(process.cwd(), 'app', 'client', 'index.ts')],
       bundle: true,
       minify: true,
+      sourcemap: true,
       outfile: join(process.cwd(), 'dist', 'script.js'),
       target: 'es2020',
       platform: 'browser',

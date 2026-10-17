@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
 import processMarkdownFile, { convertMarkdownToHtml, escapeTemplateSyntax } from './processMarkdownFile';
 
 describe('escapeTemplateSyntax', () => {
@@ -48,6 +49,22 @@ describe('convertMarkdownToHtml', () => {
     const markdown = '**Bold text**';
     const { html } = await convertMarkdownToHtml(markdown);
     expect(html).toContain('<strong>Bold text</strong>');
+  });
+
+  it('should preserve embedded YouTube iframes in raw HTML', async () => {
+    const iframe =
+      '<iframe src="https://www.youtube.com/embed/Y1gFSENorEY" title="YouTube video" allowfullscreen></iframe>';
+    const { html } = await convertMarkdownToHtml(`# Video\n\n<div>\n${iframe}\n</div>`);
+
+    expect(html).toContain(`<div>\n${iframe}\n</div>`);
+  });
+
+  it('should keep iframe code examples escaped', async () => {
+    const iframe = '<iframe src="https://www.youtube.com/embed/Y1gFSENorEY"></iframe>';
+    const { html } = await convertMarkdownToHtml(`\`${iframe}\`\n\n\`\`\`text\n${iframe}\n\`\`\``);
+
+    expect(html).not.toContain('<iframe');
+    expect(html.match(/&#x3C;iframe/g)).toHaveLength(2);
   });
 
   it('should highlight a language loaded on demand', async () => {
@@ -113,6 +130,24 @@ describe('convertMarkdownToHtml', () => {
 });
 
 describe('processMarkdownFile', () => {
+  it.each(['<li/> 컴포넌트에서 Jotai atom 복제하는 방법', '&lt;div&gt; & <span>'])(
+    'should render TOC heading %s as text',
+    async (heading) => {
+      const postTemplate = readFileSync('app/templates/post.html', 'utf8');
+      const output = await processMarkdownFile(`## \`${heading}\``, {}, '{{body}}', postTemplate, '');
+      const page = document.createElement('div');
+      page.innerHTML = output;
+
+      const items = page.querySelectorAll('#toc li');
+      expect(items).toHaveLength(1);
+      expect(items[0].classList.contains('toc-item')).toBe(true);
+      const link = items[0].querySelector('a');
+      expect(link?.textContent).toBe(heading);
+      expect(link?.children).toHaveLength(0);
+      expect(link?.getAttribute('href')).toBe(`#${page.querySelector('#content h2')?.id}`);
+    },
+  );
+
   it('should convert markdown content to HTML with templates', async () => {
     const markdownContent = `# Heading 1
 
