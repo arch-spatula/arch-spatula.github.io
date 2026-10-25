@@ -39,3 +39,7 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Obsidian workspace
+/.obsidian/workspace.json
+/.obsidian/workspace-mobile.json

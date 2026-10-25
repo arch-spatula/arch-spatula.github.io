@@ -142,6 +142,13 @@ const processMetaData = (content: string, filePath: string, blogsDir: string) =>
   const { metadata, markdownContent } = splitMetadataAndContent(content);
   const parsedMetadata = parseMetadata(metadata);
 
+  const rawTags = metadata.match(/^[ \t]*tags:.*(?:\n[ \t]+[^\n]*)*/m)?.[0];
+  if (rawTags !== undefined && !Array.isArray(parsedMetadata.tags)) {
+    throw new Error(
+      `[메타데이터 오류] ${filePath}\ntags는 대괄호로 감싼 배열이어야 합니다.\n입력된 tags:\n${rawTags}\n올바른 형식 예시: tags: ['AX', '비즈니스']`,
+    );
+  }
+
   // 날짜가 없으면 파일 경로에서 추출함
   if (!parsedMetadata.date) {
     // 파일명에서 YYYY-MM-DD 패턴 찾기
