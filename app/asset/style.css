@@ -171,7 +171,11 @@ body {
   transform: translate(-50%, -50%);
   max-height: calc(100dvh - 48px);
   overflow-y: auto;
-  background-color: #f0f6fc;
+  background-color: #212830;
+  color: #d1d7e0;
+  color-scheme: dark;
+  outline: 1px solid #3d444d;
+  box-shadow: 0 16px 48px #00000066;
   border-radius: 6px;
   padding: 12px;
   z-index: 2;
@@ -182,6 +186,7 @@ body {
 }
 
 #search-form {
+  background-color: #151b23;
   border: solid 1px #9198a1;
   border-radius: 4px;
   box-sizing: border-box;
@@ -202,11 +207,23 @@ body {
 #search-input {
   all: unset;
   width: 100%;
-  color: #212830;
+  color: #d1d7e0;
   padding: 6px 12px;
   font-size: 16px;
   -webkit-appearance: none;
   appearance: none;
+}
+
+#search-input::placeholder {
+  color: #9198a1;
+  opacity: 1;
+}
+
+#search-close:focus-visible,
+#popup-container .tag-link:focus-visible,
+#popup-container #search-blog-list .search-item .search-item-link:focus-visible {
+  outline: 2px solid #6cb6ff;
+  outline-offset: -2px;
 }
 
 /* Chrome, Safari, Edge (WebKit) CSS search 삭제버튼 제거 */
@@ -237,37 +254,28 @@ input[type='search']::-webkit-search-results-decoration {
 #popup-container #search-blog-list .search-item .search-item-link {
   all: unset;
   width: 100%;
-  color: #9198a1;
-  border: solid 1px #9198a1;
+  color: #d1d7e0;
+  border: solid 1px #3d444d;
   border-radius: 4px;
   padding: 4px 8px;
   cursor: pointer;
 }
 
 #popup-container #search-blog-list .search-item .search-item-link:hover {
-  color: #478be6;
-  border: solid 1px #478be6;
+  background-color: #2d333b;
+  color: #6cb6ff;
+  border: solid 1px #6cb6ff;
 }
 #popup-container #search-blog-list .search-item .search-item-focus {
-  color: #478be6;
+  background-color: #253b53;
+  color: #6cb6ff;
   border: solid 1px #478be6;
 }
 
-#popup-container #search-blog-list .search-item .search-item-link .search-highlight {
-  background-color: #478be6;
-  color: #f0f6fc;
-  font-weight: 500;
-}
-
-#popup-container #search-blog-list .search-item .search-item-link .search-highlight {
-  background-color: #478be6;
-  color: #f0f6fc;
-  font-weight: 500;
-}
-
+#popup-container #search-blog-list .search-item .search-item-link .search-highlight,
 #popup-container #search-tag-list .search-tag-item .tag-link .search-highlight {
-  background-color: #478be6;
-  color: #f0f6fc;
+  background-color: #6cb6ff;
+  color: #151b23;
   font-weight: 500;
 }
 
@@ -316,8 +324,9 @@ input[type='search']::-webkit-search-results-decoration {
 
 #search-tag-list .search-tag-item .tag-link {
   border-radius: 4px;
-  color: #9198a1;
-  border: solid 1px #9198a1;
+  background-color: #151b23;
+  color: #d1d7e0;
+  border: solid 1px #3d444d;
   box-sizing: border-box;
   padding: 4px 8px;
   font-size: 16px;
@@ -326,11 +335,13 @@ input[type='search']::-webkit-search-results-decoration {
 }
 
 #search-tag-list .search-tag-item .tag-link.selected {
+  background-color: #253b53;
   border: solid 1px #478be6;
-  color: #478be6;
+  color: #6cb6ff;
 }
 
 #search-tag-list .search-tag-item .tag-link:hover {
+  background-color: #2d333b;
   border: solid 1px #6cb6ff;
   color: #6cb6ff;
   cursor: pointer;
@@ -573,6 +584,15 @@ code > .line > span:last-child {
   border-style: none;
   max-width: 100%;
   box-sizing: content-box;
+}
+
+.markdown-body iframe[src^='https://www.youtube.com/embed/']
+{
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 0;
 }
 
 .markdown-body code,
