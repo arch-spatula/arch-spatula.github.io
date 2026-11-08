@@ -111,6 +111,24 @@ More content.
 describe('processMetaData', () => {
   const blogsDir = '/path/to/blogs';
 
+  describe('invalid tags diagnostics', () => {
+    it.each(['tags: AX', 'tags:\n  - AX\n  - 비즈니스', "tags: ['AX'"])(
+      'should report the file, invalid tags and supported format for %s',
+      (tags) => {
+        const filePath = `${blogsDir}/2026-10-03/2026-10-03.md`;
+        const content = `---\ntitle: Test\n${tags}\ndraft: true\n---\n# Content`;
+
+        expect(() => processMetaData(content, filePath, blogsDir)).toThrow(
+          `[메타데이터 오류] ${filePath}\ntags는 대괄호로 감싼 배열이어야 합니다.\n입력된 tags:\n${tags}\n올바른 형식 예시: tags: ['AX', '비즈니스']`,
+        );
+      },
+    );
+
+    it('should allow an empty tags array', () => {
+      expect(() => processMetaData('---\ntags: []\n---\n# Content', `${blogsDir}/post.md`, blogsDir)).not.toThrow();
+    });
+  });
+
   describe('date extraction from filepath', () => {
     it('should extract date from filename in YYYY-MM-DD format', () => {
       const content = `

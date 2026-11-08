@@ -23,6 +23,25 @@ pnpm exec playwright install chromium # Mermaid inline SVG 정적 빌드에 필�
 
 [VS Code / NvChad 디버깅 설정과 사용 방법](docs/debugging/README.md)
 
+## 블로그 글쓰기 스킬
+
+이 저장소의 `.agents/skills/`에 있는 스킬입니다. 블로그 글의 Markdown 파일을 지정해 사용합니다.
+
+| 스킬 | 검토 범위 | 결과 기록 방식 |
+| --- | --- | --- |
+| [korean-spelling](.agents/skills/korean-spelling/SKILL.md) | 맞춤법, 띄어쓰기, 문법적 호응, 비문 | 원문을 보존하고 파일 하단의 검토 표에 교정안과 이유를 기록합니다. 교정 적용은 별도로 승인해야 합니다. |
+| [review-writing](.agents/skills/review-writing/SKILL.md) | 독자 이해를 우선으로 논리와 근거, 내용의 가치 검토 | 원문을 보존하고 관련 구절 아래의 HTML 주석에 문제, 수정 방향, 필요한 경우 대체 문단 예시를 기록합니다. |
+
+사용 예시:
+
+```text
+$korean-spelling blogs/2026-10-03/2026-10-03.md
+```
+
+```text
+$review-writing blogs/2026-10-03/2026-10-03.md 내용을 리뷰해줘.
+```
+
 ## 클라이언트 구조
 
 ```
