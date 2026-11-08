@@ -1,0 +1,17 @@
+{
+  "codexPath": "/opt/homebrew/bin/codex",
+  "threadNamingModel": null,
+  "threadNamingEffort": null,
+  "rewriteSelectionModel": null,
+  "rewriteSelectionEffort": null,
+  "showToolbar": true,
+  "newConversationsEphemeral": false,
+  "sendShortcut": "enter",
+  "scrollThreadFromComposerEdges": false,
+  "referenceActiveNoteOnSend": true,
+  "attachmentFolder": "Codex Attachments",
+  "archiveExportEnabled": false,
+  "archiveExportFolderTemplate": "Codex Archives",
+  "archiveExportFilenameTemplate": "{{date}} {{time}} {{title}} {{shortId}}.md",
+  "archiveExportTags": ""
+}
